@@ -147,10 +147,8 @@ class TrafficChart extends Component {
       <div>
         <div
           style={{
-            position: 'relative',
-            width: '80%'
-          }}
-        >
+            position: 'relative'
+          }}>
           <canvas id="myChart" />
         </div>
       </div>
