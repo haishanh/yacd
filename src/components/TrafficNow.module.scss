@@ -1,0 +1,26 @@
+.TrafficNow {
+  color: #eee;
+  display: flex;
+  align-items: center;
+}
+
+.up,
+.down {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 200px;
+
+  div:nth-child(1) {
+    color: #ccc;
+  }
+  div:nth-child(2) {
+    padding: 10px 0 0;
+    font-size: 2em;
+  }
+}
+.up {
+  padding-right: 20px;
+}
+.down {
+  padding-left: 20px;
+}

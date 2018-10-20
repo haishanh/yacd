@@ -1,0 +1,93 @@
+{
+  "name": "yacd",
+  "version": "0.0.1",
+  "description": "Yet another Clash dashboard",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "dll": "webpack --config webpack.dll.config.js",
+    "start": "NODE_ENV=development node server.js",
+    "clean": "rm -rf public && mkdir public",
+    "build:webpack": "NODE_ENV=production webpack --config webpack.config.js --progress --colors",
+    "build:assets": "cp -r assets/* public/",
+    "build": "npm-run-all clean build:webpack build:assets",
+    "pretty": "prettier --single-quote --write 'src/**/*.{js,scss}'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,scss}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Han Haishan <haishanhan@gmail.com> (htttp://haishan.me)",
+  "private": true,
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "chart.js": "^2.7.3",
+    "chat.js": "^1.0.2",
+    "classnames": "^2.2.6",
+    "history": "^4.7.2",
+    "modern-normalize": "^0.5.0",
+    "prop-types": "^15.5.10",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-loadable": "^5.5.0",
+    "react-modal": "^3.6.1",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-do-expressions": "^7.0.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "autoprefixer": "^9.2.1",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^1.0.0",
+    "cssnano": "^4.1.5",
+    "eslint": "^5.7.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jest": "^21.25.1",
+    "eslint-plugin-react": "7.11.1",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "^1.0.1",
+    "lint-staged": "^7.3.0",
+    "mini-css-extract-plugin": "^0.4.3",
+    "node-sass": "^4.9.4",
+    "npm-run-all": "^4.1.3",
+    "postcss-loader": "^3.0.0",
+    "prettier": "^1.14.3",
+    "react-hot-loader": "^4.2.0",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.23.0",
+    "svg-sprite-loader": "^4.1.2",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.21.0",
+    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-middleware": "3.4.0",
+    "webpack-hot-middleware": "^2.22.2"
+  }
+}

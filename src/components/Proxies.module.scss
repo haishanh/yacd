@@ -1,0 +1,47 @@
+$heightHeader: 76px;
+
+.root {
+  color: #eee;
+  padding: 10px 40px;
+  height: calc(100vh - #{$heightHeader});
+  overflow: scroll;
+}
+
+.row {
+  display: flex;
+}
+
+.th {
+  font-weight: bold;
+}
+
+.col1 {
+  width: 150px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.col2 {
+  width: 150px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.col3 {
+  width: 350px;
+  padding: 8px;
+}
+
+.colItem {
+  padding: 8px 0;
+  height: 44px;
+}
+
+.btnGroup {
+  color: #eee;
+  // padding: 10px 40px;
+  display: flex;
+  justify-content: flex-end;
+}

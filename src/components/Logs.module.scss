@@ -1,0 +1,64 @@
+$colorf: #eee;
+$heightHeader: 76px;
+
+.logMeta {
+  display: flex;
+  align-items: center;
+}
+
+.logType {
+  color: $colorf;
+  text-align: center;
+  width: 56px;
+  font-size: 10px;
+  background: green;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 0 8px;
+}
+
+.logTime {
+  // color: $colorf;
+  color: #999;
+  font-size: 14px;
+}
+
+.logText {
+  display: flex;
+  font-family: 'Source Code Pro', Menlo, monospace;
+  font-size: 0.9em;
+  align-items: center;
+  padding: 5px 0;
+}
+
+//////////
+
+.logUl {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: $colorf;
+}
+
+/////////
+
+.logs {
+  padding: 10px 40px;
+  height: calc(100vh - #{$heightHeader});
+  overflow: scroll;
+}
+
+.logPlaceholder {
+  height: calc(100vh - #{$heightHeader});
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2d2d30;
+  opacity: 0.3;
+
+  div:nth-child(2) {
+    color: #ddd;
+    font-size: 1.4em;
+  }
+}

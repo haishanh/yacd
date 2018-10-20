@@ -1,0 +1,25 @@
+.root {
+  //
+}
+
+.header {
+  padding: 10px 0 20px;
+  text-align: center;
+}
+
+.body {
+  display: flex;
+  align-items: center;
+
+  div:nth-child(2) {
+    width: 120px;
+    margin-left: 10px;
+  }
+}
+
+.footer {
+  padding: 20px 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

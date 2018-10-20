@@ -1,0 +1,50 @@
+$color1: #2a477a;
+$color2: #dddddd;
+
+@keyframes moveRight {
+  0% {
+    transform: translate(-50px);
+  }
+
+  100% {
+    transform: translate(10px);
+  }
+}
+
+@keyframes moveLeft {
+  0% {
+    transform: translate(50px);
+  }
+
+  100% {
+    transform: translate(-10px);
+  }
+}
+
+.loading {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin: 0 auto;
+  height: 30vh;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+}
+
+.left {
+  background-color: $color1;
+  left: 50%;
+  animation: moveRight 1s ease-in-out 0s infinite alternate;
+}
+
+.right {
+  background-color: $color2;
+  right: 50%;
+  animation: moveLeft 1s ease-in-out 0s infinite alternate;
+}

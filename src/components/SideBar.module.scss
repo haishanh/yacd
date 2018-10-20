@@ -1,0 +1,50 @@
+.root {
+  background: #2d2d30;
+  // width: 220px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  color: #2a477a;
+  transition: color 0.3s ease-in-out;
+
+  &:hover {
+    color: #1f52ac;
+  }
+
+  img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+// a router linke
+.rowActive,
+.row {
+  color: white;
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+
+  // &:hover {
+  //   color: white;
+  //   background: #494b4e;
+  // }
+
+  svg {
+    color: #c7c7c7;
+  }
+}
+.rowActive {
+  color: white;
+  background: #494b4e;
+}
+
+.label {
+  padding-left: 14px;
+}

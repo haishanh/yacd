@@ -1,0 +1,55 @@
+.border-left,
+.border-top,
+.border-bottom {
+  position: relative;
+}
+
+%border {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: 100%;
+  transform: scaleY(0.5) translateZ(0);
+  left: 0;
+  right: 0;
+  background: #555;
+}
+
+%border1 {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 1px;
+  transform: scaleX(0.5) translateZ(0);
+  top: 0;
+  bottom: 0;
+  background: #555;
+}
+
+.border-top::before {
+  @extend %border;
+  top: 0;
+}
+
+.border-bottom::after {
+  @extend %border;
+  bottom: 0;
+}
+
+.border-left::before {
+  @extend %border1;
+  left: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}

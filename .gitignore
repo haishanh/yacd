@@ -1,0 +1,7 @@
+*.*~
+.DS_Store
+node_modules
+public/
+deploy_ghpages.sh
+tags
+*.log

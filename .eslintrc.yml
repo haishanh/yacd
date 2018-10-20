@@ -1,0 +1,31 @@
+---
+env:
+  browser: true
+  node: true
+  jest/globals: true
+  es6: true
+
+parser: babel-eslint
+
+plugins:
+  - import
+  - react
+  - jest
+
+
+extends:
+  - eslint:recommended
+  - plugin:import/errors
+  - plugin:react/recommended
+
+
+# globals:
+  # Promise: true
+
+rules:
+  quotes: ["error", "single"]
+  strict: ["error", "never"]
+  no-console: "warn"
+  react/jsx-uses-react: "error"
+  react/jsx-uses-vars: "error"
+  react/react-in-jsx-scope: "error"

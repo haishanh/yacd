@@ -1,0 +1,16 @@
+.root {
+  padding: 10px 40px;
+  color: #ddd;
+
+  // display: flex;
+  // flex-wrap: wrap;
+
+  > div {
+    width: 340px;
+  }
+}
+
+.label {
+  // color: #aaa;
+  padding: 16px 0;
+}

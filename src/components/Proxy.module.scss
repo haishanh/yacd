@@ -1,0 +1,22 @@
+.Proxy {
+  display: flex;
+  align-items: center;
+
+  .name {
+    flex: 1;
+    // width: 100px;
+    padding-left: 10px;
+  }
+}
+
+.LatencyLabel {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  background: #e6a23c;
+
+  div:nth-child(2) {
+    padding-left: 4px;
+  }
+}

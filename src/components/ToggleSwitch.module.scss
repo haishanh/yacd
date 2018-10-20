@@ -1,0 +1,34 @@
+.ToggleSwitch {
+  user-select: none;
+  border: 1px solid #525252;
+  color: #eee;
+  background: #353535;
+  display: flex;
+  position: relative;
+
+  input {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+  }
+
+  label {
+    flex: 1;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+}
+
+.slider {
+  z-index: 1;
+  position: absolute;
+  display: block;
+  left: 0;
+  height: 100%;
+  transition: left 0.2s ease-out;
+  background: #181818;
+}

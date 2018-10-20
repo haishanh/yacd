@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <meta name="application-name" content="yacd">
+  <meta name="description" content="Yet Another Clash Dashboard">
+  <meta name="theme-color" content="#202020">
+  <link id="favicon" rel="icon" type="image/png" sizes="64x64" href="yacd-64.png">
+  <link id="favicon" rel="icon" type="image/png" sizes="128x128" href="yacd-128.png">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+
+  <% for (key in htmlWebpackPlugin.files.css) { %>
+  <link href="<%= htmlWebpackPlugin.files.css[key] %>" rel="stylesheet">
+  <% } %>
+
+<body>
+  <div id="app"></div>
+
+  <% for (key in htmlWebpackPlugin.files.chunks) { %>
+  <script src="<%= htmlWebpackPlugin.files.chunks[key].entry %>" type="text/javascript"></script>
+  <% } %>
+
+</body>
+</html>
