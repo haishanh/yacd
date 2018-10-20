@@ -36,13 +36,6 @@ class Proxy extends Component {
     delay: PropTypes.object
   };
 
-  componentDidMount() {
-    const { name, delay, requestDelay } = this.props;
-    if (delay[name]) return;
-
-    requestDelay(name);
-  }
-
   handleRadioOnChange = ev => {
     const { name, parentName, checked, switchProxy } = this.props;
     if (checked) return;
@@ -52,8 +45,7 @@ class Proxy extends Component {
   render() {
     const { name, parentName, checked, switchProxy, delay } = this.props;
     const id = parentName + ':' + name;
-    // XXX default to 0 might not a good idea
-    const latency = delay[name] || 0;
+    const latency = delay[name];
     return (
       <label className={s0.Proxy} htmlFor={id}>
         <input
@@ -64,7 +56,7 @@ class Proxy extends Component {
           onChange={this.handleRadioOnChange}
         />
         <div className={s0.name}>{name}</div>
-        <LatencyLabel val={latency} />
+        {latency ? <LatencyLabel val={latency} /> : null}
       </label>
     );
   }
@@ -90,8 +82,7 @@ class LatencyLabel extends Component {
         className={s0.LatencyLabel}
         style={{
           background: bg
-        }}
-      >
+        }}>
         <div>{val}</div>
         <div>ms</div>
       </div>

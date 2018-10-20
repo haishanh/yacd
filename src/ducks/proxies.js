@@ -24,6 +24,7 @@ export function fetchProxies() {
       type: CompletedFetchProxies,
       payload: { proxies }
     });
+    dispatch(requestDelayAll());
   };
 }
 
