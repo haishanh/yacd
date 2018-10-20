@@ -51,10 +51,13 @@ const traffic = {
   }
 };
 
+let fetched = false;
+
 function pump(reader) {
   return reader.read().then(({ done, value }) => {
     if (done) {
       console.log('done');
+      fetched = false;
       return;
     }
     const t = textDecoder.decode(value);
@@ -67,14 +70,15 @@ function pump(reader) {
   });
 }
 
-let fetched = false;
 function fetchData() {
   if (fetched) return traffic;
   const { url, init } = getURLAndInit();
   fetch(url, init).then(response => {
-    fetched = true;
-    const reader = response.body.getReader();
-    pump(reader);
+    if (response.ok) {
+      fetched = true;
+      const reader = response.body.getReader();
+      pump(reader);
+    }
   });
   return traffic;
 }
