@@ -1,7 +1,22 @@
 'use strict';
 
-const { getAPIURL } = require('../config');
 const textDecoder = new TextDecoder('utf-8');
+import {
+  getAPIConfig,
+  genCommonHeaders,
+  getAPIBaseURL
+} from 'm/request-helper';
+const endpoint = '/logs';
+
+function getURLAndInit() {
+  const c = getAPIConfig();
+  const baseURL = getAPIBaseURL(c);
+  const headers = genCommonHeaders(c);
+  return {
+    url: baseURL + endpoint,
+    init: { headers }
+  };
+}
 
 const Size = 300;
 
@@ -35,14 +50,7 @@ function pump(reader) {
     try {
       o = JSON.parse(t);
     } catch (err) {
-      console.log(
-        'lastchar',
-        t.length,
-        ' is r',
-        l === '\r',
-        ' is n',
-        l === '\n'
-      );
+      console.log(err);
     }
     store.appendData(o);
     return pump(reader);
@@ -52,8 +60,8 @@ function pump(reader) {
 let fetched = false;
 function fetchLogs() {
   if (fetched) return store;
-  const apiURL = getAPIURL();
-  fetch(apiURL.logs).then(response => {
+  const { url, init } = getURLAndInit();
+  fetch(url, init).then(response => {
     fetched = true;
     const reader = response.body.getReader();
     pump(reader);

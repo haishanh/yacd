@@ -1,22 +1,34 @@
 'use strict';
 
-const { getAPIURL } = require('../config');
+import {
+  getAPIConfig,
+  genCommonHeaders,
+  getAPIBaseURL
+} from 'm/request-helper';
 
-const headers = {
-  'Content-Type': 'application/json'
-};
+const endpoint = '/configs';
+
+function getURLAndInit() {
+  const c = getAPIConfig();
+  const baseURL = getAPIBaseURL(c);
+  const headers = genCommonHeaders(c);
+  return {
+    url: baseURL + endpoint,
+    init: { headers }
+  };
+}
 
 export async function fetchConfigs() {
-  const apiURL = getAPIURL();
-  return await fetch(apiURL.configs);
+  const { url, init } = getURLAndInit();
+  return await fetch(url, init);
 }
 
 export async function updateConfigs(o) {
-  const apiURL = getAPIURL();
-  return await fetch(apiURL.configs, {
+  const { url, init } = getURLAndInit();
+  return await fetch(url, {
+    ...init,
     method: 'PUT',
     // mode: 'cors',
-    headers,
     body: JSON.stringify(o)
   });
 }

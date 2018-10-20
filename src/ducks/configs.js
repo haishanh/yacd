@@ -23,7 +23,7 @@ export function fetchConfigs() {
     }
 
     if (!res.ok) {
-      if (res.status === 404) {
+      if (res.status === 404 || res.status === 401) {
         dispatch(openModal('apiConfig'));
       } else {
         console.log('Error fetch configs', res.statusText);

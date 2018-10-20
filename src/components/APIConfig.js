@@ -29,7 +29,8 @@ class APIConfig extends Component {
 
   state = {
     hostname: this.props.apiConfig.hostname,
-    port: this.props.apiConfig.port
+    port: this.props.apiConfig.port,
+    secret: this.props.apiConfig.secret
   };
 
   handleInputOnChange = e => {
@@ -46,28 +47,45 @@ class APIConfig extends Component {
   };
 
   handleConfirmOnClick = e => {
-    const { hostname, port } = this.state;
-    this.props.updateClashAPIConfig(hostname, port);
+    const { hostname, port, secret } = this.state;
+    this.props.updateClashAPIConfig({ hostname, port, secret });
   };
 
   render() {
-    const { hostname, port } = this.state;
+    const { hostname, port, secret } = this.state;
     return (
       <div className={s0.root}>
         <div className={s0.header}>RESTful API config for Clash</div>
         <div className={s0.body}>
-          <Input
-            type="text"
-            name="hostname"
-            value={hostname}
-            onChange={this.handleInputOnChange}
-          />
-          <Input
-            type="number"
-            name="port"
-            value={port}
-            onChange={this.handleInputOnChange}
-          />
+          <div className={s0.group}>
+            <div className={s0.label}>Hostname and Port</div>
+            <div className={s0.inputs}>
+              <Input
+                type="text"
+                name="hostname"
+                value={hostname}
+                onChange={this.handleInputOnChange}
+              />
+              <Input
+                type="number"
+                name="port"
+                value={port}
+                onChange={this.handleInputOnChange}
+              />
+            </div>
+          </div>
+          <div className={s0.group}>
+            <div className={s0.label}>Authorization Secret (Optional)</div>
+            <div>
+              <Input
+                type="text"
+                name="secret"
+                value={secret}
+                placeholder="Optional"
+                onChange={this.handleInputOnChange}
+              />
+            </div>
+          </div>
         </div>
         <div className={s0.footer}>
           <Button label="Confirm" onClick={this.handleConfirmOnClick} />

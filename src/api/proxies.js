@@ -1,10 +1,21 @@
 'use strict';
 
-const { getAPIURL } = require('../config');
+import {
+  getAPIConfig,
+  genCommonHeaders,
+  getAPIBaseURL
+} from 'm/request-helper';
+const endpoint = '/proxies';
 
-const headers = {
-  'Content-Type': 'application/json'
-};
+function getURLAndInit() {
+  const c = getAPIConfig();
+  const baseURL = getAPIBaseURL(c);
+  const headers = genCommonHeaders(c);
+  return {
+    url: baseURL + endpoint,
+    init: { headers }
+  };
+}
 
 /*
 $ curl "http://127.0.0.1:8080/proxies/Proxy" -XPUT -d '{ "name": "ss3" }' -i
@@ -24,27 +35,27 @@ Date: Tue, 16 Oct 2018 16:38:33 GMT
 */
 
 async function fetchProxies() {
-  const apiURL = getAPIURL();
-  const res = await fetch(apiURL.proxies);
+  const { url, init } = getURLAndInit();
+  const res = await fetch(url, init);
   return await res.json();
 }
 
 async function requestToSwitchProxy(name1, name2) {
   const body = { name: name2 };
-  const apiURL = getAPIURL();
-  const url = `${apiURL.proxies}/${name1}`;
-  return await fetch(url, {
+  const { url, init } = getURLAndInit();
+  const fullURL = `${url}/${name1}`;
+  return await fetch(fullURL, {
+    ...init,
     method: 'PUT',
-    headers,
     body: JSON.stringify(body)
   });
 }
 
 async function requestDelayForProxy(name) {
-  const apiURL = getAPIURL();
+  const { url, init } = getURLAndInit();
   const qs = `timeout=5000&url=http://www.google.com/generate_204`;
-  const url = `${apiURL.proxies}/${name}/delay?${qs}`;
-  return await fetch(url);
+  const fullURL = `${url}/${name}/delay?${qs}`;
+  return await fetch(fullURL, init);
 }
 
 export { fetchProxies, requestToSwitchProxy, requestDelayForProxy };

@@ -1,13 +1,14 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import rootReducer from '../ducks';
-// import { loadState } from '../utils';
+import createHistory from 'history/createHashHistory';
+// import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware } from 'react-router-redux';
+import rootReducer from '../ducks';
 
 // const preloadedState = loadState();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default function configureStore(history) {
+function configureStore(history) {
   const store = createStore(
     rootReducer,
     composeEnhancers(
@@ -25,3 +26,8 @@ export default function configureStore(history) {
 
   return store;
 }
+
+const history = createHistory();
+const store = configureStore(history);
+
+export { store, history }

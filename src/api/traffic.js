@@ -1,7 +1,22 @@
 'use strict';
 
-const { getAPIURL } = require('../config');
 const textDecoder = new TextDecoder('utf-8');
+import {
+  getAPIConfig,
+  genCommonHeaders,
+  getAPIBaseURL
+} from 'm/request-helper';
+const endpoint = '/traffic';
+
+function getURLAndInit() {
+  const c = getAPIConfig();
+  const baseURL = getAPIBaseURL(c);
+  const headers = genCommonHeaders(c);
+  return {
+    url: baseURL + endpoint,
+    init: { headers }
+  };
+}
 
 const Size = 150;
 
@@ -55,8 +70,8 @@ function pump(reader) {
 let fetched = false;
 function fetchData() {
   if (fetched) return traffic;
-  const apiURL = getAPIURL();
-  fetch(apiURL.traffic).then(response => {
+  const { url, init } = getURLAndInit();
+  fetch(url, init).then(response => {
     fetched = true;
     const reader = response.body.getReader();
     pump(reader);
