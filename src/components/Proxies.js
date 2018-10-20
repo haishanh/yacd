@@ -9,7 +9,7 @@ import cx from 'classnames';
 import s0 from 'c/Proxies.module.scss';
 
 const th = cx(s0.row, s0.th, 'border-bottom');
-const colItem = cx(s0.colItem, 'border-bottom');
+// const colItem = cx(s0.colItem, 'border-bottom');
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -82,16 +82,17 @@ class ProxyRow extends Component {
       <div className={s0.row}>
         <div className={s0.col1}>{name}</div>
         <div className={s0.col2}>{type}</div>
-        <div className={s0.col3}>
-          {all &&
-            all.map(p => {
+        {all ? (
+          <div className={s0.col3 + ' border-left'}>
+            {all.map(p => {
               return (
-                <div className={colItem} key={p}>
+                <div className={s0.colItem} key={p}>
                   <Proxy name={p} parentName={name} checked={p === now} />
                 </div>
               );
             })}
-        </div>
+          </div>
+        ) : null}
       </div>
     );
   }
