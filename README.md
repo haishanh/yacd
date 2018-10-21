@@ -2,7 +2,9 @@
 
 > Yet Another [Clash](https://github.com/Dreamacro/clash) Dashboard
 
-Note for Firefox user:
+The site [http://yacd.haishan.me](http://yacd.haishan.me) is served with HTTP not HTTPS is because many browsers blocking request to HTTP resources from a HTTPS website. If you think it's not safe or not comfort with this, you can actually download the [zip of the gh-pages](https://github.com/haishanh/yacd/archive/gh-pages.zip), unzip and open `index.html` directly.
+
+Extra note for Firefox users:
 
 **yacd** is using the [Fetch (Web) API][fetch-api] to stream chunked API response from Clash to draw the traffic chart. But currently the streaming feature in Firefox needs to be turned on manually. Here is how to:
 
