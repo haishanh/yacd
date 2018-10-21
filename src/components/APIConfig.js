@@ -63,12 +63,14 @@ class APIConfig extends Component {
               <Input
                 type="text"
                 name="hostname"
+                placeholder="Hostname"
                 value={hostname}
                 onChange={this.handleInputOnChange}
               />
               <Input
                 type="number"
                 name="port"
+                placeholder="Port"
                 value={port}
                 onChange={this.handleInputOnChange}
               />

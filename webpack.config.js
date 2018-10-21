@@ -22,7 +22,7 @@ const svgSpriteRule = {
 // ---- entry
 
 const entry = {
-  app: ['@babel/polyfill', './src/app.js']
+  app: ['whatwg-fetch', '@babel/polyfill', './src/app.js']
 };
 
 // ---- output
@@ -33,10 +33,7 @@ const output = {
   publicPath: ''
 };
 
-// const polyfill = ['whatwg-fetch'];
-// entry.polyfill = polyfill;
-
-const vendor = ['redux', 'react', 'react-dom', 'react-router-dom'];
+// const vendor = ['redux', 'react', 'react-dom', 'react-router-dom'];
 
 // if (!isDev) entry.vendor = vendor; // generate common vendor bundle in prod
 
@@ -102,10 +99,17 @@ module.exports = {
       chunks: 'all',
       // see https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693#optimizationruntimechunk
       cacheGroups: {
-        core: {
-          test: module => {
-            if (/\/node_modules\/core-js\//.test(module.resource)) return true;
-          },
+        // corejs: {
+        //   test: /[\\/]node_modules[\\/](core-js)[\\/]/,
+        //   chunks: 'all'
+        // },
+        chartjs: {
+          test: /[\\/]node_modules[\\/]chart\.js[\\/]/,
+          // name: 'chartjs',
+          chunks: 'all'
+        },
+        react: {
+          test: /[\\/]node_modules[\\/](react-dom|react|redux|react-router|react-router-dom|schedule|react-redux|react-modal)[\\/]/,
           chunks: 'all'
         }
       }
