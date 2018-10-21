@@ -22,7 +22,8 @@ const svgSpriteRule = {
 // ---- entry
 
 const entry = {
-  app: ['whatwg-fetch', '@babel/polyfill', './src/app.js']
+  // app: ['whatwg-fetch', '@babel/polyfill', './src/app.js']
+  app: ['whatwg-fetch', './src/app.js']
 };
 
 // ---- output
