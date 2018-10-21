@@ -13,11 +13,11 @@ const th = cx(s0.row, s0.th, 'border-bottom');
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getProxies, fetchProxies, requestDelayAll } from 'd/proxies';
+import { getUserProxies, fetchProxies, requestDelayAll } from 'd/proxies';
 
 function mapStateToProps(s) {
   return {
-    proxies: getProxies(s)
+    proxies: getUserProxies(s)
   };
 }
 

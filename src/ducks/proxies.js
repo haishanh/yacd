@@ -1,9 +1,21 @@
 'use strict';
 
+import { createSelector } from 'reselect';
 import * as proxiesAPI from 'a/proxies';
+
+const ProxyTypeBuiltin = ['DIRECT', 'GLOBAL', 'REJECT'];
 
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
+export const getUserProxies = createSelector(getProxies, proxies => {
+  let o = {};
+  for (const prop in proxies) {
+    if (ProxyTypeBuiltin.indexOf(prop) < 0) {
+      o[prop] = proxies[prop];
+    }
+  }
+  return o;
+});
 
 const CompletedFetchProxies = 'proxies/CompletedFetchProxies';
 const OptimisticSwitchProxy = 'proxies/OptimisticSwitchProxy';
