@@ -1,6 +1,6 @@
 # yacd
 
-> Yet Another Clash Dashboard
+> Yet Another [Clash](https://github.com/Dreamacro/clash) Dashboard
 
 Note for Firefox user:
 
