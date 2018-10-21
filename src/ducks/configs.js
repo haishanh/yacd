@@ -2,14 +2,17 @@
 
 import * as configsAPI from 'a/configs';
 import { openModal } from 'd/modals';
+import * as trafficAPI from 'a/traffic';
 
 const CompletedFetchConfigs = 'configs/CompletedFetchConfigs';
 const OptimisticUpdateConfigs = 'proxies/OptimisticUpdateConfigs';
 
-// const CompletedRequestDelayForProxy = 'proxies/CompletedRequestDelayForProxy';
-
 export const getConfigs = s => s.configs;
 
+// maybe we should put this flag in the redux store
+// but since is not related a UI element and only make sense to this chunk
+// of code, I'm going to leave it here
+let successfullyFetchedConfigsBefore = false;
 export function fetchConfigs() {
   return async (dispatch, getState) => {
     let res;
@@ -37,6 +40,15 @@ export function fetchConfigs() {
       type: CompletedFetchConfigs,
       payload
     });
+
+    // side effect
+    if (successfullyFetchedConfigsBefore === false) {
+      successfullyFetchedConfigsBefore = true;
+      // normally user will land on the "traffic chart" page first
+      // calling this here will let the data start streaming
+      // the traffic chart should already subscribed to the streaming
+      trafficAPI.fetchData();
+    }
   };
 }
 

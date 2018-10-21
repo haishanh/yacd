@@ -7,8 +7,8 @@ import s0 from 'c/TrafficNow.module.scss';
 
 class TrafficNow extends Component {
   state = {
-    upStr: '',
-    downStr: ''
+    upStr: '0 B/s',
+    downStr: '0 B/s'
   };
 
   componentDidMount() {
