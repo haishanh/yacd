@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   getAPIConfig,
   genCommonHeaders,
@@ -53,7 +51,7 @@ async function requestToSwitchProxy(name1, name2) {
 
 async function requestDelayForProxy(name) {
   const { url, init } = getURLAndInit();
-  const qs = `timeout=5000&url=http://www.google.com/generate_204`;
+  const qs = 'timeout=5000&url=http://www.google.com/generate_204';
   const fullURL = `${url}/${name}/delay?${qs}`;
   return await fetch(fullURL, init);
 }

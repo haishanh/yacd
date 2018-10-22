@@ -1,4 +1,3 @@
-'use strict';
 // steal from https://github.com/sindresorhus/pretty-bytes/blob/master/index.js
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];

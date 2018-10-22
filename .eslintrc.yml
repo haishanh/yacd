@@ -18,6 +18,8 @@ extends:
   - plugin:import/errors
   - plugin:react/recommended
 
+settings:
+  import/resolver: webpack
 
 # globals:
   # Promise: true

@@ -22,10 +22,11 @@ const mapDispatchToProps = dispatch => {
 };
 
 class APIDiscovery extends Component {
-  // static propTypes = {
-  //   isOpen: PropTypes.bool.isRequired,
-  //   onRequestClose: PropTypes.func.isRequired
-  // };
+  static propTypes = {
+    closeModal: PropTypes.func,
+    fetchConfigs: PropTypes.func,
+    modals: PropTypes.object
+  };
 
   componentDidMount() {
     this.props.fetchConfigs();

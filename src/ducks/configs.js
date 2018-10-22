@@ -1,5 +1,3 @@
-'use strict';
-
 import * as configsAPI from 'a/configs';
 import { openModal } from 'd/modals';
 import * as trafficAPI from 'a/traffic';
@@ -14,7 +12,7 @@ export const getConfigs = s => s.configs;
 // of code, I'm going to leave it here
 let successfullyFetchedConfigsBefore = false;
 export function fetchConfigs() {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     let res;
     try {
       res = await configsAPI.fetchConfigs();

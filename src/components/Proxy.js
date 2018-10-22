@@ -36,14 +36,14 @@ class Proxy extends Component {
     delay: PropTypes.object
   };
 
-  handleRadioOnChange = ev => {
+  handleRadioOnChange = () => {
     const { name, parentName, checked, switchProxy } = this.props;
     if (checked) return;
     switchProxy(parentName, name);
   };
 
   render() {
-    const { name, parentName, checked, switchProxy, delay } = this.props;
+    const { name, parentName, checked, delay } = this.props;
     const id = parentName + ':' + name;
     const latency = delay[name] || 0;
     return (

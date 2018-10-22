@@ -1,5 +1,3 @@
-'use strict';
-
 import { store } from '../store/configureStore';
 import { getClashAPIConfig } from 'd/app';
 

@@ -11,7 +11,7 @@ export const getClashAPIConfig = s => s.app.clashAPIConfig;
 // TODO to support secret
 export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
   return async (dispatch, getState) => {
-    const hostname = iHostname.trim().replace(/^http(s)\:\/\//, '');
+    const hostname = iHostname.trim().replace(/^http(s):\/\//, '');
     dispatch({
       type: UpdateClashAPIConfig,
       payload: { hostname, port, secret }

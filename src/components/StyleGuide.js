@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 import ToggleSwitch from 'c/ToggleSwitch';
 import Input from 'c/Input';
@@ -27,6 +28,9 @@ const optionsRule = [
 ];
 
 const Pane = ({ children }) => <div style={paneStyle}>{children}</div>;
+Pane.propTypes = {
+  children: PropTypes.element
+};
 
 class StyleGuide extends PureComponent {
   render() {

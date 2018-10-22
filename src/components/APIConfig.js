@@ -46,7 +46,7 @@ class APIConfig extends Component {
     this.setState({ [name]: value });
   };
 
-  handleConfirmOnClick = e => {
+  handleConfirmOnClick = () => {
     const { hostname, port, secret } = this.state;
     this.props.updateClashAPIConfig({ hostname, port, secret });
   };

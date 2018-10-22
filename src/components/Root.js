@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
 import SideBar from 'c/SideBar';

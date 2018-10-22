@@ -1,5 +1,3 @@
-'use strict';
-
 const textDecoder = new TextDecoder('utf-8');
 import {
   getAPIConfig,

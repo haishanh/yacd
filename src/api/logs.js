@@ -1,5 +1,3 @@
-'use strict';
-
 const textDecoder = new TextDecoder('utf-8');
 import {
   getAPIConfig,
@@ -44,8 +42,6 @@ function pump(reader) {
       return;
     }
     const t = textDecoder.decode(value);
-    // console.log(t);
-    const l = t[t.length - 1];
     let o;
     try {
       o = JSON.parse(t);
