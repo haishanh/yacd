@@ -18,6 +18,7 @@ function getURLAndInit() {
 
 const Size = 300;
 
+let even = false;
 const store = {
   logs: [],
   size: Size,
@@ -28,6 +29,7 @@ const store = {
     // mutate input param in place intentionally
     o.time = time;
     o.id = now - 0;
+    o.even = even = !even;
     this.logs.unshift(o);
     if (this.logs.length > this.size) this.logs.pop();
     // TODO consider throttle this

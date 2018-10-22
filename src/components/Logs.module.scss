@@ -13,7 +13,7 @@ $heightHeader: 76px;
   color: $colorf;
   flex-shrink: 0;
   text-align: center;
-  width: 56px;
+  width: 66px;
   background: green;
   border-radius: 5px;
   padding: 3px 5px;
@@ -31,7 +31,9 @@ $heightHeader: 76px;
   display: flex;
   font-family: 'Source Code Pro', Menlo, monospace;
   align-items: center;
-  padding: 8px 0 0;
+  padding: 8px 0;
+  // force wrap
+  width: 100%;
 }
 
 //////////
@@ -42,11 +44,13 @@ $heightHeader: 76px;
   list-style: none;
   color: $colorf;
 
-  li:nth-child(2n) {
-    background: #282828;
-  }
-  li:nth-child(2n + 1) {
-    background: #1f1f1f;
+  :global {
+    li {
+      background: #1f1f1f;
+    }
+    li.even {
+      background: #282828;
+    }
   }
 }
 

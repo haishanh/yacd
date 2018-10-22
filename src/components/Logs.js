@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 
 import Icon from 'c/Icon';
 import ContentHeader from 'c/ContentHeader';
@@ -9,22 +10,30 @@ import yacd from 's/yacd.svg';
 
 import s0 from 'c/Logs.module.scss';
 const colors = {
-  debug: '#8a8a8a',
-  info: '#147d14',
+  debug: 'none',
+  // debug: '#8a8a8a',
+  info: '#454545',
+  // info: '#147d14',
   warning: '#b99105',
   error: '#c11c1c'
 };
+
+const logLineStyleEven = {
+  background: '#282828'
+}
 class LogLine extends Component {
   static propTypes = {
     time: PropTypes.string,
+    even: PropTypes.bool,
     type: PropTypes.string.isRequired,
     payload: PropTypes.string.isRequired
   };
 
   render() {
-    const { time, type, payload } = this.props;
+    const { time, type, payload, even } = this.props;
+    const className = cx({ even });
     return (
-      <li>
+      <li className={className}>
         <div className={s0.logMeta}>
           <div className={s0.logTime}>{time}</div>
           <div className={s0.logType} style={{ backgroundColor: colors[type] }}>
