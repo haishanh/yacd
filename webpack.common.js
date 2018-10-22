@@ -100,7 +100,14 @@ const cssModulesProdRule = {
 
 const fileRule = {
   test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
-  use: ['file-loader']
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]'
+      }
+    }
+  ]
 };
 
 const sassDevRule = {
