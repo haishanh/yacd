@@ -4,13 +4,16 @@ $heightHeader: 76px;
 .logMeta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.9em;
+  padding: 10px;
 }
 
 .logType {
   color: $colorf;
+  flex-shrink: 0;
   text-align: center;
   width: 56px;
-  font-size: 10px;
   background: green;
   border-radius: 5px;
   padding: 3px 5px;
@@ -18,17 +21,17 @@ $heightHeader: 76px;
 }
 
 .logTime {
-  // color: $colorf;
+  flex-shrink: 0;
   color: #999;
   font-size: 14px;
 }
 
 .logText {
+  flex-shrink: 0;
   display: flex;
   font-family: 'Source Code Pro', Menlo, monospace;
-  font-size: 0.9em;
   align-items: center;
-  padding: 5px 0;
+  padding: 8px 0 0;
 }
 
 //////////
@@ -38,6 +41,13 @@ $heightHeader: 76px;
   padding: 0;
   list-style: none;
   color: $colorf;
+
+  li:nth-child(2n) {
+    background: #282828;
+  }
+  li:nth-child(2n + 1) {
+    background: #1f1f1f;
+  }
 }
 
 /////////
