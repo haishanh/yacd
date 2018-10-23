@@ -18,9 +18,6 @@ const colors = {
   error: '#c11c1c'
 };
 
-const logLineStyleEven = {
-  background: '#282828'
-}
 class LogLine extends Component {
   static propTypes = {
     time: PropTypes.string,
