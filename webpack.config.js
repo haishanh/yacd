@@ -30,7 +30,8 @@ const entry = {
 
 const output = {
   path: path.resolve(__dirname, 'public'),
-  filename: isDev ? '[name].bundle.js' : '[name].[chunkhash].js',
+  // use contenthash instead of chunkhash to take advantage of caching
+  filename: isDev ? '[name].bundle.js' : '[name].[contenthash].js',
   publicPath: ''
 };
 
