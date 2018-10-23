@@ -2,18 +2,15 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createHistory from 'history/createHashHistory';
 // import createHistory from 'history/createBrowserHistory';
-import { routerMiddleware } from 'react-router-redux';
 import rootReducer from '../ducks';
 
 // const preloadedState = loadState();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-function configureStore(history) {
+function configureStore() {
   const store = createStore(
     rootReducer,
-    composeEnhancers(
-      applyMiddleware(thunkMiddleware, routerMiddleware(history))
-    )
+    composeEnhancers(applyMiddleware(thunkMiddleware))
   );
 
   if (module.hot) {
@@ -28,6 +25,6 @@ function configureStore(history) {
 }
 
 const history = createHistory();
-const store = configureStore(history);
+const store = configureStore();
 
-export { store, history }
+export { store, history };

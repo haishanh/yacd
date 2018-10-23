@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
-import { Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
 import SideBar from 'c/SideBar';
@@ -33,7 +32,7 @@ import s0 from './Root.module.scss';
 
 const Root = ({ store, history }) => (
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <Router history={history}>
       <div className={s0.app}>
         <APIDiscovery />
         <Route path="/" component={SideBar} />
@@ -45,7 +44,7 @@ const Root = ({ store, history }) => (
           <Route exact path="/proxies" component={Proxies} />
         </div>
       </div>
-    </ConnectedRouter>
+    </Router>
   </Provider>
 );
 // <Route exact path="/__0" component={StyleGuide} />

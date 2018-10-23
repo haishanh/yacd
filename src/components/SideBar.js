@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-
-import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
+import { NavLink } from 'react-router-dom';
 
 import Icon from 'c/Icon';
 
@@ -15,36 +12,23 @@ import yacd from 's/yacd.svg';
 
 import s from 'c/SideBar.module.scss';
 
-class SideBarRowDump extends Component {
+class SideBarRow extends Component {
   static propTypes = {
     to: PropTypes.string.isRequired,
     iconId: PropTypes.string,
-    labelText: PropTypes.string,
-    pathname: PropTypes.string
+    labelText: PropTypes.string
   };
 
   render() {
-    const { iconId, labelText, to, pathname } = this.props;
-    const cls = pathname === to ? s.rowActive : s.row;
+    const { iconId, labelText, to } = this.props;
     return (
-      <Link to={to} className={cls}>
+      <NavLink exact to={to} className={s.row} activeClassName={s.rowActive}>
         <Icon id={iconId} width={28} height={28} />
         <div className={s.label}>{labelText}</div>
-      </Link>
+      </NavLink>
     );
   }
 }
-
-const mapStateToProps = state => {
-  const { pathname } = state.router.location;
-  return { pathname };
-};
-const mapDispatchToProps = null;
-
-const SideBarRow = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SideBarRowDump);
 
 class SideBar extends Component {
   render() {
