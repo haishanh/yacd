@@ -1,10 +1,10 @@
-const textDecoder = new TextDecoder('utf-8');
 import {
   getAPIConfig,
   genCommonHeaders,
   getAPIBaseURL
 } from 'm/request-helper';
 const endpoint = '/traffic';
+const textDecoder = new TextDecoder('utf-8', { stream: true });
 
 function getURLAndInit() {
   const c = getAPIConfig();

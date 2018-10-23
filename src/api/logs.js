@@ -1,10 +1,10 @@
-const textDecoder = new TextDecoder('utf-8');
 import {
   getAPIConfig,
   genCommonHeaders,
   getAPIBaseURL
 } from 'm/request-helper';
 const endpoint = '/logs';
+const textDecoder = new TextDecoder('utf-8', { stream: true });
 
 function getURLAndInit() {
   const c = getAPIConfig();
@@ -44,13 +44,14 @@ function pump(reader) {
       return;
     }
     const t = textDecoder.decode(value);
-    let o;
-    try {
-      o = JSON.parse(t);
-    } catch (err) {
-      console.log(err);
-    }
-    store.appendData(o);
+    const arrRawJSON = t.trim().split('\n');
+    arrRawJSON.forEach(s => {
+      try {
+        store.appendData(JSON.parse(s));
+      } catch (err) {
+        console.log('JSON.parse error', JSON.parse(s));
+      }
+    });
     return pump(reader);
   });
 }
