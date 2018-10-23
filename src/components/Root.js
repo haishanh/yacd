@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
+// import createHistory from 'history/createHashHistory';
+// import createHistory from 'history/createBrowserHistory';
 
 import SideBar from 'c/SideBar';
 import Home from 'c/Home';
@@ -11,6 +12,8 @@ import Proxies from 'c/Proxies';
 import Config from 'c/Config';
 
 import APIDiscovery from 'c/APIDiscovery';
+
+import { store } from '../store/configureStore';
 
 // testing...
 // import StyleGuide from 'c/StyleGuide';
@@ -30,18 +33,18 @@ import APIDiscovery from 'c/APIDiscovery';
 import './Root.scss';
 import s0 from './Root.module.scss';
 
-const Root = ({ store, history }) => (
+const Root = () => (
   <Provider store={store}>
-    <Router history={history}>
+    <Router>
       <div className={s0.app}>
         <APIDiscovery />
         <Route path="/" component={SideBar} />
         <div style={{ flexGrow: '1', overflow: 'scroll' }}>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/overview" component={Home} />
-          <Route exact path="/configs" component={Config} />
-          <Route exact path="/logs" component={Logs} />
-          <Route exact path="/proxies" component={Proxies} />
+          <Route exact path="/" render={() => <Home />} />
+          <Route exact path="/overview" render={() => <Home />} />
+          <Route exact path="/configs" render={() => <Config />} />
+          <Route exact path="/logs" render={() => <Logs />} />
+          <Route exact path="/proxies" render={() => <Proxies />} />
         </div>
       </div>
     </Router>
@@ -49,11 +52,6 @@ const Root = ({ store, history }) => (
 );
 // <Route exact path="/__0" component={StyleGuide} />
 // <Route exact path="/__1" component={Loading} />
-
-Root.propTypes = {
-  store: PropTypes.object,
-  history: PropTypes.object
-};
 
 // hot export Root
 // https://github.com/gaearon/react-hot-loader/tree/v4.0.1#getting-started
