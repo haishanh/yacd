@@ -1,10 +1,15 @@
 import { createSelector } from 'reselect';
 import * as proxiesAPI from 'a/proxies';
 
+// see all types:
+// https://github.com/Dreamacro/clash/blob/master/constant/adapters.go
+
 const ProxyTypeBuiltin = ['DIRECT', 'GLOBAL', 'REJECT'];
+const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector'];
 
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
+export const getProxyGroupNames = s => s.proxies.groupNames;
 export const getUserProxies = createSelector(getProxies, proxies => {
   let o = {};
   for (const prop in proxies) {
@@ -19,6 +24,21 @@ const CompletedFetchProxies = 'proxies/CompletedFetchProxies';
 const OptimisticSwitchProxy = 'proxies/OptimisticSwitchProxy';
 const CompletedRequestDelayForProxy = 'proxies/CompletedRequestDelayForProxy';
 
+function retrieveGroupNamesFrom(proxies) {
+  const groupNames = [];
+  for (const prop in proxies) {
+    // not builtin proxy
+    if (ProxyTypeBuiltin.indexOf(prop) < 0) {
+      const p = proxies[prop];
+      // is group
+      if (ProxyGroupTypes.indexOf(p.type) >= 0) {
+        groupNames.push(prop);
+      }
+    }
+  }
+  return groupNames;
+}
+
 export function fetchProxies() {
   return async (dispatch, getState) => {
     // TODO handle errors
@@ -30,9 +50,12 @@ export function fetchProxies() {
     // TODO show loading animation?
     const json = await proxiesAPI.fetchProxies();
     let { proxies = {} } = json;
+
+    const groupNames = retrieveGroupNamesFrom(proxies);
+
     dispatch({
       type: CompletedFetchProxies,
-      payload: { proxies }
+      payload: { proxies, groupNames }
     });
     dispatch(requestDelayAll());
   };
@@ -73,16 +96,19 @@ export function switchProxy(name1, name2) {
 function requestDelayForProxyOnce(name) {
   return async (dispatch, getState) => {
     const res = await proxiesAPI.requestDelayForProxy(name);
+    let error = '';
     if (res.ok === false) {
-      console.log('Error', res.statusText);
-      return;
+      error = res.statusText;
     }
     const { delay } = await res.json();
 
     const delayPrev = getDelay(getState());
     const delayNext = {
       ...delayPrev,
-      [name]: delay
+      [name]: {
+        error,
+        number: delay
+      }
     };
 
     dispatch({
@@ -91,11 +117,6 @@ function requestDelayForProxyOnce(name) {
     });
   };
 }
-
-// const proxyTypeListTo = [
-//   'Vmess',
-//   'Shadowsocks'
-// ];
 
 export function requestDelayForProxy(name) {
   return async dispatch => {
@@ -122,7 +143,8 @@ export function requestDelayAll() {
 
 const initialState = {
   proxies: {},
-  delay: {}
+  delay: {},
+  groupNames: []
 };
 
 export default function reducer(state = initialState, { type, payload }) {

@@ -5,8 +5,9 @@ import ToggleSwitch from 'c/ToggleSwitch';
 import Input from 'c/Input';
 import Switch from 'c/Switch';
 import Button from 'c/Button';
-import Modal from 'c/Modal';
-import APIConfig from 'c/APIConfig';
+// import Modal from 'c/Modal';
+// import APIConfig from 'c/APIConfig';
+import Proxy2 from 'c/Proxy2';
 
 const paneStyle = {
   padding: '20px 0'
@@ -37,6 +38,9 @@ class StyleGuide extends PureComponent {
     return (
       <div>
         <Pane>
+          <Proxy2 />
+        </Pane>
+        <Pane>
           <Switch />
         </Pane>
         <Pane>
@@ -53,9 +57,6 @@ class StyleGuide extends PureComponent {
         <Pane>
           <Button label="Test Latency" />
         </Pane>
-        <Modal isOpen={true} onRequestClose={() => {}}>
-          <APIConfig />
-        </Modal>
       </div>
     );
   }

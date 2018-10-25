@@ -1,22 +1,28 @@
-.Proxy {
+.proxy {
   display: flex;
-  align-items: center;
+  cursor: pointer;
 
-  .name {
-    flex: 1;
-    // width: 100px;
-    padding-left: 10px;
+  svg {
+    transition: transform 0.4s ease, color 0.4s ease;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.1);
+      color: #aaa;
+    }
   }
 }
 
-.LatencyLabel {
+.left {
   display: flex;
   align-items: center;
-  padding: 5px;
-  border-radius: 5px;
-  background: #e6a23c;
+  justify-content: center;
+}
 
-  div:nth-child(2) {
-    padding-left: 4px;
-  }
+.right {
+  padding-left: 20px;
+}
+
+.proxyName {
+  margin: 10px 0;
 }

@@ -1,0 +1,20 @@
+.header {
+  h2 {
+    span:nth-child(2) {
+      font-size: 12px;
+      color: #777;
+      font-weight: normal;
+      margin: 0 0.3em;
+    }
+  }
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.proxy {
+  width: 300px;
+  padding: 10px 5px;
+}

@@ -33,6 +33,10 @@ class APIConfig extends Component {
     secret: this.props.apiConfig.secret
   };
 
+  componentDidMount() {
+    this.content.focus();
+  }
+
   handleInputOnChange = e => {
     const target = e.target;
     const { name } = target;
@@ -46,15 +50,30 @@ class APIConfig extends Component {
     this.setState({ [name]: value });
   };
 
-  handleConfirmOnClick = () => {
+  updateClashAPIConfig() {
     const { hostname, port, secret } = this.state;
     this.props.updateClashAPIConfig({ hostname, port, secret });
+  }
+
+  handleConfirmOnClick = () => {
+    this.updateClashAPIConfig();
+  };
+
+  handleContentOnKeyDown = e => {
+    // enter keyCode is 13
+    if (e.keyCode !== 13) return;
+    this.updateClashAPIConfig();
   };
 
   render() {
     const { hostname, port, secret } = this.state;
     return (
-      <div className={s0.root}>
+      <div
+        className={s0.root}
+        ref={e => (this.content = e)}
+        tabIndex="1"
+        onKeyDown={this.handleContentOnKeyDown}
+      >
         <div className={s0.header}>RESTful API config for Clash</div>
         <div className={s0.body}>
           <div className={s0.group}>

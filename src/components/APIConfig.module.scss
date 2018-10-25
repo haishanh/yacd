@@ -1,5 +1,7 @@
 .root {
-  //
+  &:focus {
+    outline: none;
+  }
 }
 
 .header {

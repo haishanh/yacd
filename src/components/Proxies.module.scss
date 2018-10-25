@@ -1,47 +1,13 @@
-$heightHeader: 76px;
-
 .root {
-  color: #eee;
+}
+
+.group {
   padding: 10px 40px;
-  height: calc(100vh - #{$heightHeader});
-  overflow: scroll;
-}
-
-.row {
-  display: flex;
-}
-
-.th {
-  font-weight: bold;
-}
-
-.col1 {
-  width: 150px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-}
-
-.col2 {
-  width: 150px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-}
-
-.col3 {
-  width: 350px;
-  margin: 16px 8px;
-  padding-left: 20px;
-}
-
-.colItem {
-  padding: 6px;
 }
 
 .btnGroup {
   color: #eee;
-  // padding: 10px 40px;
+  padding: 0 40px;
   display: flex;
   justify-content: flex-end;
 }

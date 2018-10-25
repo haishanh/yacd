@@ -1,92 +1,71 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import s0 from 'c/Proxy.module.scss';
+import Icon from 'c/Icon';
+import ProxyLatency from 'c/ProxyLatency';
+
+import globe from 's/globe.svg';
+import ss from 's/ss.svg';
+import vmess from 's/vmess.svg';
+import auto from 's/auto.svg';
+import fallback from 's/fallback.svg';
+
+import s0 from './Proxy.module.scss';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getDelay, switchProxy, requestDelayForProxy } from 'd/proxies';
+import { getDelay, getUserProxies } from 'd/proxies';
 
-const mapStateToProps = state => {
-  const delay = getDelay(state);
-  return { delay };
+const colors = {
+  Vmess: '#ca3487',
+  Shadowsocks: '#1a7dc0',
+  Socks5: '#2a477a',
+  URLTest: '#3483e8',
+  Fallback: '#3483e8'
 };
 
-const mapDispatchToProps = dispatch => {
+const icons = {
+  Vmess: vmess.id,
+  Shadowsocks: ss.id,
+  Socks5: globe.id,
+  URLTest: auto.id,
+  Fallback: fallback.id
+};
+
+// typeof Proxy = 'Shadowsocks' | 'Vmess' | 'Socks5';
+
+const mapStateToProps = s => {
   return {
-    switchProxy: bindActionCreators(switchProxy, dispatch),
-    requestDelay: bindActionCreators(requestDelayForProxy, dispatch)
+    proxies: getUserProxies(s),
+    delay: getDelay(s)
   };
 };
 
-const colorMap = {
-  good: '#67C23A',
-  normal: '#E6A23C',
-  bad: '#F56C6C',
-  na: '#909399'
-};
+const mapDispatchToProps = null;
 
 class Proxy extends Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    parentName: PropTypes.string,
-    checked: PropTypes.bool,
-    switchProxy: PropTypes.func,
-    requestDelay: PropTypes.func,
-    delay: PropTypes.object
-  };
-
-  handleRadioOnChange = () => {
-    const { name, parentName, checked, switchProxy } = this.props;
-    if (checked) return;
-    switchProxy(parentName, name);
+    now: PropTypes.bool,
+    delay: PropTypes.object,
+    proxies: PropTypes.object,
+    name: PropTypes.string
   };
 
   render() {
-    const { name, parentName, checked, delay } = this.props;
-    const id = parentName + ':' + name;
-    const latency = delay[name] || 0;
+    const { name, proxies, delay, now } = this.props;
+    const latency = delay[name];
+    const proxy = proxies[name];
+    const color = now ? colors[proxy.type] : '#555';
+    const iconId = icons[proxy.type];
+
     return (
-      <label className={s0.Proxy} htmlFor={id}>
-        <input
-          type="radio"
-          id={id}
-          checked={checked}
-          value={name}
-          onChange={this.handleRadioOnChange}
-        />
-        <div className={s0.name}>{name}</div>
-        <LatencyLabel val={latency} />
-      </label>
-    );
-  }
-}
-
-class LatencyLabel extends Component {
-  static propTypes = {
-    val: PropTypes.number
-  };
-
-  render() {
-    const { val } = this.props;
-    let bg = colorMap.na;
-
-    if (val < 100) {
-      bg = colorMap.good;
-    } else if (val < 300) {
-      bg = colorMap.normal;
-    } else {
-      bg = colorMap.bad;
-    }
-    const style = { background: bg };
-    if (val === 0 || !val) {
-      style.opacity = '0';
-      style.visibility = 'hidden';
-    }
-    return (
-      <div className={s0.LatencyLabel} style={style}>
-        <div>{val}</div>
-        <div>ms</div>
+      <div className={s0.proxy}>
+        <div className={s0.left} style={{ color }}>
+          <Icon id={iconId} width={80} height={80} />
+        </div>
+        <div className={s0.right}>
+          <div className={s0.proxyName}>{name}</div>
+          {latency ? <ProxyLatency latency={latency} /> : null}
+        </div>
       </div>
     );
   }
