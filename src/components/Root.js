@@ -39,7 +39,7 @@ const Root = () => (
       <div className={s0.app}>
         <APIDiscovery />
         <Route path="/" component={SideBar} />
-        <div style={{ flexGrow: '1', overflow: 'scroll' }}>
+        <div className={s0.content}>
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/overview" render={() => <Home />} />
           <Route exact path="/configs" render={() => <Config />} />
