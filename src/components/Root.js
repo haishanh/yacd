@@ -17,18 +17,6 @@ import { store } from '../store/configureStore';
 
 // testing...
 // import StyleGuide from 'c/StyleGuide';
-// import Loading from 'c/Loading';
-
-// for loading async chunk...not used yet
-
-// import Loadable from './Loadable';
-// const delay = t => new Promise(r => setTimeout(r, t));
-// const AsyncAbout = Loadable({
-//   loader: () => delay(800).then(() => import('./About'))
-// });
-// const AsyncHello = Loadable({
-//   loader: () => import('./Hello')
-// });
 
 import './Root.scss';
 import s0 from './Root.module.scss';
