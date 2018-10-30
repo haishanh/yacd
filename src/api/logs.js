@@ -26,7 +26,7 @@ let even = false;
 const store = {
   logs: [],
   size: Size,
-  updateCallback: null,
+  subscribers: [],
   appendData(o) {
     const now = new Date();
     const time = now.toLocaleString('zh-Hans');
@@ -36,8 +36,16 @@ const store = {
     o.even = even = !even;
     this.logs.unshift(o);
     if (this.logs.length > this.size) this.logs.pop();
-    // TODO consider throttle this
-    if (this.updateCallback) this.updateCallback();
+    this.subscribers.forEach(f => f(o));
+  },
+
+  subscribe(listener) {
+    const me = this;
+    this.subscribers.push(listener);
+    return function unsubscribe() {
+      const idx = me.subscribers.indexOf(listener);
+      me.subscribers.splice(idx, 1);
+    };
   }
 };
 

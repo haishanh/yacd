@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import Chart from 'chart.js/dist/Chart.min.js';
 import prettyBytes from 'm/pretty-bytes';
 
@@ -107,26 +107,25 @@ const options = {
   }
 };
 
-class TrafficChart extends Component {
-  traffic = {
-    labels: [],
-    up: [],
-    down: []
-  };
+const chartWrapperStyle = {
+  position: 'relative',
+  width: '90%'
+};
 
-  componentDidMount() {
+export default function TrafficChart() {
+  useEffect(() => {
     const ctx = document.getElementById('myChart').getContext('2d');
-    this.traffic = fetchData();
+    const traffic = fetchData();
     const data = {
-      labels: this.traffic.labels,
+      labels: traffic.labels,
       datasets: [
         {
           ...upProps,
-          data: this.traffic.up
+          data: traffic.up
         },
         {
           ...downProps,
-          data: this.traffic.down
+          data: traffic.down
         }
       ]
     };
@@ -135,26 +134,12 @@ class TrafficChart extends Component {
       data,
       options
     });
-    this.unsubscribe = this.traffic.subscribe(() => c.update());
-  }
+    return traffic.subscribe(() => c.update());
+  }, []);
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    return (
-      <div>
-        <div
-          style={{
-            position: 'relative',
-            width: '90%'
-          }}>
-          <canvas id="myChart" />
-        </div>
-      </div>
-    );
-  }
+  return (
+    <div style={chartWrapperStyle}>
+      <canvas id="myChart" />
+    </div>
+  );
 }
-
-export default TrafficChart;
