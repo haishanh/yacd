@@ -6,6 +6,10 @@ import {
 const endpoint = '/logs';
 const textDecoder = new TextDecoder('utf-8', { stream: true });
 
+const getRandomStr = () => {
+  return Math.floor((1 + Math.random()) * 0x10000).toString(16);
+};
+
 function getURLAndInit() {
   const c = getAPIConfig();
   const baseURL = getAPIBaseURL(c);
@@ -28,7 +32,7 @@ const store = {
     const time = now.toLocaleString('zh-Hans');
     // mutate input param in place intentionally
     o.time = time;
-    o.id = now - 0;
+    o.id = now - 0 + getRandomStr();
     o.even = even = !even;
     this.logs.unshift(o);
     if (this.logs.length > this.size) this.logs.pop();
