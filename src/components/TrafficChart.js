@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
-import Chart from 'chart.js/dist/Chart.min.js';
 import prettyBytes from 'm/pretty-bytes';
-
 import { fetchData } from '../api/traffic';
+import { unstable_createResource as createResource } from 'react-cache';
+
+// const delay = ms => new Promise(r => setTimeout(r, ms));
+const chartJSResource = createResource(() => {
+  return import('chart.js/dist/Chart.min.js').then(c => c.default);
+});
 
 const colorCombo = {
   0: {
@@ -108,13 +112,15 @@ const options = {
 };
 
 const chartWrapperStyle = {
+  // make chartjs chart responsive
   position: 'relative',
   width: '90%'
 };
 
 export default function TrafficChart() {
+  const Chart = chartJSResource.read();
   useEffect(() => {
-    const ctx = document.getElementById('myChart').getContext('2d');
+    const ctx = document.getElementById('trafficChart').getContext('2d');
     const traffic = fetchData();
     const data = {
       labels: traffic.labels,
@@ -139,7 +145,7 @@ export default function TrafficChart() {
 
   return (
     <div style={chartWrapperStyle}>
-      <canvas id="myChart" />
+      <canvas id="trafficChart" />
     </div>
   );
 }

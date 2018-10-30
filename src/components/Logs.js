@@ -47,7 +47,7 @@ export default function Logs() {
     const x = fetchLogs();
     setLogs(x.logs);
     return x.subscribe(() => setLogs(x.logs));
-  });
+  }, []);
 
   return (
     <div>

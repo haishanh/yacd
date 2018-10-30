@@ -26,6 +26,7 @@ let even = false;
 const store = {
   logs: [],
   size: Size,
+  fetched: false,
   subscribers: [],
   appendData(o) {
     const now = new Date();
@@ -68,15 +69,19 @@ function pump(reader) {
   });
 }
 
-let fetched = false;
 function fetchLogs() {
-  if (fetched) return store;
+  if (store.fetched) return store;
+  store.fetched = true;
   const { url, init } = getURLAndInit();
-  fetch(url, init).then(response => {
-    fetched = true;
-    const reader = response.body.getReader();
-    pump(reader);
-  });
+  fetch(url, init)
+    .then(response => {
+      const reader = response.body.getReader();
+      pump(reader);
+    })
+    .catch(err => {
+      store.fetched = false;
+      console.log('Error', err);
+    });
   return store;
 }
 

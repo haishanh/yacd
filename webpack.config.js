@@ -106,11 +106,11 @@ module.exports = {
         //   test: /[\\/]node_modules[\\/](core-js)[\\/]/,
         //   chunks: 'all'
         // },
-        chartjs: {
-          test: /[\\/]node_modules[\\/]chart\.js[\\/]/,
-          // name: 'chartjs',
-          chunks: 'all'
-        },
+        // chartjs: {
+        //   test: /[\\/]node_modules[\\/]chart\.js[\\/]/,
+        //   // name: 'chartjs',
+        //   chunks: 'all'
+        // },
         react: {
           test: /[\\/]node_modules[\\/](react-dom|react|redux|react-router|react-router-dom|schedule|react-redux|react-modal)[\\/]/,
           chunks: 'all'

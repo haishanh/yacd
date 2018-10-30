@@ -1,14 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import style from './Loading.module.scss';
+import s0 from './Loading.module.scss';
 
-const Loading = () => {
+const Loading = ({ height }) => {
+  const style = height ? { height } : {};
   return (
-    <div className={style.loading}>
-      <div className={style.left + ' ' + style.circle} />
-      <div className={style.right + ' ' + style.circle} />
+    <div className={s0.loading} style={style}>
+      <div className={s0.pulse} />
     </div>
   );
+};
+
+Loading.propTypes = {
+  height: PropTypes.string
 };
 
 export default Loading;

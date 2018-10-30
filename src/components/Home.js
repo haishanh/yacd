@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import ContentHeader from 'c/ContentHeader';
 import TrafficChart from 'c/TrafficChart';
 import TrafficNow from 'c/TrafficNow';
+import Loading from 'c/Loading';
 import s0 from 'c/Home.module.scss';
 
 export default function Home() {
@@ -14,7 +15,9 @@ export default function Home() {
           <TrafficNow />
         </div>
         <div className={s0.chart}>
-          <TrafficChart />
+          <Suspense fallback={<Loading height="200px" />} maxDuration={10}>
+            <TrafficChart />
+          </Suspense>
         </div>
       </div>
     </div>
