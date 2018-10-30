@@ -160,14 +160,6 @@ module.exports.rules = rules;
 
 // ----- plugins
 
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-
-const definePlugin = new webpack.DefinePlugin({
-  'process.env': {
-    NODE_ENV: JSON.stringify('production')
-  }
-});
-
 // webpack 4 enable optimization concatenateModules by default
 // https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a
 // const moduleConcatPlugin = new webpack.optimize.ModuleConcatenationPlugin();
@@ -180,8 +172,6 @@ const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
 
 // prints more readable module names in the browser console on HMR updates
 
-module.exports.definePlugin = definePlugin;
-
 let plugins = [];
 let pluginsCommon = [];
 if (isDev) {
@@ -191,22 +181,6 @@ if (isDev) {
   plugins = [
     ...pluginsCommon,
     new webpack.HashedModuleIdsPlugin(),
-    definePlugin,
-    // see https://github.com/webpack-contrib/uglifyjs-webpack-plugin
-    new UglifyJSPlugin({
-      // enable parallelization.
-      // default number of concurrent runs: os.cpus().length - 1.
-      parallel: true,
-      // enable file caching.
-      // default path to cache directory:
-      // node_modules/.cache/uglifyjs-webpack-plugin.
-      cache: true
-      // debug
-      // uglifyOptions: {
-      //   compress: false,
-      //   mangle: false
-      // }
-    }),
     cssExtractPlugin,
     bundleAnalyzerPlugin
   ];

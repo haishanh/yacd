@@ -3,6 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const { rules, plugins } = require('./webpack.common');
+const TerserPlugin = require('terser-webpack-plugin');
 const isDev = process.env.NODE_ENV !== 'production';
 
 const resolveDir = dir => path.resolve(__dirname, dir);
@@ -116,7 +117,16 @@ module.exports = {
         }
       }
     },
-    runtimeChunk: true
+    runtimeChunk: true,
+    minimizer: [
+      // the current uglifyjs-webpack-plugin has problems workin with React Hooks
+      // see also:
+      // https://github.com/webpack-contrib/uglifyjs-webpack-plugin/issues/374
+      new TerserPlugin({
+        cache: true,
+        parallel: true
+      })
+    ]
   },
   plugins
 };
