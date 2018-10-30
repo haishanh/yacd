@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import { hot } from 'react-hot-loader';
+// import { hot } from 'react-hot-loader';
 // import createHistory from 'history/createHashHistory';
 // import createHistory from 'history/createBrowserHistory';
 
@@ -43,4 +43,9 @@ const Root = () => (
 
 // hot export Root
 // https://github.com/gaearon/react-hot-loader/tree/v4.0.1#getting-started
-export default hot(module)(Root);
+
+// RHL doesn't compatible with React Hook yet, see:
+//   https://github.com/gaearon/react-hot-loader/issues/1088
+// after it's working, uncommment below line and remove "//" in the babelrc
+// export default hot(module)(Root);
+export default Root;

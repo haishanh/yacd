@@ -22,7 +22,7 @@
     "@babel/plugin-proposal-do-expressions"
   ],
   "env": {
-    "development": {
+    "//development": {
       "plugins": [
         "react-hot-loader/babel"
       ]

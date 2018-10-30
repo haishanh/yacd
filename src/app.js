@@ -8,10 +8,12 @@ import Root from './components/Root';
 Modal.setAppElement('#app');
 
 // use async React
-const root = ReactDOM.unstable_createRoot(document.getElementById('app'));
+const root = ReactDOM.createRoot(document.getElementById('app'));
 root.render(<Root />);
 
 // const render = (Component, props = {}) => {
 //   ReactDOM.render(<Component {...props} />, document.getElementById('app'));
 // };
 // render(Root, props);
+
+console.log('Checkout the repo: https://github.com/haishanh/yacd');
