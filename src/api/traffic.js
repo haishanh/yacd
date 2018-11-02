@@ -54,7 +54,8 @@ let fetched = false;
 function pump(reader) {
   return reader.read().then(({ done, value }) => {
     if (done) {
-      console.log('done');
+      // eslint-disable-next-line no-console
+      console.log('GET /traffic streaming done');
       fetched = false;
       return;
     }

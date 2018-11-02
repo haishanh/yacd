@@ -6692,7 +6692,7 @@ react-router@^4.4.0-beta.4:
     path-to-regexp "^1.7.0"
     warning "^4.0.1"
 
-react@^16.7.0-alpha.0:
+react@16.7.0-alpha.0:
   version "16.7.0-alpha.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.7.0-alpha.0.tgz#e2ed4abe6f268c9b092a1d1e572953684d1783a9"
   integrity sha512-V0za4H01aoAF0SdzahHepvfvzTQ1xxkgMX4z8uKzn+wzZAlVk0IVpleqyxZWluqmdftNedj6fIIZRO/rVYVFvQ==

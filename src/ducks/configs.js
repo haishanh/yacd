@@ -18,6 +18,7 @@ export function fetchConfigs() {
       res = await configsAPI.fetchConfigs();
     } catch (err) {
       // FIXME
+      // eslint-disable-next-line no-console
       console.log('Error fetch configs', err);
       dispatch(openModal('apiConfig'));
       return;
@@ -27,6 +28,7 @@ export function fetchConfigs() {
       if (res.status === 404 || res.status === 401) {
         dispatch(openModal('apiConfig'));
       } else {
+        // eslint-disable-next-line no-console
         console.log('Error fetch configs', res.statusText);
       }
       return;
@@ -57,10 +59,12 @@ export function updateConfigs(partialConfg) {
       .then(
         res => {
           if (res.ok === false) {
+            // eslint-disable-next-line no-console
             console.log('Error update configs', res.statusText);
           }
         },
         err => {
+          // eslint-disable-next-line no-console
           console.log('Error update configs', err);
           throw err;
         }

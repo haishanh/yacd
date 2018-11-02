@@ -39,7 +39,7 @@
     "memoize-one": "^4.0.2",
     "modern-normalize": "^0.5.0",
     "prop-types": "^15.5.10",
-    "react": "^16.7.0-alpha.0",
+    "react": "16.7.0-alpha.0",
     "react-cache": "^2.0.0-alpha.0",
     "react-dom": "^16.7.0-alpha.0",
     "react-modal": "^3.6.1",

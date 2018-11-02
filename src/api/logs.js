@@ -53,7 +53,8 @@ const store = {
 function pump(reader) {
   return reader.read().then(({ done, value }) => {
     if (done) {
-      console.log('done');
+      // eslint-disable-next-line no-console
+      console.log('GET /logs streaming done');
       return;
     }
     const t = textDecoder.decode(value);
@@ -62,6 +63,7 @@ function pump(reader) {
       try {
         store.appendData(JSON.parse(s));
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.log('JSON.parse error', JSON.parse(s));
       }
     });
@@ -80,7 +82,8 @@ function fetchLogs() {
     })
     .catch(err => {
       store.fetched = false;
-      console.log('Error', err);
+      // eslint-disable-next-line no-console
+      console.log('GET /logs error', err);
     });
   return store;
 }

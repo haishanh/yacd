@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { useComponentState, useActions } from 'm/store';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { getConfigs, fetchConfigs, updateConfigs } from 'd/configs';
 
 import ContentHeader from 'c/ContentHeader';
-
 import Switch from 'c/Switch';
 import ToggleSwitch from 'c/ToggleSwitch';
 import Input from 'c/Input';
@@ -51,29 +48,16 @@ const actions = {
   updateConfigs
 };
 
-const mapStateToProps = s => {
-  return {
-    configs: getConfigs(s)
-  };
-};
+const mapStateToProps = s => ({ configs: getConfigs(s) });
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(actions, dispatch);
-};
+export default function Config2() {
+  const { fetchConfigs, updateConfigs } = useActions(actions);
+  const { configs } = useComponentState(mapStateToProps);
+  useEffect(() => {
+    fetchConfigs();
+  }, []);
 
-class Config extends Component {
-  static propTypes = {
-    configs: PropTypes.object,
-    fetchConfigs: PropTypes.func,
-    updateConfigs: PropTypes.func
-  };
-
-  componentDidMount() {
-    this.props.fetchConfigs();
-  }
-
-  handleInputOnChange = ev => {
-    const { configs } = this.props;
+  function handleInputOnChange(ev) {
     const target = ev.target;
     const { name } = target;
 
@@ -89,77 +73,69 @@ class Config extends Component {
         value = target.value;
     }
     if (configs[name] === value) return;
-    this.props.updateConfigs({ [name]: value });
-  };
+    updateConfigs({ [name]: value });
+  }
 
-  render() {
-    const { configs } = this.props;
-    return (
-      <div>
-        <ContentHeader title="Config" />
-        <div className={s0.root}>
-          <div>
-            <div className={s0.label}>HTTP Proxy Port</div>
-            <Input
-              name="port"
-              value={configs.port}
-              onChange={this.handleInputOnChange}
-            />
-          </div>
+  return (
+    <div>
+      <ContentHeader title="Config" />
+      <div className={s0.root}>
+        <div>
+          <div className={s0.label}>HTTP Proxy Port</div>
+          <Input
+            name="port"
+            value={configs.port}
+            onChange={handleInputOnChange}
+          />
+        </div>
 
-          <div>
-            <div className={s0.label}>SOCKS5 Proxy Port</div>
-            <Input
-              name="socket-port"
-              value={configs['socket-port']}
-              onChange={this.handleInputOnChange}
-            />
-          </div>
+        <div>
+          <div className={s0.label}>SOCKS5 Proxy Port</div>
+          <Input
+            name="socket-port"
+            value={configs['socket-port']}
+            onChange={handleInputOnChange}
+          />
+        </div>
 
-          <div>
-            <div className={s0.label}>Redir Port</div>
-            <Input
-              name="redir-port"
-              value={configs['redir-port']}
-              onChange={this.handleInputOnChange}
-            />
-          </div>
+        <div>
+          <div className={s0.label}>Redir Port</div>
+          <Input
+            name="redir-port"
+            value={configs['redir-port']}
+            onChange={handleInputOnChange}
+          />
+        </div>
 
-          <div>
-            <div className={s0.label}>Allow LAN</div>
-            <Switch
-              name="allow-lan"
-              checked={configs['allow-lan']}
-              onChange={this.handleInputOnChange}
-            />
-          </div>
+        <div>
+          <div className={s0.label}>Allow LAN</div>
+          <Switch
+            name="allow-lan"
+            checked={configs['allow-lan']}
+            onChange={handleInputOnChange}
+          />
+        </div>
 
-          <div>
-            <div className={s0.label}>Mode</div>
-            <ToggleSwitch
-              options={optionsRule}
-              name="mode"
-              value={configs.mode}
-              onChange={this.handleInputOnChange}
-            />
-          </div>
+        <div>
+          <div className={s0.label}>Mode</div>
+          <ToggleSwitch
+            options={optionsRule}
+            name="mode"
+            value={configs.mode}
+            onChange={handleInputOnChange}
+          />
+        </div>
 
-          <div>
-            <div className={s0.label}>Log Level</div>
-            <ToggleSwitch
-              options={optionsLogLevel}
-              name="log-level"
-              value={configs['log-level']}
-              onChange={this.handleInputOnChange}
-            />
-          </div>
+        <div>
+          <div className={s0.label}>Log Level</div>
+          <ToggleSwitch
+            options={optionsLogLevel}
+            name="log-level"
+            value={configs['log-level']}
+            onChange={handleInputOnChange}
+          />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Config);

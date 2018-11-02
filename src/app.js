@@ -16,4 +16,5 @@ root.render(<Root />);
 // };
 // render(Root, props);
 
+// eslint-disable-next-line no-console
 console.log('Checkout the repo: https://github.com/haishanh/yacd');

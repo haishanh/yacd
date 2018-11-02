@@ -1,122 +1,105 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useRef } from 'react';
+import { useComponentState, useActions } from 'm/store';
 
 import Input from 'c/Input';
 import Button from 'c/Button';
 
 import s0 from './APIConfig.module.scss';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { getClashAPIConfig, updateClashAPIConfig } from 'd/app';
 
-const mapStateToProps = s => {
-  const apiConfig = getClashAPIConfig(s);
-  return { apiConfig };
-};
+const mapStateToProps = s => ({
+  apiConfig: getClashAPIConfig(s)
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateClashAPIConfig: bindActionCreators(updateClashAPIConfig, dispatch)
-  };
-};
+function APIConfig2() {
+  const { apiConfig } = useComponentState(mapStateToProps);
+  const [hostname, setHostname] = useState(apiConfig.hostname);
+  const [port, setPort] = useState(apiConfig.port);
+  const [secret, setSecret] = useState(apiConfig.secret);
+  const actions = useActions({ updateClashAPIConfig });
 
-class APIConfig extends Component {
-  static propTypes = {
-    apiConfig: PropTypes.object.isRequired,
-    updateClashAPIConfig: PropTypes.func.isRequired
-  };
+  const contentEl = useRef(null);
+  useEffect(() => {
+    contentEl.current.focus();
+  }, []);
 
-  state = {
-    hostname: this.props.apiConfig.hostname,
-    port: this.props.apiConfig.port,
-    secret: this.props.apiConfig.secret
-  };
-
-  componentDidMount() {
-    this.content.focus();
-  }
-
-  handleInputOnChange = e => {
+  const handleInputOnChange = e => {
     const target = e.target;
     const { name } = target;
+    let value = target.value.trim();
 
-    let value;
-    if (name === 'port') {
-      if (Number(target.value) < 0 || Number(target.value) > 65535) return;
-    }
-    value = target.value.trim();
     if (value === '') return;
-    this.setState({ [name]: value });
+    switch (name) {
+      case 'port':
+        if (Number(value) < 0 || Number(value) > 65535) return;
+        setPort(value);
+        break;
+      case 'hostname':
+        setHostname(value);
+        break;
+      case 'secret':
+        setSecret(value);
+        break;
+    }
   };
 
-  updateClashAPIConfig() {
-    const { hostname, port, secret } = this.state;
-    this.props.updateClashAPIConfig({ hostname, port, secret });
+  function updateConfig() {
+    actions.updateClashAPIConfig({ hostname, port, secret });
   }
 
-  handleConfirmOnClick = () => {
-    this.updateClashAPIConfig();
-  };
-
-  handleContentOnKeyDown = e => {
+  function handleContentOnKeyDown(e) {
     // enter keyCode is 13
     if (e.keyCode !== 13) return;
-    this.updateClashAPIConfig();
-  };
+    updateConfig();
+  }
 
-  render() {
-    const { hostname, port, secret } = this.state;
-    return (
-      <div
-        className={s0.root}
-        ref={e => (this.content = e)}
-        tabIndex="1"
-        onKeyDown={this.handleContentOnKeyDown}
-      >
-        <div className={s0.header}>RESTful API config for Clash</div>
-        <div className={s0.body}>
-          <div className={s0.group}>
-            <div className={s0.label}>Hostname and Port</div>
-            <div className={s0.inputs}>
-              <Input
-                type="text"
-                name="hostname"
-                placeholder="Hostname"
-                value={hostname}
-                onChange={this.handleInputOnChange}
-              />
-              <Input
-                type="number"
-                name="port"
-                placeholder="Port"
-                value={port}
-                onChange={this.handleInputOnChange}
-              />
-            </div>
-          </div>
-          <div className={s0.group}>
-            <div className={s0.label}>Authorization Secret (Optional)</div>
-            <div>
-              <Input
-                type="text"
-                name="secret"
-                value={secret}
-                placeholder="Optional"
-                onChange={this.handleInputOnChange}
-              />
-            </div>
+  return (
+    <div
+      className={s0.root}
+      ref={contentEl}
+      tabIndex="1"
+      onKeyDown={handleContentOnKeyDown}
+    >
+      <div className={s0.header}>RESTful API config for Clash</div>
+      <div className={s0.body}>
+        <div className={s0.group}>
+          <div className={s0.label}>Hostname and Port</div>
+          <div className={s0.inputs}>
+            <Input
+              type="text"
+              name="hostname"
+              placeholder="Hostname"
+              value={hostname}
+              onChange={handleInputOnChange}
+            />
+            <Input
+              type="number"
+              name="port"
+              placeholder="Port"
+              value={port}
+              onChange={handleInputOnChange}
+            />
           </div>
         </div>
-        <div className={s0.footer}>
-          <Button label="Confirm" onClick={this.handleConfirmOnClick} />
+        <div className={s0.group}>
+          <div className={s0.label}>Authorization Secret (Optional)</div>
+          <div>
+            <Input
+              type="text"
+              name="secret"
+              value={secret}
+              placeholder="Optional"
+              onChange={handleInputOnChange}
+            />
+          </div>
         </div>
       </div>
-    );
-  }
+      <div className={s0.footer}>
+        <Button label="Confirm" onClick={updateConfig} />
+      </div>
+    </div>
+  );
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(APIConfig);
+export default APIConfig2;

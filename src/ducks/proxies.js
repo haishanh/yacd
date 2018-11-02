@@ -69,10 +69,12 @@ export function switchProxy(name1, name2) {
       .then(
         res => {
           if (res.ok === false) {
+            // eslint-disable-next-line no-console
             console.log('failed to swith proxy', res.statusText);
           }
         },
         err => {
+          // eslint-disable-next-line no-console
           console.log(err, 'failed to swith proxy');
         }
       )
