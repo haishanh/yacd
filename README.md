@@ -1,4 +1,6 @@
-# yacd
+<h1 align="center">
+  <img src="https://user-images.githubusercontent.com/1166872/47954055-97e6cb80-dfc0-11e8-991f-230fd40481e5.png" alt="yacd">
+</h1>
 
 > Yet Another [Clash](https://github.com/Dreamacro/clash) Dashboard
 
