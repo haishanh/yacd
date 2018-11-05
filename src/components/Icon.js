@@ -19,4 +19,4 @@ Icon.propTypes = {
   className: PropTypes.string
 };
 
-export default Icon;
+export default React.memo(Icon);

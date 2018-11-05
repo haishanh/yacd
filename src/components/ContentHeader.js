@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import s0 from './ContentHeader.module.scss';
 
-class ContentHeader extends Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired
-  };
-
-  render() {
-    return (
-      <div className={s0.root}>
-        <h1 className={s0.h1}>{this.props.title}</h1>
-      </div>
-    );
-  }
+function ContentHeader({ title }) {
+  return (
+    <div className={s0.root}>
+      <h1 className={s0.h1}>{title}</h1>
+    </div>
+  );
 }
 
-export default ContentHeader;
+ContentHeader.propTypes = {
+  title: PropTypes.string.isRequired
+};
+
+export default React.memo(ContentHeader);

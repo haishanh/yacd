@@ -27,12 +27,9 @@ function APIConfig2() {
   const handleInputOnChange = e => {
     const target = e.target;
     const { name } = target;
-    let value = target.value.trim();
-
-    if (value === '') return;
+    let value = target.value;
     switch (name) {
       case 'port':
-        if (Number(value) < 0 || Number(value) > 65535) return;
         setPort(value);
         break;
       case 'hostname':

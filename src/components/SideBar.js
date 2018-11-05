@@ -12,14 +12,14 @@ import yacd from 's/yacd.svg';
 
 import s from 'c/SideBar.module.scss';
 
-function SideBarRow({ iconId, labelText, to }) {
+const SideBarRow = React.memo(function SideBarRow({ iconId, labelText, to }) {
   return (
     <NavLink exact to={to} className={s.row} activeClassName={s.rowActive}>
       <Icon id={iconId} width={28} height={28} />
       <div className={s.label}>{labelText}</div>
     </NavLink>
   );
-}
+});
 
 SideBarRow.propTypes = {
   to: PropTypes.string.isRequired,
@@ -27,7 +27,7 @@ SideBarRow.propTypes = {
   labelText: PropTypes.string
 };
 
-export default function SideBar() {
+function SideBar() {
   return (
     <div className={s.root}>
       <div className={s.logo}>
@@ -43,3 +43,5 @@ export default function SideBar() {
     </div>
   );
 }
+
+export default React.memo(SideBar);

@@ -1,34 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 import s0 from './Modal.module.scss';
 
-class ModalAPIConfig extends Component {
-  static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onRequestClose: PropTypes.func.isRequired
-  };
-
-  handleClick = e => {
-    e.preventDefault();
-  };
-
-  render() {
-    const { isOpen, onRequestClose, children, ...rest } = this.props;
-    return (
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={onRequestClose}
-        contentLabel="test"
-        className={s0.content}
-        overlayClassName={s0.overlay}
-        {...rest}
-      >
-        {children}
-      </Modal>
-    );
-  }
+function ModalAPIConfig({ isOpen, onRequestClose, children, ...otherProps }) {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      contentLabel="API-Config"
+      className={s0.content}
+      overlayClassName={s0.overlay}
+      {...otherProps}
+    >
+      {children}
+    </Modal>
+  );
 }
 
-export default ModalAPIConfig;
+ModalAPIConfig.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onRequestClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired
+};
+
+export default React.memo(ModalAPIConfig);

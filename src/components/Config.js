@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useComponentState, useActions } from 'm/store';
 
 import { getConfigs, fetchConfigs, updateConfigs } from 'd/configs';
@@ -50,30 +51,76 @@ const actions = {
 
 const mapStateToProps = s => ({ configs: getConfigs(s) });
 
-export default function Config2() {
-  const { fetchConfigs, updateConfigs } = useActions(actions);
+export default function ConfigContainer() {
+  const { fetchConfigs } = useActions(actions);
   const { configs } = useComponentState(mapStateToProps);
   useEffect(() => {
     fetchConfigs();
   }, []);
+  return <Config configs={configs} />;
+}
 
-  function handleInputOnChange(ev) {
-    const target = ev.target;
+function Config({ configs }) {
+  const { updateConfigs } = useActions(actions);
+  // configState to track component internal state
+  // prevConfigs to track external props.configs
+  const [configState, _setConfigState] = useState(configs);
+  const [prevConfigs, setPrevConfigs] = useState(configs);
+  // equivalent of getDerivedStateFromProps
+  if (prevConfigs !== configs) {
+    setPrevConfigs(configs);
+    _setConfigState(configs);
+  }
+
+  const setConfigState = (name, val) => {
+    _setConfigState({
+      ...configState,
+      [name]: val
+    });
+  };
+
+  function handleInputOnChange(e) {
+    const target = e.target;
     const { name } = target;
-
-    let value;
-    switch (target.type) {
-      case 'checkbox':
+    let { value } = target;
+    switch (target.name) {
+      case 'allow-lan':
         value = target.checked;
+        setConfigState(name, value);
+        updateConfigs({ [name]: value });
         break;
-      case 'number':
-        value = Number(target.value);
+      case 'mode':
+      case 'log-level':
+        setConfigState(name, value);
+        updateConfigs({ [name]: value });
+        break;
+      case 'redir-port':
+      case 'socket-port':
+      case 'port':
+        if (target.value !== '') {
+          const num = parseInt(target.value, 10);
+          if (num < 0 || num > 65535) return;
+        }
+        setConfigState(name, value);
         break;
       default:
-        value = target.value;
+        return;
     }
-    if (configs[name] === value) return;
-    updateConfigs({ [name]: value });
+  }
+
+  function handleInputOnBlur(e) {
+    const target = e.target;
+    const { name, value } = target;
+    switch (name) {
+      case 'port':
+      case 'socket-port':
+      case 'redir-port': {
+        const num = parseInt(value, 10);
+        if (num < 0 || num > 65535) return;
+        updateConfigs({ [name]: num });
+        break;
+      }
+    }
   }
 
   return (
@@ -84,8 +131,9 @@ export default function Config2() {
           <div className={s0.label}>HTTP Proxy Port</div>
           <Input
             name="port"
-            value={configs.port}
+            value={configState.port}
             onChange={handleInputOnChange}
+            onBlur={handleInputOnBlur}
           />
         </div>
 
@@ -93,8 +141,9 @@ export default function Config2() {
           <div className={s0.label}>SOCKS5 Proxy Port</div>
           <Input
             name="socket-port"
-            value={configs['socket-port']}
+            value={configState['socket-port']}
             onChange={handleInputOnChange}
+            onBlur={handleInputOnBlur}
           />
         </div>
 
@@ -102,8 +151,9 @@ export default function Config2() {
           <div className={s0.label}>Redir Port</div>
           <Input
             name="redir-port"
-            value={configs['redir-port']}
+            value={configState['redir-port']}
             onChange={handleInputOnChange}
+            onBlur={handleInputOnBlur}
           />
         </div>
 
@@ -111,7 +161,7 @@ export default function Config2() {
           <div className={s0.label}>Allow LAN</div>
           <Switch
             name="allow-lan"
-            checked={configs['allow-lan']}
+            checked={configState['allow-lan']}
             onChange={handleInputOnChange}
           />
         </div>
@@ -121,7 +171,7 @@ export default function Config2() {
           <ToggleSwitch
             options={optionsRule}
             name="mode"
-            value={configs.mode}
+            value={configState.mode}
             onChange={handleInputOnChange}
           />
         </div>
@@ -131,7 +181,7 @@ export default function Config2() {
           <ToggleSwitch
             options={optionsLogLevel}
             name="log-level"
-            value={configs['log-level']}
+            value={configState['log-level']}
             onChange={handleInputOnChange}
           />
         </div>
@@ -139,3 +189,7 @@ export default function Config2() {
     </div>
   );
 }
+
+Config.propTypes = {
+  configs: PropTypes.object
+};
