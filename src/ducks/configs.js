@@ -3,16 +3,13 @@ import { openModal } from 'd/modals';
 import * as trafficAPI from 'a/traffic';
 
 const CompletedFetchConfigs = 'configs/CompletedFetchConfigs';
-const OptimisticUpdateConfigs = 'proxies/OptimisticUpdateConfigs';
+const OptimisticUpdateConfigs = 'configs/OptimisticUpdateConfigs';
+const MarkHaveFetchedConfig = 'configs/MarkHaveFetchedConfig';
 
 export const getConfigs = s => s.configs;
 
-// maybe we should put this flag in the redux store
-// but since is not related a UI element and only make sense to this chunk
-// of code, I'm going to leave it here
-let successfullyFetchedConfigsBefore = false;
 export function fetchConfigs() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     let res;
     try {
       res = await configsAPI.fetchConfigs();
@@ -41,13 +38,24 @@ export function fetchConfigs() {
       payload
     });
 
-    // side effect
-    if (successfullyFetchedConfigsBefore === false) {
-      successfullyFetchedConfigsBefore = true;
+    const configsCurr = getConfigs(getState());
+
+    if (configsCurr.haveFetchedConfig) {
       // normally user will land on the "traffic chart" page first
       // calling this here will let the data start streaming
       // the traffic chart should already subscribed to the streaming
       trafficAPI.fetchData();
+    } else {
+      dispatch(markHaveFetchedConfig());
+    }
+  };
+}
+
+function markHaveFetchedConfig() {
+  return {
+    type: MarkHaveFetchedConfig,
+    payload: {
+      haveFetchedConfig: true
     }
   };
 }
@@ -91,15 +99,15 @@ const initialState = {
   'redir-port': 0,
   'allow-lan': false,
   mode: 'Rule',
-  'log-level': 'info'
+  'log-level': 'info',
 
   /////
+  haveFetchedConfig: false
 };
 
 export default function reducer(state = initialState, { type, payload }) {
   switch (type) {
-    // case CompletedRequestDelayForProxy:
-    // case OptimisticSwitchProxy:
+    case MarkHaveFetchedConfig:
     case OptimisticUpdateConfigs:
     case CompletedFetchConfigs: {
       return { ...state, ...payload };

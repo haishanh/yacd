@@ -58,7 +58,7 @@ function APIConfig2() {
       tabIndex="1"
       onKeyDown={handleContentOnKeyDown}
     >
-      <div className={s0.header}>RESTful API config for Clash</div>
+      <div className={s0.header}>Clash External Controller Config</div>
       <div className={s0.body}>
         <div className={s0.group}>
           <div className={s0.label}>Hostname and Port</div>

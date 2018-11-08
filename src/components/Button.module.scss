@@ -1,12 +1,15 @@
 .btn {
   -webkit-appearance: none;
   outline: none;
-  color: #ddd;
-  background: #606060;
+  color: #bebebe;
+  background: #232323;
   border: 1px solid #555;
   border-radius: 100px;
   padding: 6px 12px;
   &:hover {
-    background: darken(#555, 3%);
+    background: #387cec;
+    border: 1px solid #387cec;
+    color: #fff;
+    // background: darken(#555, 3%);
   }
 }

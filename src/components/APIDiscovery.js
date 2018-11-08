@@ -7,6 +7,8 @@ import APIConfig from 'c/APIConfig';
 import { closeModal } from 'd/modals';
 import { fetchConfigs } from 'd/configs';
 
+import s0 from './APIDiscovery.module.scss';
+
 const mapStateToProps = s => ({
   modals: s.modals
 });
@@ -26,6 +28,8 @@ export default function APIDiscovery() {
   return (
     <Modal
       isOpen={modals.apiConfig}
+      className={s0.content}
+      overlayClassName={s0.overlay}
       shouldCloseOnOverlayClick={false}
       shouldCloseOnEsc={false}
       onRequestClose={() => closeModal('apiConfig')}
