@@ -32,6 +32,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "@babel/runtime": "^7.1.5",
     "chart.js": "^2.7.3",
     "chat.js": "^1.0.2",
     "classnames": "^2.2.6",
@@ -60,6 +61,7 @@
     "@babel/plugin-proposal-json-strings": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "autoprefixer": "9.3.1",
