@@ -1,6 +1,6 @@
 .root {
-  background: #2d2d30;
-  // width: 220px;
+  background: var(--color-bg-sidebar);
+  position: relative;
 }
 
 .logo {
@@ -47,4 +47,22 @@
 
 .label {
   padding-left: 14px;
+}
+
+.themeSwitchContainer {
+  $sz: 50px;
+
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: $sz;
+  height: $sz;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    display: block;
+  }
 }

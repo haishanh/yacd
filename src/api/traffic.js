@@ -1,20 +1,10 @@
 import {
-  getAPIConfig,
+  getURLAndInit,
   genCommonHeaders,
   getAPIBaseURL
 } from 'm/request-helper';
 const endpoint = '/traffic';
 const textDecoder = new TextDecoder('utf-8', { stream: true });
-
-function getURLAndInit() {
-  const c = getAPIConfig();
-  const baseURL = getAPIBaseURL(c);
-  const headers = genCommonHeaders(c);
-  return {
-    url: baseURL + endpoint,
-    init: { headers }
-  };
-}
 
 const Size = 150;
 
@@ -69,10 +59,10 @@ function pump(reader) {
   });
 }
 
-function fetchData() {
+function fetchData(apiConfig) {
   if (fetched) return traffic;
-  const { url, init } = getURLAndInit();
-  fetch(url, init).then(response => {
+  const { url, init } = getURLAndInit(apiConfig);
+  fetch(url + endpoint, init).then(response => {
     if (response.ok) {
       fetched = true;
       const reader = response.body.getReader();

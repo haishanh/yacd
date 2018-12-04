@@ -3,10 +3,12 @@ import { fetchConfigs } from 'd/configs';
 import { closeModal } from 'd/modals';
 
 const UpdateClashAPIConfig = 'app/UpdateClashAPIConfig';
+const SwitchTheme = 'app/SwitchTheme';
 
 const StorageKey = 'yacd.haishan.me';
 
 export const getClashAPIConfig = s => s.app.clashAPIConfig;
+export const getTheme = s => s.app.theme;
 
 // TODO to support secret
 export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
@@ -25,6 +27,15 @@ export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
   };
 }
 
+export function switchTheme() {
+  return (dispatch, getState) => {
+    const currentTheme = getTheme(getState());
+    const theme = currentTheme === 'light' ? 'dark' : 'light';
+    dispatch({ type: SwitchTheme, payload: { theme } });
+  };
+}
+
+// type Theme = 'light' | 'dark';
 const defaultState = {
   clashAPIConfig: {
     hostname: '127.0.0.1',
@@ -36,14 +47,18 @@ const defaultState = {
 function getInitialState() {
   let s = loadState(StorageKey);
   if (!s) s = defaultState;
-  return s;
+  // TODO flat clashAPIConfig?
+  return { theme: 'dark', ...s };
 }
-const initialState = getInitialState();
 
-export default function reducer(state = initialState, { type, payload }) {
+export default function reducer(state = getInitialState(), { type, payload }) {
   switch (type) {
     case UpdateClashAPIConfig: {
       return { ...state, clashAPIConfig: { ...payload } };
+    }
+
+    case SwitchTheme: {
+      return { ...state, ...payload };
     }
 
     default:

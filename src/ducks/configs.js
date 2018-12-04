@@ -1,6 +1,7 @@
 import * as configsAPI from 'a/configs';
-import { openModal } from 'd/modals';
 import * as trafficAPI from 'a/traffic';
+import { openModal } from 'd/modals';
+import { getClashAPIConfig } from 'd/app';
 
 const CompletedFetchConfigs = 'configs/CompletedFetchConfigs';
 const OptimisticUpdateConfigs = 'configs/OptimisticUpdateConfigs';
@@ -12,7 +13,8 @@ export function fetchConfigs() {
   return async (dispatch, getState) => {
     let res;
     try {
-      res = await configsAPI.fetchConfigs();
+      const apiSetup = getClashAPIConfig(getState());
+      res = await configsAPI.fetchConfigs(apiSetup);
     } catch (err) {
       // FIXME
       // eslint-disable-next-line no-console
@@ -44,7 +46,8 @@ export function fetchConfigs() {
       // normally user will land on the "traffic chart" page first
       // calling this here will let the data start streaming
       // the traffic chart should already subscribed to the streaming
-      trafficAPI.fetchData();
+      const apiSetup = getClashAPIConfig(getState());
+      trafficAPI.fetchData(apiSetup);
     } else {
       dispatch(markHaveFetchedConfig());
     }
@@ -62,8 +65,9 @@ function markHaveFetchedConfig() {
 
 export function updateConfigs(partialConfg) {
   return async (dispatch, getState) => {
+    const apiSetup = getClashAPIConfig(getState());
     configsAPI
-      .updateConfigs(partialConfg)
+      .updateConfigs(apiSetup, partialConfg)
       .then(
         res => {
           if (res.ok === false) {

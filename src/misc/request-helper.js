@@ -1,14 +1,6 @@
-import { store } from '../store/configureStore';
-import { getClashAPIConfig } from 'd/app';
-
 const headersCommon = {
   'Content-Type': 'application/json'
 };
-
-export function getAPIConfig() {
-  // this is cheating...
-  return getClashAPIConfig(store.getState());
-}
 
 export function genCommonHeaders({ secret }) {
   const h = { ...headersCommon };
@@ -20,4 +12,13 @@ export function genCommonHeaders({ secret }) {
 
 export function getAPIBaseURL({ hostname, port }) {
   return `http://${hostname}:${port}`;
+}
+
+export function getURLAndInit({ hostname, port, secret }) {
+  const baseURL = getAPIBaseURL({ hostname, port });
+  const headers = genCommonHeaders({ secret });
+  return {
+    url: baseURL,
+    init: { headers }
+  };
 }

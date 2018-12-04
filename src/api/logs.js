@@ -1,5 +1,5 @@
 import {
-  getAPIConfig,
+  getURLAndInit,
   genCommonHeaders,
   getAPIBaseURL
 } from 'm/request-helper';
@@ -9,16 +9,6 @@ const textDecoder = new TextDecoder('utf-8', { stream: true });
 const getRandomStr = () => {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16);
 };
-
-function getURLAndInit() {
-  const c = getAPIConfig();
-  const baseURL = getAPIBaseURL(c);
-  const headers = genCommonHeaders(c);
-  return {
-    url: baseURL + endpoint,
-    init: { headers }
-  };
-}
 
 const Size = 300;
 
@@ -71,11 +61,11 @@ function pump(reader) {
   });
 }
 
-function fetchLogs() {
+function fetchLogs(apiConfig) {
   if (store.fetched) return store;
   store.fetched = true;
-  const { url, init } = getURLAndInit();
-  fetch(url, init)
+  const { url, init } = getURLAndInit(apiConfig);
+  fetch(url + endpoint, init)
     .then(response => {
       const reader = response.body.getReader();
       pump(reader);

@@ -1,8 +1,8 @@
 .app {
   display: flex;
-  color: #ddd;
-  background: #202020;
 
+  background: var(--color-background);
+  color: var(--color-text);
   min-height: 300px;
   height: 100vh;
 }
@@ -10,6 +10,7 @@
 .content {
   flex-grow: 1;
   overflow: scroll;
+  // background: #202020;
 
   // $w: 7px;
   // &::-webkit-scrollbar {

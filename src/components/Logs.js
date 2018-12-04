@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { useComponentState } from 'm/store';
+import { getClashAPIConfig } from 'd/app';
 
 import Icon from 'c/Icon';
 import ContentHeader from 'c/ContentHeader';
+// TODO move this into a redux action
 import { fetchLogs } from '../api/logs';
 
 import yacd from 's/yacd.svg';
@@ -42,12 +45,16 @@ LogLine.propTypes = {
 
 export default function Logs() {
   const [logs, setLogs] = useState([]);
+  const { apiConfig } = useComponentState(getClashAPIConfig);
 
-  useEffect(() => {
-    const x = fetchLogs();
-    setLogs(x.logs);
-    return x.subscribe(() => setLogs(x.logs));
-  }, []);
+  useEffect(
+    () => {
+      const x = fetchLogs(apiConfig);
+      setLogs(x.logs);
+      return x.subscribe(() => setLogs(x.logs));
+    },
+    [apiConfig.hostname, apiConfig.port, apiConfig.secret]
+  );
 
   return (
     <div>

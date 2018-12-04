@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import prettyBytes from 'm/pretty-bytes';
 import { fetchData } from '../api/traffic';
 import { unstable_createResource as createResource } from 'react-cache';
+import { useComponentState } from 'm/store';
+import { getClashAPIConfig } from 'd/app';
 
 // const delay = ms => new Promise(r => setTimeout(r, ms));
 const chartJSResource = createResource(() => {
@@ -119,29 +121,33 @@ const chartWrapperStyle = {
 
 export default function TrafficChart() {
   const Chart = chartJSResource.read();
-  useEffect(() => {
-    const ctx = document.getElementById('trafficChart').getContext('2d');
-    const traffic = fetchData();
-    const data = {
-      labels: traffic.labels,
-      datasets: [
-        {
-          ...upProps,
-          data: traffic.up
-        },
-        {
-          ...downProps,
-          data: traffic.down
-        }
-      ]
-    };
-    const c = new Chart(ctx, {
-      type: 'line',
-      data,
-      options
-    });
-    return traffic.subscribe(() => c.update());
-  }, []);
+  const { hostname, port, secret } = useComponentState(getClashAPIConfig);
+  useEffect(
+    () => {
+      const ctx = document.getElementById('trafficChart').getContext('2d');
+      const traffic = fetchData({ hostname, port, secret });
+      const data = {
+        labels: traffic.labels,
+        datasets: [
+          {
+            ...upProps,
+            data: traffic.up
+          },
+          {
+            ...downProps,
+            data: traffic.down
+          }
+        ]
+      };
+      const c = new Chart(ctx, {
+        type: 'line',
+        data,
+        options
+      });
+      return traffic.subscribe(() => c.update());
+    },
+    [hostname, port, secret]
+  );
 
   return (
     <div style={chartWrapperStyle}>

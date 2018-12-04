@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import * as proxiesAPI from 'a/proxies';
+import { getClashAPIConfig } from 'd/app';
 
 // see all types:
 // https://github.com/Dreamacro/clash/blob/master/constant/adapters.go
@@ -10,15 +11,18 @@ const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector'];
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
 export const getProxyGroupNames = s => s.proxies.groupNames;
-export const getUserProxies = createSelector(getProxies, proxies => {
-  let o = {};
-  for (const prop in proxies) {
-    if (ProxyTypeBuiltin.indexOf(prop) < 0) {
-      o[prop] = proxies[prop];
+export const getUserProxies = createSelector(
+  getProxies,
+  proxies => {
+    let o = {};
+    for (const prop in proxies) {
+      if (ProxyTypeBuiltin.indexOf(prop) < 0) {
+        o[prop] = proxies[prop];
+      }
     }
+    return o;
   }
-  return o;
-});
+);
 
 const CompletedFetchProxies = 'proxies/CompletedFetchProxies';
 const OptimisticSwitchProxy = 'proxies/OptimisticSwitchProxy';
@@ -43,12 +47,14 @@ export function fetchProxies() {
   return async (dispatch, getState) => {
     // TODO handle errors
 
-    const proxiesCurr = getProxies(getState());
+    const state = getState();
+    const proxiesCurr = getProxies(state);
     // TODO this is too aggressive...
     if (Object.keys(proxiesCurr).length > 0) return;
 
+    const apiConfig = getClashAPIConfig(state);
     // TODO show loading animation?
-    const json = await proxiesAPI.fetchProxies();
+    const json = await proxiesAPI.fetchProxies(apiConfig);
     let { proxies = {} } = json;
 
     const groupNames = retrieveGroupNamesFrom(proxies);
@@ -63,9 +69,10 @@ export function fetchProxies() {
 
 export function switchProxy(name1, name2) {
   return async (dispatch, getState) => {
+    const apiConfig = getClashAPIConfig(getState());
     // TODO display error message
     proxiesAPI
-      .requestToSwitchProxy(name1, name2)
+      .requestToSwitchProxy(apiConfig, name1, name2)
       .then(
         res => {
           if (res.ok === false) {
@@ -97,7 +104,8 @@ export function switchProxy(name1, name2) {
 
 function requestDelayForProxyOnce(name) {
   return async (dispatch, getState) => {
-    const res = await proxiesAPI.requestDelayForProxy(name);
+    const apiConfig = getClashAPIConfig(getState());
+    const res = await proxiesAPI.requestDelayForProxy(apiConfig, name);
     let error = '';
     if (res.ok === false) {
       error = res.statusText;

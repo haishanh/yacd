@@ -1,29 +1,19 @@
 import {
-  getAPIConfig,
+  getURLAndInit,
   genCommonHeaders,
   getAPIBaseURL
 } from 'm/request-helper';
 
 const endpoint = '/configs';
 
-function getURLAndInit() {
-  const c = getAPIConfig();
-  const baseURL = getAPIBaseURL(c);
-  const headers = genCommonHeaders(c);
-  return {
-    url: baseURL + endpoint,
-    init: { headers }
-  };
+export async function fetchConfigs(apiConfig) {
+  const { url, init } = getURLAndInit(apiConfig);
+  return await fetch(url + endpoint, init);
 }
 
-export async function fetchConfigs() {
-  const { url, init } = getURLAndInit();
-  return await fetch(url, init);
-}
-
-export async function updateConfigs(o) {
-  const { url, init } = getURLAndInit();
-  return await fetch(url, {
+export async function updateConfigs(apiConfig, o) {
+  const { url, init } = getURLAndInit(apiConfig);
+  return await fetch(url + endpoint, {
     ...init,
     method: 'PUT',
     // mode: 'cors',
