@@ -41,6 +41,10 @@ const optionsLogLevel = [
   {
     label: 'debug',
     value: 'debug'
+  },
+  {
+    label: 'silent',
+    value: 'silent'
   }
 ];
 
