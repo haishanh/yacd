@@ -24,7 +24,7 @@
 // a router linke
 .rowActive,
 .row {
-  color: white;
+  color: var(--color-text);
   text-decoration: none;
 
   display: flex;
@@ -37,12 +37,12 @@
   // }
 
   svg {
-    color: #c7c7c7;
+    color: var(--color-icon);
   }
 }
+
 .rowActive {
-  color: white;
-  background: #494b4e;
+  background: var(--color-sb-active-row-bg);
 }
 
 .label {
@@ -64,5 +64,6 @@
   align-items: center;
   svg {
     display: block;
+    color: var(--color-icon);
   }
 }

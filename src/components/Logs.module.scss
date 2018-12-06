@@ -44,14 +44,14 @@ $heightHeader: 76px;
   margin: 0;
   padding: 0;
   list-style: none;
-  color: $colorf;
+  color: var(--color-text);
 
   :global {
     li {
-      background: #1f1f1f;
+      background: var(--color-background);
     }
     li.even {
-      background: #282828;
+      background: var(--color-background);
     }
   }
 }

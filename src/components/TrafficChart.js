@@ -3,7 +3,7 @@ import prettyBytes from 'm/pretty-bytes';
 import { fetchData } from '../api/traffic';
 import { unstable_createResource as createResource } from 'react-cache';
 import { useComponentState } from 'm/store';
-import { getClashAPIConfig } from 'd/app';
+import { getClashAPIConfig, getTheme } from 'd/app';
 
 // const delay = ms => new Promise(r => setTimeout(r, ms));
 const chartJSResource = createResource(() => {
@@ -30,24 +30,42 @@ const colorCombo = {
       backgroundColor: 'rgba(69, 154, 248, 0.3)',
       borderColor: 'rgb(69, 154, 248)'
     }
+  },
+  2: {
+    up: {
+      backgroundColor: 'rgba(94, 175, 223, 0.3)',
+      borderColor: 'rgb(94, 175, 223)'
+    },
+    down: {
+      backgroundColor: 'rgba(139, 227, 195, 0.3)',
+      borderColor: 'rgb(139, 227, 195)'
+    }
   }
 };
 
-const upProps = {
-  ...colorCombo['0'].up,
-  label: 'Up',
+const commonDataSetProps = {
   borderWidth: 1,
-  lineTension: 0,
+  // lineTension: 0,
   pointRadius: 0
 };
 
-const downProps = {
-  ...colorCombo['0'].down,
-  label: 'Down',
-  borderWidth: 1,
-  lineTension: 0,
-  pointRadius: 0
-};
+function getUploadProps(theme = 'dark') {
+  const i = theme === 'dark' ? '0' : '2';
+  return {
+    ...commonDataSetProps,
+    ...colorCombo[i].up,
+    label: 'Up'
+  };
+}
+
+function getDownloadProps(theme = 'dark') {
+  const i = theme === 'dark' ? '0' : '2';
+  return {
+    ...commonDataSetProps,
+    ...colorCombo[i].down,
+    label: 'Down'
+  };
+}
 
 const options = {
   responsive: true,
@@ -122,10 +140,14 @@ const chartWrapperStyle = {
 export default function TrafficChart() {
   const Chart = chartJSResource.read();
   const { hostname, port, secret } = useComponentState(getClashAPIConfig);
+  const theme = useComponentState(getTheme);
+
   useEffect(
     () => {
       const ctx = document.getElementById('trafficChart').getContext('2d');
       const traffic = fetchData({ hostname, port, secret });
+      const upProps = getUploadProps(theme);
+      const downProps = getDownloadProps(theme);
       const data = {
         labels: traffic.labels,
         datasets: [
@@ -144,9 +166,13 @@ export default function TrafficChart() {
         data,
         options
       });
-      return traffic.subscribe(() => c.update());
+      const unsubscribe = traffic.subscribe(() => c.update());
+      return () => {
+        unsubscribe();
+        c.destroy();
+      };
     },
-    [hostname, port, secret]
+    [hostname, port, secret, theme]
   );
 
   return (

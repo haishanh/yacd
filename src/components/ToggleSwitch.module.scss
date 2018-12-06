@@ -1,8 +1,8 @@
 .ToggleSwitch {
   user-select: none;
   border: 1px solid #525252;
-  color: #eee;
-  background: #353535;
+  color: var(--color-text);
+  background: var(--color-toggle-bg);
   display: flex;
   position: relative;
 
@@ -30,5 +30,5 @@
   left: 0;
   height: 100%;
   transition: left 0.2s ease-out;
-  background: #181818;
+  background: var(--color-toggle-selected);
 }

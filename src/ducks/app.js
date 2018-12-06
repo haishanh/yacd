@@ -27,11 +27,26 @@ export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
   };
 }
 
+const bodyElement = document.body;
+function setTheme(theme = 'dark') {
+  if (theme === 'dark') {
+    bodyElement.classList.remove('light');
+    bodyElement.classList.add('dark');
+  } else {
+    bodyElement.classList.remove('dark');
+    bodyElement.classList.add('light');
+  }
+}
+
 export function switchTheme() {
   return (dispatch, getState) => {
     const currentTheme = getTheme(getState());
     const theme = currentTheme === 'light' ? 'dark' : 'light';
+    // side effect
+    setTheme(theme);
     dispatch({ type: SwitchTheme, payload: { theme } });
+    // side effect
+    saveState(StorageKey, getState().app);
   };
 }
 
@@ -41,14 +56,18 @@ const defaultState = {
     hostname: '127.0.0.1',
     port: '7892',
     secret: ''
-  }
+  },
+  theme: 'dark'
 };
 
 function getInitialState() {
   let s = loadState(StorageKey);
   if (!s) s = defaultState;
   // TODO flat clashAPIConfig?
-  return { theme: 'dark', ...s };
+
+  // set initial theme
+  setTheme(s.theme);
+  return s;
 }
 
 export default function reducer(state = getInitialState(), { type, payload }) {

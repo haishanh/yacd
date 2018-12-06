@@ -1,5 +1,5 @@
 .TrafficNow {
-  color: #eee;
+  color: var(--color-text);
   display: flex;
   align-items: center;
 }
@@ -11,7 +11,7 @@
   width: 200px;
 
   div:nth-child(1) {
-    color: #ccc;
+    color: var(--color-text-secondary);
   }
   div:nth-child(2) {
     padding: 10px 0 0;

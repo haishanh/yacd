@@ -45,15 +45,15 @@ LogLine.propTypes = {
 
 export default function Logs() {
   const [logs, setLogs] = useState([]);
-  const { apiConfig } = useComponentState(getClashAPIConfig);
+  const { hostname, port, secret } = useComponentState(getClashAPIConfig);
 
   useEffect(
     () => {
-      const x = fetchLogs(apiConfig);
+      const x = fetchLogs({ hostname, port, secret });
       setLogs(x.logs);
       return x.subscribe(() => setLogs(x.logs));
     },
-    [apiConfig.hostname, apiConfig.port, apiConfig.secret]
+    [hostname, port, secret]
   );
 
   return (
