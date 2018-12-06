@@ -1,8 +1,4 @@
-import {
-  getURLAndInit,
-  genCommonHeaders,
-  getAPIBaseURL
-} from 'm/request-helper';
+import { getURLAndInit } from 'm/request-helper';
 const endpoint = '/traffic';
 const textDecoder = new TextDecoder('utf-8', { stream: true });
 

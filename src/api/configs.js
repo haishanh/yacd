@@ -1,8 +1,4 @@
-import {
-  getURLAndInit,
-  genCommonHeaders,
-  getAPIBaseURL
-} from 'm/request-helper';
+import { getURLAndInit } from 'm/request-helper';
 
 const endpoint = '/configs';
 
