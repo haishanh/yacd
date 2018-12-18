@@ -37,9 +37,16 @@ function SideBar() {
   const { switchTheme } = useActions(actions);
   return (
     <div className={s.root}>
-      <div className={s.logo}>
-        <Icon id={yacd.id} width={80} height={80} />
-      </div>
+      <a
+        href="https://github.com/haishanh/yacd"
+        className={s.logoLink}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <div className={s.logo}>
+          <Icon id={yacd.id} width={80} height={80} />
+        </div>
+      </a>
 
       <div className={s.rows}>
         <SideBarRow to="/" iconId={activity.id} labelText="Overview" />

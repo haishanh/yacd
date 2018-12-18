@@ -3,6 +3,10 @@
   position: relative;
 }
 
+.logoLink {
+  display: block;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -21,7 +25,7 @@
   }
 }
 
-// a router linke
+// a router link
 .rowActive,
 .row {
   color: var(--color-text);
@@ -30,11 +34,6 @@
   display: flex;
   align-items: center;
   padding: 8px 20px;
-
-  // &:hover {
-  //   color: white;
-  //   background: #494b4e;
-  // }
 
   svg {
     color: var(--color-icon);
