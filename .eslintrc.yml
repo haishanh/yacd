@@ -20,6 +20,8 @@ extends:
 
 settings:
   import/resolver: webpack
+  react:
+    version: "16.7.0-alpha.2"
 
 # globals:
   # Promise: true
