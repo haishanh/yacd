@@ -53,19 +53,17 @@ const cssExtractPlugin = new MiniCssExtractPlugin({
 const LOCAL_IDENT_NAME_DEV = '[path]---[name]---[local]---[hash:base64:5]';
 const LOCAL_IDENT_NAME_PROD = '[hash:base64:10]';
 const localIdentName = isDev ? LOCAL_IDENT_NAME_DEV : LOCAL_IDENT_NAME_PROD;
-const getCssLoaderOptions = (opt = {}) => ({
-  minimize: true,
-  localIdentName,
-  ...opt
-});
 
 const cssnano = require('cssnano');
 const loaders = {
   style: { loader: 'style-loader' },
-  css: { loader: 'css-loader', options: getCssLoaderOptions() },
+  css: { loader: 'css-loader' },
   cssModule: {
     loader: 'css-loader',
-    options: getCssLoaderOptions({ modules: true })
+    options: {
+      modules: true,
+      localIdentName
+    }
   },
   postcss: {
     loader: 'postcss-loader',
