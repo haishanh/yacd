@@ -41,7 +41,7 @@ function SideBar() {
         href="https://github.com/haishanh/yacd"
         className={s.logoLink}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         <div className={s.logo}>
           <Icon id={yacd.id} width={80} height={80} />
