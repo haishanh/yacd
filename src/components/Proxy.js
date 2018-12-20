@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useComponentState } from 'm/store';
+import { useStoreState } from 'm/store';
 
 import Icon from 'c/Icon';
 import ProxyLatency from 'c/ProxyLatency';
@@ -41,7 +41,7 @@ const mapStateToProps = s => {
 };
 
 function Proxy({ now, name }) {
-  const { proxies, delay } = useComponentState(mapStateToProps);
+  const { proxies, delay } = useStoreState(mapStateToProps);
 
   // const { name, proxies, delay, now } = this.props;
   const latency = delay[name];

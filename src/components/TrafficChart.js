@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import prettyBytes from 'm/pretty-bytes';
 import { fetchData } from '../api/traffic';
 import { unstable_createResource as createResource } from 'react-cache';
-import { useComponentState } from 'm/store';
+import { useStoreState } from 'm/store';
 import { getClashAPIConfig, getTheme } from 'd/app';
 
 // const delay = ms => new Promise(r => setTimeout(r, ms));
@@ -139,8 +139,8 @@ const chartWrapperStyle = {
 
 export default function TrafficChart() {
   const Chart = chartJSResource.read();
-  const { hostname, port, secret } = useComponentState(getClashAPIConfig);
-  const theme = useComponentState(getTheme);
+  const { hostname, port, secret } = useStoreState(getClashAPIConfig);
+  const theme = useStoreState(getTheme);
 
   useEffect(
     () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import prettyBytes from 'm/pretty-bytes';
 
-import { useComponentState } from 'm/store';
+import { useStoreState } from 'm/store';
 import { getClashAPIConfig } from 'd/app';
 import { fetchData } from '../api/traffic';
 
@@ -25,7 +25,7 @@ export default function TrafficNow() {
 
 function useSpeed() {
   const [speed, setSpeed] = useState({ upStr: '0 B/s', downStr: '0 B/s' });
-  const { hostname, port, secret } = useComponentState(getClashAPIConfig);
+  const { hostname, port, secret } = useStoreState(getClashAPIConfig);
   useEffect(
     () => {
       return fetchData({

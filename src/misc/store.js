@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import shallowEqual from './shallowEqual';
 
-export const StoreContext = createContext(null);
+const StoreContext = createContext(null);
 
 export function Provider({ store, children }) {
   return (
@@ -28,7 +28,7 @@ export function useActions(actions) {
   return bindActionCreators(a, dispatch);
 }
 
-export function useComponentState(selector) {
+export function useStoreState(selector) {
   const store = useStore();
   const initialMappedState = selector(store.getState());
   const [compState, setCompState] = useState(initialMappedState);

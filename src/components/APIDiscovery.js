@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useActions, useComponentState } from 'm/store';
+import { useActions, useStoreState } from 'm/store';
 
 import Modal from 'c/Modal';
 import APIConfig from 'c/APIConfig';
@@ -19,7 +19,7 @@ const actions = {
 };
 
 export default function APIDiscovery() {
-  const { modals } = useComponentState(mapStateToProps);
+  const { modals } = useStoreState(mapStateToProps);
   const { closeModal, fetchConfigs } = useActions(actions);
   useEffect(() => {
     fetchConfigs();

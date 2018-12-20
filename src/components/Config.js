@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useComponentState, useActions } from 'm/store';
+import { useStoreState, useActions } from 'm/store';
 
 import { getConfigs, fetchConfigs, updateConfigs } from 'd/configs';
 
@@ -57,7 +57,7 @@ const mapStateToProps = s => ({ configs: getConfigs(s) });
 
 export default function ConfigContainer() {
   const { fetchConfigs } = useActions(actions);
-  const { configs } = useComponentState(mapStateToProps);
+  const { configs } = useStoreState(mapStateToProps);
   useEffect(() => {
     fetchConfigs();
   }, []);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useComponentState } from 'm/store';
+import { useStoreState } from 'm/store';
 import { getClashAPIConfig } from 'd/app';
 
 import Icon from 'c/Icon';
@@ -45,7 +45,7 @@ LogLine.propTypes = {
 
 export default function Logs() {
   const [logs, setLogs] = useState([]);
-  const { hostname, port, secret } = useComponentState(getClashAPIConfig);
+  const { hostname, port, secret } = useStoreState(getClashAPIConfig);
 
   useEffect(
     () => {

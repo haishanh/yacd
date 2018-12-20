@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useComponentState, useActions } from 'm/store';
+import { useStoreState, useActions } from 'm/store';
 
 import Input from 'c/Input';
 import Button from 'c/Button';
@@ -13,7 +13,7 @@ const mapStateToProps = s => ({
 });
 
 function APIConfig2() {
-  const { apiConfig } = useComponentState(mapStateToProps);
+  const { apiConfig } = useStoreState(mapStateToProps);
   const [hostname, setHostname] = useState(apiConfig.hostname);
   const [port, setPort] = useState(apiConfig.port);
   const [secret, setSecret] = useState(apiConfig.secret);

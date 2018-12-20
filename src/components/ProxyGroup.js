@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useActions, useComponentState } from 'm/store';
+import { useActions, useStoreState } from 'm/store';
 
 import Proxy from 'c/Proxy';
 
@@ -15,7 +15,7 @@ const mapStateToProps = s => ({
 // should move this to sth like constants.js
 // const userProxyTypes = ['Shadowsocks', 'Vmess', 'Socks5'];
 export default function ProxyGroup2({ name }) {
-  const { proxies } = useComponentState(mapStateToProps);
+  const { proxies } = useStoreState(mapStateToProps);
   const actions = useActions({ switchProxy });
   const group = proxies[name];
   const { all, now } = group;

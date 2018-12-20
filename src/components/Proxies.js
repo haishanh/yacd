@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useActions, useComponentState } from 'm/store';
+import { useActions, useStoreState } from 'm/store';
 
 import ContentHeader from 'c/ContentHeader';
 import ProxyGroup from 'c/ProxyGroup';
@@ -29,7 +29,7 @@ export default function Proxies() {
   useEffect(() => {
     fetchProxies();
   }, []);
-  const { groupNames } = useComponentState(mapStateToProps);
+  const { groupNames } = useStoreState(mapStateToProps);
 
   return (
     <div>
