@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getSentry } from '../misc/sentry';
+import ErrorBoundaryFallback from 'c/ErrorBoundaryFallback';
 
 // XXX this is no Hook equivalents for componentDidCatch
 // we have to use class for now
@@ -42,9 +43,9 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.error) {
       //render fallback UI
-      return <a onClick={this.showReportDialog}>Report feedback</a>;
+      // return <a onClick={this.showReportDialog}>Report feedback</a>;
+      return <ErrorBoundaryFallback />;
     } else {
-      //when there's not an error, render children untouched
       return this.props.children;
     }
   }
