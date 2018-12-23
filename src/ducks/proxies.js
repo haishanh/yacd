@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect';
 import * as proxiesAPI from 'a/proxies';
 import { getClashAPIConfig } from 'd/app';
 
@@ -11,18 +10,6 @@ const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector'];
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
 export const getProxyGroupNames = s => s.proxies.groupNames;
-export const getUserProxies = createSelector(
-  getProxies,
-  proxies => {
-    let o = {};
-    for (const prop in proxies) {
-      if (ProxyTypeBuiltin.indexOf(prop) < 0) {
-        o[prop] = proxies[prop];
-      }
-    }
-    return o;
-  }
-);
 
 const CompletedFetchProxies = 'proxies/CompletedFetchProxies';
 const OptimisticSwitchProxy = 'proxies/OptimisticSwitchProxy';

@@ -6,10 +6,10 @@ import Proxy from 'c/Proxy';
 
 import s0 from './ProxyGroup.module.scss';
 
-import { getUserProxies, switchProxy } from 'd/proxies';
+import { getProxies, switchProxy } from 'd/proxies';
 
 const mapStateToProps = s => ({
-  proxies: getUserProxies(s)
+  proxies: getProxies(s)
 });
 
 // should move this to sth like constants.js

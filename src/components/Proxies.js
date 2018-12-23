@@ -8,14 +8,14 @@ import Button from 'c/Button';
 import s0 from 'c/Proxies.module.scss';
 
 import {
-  getUserProxies,
+  getProxies,
   getProxyGroupNames,
   fetchProxies,
   requestDelayAll
 } from 'd/proxies';
 
 const mapStateToProps = s => ({
-  proxies: getUserProxies(s),
+  proxies: getProxies(s),
   groupNames: getProxyGroupNames(s)
 });
 

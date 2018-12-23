@@ -13,7 +13,7 @@ import fallback from 's/fallback.svg';
 
 import s0 from './Proxy.module.scss';
 
-import { getDelay, getUserProxies } from 'd/proxies';
+import { getDelay, getProxies } from 'd/proxies';
 
 const colors = {
   Vmess: '#ca3487',
@@ -31,11 +31,9 @@ const icons = {
   Fallback: fallback.id
 };
 
-// typeof Proxy = 'Shadowsocks' | 'Vmess' | 'Socks5';
-
 const mapStateToProps = s => {
   return {
-    proxies: getUserProxies(s),
+    proxies: getProxies(s),
     delay: getDelay(s)
   };
 };
