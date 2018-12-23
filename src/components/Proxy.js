@@ -10,6 +10,8 @@ import ss from 's/ss.svg';
 import vmess from 's/vmess.svg';
 import auto from 's/auto.svg';
 import fallback from 's/fallback.svg';
+import direct from 's/direct.svg';
+import http from 's/http.svg';
 
 import s0 from './Proxy.module.scss';
 
@@ -20,7 +22,9 @@ const colors = {
   Shadowsocks: '#1a7dc0',
   Socks5: '#2a477a',
   URLTest: '#3483e8',
-  Fallback: '#3483e8'
+  Fallback: '#3483e8',
+  Direct: '#408b43',
+  Http: '#d3782d'
 };
 
 const icons = {
@@ -28,7 +32,9 @@ const icons = {
   Shadowsocks: ss.id,
   Socks5: globe.id,
   URLTest: auto.id,
-  Fallback: fallback.id
+  Fallback: fallback.id,
+  Direct: direct.id,
+  Http: http.id
 };
 
 const mapStateToProps = s => {
@@ -40,8 +46,6 @@ const mapStateToProps = s => {
 
 function Proxy({ now, name }) {
   const { proxies, delay } = useStoreState(mapStateToProps);
-
-  // const { name, proxies, delay, now } = this.props;
   const latency = delay[name];
   const proxy = proxies[name];
   const color = now ? colors[proxy.type] : '#555';
