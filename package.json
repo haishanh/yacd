@@ -33,6 +33,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.3",
     "@babel/runtime": "^7.1.5",
+    "@sentry/browser": "^4.4.2",
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
     "history": "^4.7.2",
