@@ -1,7 +1,5 @@
 'use strict';
 
-// "react-hot-loader/babel"
-
 const presets = [
   [
     '@babel/preset-env',
@@ -17,6 +15,7 @@ const presets = [
 ];
 
 const plugins = [
+  'react-hot-loader/babel',
   [
     '@babel/plugin-transform-runtime',
     {

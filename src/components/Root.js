@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'm/store';
 import { HashRouter as Router, Route } from 'react-router-dom';
-// import { hot } from 'react-hot-loader';
+import { hot } from 'react-hot-loader/root';
 // import createHistory from 'history/createHashHistory';
 // import createHistory from 'history/createBrowserHistory';
 import ErrorBoundary from 'c/ErrorBoundary';
@@ -45,11 +45,4 @@ const Root = () => (
 // <Route exact path="/__0" component={StyleGuide} />
 // <Route exact path="/__1" component={Loading} />
 
-// hot export Root
-// https://github.com/gaearon/react-hot-loader/tree/v4.0.1#getting-started
-
-// RHL doesn't compatible with React Hook yet, see:
-//   https://github.com/gaearon/react-hot-loader/issues/1088
-// after it's working, uncommment below line and remove "//" in the babelrc
-// export default hot(module)(Root);
-export default Root;
+export default hot(Root);
