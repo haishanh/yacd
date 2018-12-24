@@ -99,7 +99,7 @@ function Config({ configs }) {
         updateConfigs({ [name]: value });
         break;
       case 'redir-port':
-      case 'socket-port':
+      case 'socks-port':
       case 'port':
         if (target.value !== '') {
           const num = parseInt(target.value, 10);
@@ -117,7 +117,7 @@ function Config({ configs }) {
     const { name, value } = target;
     switch (name) {
       case 'port':
-      case 'socket-port':
+      case 'socks-port':
       case 'redir-port': {
         const num = parseInt(value, 10);
         if (num < 0 || num > 65535) return;
@@ -144,8 +144,8 @@ function Config({ configs }) {
         <div>
           <div className={s0.label}>SOCKS5 Proxy Port</div>
           <Input
-            name="socket-port"
-            value={configState['socket-port']}
+            name="socks-port"
+            value={configState['socks-port']}
             onChange={handleInputOnChange}
             onBlur={handleInputOnBlur}
           />
