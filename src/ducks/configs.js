@@ -99,7 +99,7 @@ export function updateConfigs(partialConfg) {
 
 const initialState = {
   port: 7890,
-  'socket-port': 7891,
+  'socks-port': 7891,
   'redir-port': 0,
   'allow-lan': false,
   mode: 'Rule',
