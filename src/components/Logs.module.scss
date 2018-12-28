@@ -71,10 +71,14 @@ $heightHeader: 76px;
   align-items: center;
   justify-content: center;
   color: #2d2d30;
-  opacity: 0.3;
 
   div:nth-child(2) {
-    color: #ddd;
+    color: var(--color-text-secondary);
     font-size: 1.4em;
+    opacity: 0.6;
   }
+}
+
+.logPlaceholderIcon {
+  opacity: 0.3;
 }

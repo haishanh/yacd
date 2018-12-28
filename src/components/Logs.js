@@ -61,7 +61,7 @@ export default function Logs() {
       <ContentHeader title="Logs" />
       {logs.length === 0 ? (
         <div className={s0.logPlaceholder}>
-          <div>
+          <div className={s0.logPlaceholderIcon}>
             <Icon id={yacd.id} width={200} height={200} />
           </div>
           <div>No logs yet, hang tight...</div>

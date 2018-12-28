@@ -66,6 +66,10 @@
 
 .label {
   padding-left: 14px;
+  @media (max-width: 768px) {
+    padding-left: 0;
+    padding-top: 5px;
+  }
 }
 
 .themeSwitchContainer {
