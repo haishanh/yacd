@@ -12,6 +12,9 @@
   align-items: center;
   justify-content: center;
   padding: 25px 0 15px;
+  @media (max-width: 768px) {
+    padding: 0;
+  }
   color: #2a477a;
   transition: color 0.3s ease-in-out;
 
@@ -25,8 +28,15 @@
   }
 }
 
+.rows {
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    overflow: scroll;
+  }
+}
+
 // a router link
-.rowActive,
 .row {
   color: var(--color-text);
   text-decoration: none;
@@ -35,6 +45,11 @@
   align-items: center;
   padding: 8px 20px;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    // display: flex;
+  }
+
   svg {
     color: var(--color-icon);
   }
@@ -42,6 +57,11 @@
 
 .rowActive {
   background: var(--color-sb-active-row-bg);
+
+  @media (max-width: 768px) {
+    background: none;
+    border-bottom: 2px solid #387cec;
+  }
 }
 
 .label {
@@ -50,6 +70,10 @@
 
 .themeSwitchContainer {
   $sz: 50px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 
   position: absolute;
   bottom: 0;

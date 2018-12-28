@@ -5,6 +5,10 @@
   color: var(--color-text);
   min-height: 300px;
   height: 100vh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .content {
