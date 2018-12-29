@@ -12,29 +12,33 @@ import auto from 's/auto.svg';
 import fallback from 's/fallback.svg';
 import direct from 's/direct.svg';
 import http from 's/http.svg';
+import group from 's/group.svg';
 
 import s0 from './Proxy.module.scss';
 
 import { getDelay, getProxies } from 'd/proxies';
 
 const colors = {
+  Direct: '#408b43',
+  Fallback: '#3483e8',
+  Selector: '#387cec',
   Vmess: '#ca3487',
   Shadowsocks: '#1a7dc0',
   Socks5: '#2a477a',
   URLTest: '#3483e8',
-  Fallback: '#3483e8',
-  Direct: '#408b43',
   Http: '#d3782d'
 };
 
 const icons = {
-  Vmess: vmess.id,
+  Direct: direct.id,
+  Fallback: fallback.id,
+  // TOOD Reject
+  Selector: group.id,
   Shadowsocks: ss.id,
   Socks5: globe.id,
+  Http: http.id,
   URLTest: auto.id,
-  Fallback: fallback.id,
-  Direct: direct.id,
-  Http: http.id
+  Vmess: vmess.id
 };
 
 const mapStateToProps = s => {

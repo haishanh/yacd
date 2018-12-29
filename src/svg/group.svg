@@ -1,0 +1,8 @@
+<svg width="326" height="326" viewBox="0 0 326 326" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="8">
+    <circle stroke="currentColor" fill="currentColor" cx="108.5" cy="108.5" r="36.5"/>
+    <circle cx="219.5" cy="108.5" r="36.5"/>
+    <circle cx="108.5" cy="219.5" r="36.5"/>
+    <circle cx="219.5" cy="219.5" r="36.5"/>
+  </g>
+</svg>
