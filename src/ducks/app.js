@@ -60,11 +60,30 @@ const defaultState = {
   theme: 'dark'
 };
 
+function parseConfigQueryString() {
+  const { search } = location;
+  const collector = {};
+  if (typeof search !== 'string' || search === '') return collector;
+  const qs = search.replace(/^\?/, '').split('&');
+  for (let i = 0; i < qs.length; i++) {
+    const [k, v] = qs[i].split('=');
+    collector[k] = encodeURIComponent(v);
+  }
+  return collector;
+}
+
 function getInitialState() {
   let s = loadState(StorageKey);
   if (!s) s = defaultState;
   // TODO flat clashAPIConfig?
 
+  const configQuery = parseConfigQueryString();
+  if (configQuery.port) {
+    s.clashAPIConfig.port = configQuery.port;
+  }
+  if (configQuery.secret) {
+    s.clashAPIConfig.secret = configQuery.secret;
+  }
   // set initial theme
   setTheme(s.theme);
   return s;
