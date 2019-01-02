@@ -13,6 +13,17 @@
   }
 }
 
+.proxyNotSelectable {
+  // cursor: not-allowed;
+  cursor: auto;
+  &:hover {
+    svg {
+      transform: initial;
+      color: currentcolor;
+    }
+  }
+}
+
 .left {
   display: flex;
   align-items: center;

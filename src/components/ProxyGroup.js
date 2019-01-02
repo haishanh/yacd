@@ -42,13 +42,21 @@ export default function ProxyGroup2({ name }) {
       </div>
       <div className={s0.list}>
         {list.map(proxyName => {
+          const isSelectable = group.type === 'Selector';
           return (
             <div
               className={s0.proxy}
               key={proxyName}
-              onClick={() => actions.switchProxy(name, proxyName)}
+              onClick={() => {
+                if (!isSelectable) return;
+                actions.switchProxy(name, proxyName);
+              }}
             >
-              <Proxy name={proxyName} now={proxyName === group.now} />
+              <Proxy
+                isSelectable={isSelectable}
+                name={proxyName}
+                now={proxyName === group.now}
+              />
             </div>
           );
         })}

@@ -35,9 +35,9 @@ export function fetchProxies() {
     // TODO handle errors
 
     const state = getState();
-    const proxiesCurr = getProxies(state);
     // TODO this is too aggressive...
-    if (Object.keys(proxiesCurr).length > 0) return;
+    // const proxiesCurr = getProxies(state);
+    // if (Object.keys(proxiesCurr).length > 0) return;
 
     const apiConfig = getClashAPIConfig(state);
     // TODO show loading animation?
@@ -50,7 +50,6 @@ export function fetchProxies() {
       type: CompletedFetchProxies,
       payload: { proxies, groupNames }
     });
-    dispatch(requestDelayAll());
   };
 }
 
@@ -117,8 +116,6 @@ function requestDelayForProxyOnce(name) {
 
 export function requestDelayForProxy(name) {
   return async dispatch => {
-    await dispatch(requestDelayForProxyOnce(name));
-    await dispatch(requestDelayForProxyOnce(name));
     await dispatch(requestDelayForProxyOnce(name));
   };
 }

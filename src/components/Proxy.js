@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { useStoreState } from 'm/store';
 
 import Icon from 'c/Icon';
@@ -48,15 +49,18 @@ const mapStateToProps = s => {
   };
 };
 
-function Proxy({ now, name }) {
+function Proxy({ now, name, isSelectable }) {
   const { proxies, delay } = useStoreState(mapStateToProps);
   const latency = delay[name];
   const proxy = proxies[name];
   const color = now ? colors[proxy.type] : '#555';
   const iconId = icons[proxy.type];
+  const proxyClassName = cx(s0.proxy, {
+    [s0.proxyNotSelectable]: !isSelectable
+  });
 
   return (
-    <div className={s0.proxy}>
+    <div className={proxyClassName}>
       <div className={s0.left} style={{ color }}>
         <Icon id={iconId} width={80} height={80} />
       </div>
@@ -69,9 +73,8 @@ function Proxy({ now, name }) {
 }
 Proxy.propTypes = {
   now: PropTypes.bool,
-  delay: PropTypes.object,
-  proxies: PropTypes.object,
-  name: PropTypes.string
+  name: PropTypes.string,
+  isSelectable: PropTypes.bool
 };
 
 export default Proxy;
