@@ -2,7 +2,7 @@
   <img src="https://user-images.githubusercontent.com/1166872/47954055-97e6cb80-dfc0-11e8-991f-230fd40481e5.png" alt="yacd">
 </h1>
 
-> Yet Another [Clash](https://github.com/Dreamacro/clash) Dashboard
+> Yet Another [Clash](https://github.com/Dreamacro/clash) [Dashboard](https://github.com/Dreamacro/clash-dashboard)
 
 The site [http://yacd.haishan.me](http://yacd.haishan.me) is served with HTTP not HTTPS is because many browsers blocking request to HTTP resources from a HTTPS website. If you think it's not safe or not comfort with this, you can actually download the [zip of the gh-pages](https://github.com/haishanh/yacd/archive/gh-pages.zip), unzip and open `index.html` directly.
 
