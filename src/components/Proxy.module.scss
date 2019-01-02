@@ -1,27 +1,5 @@
 .proxy {
   display: flex;
-  cursor: pointer;
-
-  svg {
-    transition: transform 0.4s ease, color 0.4s ease;
-  }
-  &:hover {
-    svg {
-      transform: scale(1.1);
-      color: #aaa;
-    }
-  }
-}
-
-.proxyNotSelectable {
-  // cursor: not-allowed;
-  cursor: auto;
-  &:hover {
-    svg {
-      transform: initial;
-      color: currentcolor;
-    }
-  }
 }
 
 .left {

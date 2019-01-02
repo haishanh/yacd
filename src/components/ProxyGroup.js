@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { useActions, useStoreState } from 'm/store';
 
 import Proxy from 'c/Proxy';
@@ -43,9 +44,12 @@ export default function ProxyGroup2({ name }) {
       <div className={s0.list}>
         {list.map(proxyName => {
           const isSelectable = group.type === 'Selector';
+          const proxyClassName = cx(s0.proxy, {
+            [s0.proxySelectable]: isSelectable
+          });
           return (
             <div
-              className={s0.proxy}
+              className={proxyClassName}
               key={proxyName}
               onClick={() => {
                 if (!isSelectable) return;
