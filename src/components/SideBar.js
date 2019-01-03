@@ -11,6 +11,7 @@ import activity from 's/activity.svg';
 import settings from 's/settings.svg';
 import globe from 's/globe.svg';
 import file from 's/file.svg';
+import command from 's/command.svg';
 import yacd from 's/yacd.svg';
 import moon from 's/moon.svg';
 
@@ -51,6 +52,7 @@ function SideBar() {
       <div className={s.rows}>
         <SideBarRow to="/" iconId={activity.id} labelText="Overview" />
         <SideBarRow to="/proxies" iconId={globe.id} labelText="Proxies" />
+        <SideBarRow to="/rules" iconId={command.id} labelText="Rules" />
         <SideBarRow to="/configs" iconId={settings.id} labelText="Config" />
         <SideBarRow to="/logs" iconId={file.id} labelText="Logs" />
       </div>

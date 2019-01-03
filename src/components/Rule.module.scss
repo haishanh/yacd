@@ -1,0 +1,38 @@
+.rule {
+  display: flex;
+  align-items: center;
+  padding: 10px 40px;
+}
+
+.left {
+  width: 40px;
+  padding-right: 15px;
+  color: var(--color-text-secondary);
+  opacity: 0.4;
+}
+
+.a {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+
+  opacity: 0.8;
+}
+
+.b {
+  padding: 10px 0;
+  font-family: 'Roboto Mono', Menlo, monospace;
+  font-size: 19px;
+}
+
+.type {
+  width: 110px;
+}
+
+.proxy {
+  // background: #f5bc41;
+  // background: #eee;
+  // color: #eee;
+  // padding: 5px;
+  // border-radius: 5px;
+}

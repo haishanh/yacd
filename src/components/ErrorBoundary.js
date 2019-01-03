@@ -25,15 +25,17 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    this.setState({ error });
-    this.loadSentry().then(Sentry => {
-      Sentry.withScope(scope => {
-        Object.keys(errorInfo).forEach(key => {
-          scope.setExtra(key, errorInfo[key]);
-        });
-        Sentry.captureException(error);
-      });
-    });
+    // eslint-disable-next-line no-console
+    console.log(error, errorInfo);
+    // this.setState({ error });
+    // this.loadSentry().then(Sentry => {
+    //   Sentry.withScope(scope => {
+    //     Object.keys(errorInfo).forEach(key => {
+    //       scope.setExtra(key, errorInfo[key]);
+    //     });
+    //     Sentry.captureException(error);
+    //   });
+    // });
   }
 
   showReportDialog = () => {

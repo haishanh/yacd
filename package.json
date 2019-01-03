@@ -37,6 +37,7 @@
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
     "history": "^4.7.2",
+    "invariant": "^2.2.4",
     "memoize-one": "^5.0.0",
     "modern-normalize": "^0.5.0",
     "prop-types": "^15.5.10",

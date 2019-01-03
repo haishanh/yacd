@@ -9,6 +9,7 @@ import SideBar from 'c/SideBar';
 import Home from 'c/Home';
 import Logs from 'c/Logs';
 import Proxies from 'c/Proxies';
+import Rules from 'c/Rules';
 import Config from 'c/Config';
 
 import APIDiscovery from 'c/APIDiscovery';
@@ -36,6 +37,7 @@ const Root = () => (
             <Route exact path="/configs" render={() => <Config />} />
             <Route exact path="/logs" render={() => <Logs />} />
             <Route exact path="/proxies" render={() => <Proxies />} />
+            <Route exact path="/rules" render={() => <Rules />} />
           </div>
         </div>
       </Router>
