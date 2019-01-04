@@ -1,0 +1,44 @@
+.RuleSearch {
+  // width: 100%;
+  // padding: 0 40px;
+  // height: 40px;
+  padding: 0 40px 5px;
+  // height: 40px;
+}
+
+.RuleSearchContainer {
+  position: relative;
+  height: 40px;
+}
+
+.inputWrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 100%;
+}
+
+.input {
+  -webkit-appearance: none;
+  background-color: var(--color-input-bg);
+  background-image: none;
+  border-radius: 20px;
+  border: 1px solid var(--color-input-border);
+  box-sizing: border-box;
+  color: #c1c1c1;
+  display: inline-block;
+  font-size: inherit;
+  height: 40px;
+  outline: none;
+  padding: 0 15px 0 35px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+}
+
+.iconWrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}

@@ -21,7 +21,7 @@ class ErrorBoundary extends Component {
   };
 
   componentDidMount() {
-    this.loadSentry();
+    // this.loadSentry();
   }
 
   componentDidCatch(error, errorInfo) {

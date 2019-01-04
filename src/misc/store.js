@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useMemo
+} from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import shallowEqual from './shallowEqual';
@@ -22,10 +28,14 @@ export function useStore() {
   return useContext(StoreContext);
 }
 
-export function useActions(actions) {
-  const { dispatch } = useStore();
+function bindActions(actions, dispatch) {
   const a = typeof actions === 'function' ? actions() : actions;
   return bindActionCreators(a, dispatch);
+}
+
+export function useActions(actions) {
+  const { dispatch } = useStore();
+  return useMemo(() => bindActions(actions, dispatch), [actions]);
 }
 
 export function useStoreState(selector) {
