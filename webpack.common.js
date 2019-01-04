@@ -56,7 +56,14 @@ const localIdentName = isDev ? LOCAL_IDENT_NAME_DEV : LOCAL_IDENT_NAME_PROD;
 
 const cssnano = require('cssnano');
 const loaders = {
-  style: { loader: 'style-loader' },
+  style: {
+    loader: 'style-loader',
+    options: {
+      // workaround css modules HMR issue
+      // see https://github.com/webpack-contrib/style-loader/issues/320
+      hmr: false
+    }
+  },
   css: { loader: 'css-loader' },
   cssModule: {
     loader: 'css-loader',

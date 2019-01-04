@@ -13,23 +13,12 @@ const hotMiddleware = require('webpack-hot-middleware');
 const { PORT } = process.env;
 const port = PORT ? Number(PORT) : 3000;
 
-config.entry.app.unshift(
-  // activate HMR for React
-  // 'react-hot-loader/patch',
-
-  'webpack-hot-middleware/client'
-  // // bundle the client for webpack-dev-server
-  // // and connect to the provided endpoint
-  // 'webpack-dev-server/client?http://0.0.0.0:' + port,
-  // // bundle the client for hot reloading
-  // // only- means to only hot reload for successful updates
-  // 'webpack/hot/only-dev-server'
-);
+config.entry.app.unshift('webpack-hot-middleware/client');
 config.plugins.push(
-  // enable HMR globally
   new webpack.HotModuleReplacementPlugin(),
   // prints more readable module names in the browser console on HMR updates
-  new webpack.NamedModulesPlugin()
+  new webpack.NamedModulesPlugin(),
+  new webpack.NoEmitOnErrorsPlugin()
 );
 
 const compiler = webpack(config);
@@ -37,25 +26,14 @@ const compiler = webpack(config);
 const publicPath = config.output.publicPath;
 const stats = {
   colors: true,
+  version: false,
+  modulesSort: 'issuer',
+  assets: false,
   cached: false,
   cachedAssets: false,
   chunks: false,
   chunkModules: false
 };
-
-// webpack-dev-server options
-// const options = {
-//   hotOnly: true,
-//   host: '0.0.0.0',
-//   contentBase: path.join(__dirname, 'public'),
-//   publicPath,
-//   stats,
-//   overlay: {
-//     warnings: true,
-//     errors: true
-//   },
-//   historyApiFallback: true
-// };
 
 const options = { publicPath, stats };
 
