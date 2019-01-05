@@ -14,7 +14,7 @@ import ContentHeader from 'c/ContentHeader';
 import Rule from 'c/Rule';
 import RuleSearch from 'c/RuleSearch';
 
-import { getRules, fetchRulesOnce } from 'd/rules';
+import { getRules, fetchRules, fetchRulesOnce } from 'd/rules';
 
 import s0 from './Rules.module.scss';
 const paddingBottom = 30;
@@ -24,6 +24,7 @@ const mapStateToProps = s => ({
 });
 
 const actions = {
+  fetchRules,
   fetchRulesOnce
 };
 
@@ -42,7 +43,7 @@ const Row = memo(({ index, style, data }) => {
 }, areEqual);
 
 export default function Rules() {
-  const { fetchRulesOnce } = useActions(actions);
+  const { fetchRulesOnce, fetchRules } = useActions(actions);
   const { rules } = useStoreState(mapStateToProps);
   const refRulesContainer = useRef(null);
   const [containerHeight, setContainerHeight] = useState(200);
@@ -80,7 +81,7 @@ export default function Rules() {
         </List>
       </div>
       <div className={s0.fabgrp}>
-        <Button label="Refresh" onClick={() => {}} />
+        <Button label="Refresh" onClick={fetchRules} />
       </div>
     </div>
   );
