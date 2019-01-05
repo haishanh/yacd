@@ -39,7 +39,7 @@ export default function Proxies() {
     <div>
       <ContentHeader title="Proxies" />
       <div>
-        <div className={s0.btnGroup}>
+        <div className={s0.fabgrp}>
           <Button label="Test Latency" onClick={requestDelayAll} />
         </div>
         {groupNames.map(groupName => {

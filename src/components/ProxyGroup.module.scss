@@ -1,5 +1,7 @@
 .header {
-  h2 {
+  > h2 {
+    margin-top: 0;
+
     span:nth-child(2) {
       font-size: 12px;
       color: #777;
