@@ -7,7 +7,10 @@ import { getClashAPIConfig, getTheme } from 'd/app';
 
 // const delay = ms => new Promise(r => setTimeout(r, ms));
 const chartJSResource = createResource(() => {
-  return import('chart.js/dist/Chart.min.js').then(c => c.default);
+  return import(/* webpackChunkName: "chartjs" */
+  /* webpackPrefetch: true */
+  /* webpackPreload: true */
+  'chart.js/dist/Chart.min.js').then(c => c.default);
 });
 
 const colorCombo = {
