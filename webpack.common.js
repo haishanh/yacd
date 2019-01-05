@@ -172,7 +172,8 @@ module.exports.rules = rules;
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
   analyzerMode: 'static',
-  reportFilename: 'report.html'
+  reportFilename: 'report.html',
+  openAnalyzer: false
 });
 
 // prints more readable module names in the browser console on HMR updates

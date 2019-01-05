@@ -4,6 +4,8 @@ const path = require('path');
 const webpack = require('webpack');
 const { rules, plugins } = require('./webpack.common');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
 const isDev = process.env.NODE_ENV !== 'production';
 
 const resolveDir = dir => path.resolve(__dirname, dir);
@@ -63,6 +65,17 @@ const definePlugin = new webpack.DefinePlugin({
 
 plugins.push(html);
 plugins.push(definePlugin);
+plugins.push(new CopyPlugin([{ from: 'assets/*', flatten: true }]));
+
+if (!isDev) {
+  plugins.push(
+    new CleanPlugin(['**/*'], {
+      root: path.join(__dirname, 'public'),
+      verbose: false,
+      beforeEmit: true
+    })
+  );
+}
 
 let devtool;
 if (isDev) {

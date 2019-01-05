@@ -7,10 +7,7 @@
     "lint": "eslint src",
     "dll": "webpack --config webpack.dll.config.js",
     "start": "NODE_ENV=development node server.js",
-    "clean": "rm -rf public && mkdir public",
-    "build:webpack": "NODE_ENV=production webpack --config webpack.config.js --progress --colors",
-    "build:assets": "cp -r assets/* public/",
-    "build": "npm-run-all clean build:webpack build:assets",
+    "build": "NODE_ENV=production webpack -p --progress",
     "pretty": "prettier --single-quote --write 'src/**/*.{js,scss}'"
   },
   "husky": {
@@ -19,14 +16,9 @@
     }
   },
   "lint-staged": {
-    "*.{js,scss}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.{js,scss}": ["prettier --single-quote --write", "git add"]
   },
-  "keywords": [
-    "react"
-  ],
+  "keywords": ["react"],
   "author": "Haishan <haishanhan@gmail.com> (https://haishan.me)",
   "private": true,
   "license": "UNLICENSED",
@@ -69,6 +61,8 @@
     "autoprefixer": "^9.4.3",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^2.0.1",
     "cssnano": "^4.1.7",
     "eslint": "^5.7.0",
@@ -83,7 +77,6 @@
     "lint-staged": "^8.0.2",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.10.0",
-    "npm-run-all": "^4.1.5",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.15.1",
     "react-hot-loader": "^4.6.3",
