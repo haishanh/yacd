@@ -40,10 +40,9 @@ $heightHeader: 76px;
 
 //////////
 
-.logUl {
+.logsWrapper {
   margin: 0;
   padding: 0;
-  list-style: none;
   color: var(--color-text);
 
   :global {
@@ -56,13 +55,11 @@ $heightHeader: 76px;
   }
 }
 
-/////////
-
-.logs {
+.log {
   padding: 10px 40px;
-  height: calc(100vh - #{$heightHeader});
-  overflow: scroll;
 }
+
+/////////
 
 .logPlaceholder {
   height: calc(100vh - #{$heightHeader});
