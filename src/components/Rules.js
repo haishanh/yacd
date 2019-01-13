@@ -13,6 +13,7 @@ import { FixedSizeList as List, areEqual } from 'react-window';
 import ContentHeader from 'c/ContentHeader';
 import Rule from 'c/Rule';
 import RuleSearch from 'c/RuleSearch';
+import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 
 import { getRules, fetchRules, fetchRulesOnce } from 'd/rules';
 
@@ -45,24 +46,10 @@ const Row = memo(({ index, style, data }) => {
 export default function Rules() {
   const { fetchRulesOnce, fetchRules } = useActions(actions);
   const { rules } = useStoreState(mapStateToProps);
-  const refRulesContainer = useRef(null);
-  const [containerHeight, setContainerHeight] = useState(200);
-  function _updateContainerHeight() {
-    const { top } = refRulesContainer.current.getBoundingClientRect();
-    setContainerHeight(window.innerHeight - top - paddingBottom);
-  }
-  const updateContainerHeight = useCallback(_updateContainerHeight, []);
-
   useEffect(() => {
     fetchRulesOnce();
   }, []);
-  useLayoutEffect(() => {
-    updateContainerHeight();
-    window.addEventListener('resize', updateContainerHeight);
-    return () => {
-      window.removeEventListener('resize', updateContainerHeight);
-    };
-  }, []);
+  const [refRulesContainer, containerHeight] = useRemainingViewPortHeight();
 
   return (
     <div>
@@ -70,7 +57,7 @@ export default function Rules() {
       <RuleSearch />
       <div ref={refRulesContainer} style={{ paddingBottom }}>
         <List
-          height={containerHeight}
+          height={containerHeight - paddingBottom}
           width="100%"
           itemCount={rules.length}
           itemSize={80}
