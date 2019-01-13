@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useStoreState, useActions } from 'm/store';
@@ -41,6 +41,13 @@ function LogLine({ time, even, payload, type }) {
   );
 }
 
+LogLine.propTypes = {
+  time: PropTypes.string,
+  even: PropTypes.bool,
+  payload: PropTypes.string,
+  type: PropTypes.string
+};
+
 function itemKey(index, data) {
   const item = data[index];
   return item.id;
@@ -64,7 +71,7 @@ export default function Logs() {
 
   useEffect(
     () => {
-      const x = fetchLogs({ hostname, port, secret }, appendLog);
+      fetchLogs({ hostname, port, secret }, appendLog);
     },
     [hostname, port, secret]
   );
