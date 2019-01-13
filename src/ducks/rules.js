@@ -1,7 +1,6 @@
 import * as rulesAPI from 'a/rules';
 import { getClashAPIConfig } from 'd/app';
 import invariant from 'invariant';
-// import { debounce } from 'lodash-es';
 import { createSelector } from 'reselect';
 
 export const getAllRules = s => s.rules.allRules;

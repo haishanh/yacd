@@ -7,10 +7,12 @@ const LogSize = 300;
 
 const getLogs = s => s.logs.logs;
 const getTail = s => s.logs.tail;
+export const getSearchText = s => s.logs.searchText;
 export const getLogsForDisplay = createSelector(
   getLogs,
   getTail,
-  (logs, tail) => {
+  getSearchText,
+  (logs, tail, searchText) => {
     const x = [];
     for (let i = tail; i >= 0; i--) {
       x.push(logs[i]);
@@ -20,7 +22,9 @@ export const getLogsForDisplay = createSelector(
         x.push(logs[i]);
       }
     }
-    return x;
+
+    if (searchText === '') return x;
+    return x.filter(r => r.payload.toLowerCase().indexOf(searchText) >= 0);
   }
 );
 

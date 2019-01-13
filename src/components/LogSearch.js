@@ -1,5 +1,5 @@
 import Search from './Search';
-import { getSearchText, updateSearchText } from 'd/rules';
+import { getSearchText, updateSearchText } from 'd/logs';
 
 const mapStateToProps = s => ({ searchText: getSearchText(s) });
 const actions = { updateSearchText };

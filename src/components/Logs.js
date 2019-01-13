@@ -10,6 +10,7 @@ import ContentHeader from 'c/ContentHeader';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 // TODO move this into a redux action
 import { fetchLogs } from '../api/logs';
+import LogSearch from './LogSearch';
 import { getLogsForDisplay, appendLog } from 'd/logs';
 
 import yacd from 's/yacd.svg';
@@ -72,6 +73,7 @@ export default function Logs() {
   return (
     <div>
       <ContentHeader title="Logs" />
+      <LogSearch />
       <div ref={refLogsContainer} style={{ paddingBottom }}>
         {logs.length === 0 ? (
           <div
