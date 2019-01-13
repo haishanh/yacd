@@ -74,7 +74,10 @@ export default function Logs() {
       <ContentHeader title="Logs" />
       <div ref={refLogsContainer} style={{ paddingBottom }}>
         {logs.length === 0 ? (
-          <div className={s0.logPlaceholder}>
+          <div
+            className={s0.logPlaceholder}
+            style={{ height: containerHeight - paddingBottom }}
+          >
             <div className={s0.logPlaceholderIcon}>
               <Icon id={yacd.id} width={200} height={200} />
             </div>

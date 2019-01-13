@@ -62,7 +62,6 @@ $heightHeader: 76px;
 /////////
 
 .logPlaceholder {
-  height: calc(100vh - #{$heightHeader});
   display: flex;
   flex-direction: column;
   align-items: center;
