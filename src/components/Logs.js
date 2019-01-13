@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useStoreState } from 'm/store';
+import { useStoreState, useActions } from 'm/store';
 import { getClashAPIConfig } from 'd/app';
 
 import Icon from 'c/Icon';
 import ContentHeader from 'c/ContentHeader';
 // TODO move this into a redux action
 import { fetchLogs } from '../api/logs';
+import { getLogsForDisplay, appendLog } from 'd/logs';
 
 import yacd from 's/yacd.svg';
 
@@ -43,15 +44,16 @@ LogLine.propTypes = {
   payload: PropTypes.string.isRequired
 };
 
+const actions = { appendLog };
+
 export default function Logs() {
-  const [logs, setLogs] = useState([]);
   const { hostname, port, secret } = useStoreState(getClashAPIConfig);
+  const { appendLog } = useActions(actions);
+  const logs = useStoreState(getLogsForDisplay);
 
   useEffect(
     () => {
-      const x = fetchLogs({ hostname, port, secret });
-      setLogs(x.logs);
-      return x.subscribe(() => setLogs(x.logs));
+      const x = fetchLogs({ hostname, port, secret }, appendLog);
     },
     [hostname, port, secret]
   );
