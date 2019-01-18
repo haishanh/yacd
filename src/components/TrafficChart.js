@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import prettyBytes from 'm/pretty-bytes';
 import { fetchData } from '../api/traffic';
-import { unstable_createResource as createResource } from 'react-cache';
+import { unstable_createResource as createResource } from '@hsjs/react-cache';
 import { useStoreState } from 'm/store';
 import { getClashAPIConfig, getTheme } from 'd/app';
 
@@ -145,38 +145,35 @@ export default function TrafficChart() {
   const { hostname, port, secret } = useStoreState(getClashAPIConfig);
   const theme = useStoreState(getTheme);
 
-  useEffect(
-    () => {
-      const ctx = document.getElementById('trafficChart').getContext('2d');
-      const traffic = fetchData({ hostname, port, secret });
-      const upProps = getUploadProps(theme);
-      const downProps = getDownloadProps(theme);
-      const data = {
-        labels: traffic.labels,
-        datasets: [
-          {
-            ...upProps,
-            data: traffic.up
-          },
-          {
-            ...downProps,
-            data: traffic.down
-          }
-        ]
-      };
-      const c = new Chart(ctx, {
-        type: 'line',
-        data,
-        options
-      });
-      const unsubscribe = traffic.subscribe(() => c.update());
-      return () => {
-        unsubscribe();
-        c.destroy();
-      };
-    },
-    [hostname, port, secret, theme]
-  );
+  useEffect(() => {
+    const ctx = document.getElementById('trafficChart').getContext('2d');
+    const traffic = fetchData({ hostname, port, secret });
+    const upProps = getUploadProps(theme);
+    const downProps = getDownloadProps(theme);
+    const data = {
+      labels: traffic.labels,
+      datasets: [
+        {
+          ...upProps,
+          data: traffic.up
+        },
+        {
+          ...downProps,
+          data: traffic.down
+        }
+      ]
+    };
+    const c = new Chart(ctx, {
+      type: 'line',
+      data,
+      options
+    });
+    const unsubscribe = traffic.subscribe(() => c.update());
+    return () => {
+      unsubscribe();
+      c.destroy();
+    };
+  }, [hostname, port, secret, theme]);
 
   return (
     <div style={chartWrapperStyle}>

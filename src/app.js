@@ -7,8 +7,10 @@ import Root from './components/Root';
 
 Modal.setAppElement('#app');
 
+const { unstable_createRoot: createRoot } = ReactDOM;
+
 // use async React
-const root = ReactDOM.createRoot(document.getElementById('app'));
+const root = createRoot(document.getElementById('app'));
 root.render(<Root />);
 
 // const render = (Component, props = {}) => {

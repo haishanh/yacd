@@ -37,8 +37,10 @@ const stats = {
 
 const options = { publicPath, stats };
 
-app.use(devMiddleware(compiler, options));
-app.use(hotMiddleware(compiler));
+const wdm = devMiddleware(compiler, options);
+const whm = hotMiddleware(compiler);
+app.use(wdm);
+app.use(whm);
 
 app.use('*', (req, res, next) => {
   const filename = path.join(compiler.outputPath, 'index.html');
@@ -53,4 +55,11 @@ app.use('*', (req, res, next) => {
 
 app.listen(port, '0.0.0.0', () => {
   console.log('\n>> Listening at http://0.0.0.0:' + port + '\n');
+});
+
+wdm.waitUntilValid(() => {
+  console.log('\n===> Build ready at:\n');
+  console.log(`  http://0.0.0.0:${port}`);
+  console.log(`  http://127.0.0.1:${port}`);
+  console.log(`  http://localhost:${port}`);
 });
