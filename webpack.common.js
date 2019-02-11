@@ -50,7 +50,7 @@ const cssExtractPlugin = new MiniCssExtractPlugin({
   filename: isDev ? '[name].bundle.css' : '[name].[chunkhash].css'
 });
 
-const LOCAL_IDENT_NAME_DEV = '[path]---[name]---[local]---[hash:base64:5]';
+const LOCAL_IDENT_NAME_DEV = '[path]_[name]_[local]_[hash:base64:5]';
 const LOCAL_IDENT_NAME_PROD = '[hash:base64:10]';
 const localIdentName = isDev ? LOCAL_IDENT_NAME_DEV : LOCAL_IDENT_NAME_PROD;
 

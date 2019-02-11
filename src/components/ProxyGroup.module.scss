@@ -19,7 +19,7 @@
 .proxy {
   width: 300px;
   padding: 10px 5px;
-  transition: transform 0.4s ease;
+  transition: transform 0.2s ease-in-out;
   // transition: transform 0.4s ease, color 0.4s ease;
   &.proxySelectable {
     cursor: pointer;
