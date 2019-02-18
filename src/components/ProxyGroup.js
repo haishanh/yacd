@@ -15,23 +15,18 @@ const mapStateToProps = s => ({
 
 // should move this to sth like constants.js
 // const userProxyTypes = ['Shadowsocks', 'Vmess', 'Socks5'];
-export default function ProxyGroup2({ name }) {
+export default function ProxyGroup({ name }) {
   const { proxies } = useStoreState(mapStateToProps);
   const actions = useActions({ switchProxy });
   const group = proxies[name];
   const { all, now } = group;
-  const list = useMemo(
-    () => {
-      if (all) {
-        const a = [now];
-        all.forEach(i => i !== now && a.push(i));
-        return a;
-      } else {
-        return [now];
-      }
-    },
-    [all, now]
-  );
+  const list = useMemo(() => {
+    const a = now ? [now] : [];
+    if (all) {
+      all.forEach(i => i !== now && a.push(i));
+    }
+    return a;
+  }, [all, now]);
 
   return (
     <div className={s0.group}>
@@ -69,6 +64,6 @@ export default function ProxyGroup2({ name }) {
   );
 }
 
-ProxyGroup2.propTypes = {
+ProxyGroup.propTypes = {
   name: PropTypes.string
 };

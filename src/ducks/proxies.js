@@ -5,7 +5,7 @@ import { getClashAPIConfig } from 'd/app';
 // https://github.com/Dreamacro/clash/blob/master/constant/adapters.go
 
 const ProxyTypeBuiltin = ['DIRECT', 'GLOBAL', 'REJECT'];
-const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector'];
+const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector', 'LoadBalance'];
 
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
