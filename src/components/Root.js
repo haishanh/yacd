@@ -2,8 +2,6 @@ import React, { Suspense } from 'react';
 import { Provider } from 'm/store';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader/root';
-// import createHistory from 'history/createHashHistory';
-// import createHistory from 'history/createBrowserHistory';
 import Loading from 'c/Loading';
 import ErrorBoundary from 'c/ErrorBoundary';
 import SideBar from 'c/SideBar';
@@ -43,7 +41,7 @@ const Root = () => (
       <Router>
         <div className={s0.app}>
           <APIDiscovery />
-          <Route path="/" render={() => <SideBar />} />
+          <Route path="/" render={props => <SideBar {...props} />} />
           <div className={s0.content}>
             <Suspense fallback={<Loading height="200px" />} maxDuration={10}>
               <Route exact path="/" render={() => <Home />} />

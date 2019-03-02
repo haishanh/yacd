@@ -1,32 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import cx from 'classnames';
+import { Link } from 'react-router-dom';
 
 import { useActions } from 'm/store';
 import { switchTheme } from 'd/app';
 
 import Icon from 'c/Icon';
 
-import activity from 's/activity.svg';
-import settings from 's/settings.svg';
-import globe from 's/globe.svg';
-import file from 's/file.svg';
-import command from 's/command.svg';
 import yacd from 's/yacd.svg';
 import moon from 's/moon.svg';
 
+import SvgActivity from './SvgActivity';
+import SvgGlobe from './SvgGlobe';
+import SvgCommand from './SvgCommand';
+import SvgSettings from './SvgSettings';
+import SvgFile from './SvgFile';
+
 import s from 'c/SideBar.module.scss';
 
-const SideBarRow = React.memo(function SideBarRow({ iconId, labelText, to }) {
+const icons = {
+  activity: SvgActivity,
+  globe: SvgGlobe,
+  command: SvgCommand,
+  file: SvgFile,
+  settings: SvgSettings
+};
+
+const SideBarRow = React.memo(function SideBarRow({
+  location,
+  iconId,
+  labelText,
+  to
+}) {
+  const Comp = icons[iconId];
+  const isActive = location.pathname === to;
+  const className = cx(s.row, isActive ? s.rowActive : null);
   return (
-    <NavLink exact to={to} className={s.row} activeClassName={s.rowActive}>
-      <Icon id={iconId} width={28} height={28} />
+    <Link to={to} className={className}>
+      <Comp isActive={isActive} />
       <div className={s.label}>{labelText}</div>
-    </NavLink>
+    </Link>
   );
 });
 
 SideBarRow.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  }).isRequired,
   to: PropTypes.string.isRequired,
   iconId: PropTypes.string,
   labelText: PropTypes.string
@@ -34,7 +55,7 @@ SideBarRow.propTypes = {
 
 const actions = { switchTheme };
 
-function SideBar() {
+function SideBar({ location }) {
   const { switchTheme } = useActions(actions);
   return (
     <div className={s.root}>
@@ -50,18 +71,48 @@ function SideBar() {
       </a>
 
       <div className={s.rows}>
-        <SideBarRow to="/" iconId={activity.id} labelText="Overview" />
-        <SideBarRow to="/proxies" iconId={globe.id} labelText="Proxies" />
-        <SideBarRow to="/rules" iconId={command.id} labelText="Rules" />
-        <SideBarRow to="/configs" iconId={settings.id} labelText="Config" />
-        <SideBarRow to="/logs" iconId={file.id} labelText="Logs" />
+        <SideBarRow
+          to="/"
+          location={location}
+          iconId="activity"
+          labelText="Overview"
+        />
+        <SideBarRow
+          to="/proxies"
+          location={location}
+          iconId="globe"
+          labelText="Proxies"
+        />
+        <SideBarRow
+          to="/rules"
+          location={location}
+          iconId="command"
+          labelText="Rules"
+        />
+        <SideBarRow
+          to="/configs"
+          location={location}
+          iconId="settings"
+          labelText="Config"
+        />
+        <SideBarRow
+          to="/logs"
+          location={location}
+          iconId="file"
+          labelText="Logs"
+        />
       </div>
-
       <div className={s.themeSwitchContainer} onClick={switchTheme}>
         <Icon id={moon.id} width={20} height={20} />
       </div>
     </div>
   );
 }
+
+SideBar.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  }).isRequired
+};
 
 export default React.memo(SideBar);
