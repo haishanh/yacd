@@ -5,7 +5,9 @@ const presets = [
     '@babel/preset-env',
     {
       modules: false,
-      useBuiltIns: 'usage',
+      // see also zloirock/core-js https://bit.ly/2JLnrgw
+      useBuiltIns: 'entry',
+      corejs: 3,
       targets: {
         browsers: ['>0.25%', 'not ie 11', 'not op_mini all']
       }
@@ -26,11 +28,7 @@ const plugins = [
     }
   ],
   '@babel/plugin-syntax-dynamic-import',
-  '@babel/plugin-syntax-import-meta',
   '@babel/plugin-proposal-class-properties',
-  '@babel/plugin-proposal-json-strings',
-  '@babel/plugin-proposal-export-namespace-from',
-  '@babel/plugin-proposal-export-default-from',
   '@babel/plugin-proposal-do-expressions'
 ];
 

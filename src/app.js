@@ -1,3 +1,5 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import 'modern-normalize/modern-normalize.css';
 
 import React from 'react';

@@ -25,7 +25,6 @@ const svgSpriteRule = {
 // ---- entry
 
 const entry = {
-  // app: ['whatwg-fetch', '@babel/polyfill', './src/app.js']
   app: ['whatwg-fetch', './src/app.js']
 };
 
@@ -68,13 +67,7 @@ plugins.push(definePlugin);
 plugins.push(new CopyPlugin([{ from: 'assets/*', flatten: true }]));
 
 if (!isDev) {
-  plugins.push(
-    new CleanPlugin(['**/*'], {
-      root: path.join(__dirname, 'public'),
-      verbose: false,
-      beforeEmit: true
-    })
-  );
+  plugins.push(new CleanPlugin());
 }
 
 let devtool;
