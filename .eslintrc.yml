@@ -9,19 +9,16 @@ parser: babel-eslint
 
 plugins:
   - import
-  - react
   - react-hooks
   - jest
 
 extends:
+  - react-app
   - eslint:recommended
   - plugin:import/errors
-  - plugin:react/recommended
 
 settings:
   import/resolver: webpack
-  react:
-    version: "16.7.0-alpha.2"
 
 # globals:
   # Promise: true
@@ -30,7 +27,4 @@ rules:
   quotes: ["error", "single"]
   strict: ["error", "never"]
   no-console: "warn"
-  react/jsx-uses-react: "error"
-  react/jsx-uses-vars: "error"
-  react/react-in-jsx-scope: "error"
   react-hooks/rules-of-hooks: error

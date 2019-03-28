@@ -9,6 +9,13 @@ function ToggleSwitch2({ options, value, name, onChange }) {
   return (
     <div>
       <div className={s0.ToggleSwitch}>
+        <div
+          className={s0.slider}
+          style={{
+            width: w + '%',
+            left: idxRef.current * w + '%'
+          }}
+        />
         {options.map((o, idx) => {
           if (value === o.value) idxRef.current = idx;
           const id = `${name}-${o.label}`;
@@ -27,13 +34,6 @@ function ToggleSwitch2({ options, value, name, onChange }) {
             </label>
           );
         })}
-        <a
-          className={s0.slider}
-          style={{
-            width: w + '%',
-            left: idxRef.current * w + '%'
-          }}
-        />
       </div>
     </div>
   );

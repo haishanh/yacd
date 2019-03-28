@@ -7,7 +7,7 @@ import Switch from 'c/Switch';
 import Button from 'c/Button';
 // import Modal from 'c/Modal';
 // import APIConfig from 'c/APIConfig';
-import Proxy from 'c/Proxy';
+// import Proxy from 'c/Proxy';
 
 const paneStyle = {
   padding: '20px 0'
@@ -37,9 +37,6 @@ class StyleGuide extends PureComponent {
   render() {
     return (
       <div>
-        <Pane>
-          <Proxy />
-        </Pane>
         <Pane>
           <Switch />
         </Pane>
