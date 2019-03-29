@@ -13,8 +13,8 @@ const chartJSResource = createResource(() => {
   'chart.js/dist/Chart.min.js').then(c => c.default);
 });
 
-const colorCombo = {
-  0: {
+const colorCombo = [
+  {
     down: {
       backgroundColor: 'rgba(176, 209, 132, 0.8)',
       borderColor: 'rgb(176, 209, 132)'
@@ -24,17 +24,17 @@ const colorCombo = {
       borderColor: 'rgb(181, 220, 231)'
     }
   },
-  1: {
+  {
     up: {
-      backgroundColor: 'rgba(242, 174, 62, 0.3)',
-      borderColor: 'rgb(242, 174, 62)'
+      backgroundColor: 'rgb(98, 190, 100)',
+      borderColor: 'rgb(78,146,79)'
     },
     down: {
-      backgroundColor: 'rgba(69, 154, 248, 0.3)',
-      borderColor: 'rgb(69, 154, 248)'
+      backgroundColor: 'rgb(160, 230, 66)',
+      borderColor: 'rgb(110, 156, 44)'
     }
   },
-  2: {
+  {
     up: {
       backgroundColor: 'rgba(94, 175, 223, 0.3)',
       borderColor: 'rgb(94, 175, 223)'
@@ -43,17 +43,31 @@ const colorCombo = {
       backgroundColor: 'rgba(139, 227, 195, 0.3)',
       borderColor: 'rgb(139, 227, 195)'
     }
+  },
+  {
+    up: {
+      backgroundColor: 'rgba(242, 174, 62, 0.3)',
+      borderColor: 'rgb(242, 174, 62)'
+    },
+    down: {
+      backgroundColor: 'rgba(69, 154, 248, 0.3)',
+      borderColor: 'rgb(69, 154, 248)'
+    }
   }
-};
+];
 
 const commonDataSetProps = {
   borderWidth: 1,
-  // lineTension: 0,
+  lineTension: 0,
   pointRadius: 0
 };
 
+function getColorComboIndexByTheme(theme) {
+  return theme === 'dark' ? 1 : 2;
+}
+
 function getUploadProps(theme = 'dark') {
-  const i = theme === 'dark' ? '0' : '2';
+  const i = getColorComboIndexByTheme(theme);
   return {
     ...commonDataSetProps,
     ...colorCombo[i].up,
@@ -62,7 +76,7 @@ function getUploadProps(theme = 'dark') {
 }
 
 function getDownloadProps(theme = 'dark') {
-  const i = theme === 'dark' ? '0' : '2';
+  const i = getColorComboIndexByTheme(theme);
   return {
     ...commonDataSetProps,
     ...colorCombo[i].down,
