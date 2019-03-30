@@ -63,7 +63,7 @@ const commonDataSetProps = {
 };
 
 function getColorComboIndexByTheme(theme) {
-  return theme === 'dark' ? 1 : 2;
+  return theme === 'dark' ? 0 : 2;
 }
 
 function getUploadProps(theme = 'dark') {

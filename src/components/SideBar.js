@@ -8,9 +8,9 @@ import { switchTheme } from 'd/app';
 
 import Icon from 'c/Icon';
 
-import yacd from 's/yacd.svg';
 import moon from 's/moon.svg';
 
+import SvgYacd from './SvgYacd';
 import SvgActivity from './SvgActivity';
 import SvgGlobe from './SvgGlobe';
 import SvgCommand from './SvgCommand';
@@ -66,7 +66,7 @@ function SideBar({ location }) {
         rel="noopener noreferrer"
       >
         <div className={s.logo}>
-          <Icon id={yacd.id} width={80} height={80} />
+          <SvgYacd width={80} height={80} />
         </div>
       </a>
 

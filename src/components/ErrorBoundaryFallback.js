@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'c/Icon';
-import yacd from 's/yacd.svg';
+import SvgYacd from './SvgYacd';
 import github from 's/github.svg';
 
 import s0 from './ErrorBoundaryFallback.module.scss';
@@ -10,7 +10,7 @@ function ErrorBoundaryFallback() {
   return (
     <div className={s0.root}>
       <div className={s0.yacd}>
-        <Icon id={yacd.id} width={150} height={150} />
+        <SvgYacd width={150} height={150} />
       </div>
       <h1>Oops, something went wrong!</h1>
       <p>
