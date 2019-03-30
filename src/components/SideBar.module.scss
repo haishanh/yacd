@@ -19,12 +19,21 @@
   transition: color 0.3s ease-in-out;
 
   &:hover {
-    color: #1f52ac;
+    animation: pulse 0.3s ease-in-out 0s infinite alternate;
   }
 
   img {
     width: 80px;
     height: 80px;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    color: #2a477a;
+  }
+  100% {
+    color: #1f52ac;
   }
 }
 
