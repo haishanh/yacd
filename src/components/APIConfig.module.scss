@@ -5,29 +5,41 @@
 }
 
 .header {
-  padding: 10px 0 20px;
-  text-align: center;
-}
-
-.label {
-  padding: 12px 0;
-}
-
-.inputs {
   display: flex;
+  justify-content: center;
   align-items: center;
-  input:nth-child(1) {
-    min-width: 130px;
+
+  .icon {
+    color: #2d2d30;
+    opacity: 0.4;
+    transition: opacity 400ms;
+    &:hover {
+      opacity: 0.7;
+    }
   }
-  input:nth-child(2) {
-    width: 120px;
+}
+
+.body {
+  padding: 30px 0 10px;
+}
+
+.hostnamePort {
+  display: flex;
+
+  div {
+    flex: 1 1 auto;
+  }
+
+  div:nth-child(2) {
+    flex-grow: 0;
+    flex-basis: 120px;
     margin-left: 10px;
   }
 }
 
 .footer {
-  padding: 20px 0 10px;
+  padding: 30px 0 10px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }

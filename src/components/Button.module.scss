@@ -7,6 +7,9 @@
   border-radius: 100px;
   padding: 6px 12px;
   user-select: none;
+  &:focus {
+    border-color: var(--color-focus-blue);
+  }
   &:hover {
     background: #387cec;
     border: 1px solid #387cec;

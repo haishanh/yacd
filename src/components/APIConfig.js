@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useStoreState, useActions } from 'm/store';
 
-import Input from 'c/Input';
+import Field from 'c/Field';
 import Button from 'c/Button';
+import SvgYacd from './SvgYacd';
 
 import s0 from './APIConfig.module.scss';
 
@@ -52,44 +53,44 @@ function APIConfig2() {
   }
 
   return (
-    <div
-      className={s0.root}
-      ref={contentEl}
-      tabIndex="1"
-      onKeyDown={handleContentOnKeyDown}
-    >
-      <div className={s0.header}>Clash External Controller Config</div>
+    <div className={s0.root} ref={contentEl} onKeyDown={handleContentOnKeyDown}>
+      <div className={s0.header}>
+        <div className={s0.icon}>
+          <SvgYacd width={160} height={160} />
+        </div>
+      </div>
       <div className={s0.body}>
-        <div className={s0.group}>
-          <div className={s0.label}>Hostname and Port</div>
-          <div className={s0.inputs}>
-            <Input
-              type="text"
+        <div className={s0.hostnamePort}>
+          <div>
+            <Field
+              id="hostname"
               name="hostname"
-              placeholder="Hostname"
+              label="Hostname"
+              type="text"
               value={hostname}
               onChange={handleInputOnChange}
             />
-            <Input
-              type="number"
+          </div>
+          <div>
+            <Field
+              id="port"
               name="port"
-              placeholder="Port"
+              label="Port"
+              type="number"
               value={port}
               onChange={handleInputOnChange}
             />
           </div>
         </div>
-        <div className={s0.group}>
-          <div className={s0.label}>Authorization Secret (Optional)</div>
-          <div>
-            <Input
-              type="text"
-              name="secret"
-              value={secret}
-              placeholder="Optional"
-              onChange={handleInputOnChange}
-            />
-          </div>
+        <div>
+          <Field
+            id="secret"
+            name="secret"
+            label="Secret(optional)"
+            value={secret}
+            type="text"
+            onChange={handleInputOnChange}
+          />
         </div>
       </div>
       <div className={s0.footer}>
