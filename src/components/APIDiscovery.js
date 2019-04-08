@@ -34,7 +34,9 @@ export default function APIDiscovery() {
       shouldCloseOnEsc={false}
       onRequestClose={() => closeModal('apiConfig')}
     >
-      <APIConfig />
+      <div className={s0.container}>
+        <APIConfig />
+      </div>
     </Modal>
   );
 }

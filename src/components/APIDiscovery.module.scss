@@ -1,12 +1,23 @@
 .content {
   background: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-  @media (max-width: 768px) {
-    width: 90%;
-  }
+  transform: none;
+  padding: 0;
+  border-radius: 0;
+}
 
+.container {
+  position: absolute;
   top: 10%;
+  left: 50%;
   transform: translate(-50%, 0);
+  max-width: 376px;
+  margin: 0 auto;
 }
 
 .overlay {
