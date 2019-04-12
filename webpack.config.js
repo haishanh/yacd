@@ -2,10 +2,13 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const { rules, plugins } = require('./webpack.common');
+// const { rules } = require('./webpack.common');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+process.env.BABEL_ENV = process.env.NODE_ENV;
 const isDev = process.env.NODE_ENV !== 'production';
 
 const resolveDir = dir => path.resolve(__dirname, dir);
@@ -62,14 +65,7 @@ const definePlugin = new webpack.DefinePlugin({
   }
 });
 
-plugins.push(html);
-plugins.push(definePlugin);
-plugins.push(new CopyPlugin([{ from: 'assets/*', flatten: true }]));
-
-if (!isDev) {
-  plugins.push(new CleanPlugin());
-}
-
+// https://webpack.js.org/configuration/devtool/
 let devtool;
 if (isDev) {
   devtool = 'eval-source-map';
@@ -77,6 +73,98 @@ if (isDev) {
   // devtool = 'source-map';
   devtool = false;
 }
+
+const loaders = {
+  style: {
+    loader: 'style-loader',
+    options: {
+      // workaround css modules HMR issue
+      // see https://github.com/webpack-contrib/style-loader/issues/320
+      hmr: false
+    }
+  },
+  css: { loader: 'css-loader' },
+  cssModule: {
+    loader: 'css-loader',
+    options: {
+      modules: true,
+      localIdentName: isDev
+        ? '[path]_[name]_[local]_[hash:base64:5]'
+        : '[hash:base64:10]'
+    }
+  },
+  postcss: {
+    loader: 'postcss-loader',
+    options: {
+      plugins: () => [require('autoprefixer'), require('cssnano')()]
+    }
+  },
+  sass: {
+    loader: 'sass-loader'
+  }
+};
+
+const rulesCss = {
+  test: /\.css$/,
+  exclude: /\.module\.css$/,
+  use: [
+    isDev ? loaders.style : MiniCssExtractPlugin.loader,
+    loaders.css,
+    loaders.postcss
+  ].filter(Boolean)
+};
+
+const rulesCssModules = {
+  test: /\.module\.css$/,
+  use: [
+    isDev ? loaders.style : MiniCssExtractPlugin.loader,
+    loaders.cssModule,
+    loaders.postcss
+  ].filter(Boolean)
+};
+
+const rulesSassModules = {
+  test: /\.module\.scss$/,
+  use: [
+    isDev ? loaders.style : MiniCssExtractPlugin.loader,
+    loaders.cssModule,
+    loaders.postcss,
+    loaders.sass
+  ].filter(Boolean)
+};
+
+const rulesSass = {
+  test: /\.scss$/,
+  exclude: /\.module\.scss$/,
+  use: [
+    isDev ? loaders.style : MiniCssExtractPlugin.loader,
+    loaders.css,
+    loaders.postcss,
+    loaders.sass
+  ].filter(Boolean)
+};
+
+const cssExtractPlugin = new MiniCssExtractPlugin({
+  filename: isDev ? '[name].bundle.css' : '[name].[chunkhash].css'
+});
+
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
+  analyzerMode: 'static',
+  reportFilename: 'report.html',
+  openAnalyzer: false
+});
+
+const plugins = [
+  // in webpack 4 namedModules will be enabled by default
+  html,
+  definePlugin,
+  new CopyPlugin([{ from: 'assets/*', flatten: true }]),
+  new CleanPlugin(),
+  isDev ? false : new webpack.HashedModuleIdsPlugin(),
+  isDev ? false : cssExtractPlugin,
+  isDev ? false : bundleAnalyzerPlugin
+].filter(Boolean);
 
 module.exports = {
   devtool,
@@ -95,12 +183,28 @@ module.exports = {
   module: {
     rules: [
       svgSpriteRule,
-      rules.js,
-      rules.file,
-      rules.css,
-      rules.cssModules,
-      rules.sass,
-      rules.sassCssModules
+      // js loader
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
+      // file loader
+      {
+        test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+          }
+        ]
+      },
+      rulesCss,
+      rulesCssModules,
+      rulesSass,
+      rulesSassModules
     ]
   },
   optimization: {
