@@ -1,10 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import s0 from 'c/ToggleSwitch.module.scss';
 
-function ToggleSwitch2({ options, value, name, onChange }) {
-  const idxRef = useRef(null);
+function ToggleSwitch({ options, value, name, onChange }) {
+  const idxSelected = useMemo(() => options.map(o => o.value).indexOf(value), [
+    options,
+    value
+  ]);
   const w = (100 / options.length).toPrecision(3);
   return (
     <div>
@@ -13,11 +16,10 @@ function ToggleSwitch2({ options, value, name, onChange }) {
           className={s0.slider}
           style={{
             width: w + '%',
-            left: idxRef.current * w + '%'
+            left: idxSelected * w + '%'
           }}
         />
         {options.map((o, idx) => {
-          if (value === o.value) idxRef.current = idx;
           const id = `${name}-${o.label}`;
           let className = idx === 0 ? '' : 'border-left';
           return (
@@ -39,11 +41,11 @@ function ToggleSwitch2({ options, value, name, onChange }) {
   );
 }
 
-ToggleSwitch2.propTypes = {
+ToggleSwitch.propTypes = {
   options: PropTypes.array,
   value: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func
 };
 
-export default React.memo(ToggleSwitch2);
+export default React.memo(ToggleSwitch);
