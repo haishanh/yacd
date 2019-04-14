@@ -10,8 +10,8 @@ import Logs from 'c/Logs';
 import Config from 'c/Config';
 import APIDiscovery from 'c/APIDiscovery';
 import { store } from '../store/configureStore';
-import './Root.scss';
-import s0 from './Root.module.scss';
+import './Root.css';
+import s0 from './Root.module.css';
 
 const Proxies = React.lazy(() =>
   import(/* webpackChunkName: "proxies" */

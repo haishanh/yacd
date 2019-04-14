@@ -2,7 +2,6 @@
 
 const path = require('path');
 const webpack = require('webpack');
-// const { rules } = require('./webpack.common');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
@@ -96,11 +95,15 @@ const loaders = {
   postcss: {
     loader: 'postcss-loader',
     options: {
-      plugins: () => [require('autoprefixer'), require('cssnano')()]
+      plugins: () =>
+        [
+          require('postcss-import')(),
+          require('postcss-nested')(),
+          require('autoprefixer')(),
+          require('postcss-extend-rule')(),
+          isDev ? false : require('cssnano')()
+        ].filter(Boolean)
     }
-  },
-  sass: {
-    loader: 'sass-loader'
   }
 };
 
@@ -120,27 +123,6 @@ const rulesCssModules = {
     isDev ? loaders.style : MiniCssExtractPlugin.loader,
     loaders.cssModule,
     loaders.postcss
-  ].filter(Boolean)
-};
-
-const rulesSassModules = {
-  test: /\.module\.scss$/,
-  use: [
-    isDev ? loaders.style : MiniCssExtractPlugin.loader,
-    loaders.cssModule,
-    loaders.postcss,
-    loaders.sass
-  ].filter(Boolean)
-};
-
-const rulesSass = {
-  test: /\.scss$/,
-  exclude: /\.module\.scss$/,
-  use: [
-    isDev ? loaders.style : MiniCssExtractPlugin.loader,
-    loaders.css,
-    loaders.postcss,
-    loaders.sass
   ].filter(Boolean)
 };
 
@@ -202,9 +184,7 @@ module.exports = {
         ]
       },
       rulesCss,
-      rulesCssModules,
-      rulesSass,
-      rulesSassModules
+      rulesCssModules
     ]
   },
   optimization: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import s0 from './Loading.module.scss';
+import s0 from './Loading.module.css';
 
 const Loading = ({ height }) => {
   const style = height ? { height } : {};

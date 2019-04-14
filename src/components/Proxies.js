@@ -5,7 +5,7 @@ import ContentHeader from 'c/ContentHeader';
 import ProxyGroup from 'c/ProxyGroup';
 import Button from 'c/Button';
 
-import s0 from 'c/Proxies.module.scss';
+import s0 from 'c/Proxies.module.css';
 
 import {
   getProxies,

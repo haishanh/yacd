@@ -1,7 +1,3 @@
-// $color1: #2a477a;
-$color1: #dddddd;
-
-$size: 40px;
 
 .loading {
   width: 100%;
@@ -12,10 +8,12 @@ $size: 40px;
 }
 
 .pulse {
-  width: $size;
-  height: $size;
+  --color1: #dddddd;
+  --size: 40px;
+  width: var(--size);
+  height: var(--size);
   margin: 10px;
-  background-color: $color1;
+  background-color: var(--color1);
   border-radius: 100%;
   animation: pulseScaleOut 1s infinite ease-in-out;
 }

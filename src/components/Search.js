@@ -6,7 +6,7 @@ import { useActions, useStoreState } from 'm/store';
 
 import debounce from 'lodash-es/debounce';
 
-import s0 from './Search.module.scss';
+import s0 from './Search.module.css';
 
 function getSerachComponent({ mapStateToProps, actions }) {
   return memo(function RuleSearch() {

@@ -4,7 +4,7 @@
   input {
     -webkit-appearance: none;
     background-color: transparent;
-    // background-color: var(--color-input-bg);
+    /* background-color: var(--color-input-bg); */
     background-image: none;
     border: none;
     border-radius: 0;

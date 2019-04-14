@@ -10,7 +10,7 @@ import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 
 import { getRules, fetchRules, fetchRulesOnce } from 'd/rules';
 
-import s0 from './Rules.module.scss';
+import s0 from './Rules.module.css';
 const paddingBottom = 30;
 
 const mapStateToProps = s => ({

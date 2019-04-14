@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import cx from 'classnames';
 
-import s0 from './Modal.module.scss';
+import s0 from './Modal.module.css';
 
 function ModalAPIConfig({
   isOpen,

@@ -1,0 +1,33 @@
+.app {
+  display: flex;
+
+  background: var(--color-background);
+  color: var(--color-text);
+  min-height: 300px;
+  height: 100vh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.content {
+  flex-grow: 1;
+  overflow: auto;
+
+  /*
+
+  $w: 7px;
+  &::-webkit-scrollbar {
+    width: $w;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: rgba(221, 221, 221, 0.7);
+  }
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  */
+}

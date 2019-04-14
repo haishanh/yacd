@@ -14,7 +14,7 @@ import direct from 's/direct.svg';
 import http from 's/http.svg';
 import group from 's/group.svg';
 
-import s0 from './Proxy.module.scss';
+import s0 from './Proxy.module.css';
 
 import { getDelay, getProxies } from 'd/proxies';
 

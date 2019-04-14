@@ -3,7 +3,7 @@ import Icon from 'c/Icon';
 import SvgYacd from './SvgYacd';
 import github from 's/github.svg';
 
-import s0 from './ErrorBoundaryFallback.module.scss';
+import s0 from './ErrorBoundaryFallback.module.css';
 const yacdRepoIssueUrl = 'https://github.com/haishanh/yacd/issues';
 
 function ErrorBoundaryFallback() {

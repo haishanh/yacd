@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import s0 from './ProxyLatency.module.scss';
+import s0 from './ProxyLatency.module.css';
 
 const colorMap = {
   good: '#67C23A',

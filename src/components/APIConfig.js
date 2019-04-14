@@ -5,7 +5,7 @@ import Field from 'c/Field';
 import Button from 'c/Button';
 import SvgYacd from './SvgYacd';
 
-import s0 from './APIConfig.module.scss';
+import s0 from './APIConfig.module.css';
 
 import { getClashAPIConfig, updateClashAPIConfig } from 'd/app';
 

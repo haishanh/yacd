@@ -4,7 +4,7 @@ import ContentHeader from 'c/ContentHeader';
 import TrafficChart from 'c/TrafficChart';
 import TrafficNow from 'c/TrafficNow';
 import Loading from 'c/Loading';
-import s0 from 'c/Home.module.scss';
+import s0 from 'c/Home.module.css';
 
 export default function Home() {
   return (

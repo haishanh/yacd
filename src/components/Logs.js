@@ -13,7 +13,7 @@ import { fetchLogs } from '../api/logs';
 import LogSearch from './LogSearch';
 import { getLogsForDisplay, appendLog } from 'd/logs';
 
-import s0 from 'c/Logs.module.scss';
+import s0 from 'c/Logs.module.css';
 const paddingBottom = 30;
 const colors = {
   debug: 'none',

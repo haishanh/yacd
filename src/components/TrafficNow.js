@@ -5,7 +5,7 @@ import { useStoreState } from 'm/store';
 import { getClashAPIConfig } from 'd/app';
 import { fetchData } from '../api/traffic';
 
-import s0 from 'c/TrafficNow.module.scss';
+import s0 from 'c/TrafficNow.module.css';
 
 export default function TrafficNow() {
   const { upStr, downStr } = useSpeed();
@@ -26,20 +26,17 @@ export default function TrafficNow() {
 function useSpeed() {
   const [speed, setSpeed] = useState({ upStr: '0 B/s', downStr: '0 B/s' });
   const { hostname, port, secret } = useStoreState(getClashAPIConfig);
-  useEffect(
-    () => {
-      return fetchData({
-        hostname,
-        port,
-        secret
-      }).subscribe(o =>
-        setSpeed({
-          upStr: prettyBytes(o.up) + '/s',
-          downStr: prettyBytes(o.down) + '/s'
-        })
-      );
-    },
-    [hostname, port, secret]
-  );
+  useEffect(() => {
+    return fetchData({
+      hostname,
+      port,
+      secret
+    }).subscribe(o =>
+      setSpeed({
+        upStr: prettyBytes(o.up) + '/s',
+        downStr: prettyBytes(o.down) + '/s'
+      })
+    );
+  }, [hostname, port, secret]);
   return speed;
 }

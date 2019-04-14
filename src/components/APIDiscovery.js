@@ -7,7 +7,7 @@ import APIConfig from 'c/APIConfig';
 import { closeModal } from 'd/modals';
 import { fetchConfigs } from 'd/configs';
 
-import s0 from './APIDiscovery.module.scss';
+import s0 from './APIDiscovery.module.css';
 
 const mapStateToProps = s => ({
   modals: s.modals

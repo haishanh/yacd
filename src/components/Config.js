@@ -8,7 +8,7 @@ import ContentHeader from 'c/ContentHeader';
 import Switch from 'c/Switch';
 import ToggleSwitch from 'c/ToggleSwitch';
 import Input from 'c/Input';
-import s0 from 'c/Config.module.scss';
+import s0 from 'c/Config.module.css';
 
 const optionsRule = [
   {

@@ -15,7 +15,6 @@
   display: flex;
   align-items: center;
   font-size: 12px;
-
   opacity: 0.8;
 }
 
@@ -27,12 +26,4 @@
 
 .type {
   width: 110px;
-}
-
-.proxy {
-  // background: #f5bc41;
-  // background: #eee;
-  // color: #eee;
-  // padding: 5px;
-  // border-radius: 5px;
 }

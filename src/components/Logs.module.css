@@ -1,6 +1,3 @@
-$colorf: #eee;
-$heightHeader: 76px;
-
 .logMeta {
   display: flex;
   align-items: center;
@@ -10,7 +7,7 @@ $heightHeader: 76px;
 }
 
 .logType {
-  color: $colorf;
+  color: #eee;
   flex-shrink: 0;
   text-align: center;
   width: 66px;
@@ -32,13 +29,13 @@ $heightHeader: 76px;
   font-family: 'Roboto Mono', Menlo, monospace;
   align-items: center;
   padding: 8px 0;
-  // force wrap
+  /* force wrap */
   width: 100%;
   white-space: pre;
   overflow: auto;
 }
 
-//////////
+/*******************/
 
 .logsWrapper {
   margin: 0;
@@ -59,7 +56,7 @@ $heightHeader: 76px;
   padding: 10px 40px;
 }
 
-/////////
+/*******************/
 
 .logPlaceholder {
   display: flex;

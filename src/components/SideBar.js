@@ -17,7 +17,7 @@ import SvgCommand from './SvgCommand';
 import SvgSettings from './SvgSettings';
 import SvgFile from './SvgFile';
 
-import s from 'c/SideBar.module.scss';
+import s from 'c/SideBar.module.css';
 
 const icons = {
   activity: SvgActivity,

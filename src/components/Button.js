@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import s0 from 'c/Button.module.scss';
+import s0 from 'c/Button.module.css';
 const noop = () => {};
 
 const Button = React.memo(function Button({ label, onClick = noop }) {

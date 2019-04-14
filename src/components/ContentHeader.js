@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import s0 from './ContentHeader.module.scss';
+import s0 from './ContentHeader.module.css';
 
 function ContentHeader({ title }) {
   return (

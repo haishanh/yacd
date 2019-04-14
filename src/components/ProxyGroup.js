@@ -5,7 +5,7 @@ import { useActions, useStoreState } from 'm/store';
 
 import Proxy from 'c/Proxy';
 
-import s0 from './ProxyGroup.module.scss';
+import s0 from './ProxyGroup.module.css';
 
 import { getProxies, switchProxy } from 'd/proxies';
 

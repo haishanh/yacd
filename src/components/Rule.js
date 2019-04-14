@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import s0 from './Rule.module.scss';
+import s0 from './Rule.module.css';
 
 const colorMap = {
   _default: '#59caf9',
@@ -26,9 +26,7 @@ function Rule({ type, payload, proxy, id }) {
         <div className={s0.b}>{payload}</div>
         <div className={s0.a}>
           <div className={s0.type}>{type}</div>
-          <div className={s0.proxy} style={styleProxy}>
-            {proxy}
-          </div>
+          <div style={styleProxy}>{proxy}</div>
         </div>
       </div>
     </div>
