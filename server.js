@@ -3,7 +3,6 @@
 const path = require('path');
 const config = require('./webpack.config');
 const webpack = require('webpack');
-// const WebpackDevServer = require('webpack-dev-server');
 const express = require('express');
 const app = express();
 
@@ -42,7 +41,7 @@ const whm = hotMiddleware(compiler);
 app.use(wdm);
 app.use(whm);
 
-app.use('*', (req, res, next) => {
+app.use('*', (_req, res, next) => {
   const filename = path.join(compiler.outputPath, 'index.html');
   compiler.outputFileSystem.readFile(filename, (err, result) => {
     if (err) return next(err);
@@ -53,13 +52,20 @@ app.use('*', (req, res, next) => {
   });
 });
 
-app.listen(port, '0.0.0.0', () => {
-  console.log('\n>> Listening at http://0.0.0.0:' + port + '\n');
+const host = '0.0.0.0';
+
+app.listen(port, host, () => {
+  console.log(`>> Listening at http://${host}:${port}`);
 });
 
 wdm.waitUntilValid(() => {
-  console.log('\n===> Build ready at:\n');
-  console.log(`  http://0.0.0.0:${port}`);
-  console.log(`  http://127.0.0.1:${port}`);
-  console.log(`  http://localhost:${port}`);
+  console.log(
+    `
+>> Build ready at:
+
+  http://${host}:${port}
+  http://127.0.0.1:${port}
+  http://localhost:${port}
+`
+  );
 });
