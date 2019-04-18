@@ -1,6 +1,6 @@
 import { getURLAndInit } from 'm/request-helper';
 const endpoint = '/traffic';
-const textDecoder = new TextDecoder('utf-8', { stream: true });
+const textDecoder = new TextDecoder('utf-8');
 
 const Size = 150;
 
@@ -36,21 +36,36 @@ const traffic = {
 };
 
 let fetched = false;
+let decoded = '';
+
+function parseAndAppend(x) {
+  traffic.appendData(JSON.parse(x));
+}
 
 function pump(reader) {
   return reader.read().then(({ done, value }) => {
+    const str = textDecoder.decode(value, { stream: !done });
+    decoded += str;
+
+    const splits = decoded.split('\n');
+
+    const lastSplit = splits[splits.length - 1];
+
+    for (let i = 0; i < splits.length - 1; i++) {
+      parseAndAppend(splits[i]);
+    }
+
     if (done) {
+      parseAndAppend(lastSplit);
+      decoded = '';
+
       // eslint-disable-next-line no-console
       console.log('GET /traffic streaming done');
       fetched = false;
       return;
+    } else {
+      decoded = lastSplit;
     }
-    const t = textDecoder.decode(value);
-    // console.log('response', t);
-    const o = JSON.parse(t);
-
-    traffic.appendData(o);
-
     return pump(reader);
   });
 }

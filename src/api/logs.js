@@ -1,6 +1,6 @@
 import { getURLAndInit } from 'm/request-helper';
 const endpoint = '/logs';
-const textDecoder = new TextDecoder('utf-8', { stream: true });
+const textDecoder = new TextDecoder('utf-8');
 
 const getRandomStr = () => {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16);
@@ -8,8 +8,17 @@ const getRandomStr = () => {
 
 let even = false;
 let fetched = false;
+let decoded = '';
 
-function appendData(o, callback) {
+function appendData(s, callback) {
+  let o;
+  try {
+    o = JSON.parse(s);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log('JSON.parse error', JSON.parse(s));
+  }
+
   const now = new Date();
   const time = now.toLocaleString('zh-Hans');
   // mutate input param in place intentionally
@@ -21,21 +30,28 @@ function appendData(o, callback) {
 
 function pump(reader, appendLog) {
   return reader.read().then(({ done, value }) => {
+    const str = textDecoder.decode(value, { stream: !done });
+    decoded += str;
+
+    const splits = decoded.split('\n');
+
+    const lastSplit = splits[splits.length - 1];
+
+    for (let i = 0; i < splits.length - 1; i++) {
+      appendData(splits[i], appendLog);
+    }
+
     if (done) {
+      appendData(lastSplit, appendLog);
+      decoded = '';
+
       // eslint-disable-next-line no-console
       console.log('GET /logs streaming done');
+      fetched = false;
       return;
+    } else {
+      decoded = lastSplit;
     }
-    const t = textDecoder.decode(value);
-    const arrRawJSON = t.trim().split('\n');
-    arrRawJSON.forEach(s => {
-      try {
-        appendData(JSON.parse(s), appendLog);
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log('JSON.parse error', JSON.parse(s));
-      }
-    });
     return pump(reader, appendLog);
   });
 }
