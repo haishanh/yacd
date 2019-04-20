@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { useStoreState, useActions } from 'm/store';
 
 import { getConfigs, fetchConfigs, updateConfigs } from 'd/configs';
+import { clearStorage } from 'd/app';
 
 import ContentHeader from 'c/ContentHeader';
 import Switch from 'c/Switch';
 import ToggleSwitch from 'c/ToggleSwitch';
 import Input from 'c/Input';
+import Button from 'c/Button';
 import s0 from 'c/Config.module.css';
 
 const optionsRule = [
@@ -189,6 +191,15 @@ function Config({ configs }) {
             onChange={handleInputOnChange}
           />
         </div>
+      </div>
+
+      <div className={s0.sep}>
+        <div />
+      </div>
+
+      <div className={s0.section}>
+        <div className={s0.label}>Actions</div>
+        <Button label="Log out" onClick={clearStorage} />
       </div>
     </div>
   );

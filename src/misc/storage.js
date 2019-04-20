@@ -1,8 +1,10 @@
 // manage localStorage
 
-function loadState(key) {
+const StorageKey = 'yacd.haishan.me';
+
+function loadState() {
   try {
-    const serialized = localStorage.getItem(key);
+    const serialized = localStorage.getItem(StorageKey);
     if (!serialized) return undefined;
     return JSON.parse(serialized);
   } catch (err) {
@@ -10,18 +12,18 @@ function loadState(key) {
   }
 }
 
-function saveState(key, state) {
+function saveState(state) {
   try {
     const serialized = JSON.stringify(state);
-    localStorage.setItem(key, serialized);
+    localStorage.setItem(StorageKey, serialized);
   } catch (err) {
     // ignore
   }
 }
 
-function clearState(key) {
+function clearState() {
   try {
-    localStorage.removeItem(key);
+    localStorage.removeItem(StorageKey);
   } catch (err) {
     // ignore
   }

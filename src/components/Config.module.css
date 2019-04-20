@@ -6,6 +6,17 @@
   }
 }
 
+.section {
+  padding: 10px 40px 40px;
+}
+
+.sep {
+  padding: 0 40px;
+  > div {
+    border-top: 1px dashed #373737;
+  }
+}
+
 .label {
   padding: 16px 0;
 }
