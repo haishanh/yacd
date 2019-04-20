@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  flex-grow: 0;
+  flex-wrap: 0;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.itemActive {
+  border-color: #387cec;
+}

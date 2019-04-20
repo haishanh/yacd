@@ -1,193 +1,47 @@
-import React, { useEffect } from 'react';
-import prettyBytes from 'm/pretty-bytes';
+import React, { useMemo } from 'react';
 import { fetchData } from '../api/traffic';
-import { unstable_createResource as createResource } from '@hsjs/react-cache';
+import useLineChart from '../hooks/useLineChart';
 import { useStoreState } from 'm/store';
-import { getClashAPIConfig, getTheme } from 'd/app';
-
-// const delay = ms => new Promise(r => setTimeout(r, ms));
-const chartJSResource = createResource(() => {
-  return import(/* webpackChunkName: "chartjs" */
-  /* webpackPrefetch: true */
-  /* webpackPreload: true */
-  'chart.js/dist/Chart.min.js').then(c => c.default);
-});
-
-const colorCombo = [
-  {
-    down: {
-      backgroundColor: 'rgba(176, 209, 132, 0.8)',
-      borderColor: 'rgb(176, 209, 132)'
-    },
-    up: {
-      backgroundColor: 'rgba(181, 220, 231, 0.8)',
-      borderColor: 'rgb(181, 220, 231)'
-    }
-  },
-  {
-    up: {
-      backgroundColor: 'rgb(98, 190, 100)',
-      borderColor: 'rgb(78,146,79)'
-    },
-    down: {
-      backgroundColor: 'rgb(160, 230, 66)',
-      borderColor: 'rgb(110, 156, 44)'
-    }
-  },
-  {
-    up: {
-      backgroundColor: 'rgba(94, 175, 223, 0.3)',
-      borderColor: 'rgb(94, 175, 223)'
-    },
-    down: {
-      backgroundColor: 'rgba(139, 227, 195, 0.3)',
-      borderColor: 'rgb(139, 227, 195)'
-    }
-  },
-  {
-    up: {
-      backgroundColor: 'rgba(242, 174, 62, 0.3)',
-      borderColor: 'rgb(242, 174, 62)'
-    },
-    down: {
-      backgroundColor: 'rgba(69, 154, 248, 0.3)',
-      borderColor: 'rgb(69, 154, 248)'
-    }
-  }
-];
-
-const commonDataSetProps = {
-  borderWidth: 1,
-  lineTension: 0,
-  pointRadius: 0
-};
-
-function getColorComboIndexByTheme(theme) {
-  return theme === 'dark' ? 0 : 2;
-}
-
-function getUploadProps(theme = 'dark') {
-  const i = getColorComboIndexByTheme(theme);
-  return {
-    ...commonDataSetProps,
-    ...colorCombo[i].up,
-    label: 'Up'
-  };
-}
-
-function getDownloadProps(theme = 'dark') {
-  const i = getColorComboIndexByTheme(theme);
-  return {
-    ...commonDataSetProps,
-    ...colorCombo[i].down,
-    label: 'Down'
-  };
-}
-
-const options = {
-  responsive: true,
-  maintainAspectRatio: true,
-  title: {
-    display: false
-  },
-  legend: {
-    display: true,
-    position: 'top',
-    labels: {
-      fontColor: '#ccc',
-      boxWidth: 20
-    }
-  },
-  tooltips: {
-    // it's hard to follow the tooltip while the data is streaming
-    // so disable it for now
-    enabled: false,
-    mode: 'index',
-    intersect: false,
-    animationDuration: 100
-    // callbacks: {
-    //   label(tooltipItem, data) {
-    //     console.log(tooltipItem);
-    //     const { datasetIndex, yLabel } = tooltipItem;
-    //     const l = data.datasets[tooltipItem.datasetIndex].label;
-    //     console.log(yLabel);
-    //     const b = prettyBytes(parseInt(yLabel, 10));
-    //     return l + b;
-    //   }
-    // }
-  },
-  hover: {
-    mode: 'nearest',
-    intersect: true
-  },
-  scales: {
-    xAxes: [
-      {
-        display: false,
-        gridLines: {
-          display: false
-        }
-      }
-    ],
-    yAxes: [
-      {
-        display: true,
-        gridLines: {
-          display: true,
-          color: '#555',
-          borderDash: [3, 6],
-          drawBorder: false
-        },
-        ticks: {
-          callback(value) {
-            return prettyBytes(value) + '/s ';
-          }
-        }
-      }
-    ]
-  }
-};
+import { getClashAPIConfig, getSelectedChartStyleIndex } from 'd/app';
+import { chartJSResource, commonDataSetProps, chartStyles } from 'm/chart';
 
 const chartWrapperStyle = {
   // make chartjs chart responsive
   position: 'relative',
-  width: '90%'
+  maxWidth: 1000
 };
+
+const mapStateToProps = s => ({
+  selectedChartStyleIndex: getSelectedChartStyleIndex(s)
+});
 
 export default function TrafficChart() {
   const Chart = chartJSResource.read();
   const { hostname, port, secret } = useStoreState(getClashAPIConfig);
-  const theme = useStoreState(getTheme);
-
-  useEffect(() => {
-    const ctx = document.getElementById('trafficChart').getContext('2d');
-    const traffic = fetchData({ hostname, port, secret });
-    const upProps = getUploadProps(theme);
-    const downProps = getDownloadProps(theme);
-    const data = {
+  const { selectedChartStyleIndex } = useStoreState(mapStateToProps);
+  const traffic = fetchData({ hostname, port, secret });
+  const data = useMemo(
+    () => ({
       labels: traffic.labels,
       datasets: [
         {
-          ...upProps,
+          ...commonDataSetProps,
+          ...chartStyles[selectedChartStyleIndex].up,
+          label: 'Up',
           data: traffic.up
         },
         {
-          ...downProps,
+          ...commonDataSetProps,
+          ...chartStyles[selectedChartStyleIndex].down,
+          label: 'Down',
           data: traffic.down
         }
       ]
-    };
-    const c = new Chart(ctx, {
-      type: 'line',
-      data,
-      options
-    });
-    const unsubscribe = traffic.subscribe(() => c.update());
-    return () => {
-      unsubscribe();
-      c.destroy();
-    };
-  }, [hostname, port, secret, theme]);
+    }),
+    [traffic, selectedChartStyleIndex]
+  );
+
+  useLineChart(Chart, 'trafficChart', data, traffic);
 
   return (
     <div style={chartWrapperStyle}>

@@ -4,9 +4,11 @@ import { closeModal } from 'd/modals';
 
 const UpdateClashAPIConfig = 'app/UpdateClashAPIConfig';
 const SwitchTheme = 'app/SwitchTheme';
+const SELECT_CHART_STYLE_INDEX = 'app/SELECT_CHART_STYLE_INDEX';
 
 export const getClashAPIConfig = s => s.app.clashAPIConfig;
 export const getTheme = s => s.app.theme;
+export const getSelectedChartStyleIndex = s => s.app.selectedChartStyleIndex;
 
 export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
   return async (dispatch, getState) => {
@@ -56,6 +58,19 @@ export function clearStorage() {
   }
 }
 
+export function selectChartStyleIndex(selectedChartStyleIndex) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: SELECT_CHART_STYLE_INDEX,
+      payload: {
+        selectedChartStyleIndex
+      }
+    });
+    // side effect
+    saveState(getState().app);
+  };
+}
+
 // type Theme = 'light' | 'dark';
 const defaultState = {
   clashAPIConfig: {
@@ -63,6 +78,7 @@ const defaultState = {
     port: '7892',
     secret: ''
   },
+  selectedChartStyleIndex: 0,
   theme: 'dark'
 };
 
@@ -80,7 +96,7 @@ function parseConfigQueryString() {
 
 function getInitialState() {
   let s = loadState();
-  if (!s) s = defaultState;
+  s = { ...defaultState, ...s };
   // TODO flat clashAPIConfig?
 
   const configQuery = parseConfigQueryString();
@@ -102,6 +118,10 @@ export default function reducer(state = getInitialState(), { type, payload }) {
     }
 
     case SwitchTheme: {
+      return { ...state, ...payload };
+    }
+
+    case SELECT_CHART_STYLE_INDEX: {
       return { ...state, ...payload };
     }
 
