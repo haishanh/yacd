@@ -35,7 +35,7 @@ function bindActions(actions, dispatch) {
 
 export function useActions(actions) {
   const { dispatch } = useStore();
-  return useMemo(() => bindActions(actions, dispatch), [actions]);
+  return useMemo(() => bindActions(actions, dispatch), [actions, dispatch]);
 }
 
 export function useStoreState(selector) {
@@ -52,6 +52,6 @@ export function useStoreState(selector) {
       compStateCurr = compStateNext;
       setCompState(compStateNext);
     });
-  }, []);
+  }, [compState, selector, store]);
   return compState;
 }

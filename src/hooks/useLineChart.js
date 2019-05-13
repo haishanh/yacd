@@ -24,5 +24,5 @@ export default function useLineChart(
       unsubscribe && unsubscribe();
       c.destroy();
     };
-  }, [Chart, elementId, data, subscription]);
+  }, [Chart, elementId, data, subscription, extraChartOptions]);
 }

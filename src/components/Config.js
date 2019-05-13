@@ -74,7 +74,7 @@ export default function ConfigContainer() {
   const { configs } = useStoreState(mapStateToProps);
   useEffect(() => {
     fetchConfigs();
-  }, []);
+  }, [fetchConfigs]);
   return <Config configs={configs} />;
 }
 

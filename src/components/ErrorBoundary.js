@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getSentry } from '../misc/sentry';
 import ErrorBoundaryFallback from 'c/ErrorBoundaryFallback';
+import { deriveMessageFromError } from '../misc/errors';
 
 // XXX this is no Hook equivalents for componentDidCatch
 // we have to use class for now
@@ -20,13 +21,18 @@ class ErrorBoundary extends Component {
     return this.sentry;
   };
 
+  // static getDerivedStateFromError(error) {
+  //   return { error };
+  // }
+
   componentDidMount() {
     // this.loadSentry();
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error, _info) {
+    this.setState({ error });
     // eslint-disable-next-line no-console
-    console.log(error, errorInfo);
+    // console.log(error, errorInfo);
     // this.setState({ error });
     // this.loadSentry().then(Sentry => {
     //   Sentry.withScope(scope => {
@@ -44,9 +50,9 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.error) {
+      const { message, detail } = deriveMessageFromError(this.state.error);
       //render fallback UI
-      // return <a onClick={this.showReportDialog}>Report feedback</a>;
-      return <ErrorBoundaryFallback />;
+      return <ErrorBoundaryFallback message={message} detail={detail} />;
     } else {
       return this.props.children;
     }

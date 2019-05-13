@@ -8,6 +8,7 @@ const OptimisticUpdateConfigs = 'configs/OptimisticUpdateConfigs';
 const MarkHaveFetchedConfig = 'configs/MarkHaveFetchedConfig';
 
 export const getConfigs = s => s.configs;
+export const getLogLevel = s => s.configs['log-level'];
 
 export function fetchConfigs() {
   return async (dispatch, getState) => {
@@ -103,7 +104,7 @@ const initialState = {
   'redir-port': 0,
   'allow-lan': false,
   mode: 'Rule',
-  'log-level': 'info',
+  'log-level': 'silent',
 
   /////
   haveFetchedConfig: false

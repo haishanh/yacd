@@ -56,20 +56,49 @@ function pump(reader, appendLog) {
   });
 }
 
+const apiConfigSnapshot = {};
+let controller;
+
 function fetchLogs(apiConfig, appendLog) {
-  if (fetched) return;
+  if (
+    controller &&
+    (apiConfigSnapshot.hostname !== apiConfig.hostname ||
+      apiConfigSnapshot.port !== apiConfig.port ||
+      apiConfigSnapshot.secret !== apiConfig.secret ||
+      apiConfigSnapshot.logLevel !== apiConfig.logLevel)
+  ) {
+    controller.abort();
+  } else if (fetched) {
+    return;
+  }
+
   fetched = true;
+
+  apiConfigSnapshot.hostname = apiConfig.hostname;
+  apiConfigSnapshot.port = apiConfig.port;
+  apiConfigSnapshot.secret = apiConfig.secret;
+  apiConfigSnapshot.logLevel = apiConfig.logLevel;
+
+  controller = new AbortController();
+  const signal = controller.signal;
+
   const { url, init } = getURLAndInit(apiConfig);
-  fetch(url + endpoint, init)
-    .then(response => {
+  fetch(url + endpoint + '?level=' + apiConfig.logLevel, {
+    ...init,
+    signal
+  }).then(
+    response => {
       const reader = response.body.getReader();
       pump(reader, appendLog);
-    })
-    .catch(err => {
+    },
+    err => {
       fetched = false;
+      if (signal.aborted) return;
+
       // eslint-disable-next-line no-console
-      console.log('GET /logs error', err);
-    });
+      console.log('GET /logs error:', err.message);
+    }
+  );
 }
 
 export { fetchLogs };

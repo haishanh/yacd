@@ -35,7 +35,7 @@ export default function TrafficChart({ id }) {
         }
       ]
     }),
-    []
+    [id]
   );
 
   const eleId = 'chart-' + id;

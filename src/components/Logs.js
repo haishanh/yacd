@@ -12,6 +12,7 @@ import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { fetchLogs } from '../api/logs';
 import LogSearch from './LogSearch';
 import { getLogsForDisplay, appendLog } from 'd/logs';
+import { getLogLevel } from 'd/configs';
 
 import s0 from 'c/Logs.module.css';
 const paddingBottom = 30;
@@ -66,10 +67,11 @@ export default function Logs() {
   const { hostname, port, secret } = useStoreState(getClashAPIConfig);
   const { appendLog } = useActions(actions);
   const logs = useStoreState(getLogsForDisplay);
+  const logLevel = useStoreState(getLogLevel);
 
   useEffect(() => {
-    fetchLogs({ hostname, port, secret }, appendLog);
-  }, [hostname, port, secret]);
+    fetchLogs({ hostname, port, secret, logLevel }, appendLog);
+  }, [hostname, port, secret, logLevel, appendLog]);
   const [refLogsContainer, containerHeight] = useRemainingViewPortHeight();
 
   return (

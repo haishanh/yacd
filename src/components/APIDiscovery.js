@@ -7,6 +7,8 @@ import APIConfig from 'c/APIConfig';
 import { closeModal } from 'd/modals';
 import { fetchConfigs } from 'd/configs';
 
+import { DOES_NOT_SUPPORT_FETCH, errors } from '../misc/errors';
+
 import s0 from './APIDiscovery.module.css';
 
 const mapStateToProps = s => ({
@@ -19,11 +21,18 @@ const actions = {
 };
 
 export default function APIDiscovery() {
+  if (!window.fetch) {
+    const { detail } = errors[DOES_NOT_SUPPORT_FETCH];
+    const err = new Error(detail);
+    err.code = DOES_NOT_SUPPORT_FETCH;
+    throw err;
+  }
+
   const { modals } = useStoreState(mapStateToProps);
   const { closeModal, fetchConfigs } = useActions(actions);
   useEffect(() => {
     fetchConfigs();
-  }, []);
+  }, [fetchConfigs]);
 
   return (
     <Modal

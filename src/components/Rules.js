@@ -41,7 +41,7 @@ export default function Rules() {
   const { rules } = useStoreState(mapStateToProps);
   useEffect(() => {
     fetchRulesOnce();
-  }, []);
+  }, [fetchRulesOnce]);
   const [refRulesContainer, containerHeight] = useRemainingViewPortHeight();
 
   return (

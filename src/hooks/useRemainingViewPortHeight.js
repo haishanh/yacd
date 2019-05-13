@@ -21,7 +21,7 @@ export default function useRemainingViewPortHeight() {
     return () => {
       window.removeEventListener('resize', updateContainerHeight);
     };
-  }, []);
+  }, [updateContainerHeight]);
 
   return [refRulesContainer, containerHeight];
 }

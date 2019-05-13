@@ -26,13 +26,12 @@ const actions = {
 
 export default function Proxies() {
   const { fetchProxies, requestDelayAll } = useActions(actions);
-  const fn = async () => {
-    await fetchProxies();
-    await requestDelayAll();
-  };
   useEffect(() => {
-    fn();
-  }, []);
+    (async () => {
+      await fetchProxies();
+      await requestDelayAll();
+    })();
+  }, [fetchProxies, requestDelayAll]);
   const { groupNames } = useStoreState(mapStateToProps);
 
   return (
