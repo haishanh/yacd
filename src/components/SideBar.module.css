@@ -13,7 +13,7 @@
   justify-content: center;
   padding: 25px 0 15px;
   @media (max-width: 768px) {
-    padding: 0;
+    display: none;
   }
   color: #2a477a;
   transition: color 0.3s ease-in-out;

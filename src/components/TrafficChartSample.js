@@ -44,7 +44,7 @@ export default function TrafficChart({ id }) {
   return (
     <div
       style={{
-        width: 150,
+        width: 130,
         padding: 5
       }}
     >

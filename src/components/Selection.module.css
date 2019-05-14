@@ -5,7 +5,6 @@
 
 .item {
   flex-grow: 0;
-  flex-wrap: 0;
   margin-right: 10px;
   margin-bottom: 10px;
   cursor: pointer;

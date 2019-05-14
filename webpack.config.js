@@ -27,7 +27,7 @@ const svgSpriteRule = {
 // ---- entry
 
 const entry = {
-  app: ['./src/app.js']
+  app: ['react-hot-loader/patch', './src/app.js']
 };
 
 // ---- output
@@ -153,6 +153,7 @@ module.exports = {
   mode,
   resolve: {
     alias: {
+      'react-dom': '@hot-loader/react-dom',
       a: resolveDir('src/api'),
       s: resolveDir('src/svg'),
       m: resolveDir('src/misc'),
