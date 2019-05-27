@@ -28,7 +28,7 @@
   "private": true,
   "license": "UNLICENSED",
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
+    "@babel/runtime": "^7.4.5",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
     "@sentry/browser": "^5.1.0",
     "chart.js": "^2.7.3",
