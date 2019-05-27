@@ -87,7 +87,7 @@ export default function Logs() {
             <div className={s0.logPlaceholderIcon}>
               <SvgYacd width={200} height={200} />
             </div>
-            <div>No logs yet, hold tight...</div>
+            <div>No logs yet, hang tight...</div>
           </div>
         ) : (
           <div className={s0.logsWrapper}>

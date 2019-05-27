@@ -7,10 +7,7 @@ const presets = [
       modules: false,
       // see also zloirock/core-js https://bit.ly/2JLnrgw
       useBuiltIns: 'entry',
-      corejs: 3,
-      targets: {
-        browsers: ['>0.25%', 'not ie 11', 'not op_mini all']
-      }
+      corejs: 3
     }
   ],
   '@babel/preset-react'

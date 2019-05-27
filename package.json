@@ -16,14 +16,10 @@
     }
   },
   "lint-staged": {
-    "*.{js,scss,css,md}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.{js,scss,css,md}": ["prettier --single-quote --write", "git add"]
   },
-  "keywords": [
-    "react"
-  ],
+  "browserslist": [">0.25%", "not ie 11", "not op_mini all"],
+  "keywords": ["react"],
   "author": "Haishan <haishanhan@gmail.com> (https://haishan.me)",
   "private": true,
   "license": "UNLICENSED",
@@ -31,10 +27,10 @@
     "@babel/runtime": "^7.1.5",
     "@hot-loader/react-dom": "^16.8.6",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
-    "@sentry/browser": "^5.1.0",
+    "@sentry/browser": "^5.4.0",
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
-    "core-js": "^3.0.0",
+    "core-js": "^3.1.3",
     "history": "^4.7.2",
     "invariant": "^2.2.4",
     "lodash-es": "^4.17.11",
@@ -45,7 +41,7 @@
     "react-dom": "^16.8.4",
     "react-modal": "^3.8.1",
     "react-router-dom": "^5.0.0",
-    "react-window": "^1.5.0",
+    "react-window": "^1.8.2",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
@@ -60,10 +56,10 @@
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
-    "autoprefixer": "^9.4.3",
+    "autoprefixer": "^9.6.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
-    "clean-webpack-plugin": "^2.0.0",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.0",
     "css-loader": "^2.0.1",
     "cssnano": "^4.1.7",
@@ -80,13 +76,13 @@
     "html-webpack-plugin": "^3.2.0",
     "husky": "^2.2.0",
     "lint-staged": "^8.1.3",
-    "mini-css-extract-plugin": "^0.6.0",
+    "mini-css-extract-plugin": "^0.7.0",
     "postcss-extend-rule": "^2.0.0",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.1.2",
     "prettier": "^1.17.1",
-    "react-hot-loader": "^4.6.3",
+    "react-hot-loader": "^4.9.0",
     "style-loader": "^0.23.0",
     "svg-sprite-loader": "^4.1.2",
     "terser-webpack-plugin": "^1.2.2",
