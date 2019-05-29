@@ -45,7 +45,7 @@
     "react-dom": "^16.8.4",
     "react-modal": "^3.8.1",
     "react-router-dom": "^5.0.0",
-    "react-window": "^1.5.0",
+    "react-window": "^1.8.2",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
