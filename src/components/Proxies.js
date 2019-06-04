@@ -29,7 +29,7 @@ export default function Proxies() {
   useEffect(() => {
     (async () => {
       await fetchProxies();
-      await requestDelayAll();
+      // await requestDelayAll();
     })();
   }, [fetchProxies, requestDelayAll]);
   const { groupNames } = useStoreState(mapStateToProps);
