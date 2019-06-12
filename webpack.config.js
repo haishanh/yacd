@@ -84,10 +84,11 @@ const loaders = {
   cssModule: {
     loader: 'css-loader',
     options: {
-      modules: true,
-      localIdentName: isDev
-        ? '[path]_[name]_[local]_[hash:base64:5]'
-        : '[hash:base64:10]'
+      modules: {
+        localIdentName: isDev
+          ? '[path]_[name]_[local]_[hash:base64:5]'
+          : '[hash:base64:10]'
+      }
     }
   },
   postcss: {
