@@ -142,6 +142,9 @@ const plugins = [
   definePlugin,
   new CopyPlugin([{ from: 'assets/*', flatten: true }]),
   new CleanWebpackPlugin(),
+  // chart.js requires moment
+  // and we don't need locale stuff in moment
+  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   isDev ? false : new webpack.HashedModuleIdsPlugin(),
   isDev ? false : cssExtractPlugin,
   isDev ? false : bundleAnalyzerPlugin
