@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export default function SvgGlobe({ isActive }) {
-  const stroke = isActive ? '#000' : 'currentColor';
+export default function SvgGlobe() {
   return (
     <svg
       width="28"
@@ -17,23 +15,7 @@ export default function SvgGlobe({ isActive }) {
         strokeLinejoin="round"
         strokeWidth="2"
       >
-        <circle
-          cx="10"
-          cy="10"
-          r="10"
-          transform="translate(2 6)"
-          fill="#FFCB33"
-          stroke="#FFCB33"
-          style={{
-            transition: 'all 1s',
-            opacity: isActive ? '1' : '0'
-          }}
-        />
-        <g
-          transform="translate(4 4)"
-          stroke={stroke}
-          style={{ transition: 'all 1s' }}
-        >
+        <g transform="translate(4 4)" stroke="currentColor">
           <circle cx="10" cy="10" r="10" />
           <path d="M0 10h20M10 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
         </g>
@@ -41,7 +23,3 @@ export default function SvgGlobe({ isActive }) {
     </svg>
   );
 }
-
-SvgGlobe.propTypes = {
-  isActive: PropTypes.bool
-};

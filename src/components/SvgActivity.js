@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-function SvgActivity({ isActive }) {
-  const stroke = isActive ? '#000' : 'currentColor';
+function SvgActivity() {
   return (
     <svg
       width="28"
@@ -17,26 +15,10 @@ function SvgActivity({ isActive }) {
         strokeLinejoin="round"
         strokeWidth="2"
       >
-        <path
-          d="M22 17h-4l-3 9L9 8l-3 9H2"
-          stroke="#E1293E"
-          style={{
-            transition: 'all 1s',
-            opacity: isActive ? '1' : '0'
-          }}
-        />
-        <path
-          d="M24 14h-4l-3 9-6-18-3 9H4"
-          stroke={stroke}
-          style={{ transition: 'all 1s' }}
-        />
+        <path d="M24 14h-4l-3 9-6-18-3 9H4" stroke="currentColor" />
       </g>
     </svg>
   );
 }
-
-SvgActivity.propTypes = {
-  isActive: PropTypes.bool
-};
 
 export default SvgActivity;
