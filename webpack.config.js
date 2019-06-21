@@ -193,20 +193,25 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks: 'all',
-      // see https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693#optimizationruntimechunk
       cacheGroups: {
-        // corejs: {
-        //   test: /[\\/]node_modules[\\/](core-js)[\\/]/,
-        //   chunks: 'all'
-        // },
-        // chartjs: {
-        //   test: /[\\/]node_modules[\\/]chart\.js[\\/]/,
-        //   // name: 'chartjs',
-        //   chunks: 'all'
-        // },
+        'core-js': {
+          test(module, chunks) {
+            return (
+              module.resource &&
+              module.resource.indexOf('node_modules/core-js/') >= 0
+            );
+          }
+        },
         react: {
-          test: /[\\/]node_modules[\\/](react-dom|react|redux|react-router|react-router-dom|schedule|react-redux|react-modal)[\\/]/,
-          chunks: 'all'
+          test(module, chunks) {
+            return (
+              module.resource &&
+              (module.resource.indexOf('node_modules/@hot-loader/react-dom/') >=
+                0 ||
+                module.resource.indexOf('node_modules/react-dom/') >= 0 ||
+                module.resource.indexOf('node_modules/react/') >= 0)
+            );
+          }
         }
       }
     },
