@@ -68,7 +68,7 @@
     "eslint-import-resolver-webpack": "^0.11.0",
     "eslint-plugin-flowtype": "^3.10.4",
     "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jest": "^22.7.0",
+    "eslint-plugin-jest": "^22.7.1",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.0.1",
