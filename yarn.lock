@@ -255,10 +255,10 @@
     "@babel/helper-create-class-features-plugin" "^7.4.4"
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@babel/plugin-proposal-do-expressions@^7.0.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-do-expressions/-/plugin-proposal-do-expressions-7.2.0.tgz#7abf56d27125f2b040c9cb0ab03119cf117128a9"
-  integrity sha512-2bWN48zQHf/W5T8XvemGQJSi8hzhIo7y4kv/RiA08UcMLQ73lkTknhlaFGf1HjCJzG8FGopgsq6pSe1C+10fPg==
+"@babel/plugin-proposal-do-expressions@^7.5.0":
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-do-expressions/-/plugin-proposal-do-expressions-7.5.0.tgz#ceb594d4a618545b00aa0b5cd61cad4aaaeb7a5a"
+  integrity sha512-xe0QQrhm+DGj6H23a6XtwkJNimy1fo71O/YVBfrfvfSl0fsq9T9dfoQBIY4QceEIdUo7u9s7OPEdsWEuizfGeg==
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-do-expressions" "^7.2.0"
