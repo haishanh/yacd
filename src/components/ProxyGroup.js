@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useActions, useStoreState } from 'm/store';
@@ -13,20 +13,11 @@ const mapStateToProps = s => ({
   proxies: getProxies(s)
 });
 
-// should move this to sth like constants.js
-// const userProxyTypes = ['Shadowsocks', 'Vmess', 'Socks5'];
 export default function ProxyGroup({ name }) {
   const { proxies } = useStoreState(mapStateToProps);
   const actions = useActions({ switchProxy });
   const group = proxies[name];
-  const { all, now } = group;
-  const list = useMemo(() => {
-    const a = now ? [now] : [];
-    if (all) {
-      all.forEach(i => i !== now && a.push(i));
-    }
-    return a;
-  }, [all, now]);
+  const { all } = group;
 
   return (
     <div className={s0.group}>
@@ -37,7 +28,7 @@ export default function ProxyGroup({ name }) {
         </h2>
       </div>
       <div className={s0.list}>
-        {list.map(proxyName => {
+        {all.map(proxyName => {
           const isSelectable = group.type === 'Selector';
           const proxyClassName = cx(s0.proxy, {
             [s0.proxySelectable]: isSelectable

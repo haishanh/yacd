@@ -4,8 +4,8 @@ import { getClashAPIConfig } from 'd/app';
 // see all types:
 // https://github.com/Dreamacro/clash/blob/master/constant/adapters.go
 
-const ProxyTypeBuiltin = ['DIRECT', 'GLOBAL', 'REJECT'];
-const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector', 'LoadBalance'];
+// const ProxyTypeBuiltin = ['DIRECT', 'GLOBAL', 'REJECT'];
+// const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector', 'LoadBalance'];
 
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
@@ -18,14 +18,8 @@ const CompletedRequestDelayForProxy = 'proxies/CompletedRequestDelayForProxy';
 function retrieveGroupNamesFrom(proxies) {
   const groupNames = [];
   for (const prop in proxies) {
-    // not builtin proxy
-    if (ProxyTypeBuiltin.indexOf(prop) < 0) {
-      const p = proxies[prop];
-      // is group
-      if (ProxyGroupTypes.indexOf(p.type) >= 0) {
-        groupNames.push(prop);
-      }
-    }
+    const p = proxies[prop];
+    if (p.all && Array.isArray(p.all)) groupNames.push(prop);
   }
   return groupNames;
 }

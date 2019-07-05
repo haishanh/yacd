@@ -59,6 +59,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --font-mono: 'Roboto Mono', Menlo, monospace;
+  --color-focus-blue: #1a73e8;
+}
+
 body {
   font-family: 'Merriweather Sans', -apple-system, BlinkMacSystemFont, Segoe UI,
     Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
@@ -66,8 +71,6 @@ body {
     sans-serif;
   margin: 0;
   padding: 0;
-
-  --color-focus-blue: #1a73e8;
 }
 
 body,
@@ -84,6 +87,7 @@ body.dark {
   --color-icon: #c7c7c7;
   --color-btn-bg: #232323;
   --color-btn-fg: #bebebe;
+  --color-bg-proxy-selected: #303030;
 }
 
 body.light {
@@ -99,4 +103,5 @@ body.light {
   --color-icon: #5b5b5b;
   --color-btn-bg: #f4f4f4;
   --color-btn-fg: #101010;
+  --color-bg-proxy-selected: #cfcfcf;
 }

@@ -1,32 +1,28 @@
 .proxy {
   position: relative;
-  height: 90px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--color-bg-proxy-selected);
+  &.now {
+    background-color: var(--color-focus-blue);
+    color: #ddd;
+  }
 }
 
-.iconWrapper {
-  position: absolute;
-  bottom: 0;
-  left: 20%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.proxyDetail {
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
+.proxyType {
+  font-family: var(--font-mono);
 }
 
 .proxyName {
   width: 100%;
-  padding-right: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin: 10px 0;
+  margin-bottom: 5px;
   font-size: 1.1em;
+}
+
+.proxyLatencyWrap {
+  height: 30px;
+  display: flex;
+  align-items: flex-end;
 }
