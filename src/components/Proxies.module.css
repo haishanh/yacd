@@ -1,4 +1,5 @@
-.root {
+.body {
+  padding-bottom: 50px;
 }
 
 .group {
@@ -7,6 +8,7 @@
 
 .fabgrp {
   position: fixed;
+  z-index: 1;
   right: 20px;
   bottom: 20px;
 }

@@ -35,9 +35,9 @@ export default function Proxies() {
   const { groupNames } = useStoreState(mapStateToProps);
 
   return (
-    <div>
+    <>
       <ContentHeader title="Proxies" />
-      <div>
+      <div className={s0.body}>
         <div className={s0.fabgrp}>
           <Button label="Test Latency" onClick={requestDelayAll} />
         </div>
@@ -49,6 +49,6 @@ export default function Proxies() {
           );
         })}
       </div>
-    </div>
+    </>
   );
 }
