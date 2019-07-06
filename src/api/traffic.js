@@ -72,14 +72,23 @@ function pump(reader) {
 
 function fetchData(apiConfig) {
   if (fetched) return traffic;
+  fetched = true;
   const { url, init } = getURLAndInit(apiConfig);
-  fetch(url + endpoint, init).then(response => {
-    if (response.ok) {
-      fetched = true;
-      const reader = response.body.getReader();
-      pump(reader);
+  fetch(url + endpoint, init).then(
+    response => {
+      if (response.ok) {
+        const reader = response.body.getReader();
+        pump(reader);
+      } else {
+        fetched = false;
+      }
+    },
+    err => {
+      // eslint-disable-next-line no-console
+      console.log('fetch /traffic error', err);
+      fetched = false;
     }
-  });
+  );
   return traffic;
 }
 
