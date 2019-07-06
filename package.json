@@ -22,7 +22,7 @@
   "keywords": ["react"],
   "author": "Haishan <haishanhan@gmail.com> (https://haishan.me)",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.5.0",
     "@hot-loader/react-dom": "^16.8.6",
