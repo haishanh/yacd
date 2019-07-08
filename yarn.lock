@@ -7445,10 +7445,10 @@ react-router@5.0.1:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-window@^1.8.4:
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/react-window/-/react-window-1.8.4.tgz#8b1fde6cd0664895b0dfa8547ed416e895d611c1"
-  integrity sha512-vOWwy6gOLT/Ug5aUQt0KflxDOZppKloW1CC1oUFDEFe6TXZ02VvOV2C0gYWbCNN8MXFctSxJULoyU01zno0lyg==
+react-window@^1.8.5:
+  version "1.8.5"
+  resolved "https://registry.yarnpkg.com/react-window/-/react-window-1.8.5.tgz#a56b39307e79979721021f5d06a67742ecca52d1"
+  integrity sha512-HeTwlNa37AFa8MDZFZOKcNEkuF2YflA0hpGPiTT9vR7OawEt+GZbfM6wqkBahD3D3pUjIabQYzsnY/BSJbgq6Q==
   dependencies:
     "@babel/runtime" "^7.0.0"
     memoize-one ">=3.1.1 <6"
