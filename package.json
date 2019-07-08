@@ -24,7 +24,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.5.0",
+    "@babel/runtime": "^7.5.1",
     "@hot-loader/react-dom": "^16.8.6",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
     "@sentry/browser": "^5.5.0",
