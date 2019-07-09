@@ -7615,10 +7615,10 @@ redux-thunk@^2.2.0:
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
   integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
 
-redux@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.2.tgz#597cc660a99f91412e31c96c3da10ed8ace0715d"
-  integrity sha512-oAiFLWYQhbpSvzjcVfgQ90MlZ0u6uDIHFK41Q0/BnCfjEg96SACzwUFwDVUKz/LP/SwJORGaFY8AM5wOB/zf0A==
+redux@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.3.tgz#0ca18be085e6cf6ed50e445a125f85e8b26b266b"
+  integrity sha512-v/Iaw67Pe+na+cZvcKvPxAKT1ww5kM+M09fmaCndCQC4Lo434AYb5975HJgJlp0D7dJxfYaLxMD4VwfpLOZ1Rw==
   dependencies:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"
