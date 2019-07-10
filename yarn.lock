@@ -5191,10 +5191,10 @@ lockfile@^1.0.4:
   dependencies:
     signal-exit "^3.0.2"
 
-lodash-es@^4.17.11:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.11.tgz#145ab4a7ac5c5e52a3531fb4f310255a152b4be0"
-  integrity sha512-DHb1ub+rMjjrxqlB3H56/6MXtm1lSksDp2rA2cNWjG8mlDUYFhUj3Di2Zn5IwSU87xLv8tNIQ7sSwE/YOX/D/Q==
+lodash-es@^4.17.12:
+  version "4.17.12"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.12.tgz#14c24181cf5fb1c9282037943295dc7a9659c2b9"
+  integrity sha512-QZFYEFzdiiPuWMJX8ByFaOpyDe4ETfV7bDu4LiXC50BXadeMvJlE9JoFdKtqMedIw2k4n6GVTwTHFQlo0OjJWw==
 
 lodash._baseuniq@~4.6.0:
   version "4.6.0"
