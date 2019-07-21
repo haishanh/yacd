@@ -16,10 +16,19 @@
     }
   },
   "lint-staged": {
-    "*.{js,scss,css,md}": ["prettier --single-quote --write", "git add"]
+    "*.{js,scss,css,md}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
-  "browserslist": [">0.25%", "not ie 11", "not op_mini all"],
-  "keywords": ["react"],
+  "browserslist": [
+    ">0.25%",
+    "not ie 11",
+    "not op_mini all"
+  ],
+  "keywords": [
+    "react"
+  ],
   "author": "Haishan <haishanhan@gmail.com> (https://haishan.me)",
   "private": true,
   "license": "MIT",
