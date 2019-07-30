@@ -96,7 +96,7 @@
     "svg-sprite-loader": "^4.1.2",
     "terser-webpack-plugin": "^1.2.2",
     "webpack": "^4.38.0",
-    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6",
     "webpack-dev-middleware": "^3.5.2",
     "webpack-hot-middleware": "^2.22.2"
