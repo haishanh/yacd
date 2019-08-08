@@ -73,12 +73,14 @@ if (isDev) {
 
 const loaders = {
   style: {
-    loader: 'style-loader',
-    options: {
-      // workaround css modules HMR issue
-      // see https://github.com/webpack-contrib/style-loader/issues/320
-      hmr: false
-    }
+    loader: 'style-loader'
+    // options: {
+    // workaround css modules HMR issue
+    // see https://github.com/webpack-contrib/style-loader/issues/320
+    // hmr: false
+    // }
+    //
+    // the options hmr is removed in style-loader v1.0.0
   },
   css: { loader: 'css-loader' },
   cssModule: {
