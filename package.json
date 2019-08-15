@@ -34,7 +34,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@hot-loader/react-dom": "^16.8.6",
+    "@hot-loader/react-dom": "^16.9.0",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
     "@sentry/browser": "^5.6.1",
     "chart.js": "^2.7.3",
