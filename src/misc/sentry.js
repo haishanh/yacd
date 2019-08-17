@@ -4,6 +4,7 @@ export async function getSentry() {
   if (Sentry) return Sentry;
   const s = await import('@sentry/browser');
   s.init({ dsn });
+  // eslint-disable-next-line require-atomic-updates
   Sentry = s;
   return Sentry;
 }

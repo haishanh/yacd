@@ -52,7 +52,7 @@ export function switchTheme() {
 export function clearStorage() {
   clearState();
   try {
-    location.reload();
+    window.location.reload();
   } catch (err) {
     // ignore
   }
@@ -83,7 +83,7 @@ const defaultState = {
 };
 
 function parseConfigQueryString() {
-  const { search } = location;
+  const { search } = window.location;
   const collector = {};
   if (typeof search !== 'string' || search === '') return collector;
   const qs = search.replace(/^\?/, '').split('&');

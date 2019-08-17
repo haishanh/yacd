@@ -143,6 +143,8 @@ function Config({ configs }) {
         updateConfigs({ [name]: num });
         break;
       }
+      default:
+        throw new Error(`unknown input name ${name}`);
     }
   }
 
