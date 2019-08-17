@@ -39,6 +39,8 @@ function APIConfig2() {
       case 'secret':
         setSecret(value);
         break;
+      default:
+        throw new Error(`unknown input name ${name}`);
     }
   };
 
