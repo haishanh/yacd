@@ -48,7 +48,7 @@
     "prop-types": "^15.5.10",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-modal": "^3.9.1",
+    "react-modal": "^3.10.1",
     "react-router-dom": "^5.0.1",
     "react-window": "^1.8.5",
     "redux": "^4.0.4",
