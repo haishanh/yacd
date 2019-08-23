@@ -43,7 +43,7 @@
     "history": "^4.7.2",
     "invariant": "^2.2.4",
     "lodash-es": "^4.17.14",
-    "memoize-one": "^5.0.5",
+    "memoize-one": "^5.1.1",
     "modern-normalize": "^0.5.0",
     "prop-types": "^15.5.10",
     "react": "^16.9.0",
