@@ -6,6 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const pkg = require('./package.json');
 
 process.env.BABEL_ENV = process.env.NODE_ENV;
 const isDev = process.env.NODE_ENV !== 'production';
@@ -59,6 +60,7 @@ const mode = isDev ? 'development' : 'production';
 
 const definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(isDev),
+  __VERSION__: JSON.stringify(pkg.version),
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
 });
 

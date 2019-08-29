@@ -24,3 +24,5 @@ root.render(<Root />);
 
 // eslint-disable-next-line no-console
 console.log('Checkout the repo: https://github.com/haishanh/yacd');
+// eslint-disable-next-line
+console.log('Version:', __VERSION__);
