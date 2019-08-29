@@ -14,16 +14,20 @@ import './Root.css';
 import s0 from './Root.module.css';
 
 const Proxies = React.lazy(() =>
-  import(/* webpackChunkName: "proxies" */
-  /* webpackPrefetch: true */
-  /* webpackPreload: true */
-  './Proxies')
+  import(
+    /* webpackChunkName: "proxies" */
+    /* webpackPrefetch: true */
+    /* webpackPreload: true */
+    './Proxies'
+  )
 );
 const Rules = React.lazy(() =>
-  import(/* webpackChunkName: "rules" */
-  /* webpackPrefetch: true */
-  /* webpackPreload: true */
-  './Rules')
+  import(
+    /* webpackChunkName: "rules" */
+    /* webpackPrefetch: true */
+    /* webpackPreload: true */
+    './Rules'
+  )
 );
 
 // testing...
@@ -39,7 +43,7 @@ const Root = () => (
           <APIDiscovery />
           <Route path="/" render={props => <SideBar {...props} />} />
           <div className={s0.content}>
-            <Suspense fallback={<Loading height="200px" />} maxDuration={10}>
+            <Suspense fallback={<Loading height="200px" />}>
               <Route exact path="/" render={() => <Home />} />
               <Route exact path="/overview" render={() => <Home />} />
               <Route exact path="/configs" component={Config} />
