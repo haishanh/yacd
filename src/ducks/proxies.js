@@ -16,10 +16,25 @@ const OptimisticSwitchProxy = 'proxies/OptimisticSwitchProxy';
 const CompletedRequestDelayForProxy = 'proxies/CompletedRequestDelayForProxy';
 
 function retrieveGroupNamesFrom(proxies) {
-  const groupNames = [];
+  var groupNames = [];
+  var globalAll = [];
   for (const prop in proxies) {
     const p = proxies[prop];
-    if (p.all && Array.isArray(p.all)) groupNames.push(prop);
+    if (p.all && Array.isArray(p.all)) {
+      groupNames.push(prop);
+      if (prop == 'GLOBAL') {
+        globalAll = p.all;
+      }
+    }
+  }
+  if (globalAll) {
+    // Put GLOBAL in the end
+    globalAll.push('GLOBAL');
+    // Sort groups according to its index in GLOBAL group
+    groupNames = groupNames
+      .map(name => [globalAll.indexOf(name), name])
+      .sort((a, b) => a[0] - b[0])
+      .map(group => group[1]);
   }
   return groupNames;
 }
