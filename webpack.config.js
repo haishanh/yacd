@@ -176,7 +176,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        }
       },
       // file loader
       {
@@ -220,15 +225,7 @@ module.exports = {
       }
     },
     runtimeChunk: true,
-    minimizer: [
-      // the current uglifyjs-webpack-plugin has problems workin with React Hooks
-      // see also:
-      // https://github.com/webpack-contrib/uglifyjs-webpack-plugin/issues/374
-      new TerserPlugin({
-        cache: true,
-        parallel: true
-      })
-    ]
+    minimizer: [new TerserPlugin()]
   },
   plugins
 };
