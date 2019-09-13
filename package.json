@@ -40,7 +40,7 @@
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
     "core-js": "^3.2.1",
-    "history": "^4.7.2",
+    "history": "^4.10.1",
     "invariant": "^2.2.4",
     "lodash-es": "^4.17.14",
     "memoize-one": "^5.1.1",
