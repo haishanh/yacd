@@ -15,7 +15,7 @@ export default function Home() {
           <TrafficNow />
         </div>
         <div className={s0.chart}>
-          <Suspense fallback={<Loading height="200px" />} maxDuration={10}>
+          <Suspense fallback={<Loading height="200px" />}>
             <TrafficChart />
           </Suspense>
         </div>
