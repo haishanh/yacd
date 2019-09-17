@@ -97,7 +97,7 @@
     "terser-webpack-plugin": "^2.0.0",
     "webpack": "^4.39.3",
     "webpack-bundle-analyzer": "^3.4.1",
-    "webpack-cli": "^3.3.8",
+    "webpack-cli": "^3.3.9",
     "webpack-dev-middleware": "^3.7.1",
     "webpack-hot-middleware": "^2.22.2"
   }
