@@ -47,7 +47,7 @@
     "modern-normalize": "^0.5.0",
     "prop-types": "^15.5.10",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react-dom": "^16.10.0",
     "react-modal": "^3.10.1",
     "react-router-dom": "^5.1.0",
     "react-window": "^1.8.5",
