@@ -59,7 +59,38 @@ function pump(reader, appendLog) {
 const apiConfigSnapshot = {};
 let controller;
 
+function getWsUrl(apiConfig) {
+  const { hostname, port, secret, logLevel } = apiConfig;
+  let qs = '?level=' + logLevel;
+  if (typeof secret === 'string' && secret !== '') {
+    qs += '&token=' + secret;
+  }
+  return `ws://${hostname}:${port}${endpoint}${qs}`;
+}
+
+// 1 OPEN
+// other value CLOSED
+// similar to ws readyState but not the same
+// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
+let wsState;
 function fetchLogs(apiConfig, appendLog) {
+  if (fetched || wsState === 1) return;
+  wsState = 1;
+  const url = getWsUrl(apiConfig);
+  const ws = new WebSocket(url);
+  ws.addEventListener('error', function(_ev) {
+    wsState = 3;
+  });
+  ws.addEventListener('close', function(_ev) {
+    wsState = 3;
+    fetchLogsWithFetch(apiConfig, appendLog);
+  });
+  ws.addEventListener('message', function(event) {
+    appendData(event.data, appendLog);
+  });
+}
+
+function fetchLogsWithFetch(apiConfig, appendLog) {
   if (
     controller &&
     (apiConfigSnapshot.hostname !== apiConfig.hostname ||
