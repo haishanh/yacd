@@ -18,6 +18,11 @@ function configureStore() {
     });
   }
 
+  // eslint-disable-next-line no-undef
+  if (__DEV__) {
+    window.getState = store.getState;
+  }
+
   return store;
 }
 

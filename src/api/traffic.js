@@ -70,7 +70,39 @@ function pump(reader) {
   });
 }
 
+function getWsUrl(apiConfig) {
+  const { hostname, port, secret } = apiConfig;
+  let qs = '';
+  if (typeof secret === 'string' && secret !== '') {
+    qs += '?token=' + secret;
+  }
+  return `ws://${hostname}:${port}${endpoint}${qs}`;
+}
+
+// 1 OPEN
+// other value CLOSED
+// similar to ws readyState but not the same
+// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
+let wsState;
 function fetchData(apiConfig) {
+  if (fetched || wsState === 1) return traffic;
+  wsState = 1;
+  const url = getWsUrl(apiConfig);
+  const ws = new WebSocket(url);
+  ws.addEventListener('error', function(_ev) {
+    wsState = 3;
+  });
+  ws.addEventListener('close', function(_ev) {
+    wsState = 3;
+    fetchDataWithFetch(apiConfig);
+  });
+  ws.addEventListener('message', function(event) {
+    parseAndAppend(event.data);
+  });
+  return traffic;
+}
+
+function fetchDataWithFetch(apiConfig) {
   if (fetched) return traffic;
   fetched = true;
   const { url, init } = getURLAndInit(apiConfig);
