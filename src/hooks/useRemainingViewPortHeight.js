@@ -1,6 +1,6 @@
 import React from 'react';
 
-const { useState, useRef, useCallback, useEffect } = React;
+const { useState, useRef, useCallback, useLayoutEffect } = React;
 
 /**
  * cosnt [ref, remainingHeight] = useRemainingViewPortHeight();
@@ -17,7 +17,7 @@ export default function useRemainingViewPortHeight() {
     setContainerHeight(window.innerHeight - top);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     updateContainerHeight();
     window.addEventListener('resize', updateContainerHeight);
     return () => {
