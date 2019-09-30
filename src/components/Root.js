@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Provider } from 'm/store';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader/root';
-import Loading from 'c/Loading';
+import Loading2 from 'c/Loading2';
 import ErrorBoundary from 'c/ErrorBoundary';
 import SideBar from 'c/SideBar';
 import Home from 'c/Home';
@@ -43,7 +43,7 @@ const Root = () => (
           <APIDiscovery />
           <Route path="/" render={props => <SideBar {...props} />} />
           <div className={s0.content}>
-            <Suspense fallback={<Loading height="200px" />}>
+            <Suspense fallback={<Loading2 />}>
               <Route exact path="/" render={() => <Home />} />
               <Route exact path="/overview" render={() => <Home />} />
               <Route exact path="/configs" component={Config} />
