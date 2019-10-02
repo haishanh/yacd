@@ -22,7 +22,7 @@ function retrieveGroupNamesFrom(proxies) {
     const p = proxies[prop];
     if (p.all && Array.isArray(p.all)) {
       groupNames.push(prop);
-      if (prop == 'GLOBAL') {
+      if (prop === 'GLOBAL') {
         globalAll = p.all;
       }
     }
