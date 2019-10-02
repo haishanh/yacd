@@ -104,7 +104,7 @@ const initialState = {
   'redir-port': 0,
   'allow-lan': false,
   mode: 'Rule',
-  'log-level': 'silent',
+  'log-level': 'info',
 
   /////
   haveFetchedConfig: false
