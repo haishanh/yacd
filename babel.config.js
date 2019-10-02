@@ -6,7 +6,7 @@ const presets = [
     {
       modules: false,
       // see also zloirock/core-js https://bit.ly/2JLnrgw
-      useBuiltIns: 'entry',
+      useBuiltIns: 'usage',
       corejs: 3
     }
   ],
