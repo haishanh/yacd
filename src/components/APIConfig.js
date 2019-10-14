@@ -21,8 +21,21 @@ function APIConfig2() {
   const actions = useActions({ updateClashAPIConfig });
 
   const contentEl = useRef(null);
+
+  const detectApiServer = async () => {
+    // if there is already a clash API server at `/`, just use it as default value
+    const res = await fetch('/');
+    res.json().then(data => {
+      if (data['hello'] === 'clash') {
+        setHostname(window.location.hostname);
+        setPort(window.location.port);
+      }
+    });
+  };
+
   useEffect(() => {
     contentEl.current.focus();
+    detectApiServer();
   }, []);
 
   const handleInputOnChange = e => {
