@@ -36,7 +36,7 @@
     "@babel/runtime": "^7.6.2",
     "@hot-loader/react-dom": "^16.9.0",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
-    "@sentry/browser": "^5.7.0",
+    "@sentry/browser": "^5.7.1",
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
     "core-js": "^3.3.2",
