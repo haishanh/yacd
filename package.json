@@ -91,7 +91,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.2.0",
     "prettier": "^1.17.1",
-    "react-hot-loader": "^4.12.14",
+    "react-hot-loader": "^4.12.16",
     "style-loader": "^1.0.0",
     "svg-sprite-loader": "^4.1.2",
     "terser-webpack-plugin": "^2.2.1",
