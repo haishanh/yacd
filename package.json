@@ -89,7 +89,7 @@
     "postcss-extend-rule": "^3.0.0",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
-    "postcss-nested": "^4.2.0",
+    "postcss-nested": "^4.2.1",
     "prettier": "^1.17.1",
     "react-hot-loader": "^4.12.14",
     "style-loader": "^1.0.0",
