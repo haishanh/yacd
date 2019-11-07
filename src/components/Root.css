@@ -61,6 +61,9 @@
 
 :root {
   --font-mono: 'Roboto Mono', Menlo, monospace;
+  --font-normal: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica,
+    Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+    'PingFang SC', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   --color-focus-blue: #1a73e8;
 }
 
@@ -88,6 +91,7 @@ body.dark {
   --color-btn-bg: #232323;
   --color-btn-fg: #bebebe;
   --color-bg-proxy-selected: #303030;
+  --color-row-odd: #282828;
 }
 
 body.light {
@@ -104,4 +108,5 @@ body.light {
   --color-btn-bg: #f4f4f4;
   --color-btn-fg: #101010;
   --color-bg-proxy-selected: #cfcfcf;
+  --color-row-odd: #f5f5f5;
 }

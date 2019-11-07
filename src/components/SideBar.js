@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
+import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
 
 import { useActions } from 'm/store';
 import { switchTheme } from 'd/app';
@@ -11,20 +12,16 @@ import Icon from 'c/Icon';
 import moon from 's/moon.svg';
 
 import SvgYacd from './SvgYacd';
-import SvgActivity from './SvgActivity';
-import SvgGlobe from './SvgGlobe';
-import SvgCommand from './SvgCommand';
-import SvgSettings from './SvgSettings';
-import SvgFile from './SvgFile';
 
 import s from 'c/SideBar.module.css';
 
 const icons = {
-  activity: SvgActivity,
-  globe: SvgGlobe,
-  command: SvgCommand,
-  file: SvgFile,
-  settings: SvgSettings
+  activity: Activity,
+  globe: Globe,
+  command: Command,
+  file: File,
+  settings: Settings,
+  link: Link2
 };
 
 const SideBarRow = React.memo(function SideBarRow({
@@ -38,7 +35,7 @@ const SideBarRow = React.memo(function SideBarRow({
   const className = cx(s.row, isActive ? s.rowActive : null);
   return (
     <Link to={to} className={className}>
-      <Comp isActive={isActive} />
+      <Comp />
       <div className={s.label}>{labelText}</div>
     </Link>
   );
@@ -88,6 +85,12 @@ function SideBar({ location }) {
           location={location}
           iconId="command"
           labelText="Rules"
+        />
+        <SideBarRow
+          to="/connections"
+          location={location}
+          iconId="link"
+          labelText="Conns"
         />
         <SideBarRow
           to="/configs"

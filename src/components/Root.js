@@ -8,6 +8,7 @@ import SideBar from 'c/SideBar';
 import Home from 'c/Home';
 import Logs from 'c/Logs';
 import Config from 'c/Config';
+import Connections from 'c/Connections';
 import APIDiscovery from 'c/APIDiscovery';
 import { store } from '../store/configureStore';
 import './Root.css';
@@ -45,6 +46,7 @@ const Root = () => (
           <div className={s0.content}>
             <Suspense fallback={<Loading2 />}>
               <Route exact path="/" render={() => <Home />} />
+              <Route exact path="/connections" component={Connections} />
               <Route exact path="/overview" render={() => <Home />} />
               <Route exact path="/configs" component={Config} />
               <Route exact path="/logs" component={Logs} />
