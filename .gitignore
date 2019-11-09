@@ -6,3 +6,4 @@ experimental/
 deploy_ghpages.sh
 tags
 *.log
+!.github

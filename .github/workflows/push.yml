@@ -1,4 +1,7 @@
-on: [push]
+on:
+  push:
+    tags:
+      - '*'
 
 name: Deploy workflow
 
@@ -11,33 +14,33 @@ jobs:
         node-version: [12.x]
 
     steps:
-    - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install Lint Build
-      run: |
-        yarn
-        yarn lint
-        yarn build
+      - name: Install Lint Build
+        run: |
+          yarn
+          yarn lint
+          yarn build
 
-    - name: Push to gh-pages
-      # push only when the branch is publish
-      if: github.event_name == 'push' && github.event.ref == 'refs/heads/publish'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PUBLISH_DIR: public
-        BRANCH: gh-pages
-      run: |
-        cd $PUBLISH_DIR
-        ls -l
-        git init
-        git config user.name "${GITHUB_ACTOR}"
-        git config user.email "${GITHUB_ACTOR}@noreply.github.com"
-        git add .
-        git status
-        git commit -m "Push to gh-pages"
-        git push -f https://$GITHUB_ACTOR:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:$BRANCH
+      - name: Push to gh-pages
+        # push only when the branch is publish
+        # if: github.event_name == 'push' && github.event.ref == 'refs/heads/publish'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_DIR: public
+          BRANCH: gh-pages
+        run: |
+          cd $PUBLISH_DIR
+          ls -l
+          git init
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@noreply.github.com"
+          git add .
+          git status
+          git commit -m "Push to gh-pages"
+          git push -f https://$GITHUB_ACTOR:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:$BRANCH
