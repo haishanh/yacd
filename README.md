@@ -4,7 +4,7 @@
 
 > Yet Another [Clash](https://github.com/Dreamacro/clash) [Dashboard](https://github.com/Dreamacro/clash-dashboard)
 
-The site [http://yacd.haishan.me](http://yacd.haishan.me) is served with HTTP not HTTPS is because many browsers blocking request to HTTP resources from a HTTPS website. If you think it's not safe or not comfort with this, you can actually download the [zip of the gh-pages](https://github.com/haishanh/yacd/archive/gh-pages.zip), unzip and open `index.html` directly.
+The site [http://yacd.haishan.me](http://yacd.haishan.me) is served with HTTP not HTTPS is because many browsers blocking request to HTTP resources from a HTTPS website. If you think it's not safe or has security concern, you can actually download the [zip of the gh-pages](https://github.com/haishanh/yacd/archive/gh-pages.zip), unzip and open `index.html` directly.
 
 [Docker image](https://hub.docker.com/repository/docker/haishanh/yacd) is also available.
 
