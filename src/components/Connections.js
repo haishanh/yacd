@@ -4,7 +4,10 @@ import ConnectionTable from 'c/ConnectionTable';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { useStoreState } from 'm/store';
 import { getClashAPIConfig } from 'd/app';
+import SvgYacd from './SvgYacd';
 import * as connAPI from '../api/connections';
+
+import s from './Connections.module.css';
 
 const { useEffect, useState } = React;
 
@@ -45,7 +48,13 @@ function Conn() {
         <div
           style={{ height: containerHeight - paddingBottom, overflow: 'auto' }}
         >
-          <ConnectionTable data={conns} />
+          {conns.length > 0 ? (
+            <ConnectionTable data={conns} />
+          ) : (
+            <div className={s.placeHolder}>
+              <SvgYacd width={200} height={200} c1="var(--color-text)" />
+            </div>
+          )}
         </div>
       </div>
     </div>

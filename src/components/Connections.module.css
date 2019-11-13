@@ -1,0 +1,8 @@
+.placeHolder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-background);
+  opacity: 0.1;
+}
