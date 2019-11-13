@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, ArrowDown } from 'react-feather';
+import { ChevronDown } from 'react-feather';
 import prettyBytes from '../misc/pretty-bytes';
 import { formatDistance } from 'date-fns';
 import cx from 'classnames';
@@ -60,13 +60,11 @@ function Table({ data }) {
                 className={s.th}
               >
                 <span>{column.render('Header')}</span>
-                <span>
+                <span className={s.sortIconContainer}>
                   {column.isSorted ? (
-                    column.isSortedDesc ? (
-                      <ArrowDown size={16} />
-                    ) : (
-                      <ArrowUp size={16} />
-                    )
+                    <span className={column.isSortedDesc ? '' : s.rotate180}>
+                      <ChevronDown size={16} />
+                    </span>
                   ) : null}
                 </span>
               </div>
