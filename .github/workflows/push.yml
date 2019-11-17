@@ -41,7 +41,7 @@ jobs:
         # push only when the branch is publish
         # if: github.event_name == 'push' && github.event.ref == 'refs/heads/publish'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
           PUBLISH_DIR: public
           BRANCH: gh-pages
         run: |
