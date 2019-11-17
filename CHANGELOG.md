@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.6](https://github.com/haishanh/yacd/compare/v0.0.5...v0.0.6) (2019-11-17)
+
+Improvements:
+
+- improve UI for small screens
+- connections: update connections table sorting indicator icon
+- connections: add place holder when there is no connections data
+
 ## [0.0.5](https://github.com/haishanh/yacd/compare/v0.0.4...v0.0.5) (2019-11-09)
 
 Features:
