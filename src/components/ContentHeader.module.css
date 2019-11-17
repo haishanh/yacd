@@ -5,7 +5,12 @@
 }
 
 .h1 {
-  padding: 0 40px;
+  padding: 0 15px;
+  font-size: 1.7em;
+  @media (--breakpoint-not-small) {
+    padding: 0 40px;
+    font-size: 2em;
+  }
   text-align: left;
   margin: 0;
 }

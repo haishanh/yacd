@@ -52,7 +52,10 @@
 
   display: flex;
   align-items: center;
-  padding: 8px 20px;
+  padding: 6px 16px;
+  @media (--breakpoint-not-small) {
+    padding: 8px 20px;
+  }
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -60,6 +63,13 @@
 
   svg {
     color: var(--color-icon);
+    width: 22px;
+    height: 22px;
+
+    @media (--breakpoint-not-small) {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 
@@ -74,9 +84,14 @@
 
 .label {
   padding-left: 14px;
+  font-size: 0.75em;
   @media (max-width: 768px) {
     padding-left: 0;
     padding-top: 5px;
+  }
+
+  @media (--breakpoint-not-small) {
+    font-size: 1em;
   }
 }
 

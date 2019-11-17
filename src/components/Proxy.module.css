@@ -1,7 +1,11 @@
 .proxy {
   position: relative;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 5px;
+  border-radius: 8px;
+  @media (--breakpoint-not-small) {
+    border-radius: 10px;
+    padding: 10px;
+  }
   background-color: var(--color-bg-proxy-selected);
   &.now {
     background-color: var(--color-focus-blue);
@@ -11,6 +15,10 @@
 
 .proxyType {
   font-family: var(--font-mono);
+  font-size: 0.6em;
+  @media (--breakpoint-not-small) {
+    font-size: 1em;
+  }
 }
 
 .proxyName {
@@ -18,7 +26,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 5px;
-  font-size: 1.1em;
+  font-size: 0.85em;
+  @media (--breakpoint-not-small) {
+    font-size: 1.1em;
+  }
 }
 
 .proxyLatencyWrap {

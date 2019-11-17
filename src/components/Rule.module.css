@@ -1,7 +1,10 @@
 .rule {
   display: flex;
   align-items: center;
-  padding: 10px 40px;
+  padding: 6px 15px;
+  @media (--breakpoint-not-small) {
+    padding: 10px 40px;
+  }
 }
 
 .left {
@@ -21,7 +24,10 @@
 .b {
   padding: 10px 0;
   font-family: 'Roboto Mono', Menlo, monospace;
-  font-size: 19px;
+  font-size: 16px;
+  @media (--breakpoint-not-small) {
+    font-size: 19px;
+  }
 }
 
 .type {

@@ -1,17 +1,25 @@
 .root {
-  padding: 10px 40px 40px;
-
   > div {
-    width: 360px;
+    min-width: 345px;
+    @media (--breakpoint-not-small) {
+      width: 360px;
+    }
   }
 }
 
+.root,
 .section {
-  padding: 10px 40px 40px;
+  padding: 6px 15px 15px;
+  @media (--breakpoint-not-small) {
+    padding: 10px 40px 40px;
+  }
 }
 
 .sep {
-  padding: 0 40px;
+  padding: 0 15px;
+  @media (--breakpoint-not-small) {
+    padding: 0 40px;
+  }
   > div {
     border-top: 1px dashed #373737;
   }
