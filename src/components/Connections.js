@@ -9,7 +9,7 @@ import * as connAPI from '../api/connections';
 
 import s from './Connections.module.css';
 
-const { useEffect, useState } = React;
+const { useEffect, useState, useRef } = React;
 
 const paddingBottom = 30;
 
@@ -31,10 +31,18 @@ function Conn() {
   const [refContainer, containerHeight] = useRemainingViewPortHeight();
   const config = useStoreState(getClashAPIConfig);
   const [conns, setConns] = useState([]);
+  const prevConnsRef = useRef(conns);
   useEffect(() => {
     function read({ connections }) {
       const x = connections.map(c => formatConnectionDataItem(c));
-      setConns(x);
+      // if previous connections and current connections are both empty
+      // arrays, we wont update state to avaoid rerender
+      if (x && (x.length !== 0 || prevConnsRef.current.length !== 0)) {
+        prevConnsRef.current = x;
+        setConns(x);
+      } else {
+        prevConnsRef.current = x;
+      }
     }
     return connAPI.fetchData(config, read);
   }, [config]);

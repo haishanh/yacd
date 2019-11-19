@@ -25,37 +25,6 @@ const svgSpriteRule = {
   use: ['svg-sprite-loader']
 };
 
-// ---- entry
-
-const entry = {
-  app: ['react-hot-loader/patch', './src/app.js']
-};
-
-// ---- output
-
-const output = {
-  path: path.resolve(__dirname, 'public'),
-  // use contenthash instead of chunkhash to take advantage of caching
-  filename: isDev ? '[name].bundle.js' : '[name].[contenthash].js',
-  publicPath: ''
-};
-
-// const vendor = ['redux', 'react', 'react-dom', 'react-router-dom'];
-
-// if (!isDev) entry.vendor = vendor; // generate common vendor bundle in prod
-
-// if (isDev) {
-//   const dllRefPlugin = new webpack.DllReferencePlugin({
-//     context: '.',
-//     manifest: require('./public/vendor-manifest.json')
-//   });
-//   plugins.push(dllRefPlugin);
-// }
-
-// since we don't use dll plugin for now - we still get vendor's bundled in a separate bundle
-// entry.vendor = vendor;
-// entry.react = react;
-
 const mode = isDev ? 'development' : 'production';
 
 const definePlugin = new webpack.DefinePlugin({
@@ -63,15 +32,6 @@ const definePlugin = new webpack.DefinePlugin({
   __VERSION__: JSON.stringify(pkg.version),
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
 });
-
-// https://webpack.js.org/configuration/devtool/
-let devtool;
-if (isDev) {
-  devtool = 'eval-source-map';
-} else {
-  // devtool = 'source-map';
-  devtool = false;
-}
 
 const loaders = {
   style: {
@@ -167,9 +127,17 @@ const plugins = [
 ].filter(Boolean);
 
 module.exports = {
-  devtool,
-  entry,
-  output,
+  // https://webpack.js.org/configuration/devtool/
+  devtool: isDev ? 'eval-source-map' : false,
+  entry: {
+    app: ['react-hot-loader/patch', './src/app.js']
+  },
+  output: {
+    path: path.resolve(__dirname, 'public'),
+    // use contenthash instead of chunkhash to take advantage of caching
+    filename: isDev ? '[name].bundle.js' : '[name].[contenthash].js',
+    publicPath: ''
+  },
   mode,
   resolve: {
     alias: {

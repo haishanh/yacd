@@ -11,6 +11,9 @@
     background-color: var(--color-focus-blue);
     color: #ddd;
   }
+  &.error {
+    opacity: 0.5;
+  }
 }
 
 .proxyType {

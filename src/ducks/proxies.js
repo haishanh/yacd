@@ -7,6 +7,8 @@ import { getClashAPIConfig } from 'd/app';
 // const ProxyTypeBuiltin = ['DIRECT', 'GLOBAL', 'REJECT'];
 // const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector', 'LoadBalance'];
 
+const ProxyTypes = ['Shadowsocks', 'Snell', 'Socks5', 'Http', 'Vmess'];
+
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
 export const getProxyGroupNames = s => s.proxies.groupNames;
@@ -16,8 +18,9 @@ const OptimisticSwitchProxy = 'proxies/OptimisticSwitchProxy';
 const CompletedRequestDelayForProxy = 'proxies/CompletedRequestDelayForProxy';
 
 function retrieveGroupNamesFrom(proxies) {
-  var groupNames = [];
-  var globalAll = [];
+  let groupNames = [];
+  let globalAll;
+  let proxyNames = [];
   for (const prop in proxies) {
     const p = proxies[prop];
     if (p.all && Array.isArray(p.all)) {
@@ -25,6 +28,8 @@ function retrieveGroupNamesFrom(proxies) {
       if (prop === 'GLOBAL') {
         globalAll = p.all;
       }
+    } else if (ProxyTypes.indexOf(p.type) >= 0) {
+      proxyNames.push(prop);
     }
   }
   if (globalAll) {
@@ -36,7 +41,7 @@ function retrieveGroupNamesFrom(proxies) {
       .sort((a, b) => a[0] - b[0])
       .map(group => group[1]);
   }
-  return groupNames;
+  return [groupNames, proxyNames];
 }
 
 export function fetchProxies() {
@@ -44,20 +49,35 @@ export function fetchProxies() {
     // TODO handle errors
 
     const state = getState();
-    // TODO this is too aggressive...
-    // const proxiesCurr = getProxies(state);
-    // if (Object.keys(proxiesCurr).length > 0) return;
 
     const apiConfig = getClashAPIConfig(state);
     // TODO show loading animation?
     const json = await proxiesAPI.fetchProxies(apiConfig);
     let { proxies = {} } = json;
 
-    const groupNames = retrieveGroupNamesFrom(proxies);
+    const [groupNames, proxyNames] = retrieveGroupNamesFrom(proxies);
+    const delayPrev = getDelay(getState());
+
+    const delayNext = { ...delayPrev };
+
+    for (let i = 0; i < proxyNames.length; i++) {
+      const name = proxyNames[i];
+      const { history } = proxies[name] || { history: [] };
+      const h = history[history.length - 1];
+      if (h) {
+        const ret = { error: '' };
+        if (h.delay === 0) {
+          ret.error = 'LikelyTimeout';
+        } else {
+          ret.number = h.delay;
+        }
+        delayNext[name] = ret;
+      }
+    }
 
     dispatch({
       type: CompletedFetchProxies,
-      payload: { proxies, groupNames }
+      payload: { proxies, groupNames, delay: delayNext }
     });
   };
 }

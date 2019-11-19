@@ -25,13 +25,12 @@ const icons = {
 };
 
 const SideBarRow = React.memo(function SideBarRow({
-  location,
+  isActive,
+  to,
   iconId,
-  labelText,
-  to
+  labelText
 }) {
   const Comp = icons[iconId];
-  const isActive = location.pathname === to;
   const className = cx(s.row, isActive ? s.rowActive : null);
   return (
     <Link to={to} className={className}>
@@ -42,13 +41,45 @@ const SideBarRow = React.memo(function SideBarRow({
 });
 
 SideBarRow.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string
-  }).isRequired,
+  isActive: PropTypes.bool.isRequired,
   to: PropTypes.string.isRequired,
   iconId: PropTypes.string,
   labelText: PropTypes.string
 };
+
+const pages = [
+  {
+    to: '/',
+    iconId: 'activity',
+    labelText: 'Overview'
+  },
+  {
+    to: '/proxies',
+    iconId: 'globe',
+    labelText: 'Proxies'
+  },
+  {
+    to: '/rules',
+    iconId: 'command',
+    labelText: 'Rules'
+  },
+
+  {
+    to: '/connections',
+    iconId: 'link',
+    labelText: 'Conns'
+  },
+  {
+    to: '/configs',
+    iconId: 'settings',
+    labelText: 'Config'
+  },
+  {
+    to: '/logs',
+    iconId: 'file',
+    labelText: 'Logs'
+  }
+];
 
 const actions = { switchTheme };
 
@@ -68,42 +99,15 @@ function SideBar({ location }) {
       </a>
 
       <div className={s.rows}>
-        <SideBarRow
-          to="/"
-          location={location}
-          iconId="activity"
-          labelText="Overview"
-        />
-        <SideBarRow
-          to="/proxies"
-          location={location}
-          iconId="globe"
-          labelText="Proxies"
-        />
-        <SideBarRow
-          to="/rules"
-          location={location}
-          iconId="command"
-          labelText="Rules"
-        />
-        <SideBarRow
-          to="/connections"
-          location={location}
-          iconId="link"
-          labelText="Conns"
-        />
-        <SideBarRow
-          to="/configs"
-          location={location}
-          iconId="settings"
-          labelText="Config"
-        />
-        <SideBarRow
-          to="/logs"
-          location={location}
-          iconId="file"
-          labelText="Logs"
-        />
+        {pages.map(({ to, iconId, labelText }) => (
+          <SideBarRow
+            key={to}
+            to={to}
+            isActive={location.pathname === to}
+            iconId={iconId}
+            labelText={labelText}
+          />
+        ))}
       </div>
       <div className={s.themeSwitchContainer} onClick={switchTheme}>
         <Icon id={moon.id} width={20} height={20} />

@@ -35,13 +35,18 @@ function Proxy({ now, name }) {
   const proxy = proxies[name];
 
   return (
-    <div className={cx(s0.proxy, { [s0.now]: now })}>
+    <div
+      className={cx(s0.proxy, {
+        [s0.now]: now,
+        [s0.error]: latency && latency.error
+      })}
+    >
       <div className={s0.proxyName}>{name}</div>
       <div className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
         {proxy.type}
       </div>
       <div className={s0.proxyLatencyWrap}>
-        {latency ? <ProxyLatency latency={latency} /> : null}
+        {latency && latency.number ? <ProxyLatency latency={latency} /> : null}
       </div>
     </div>
   );
