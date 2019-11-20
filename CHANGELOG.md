@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.7](https://github.com/haishanh/yacd/compare/v0.0.6...v0.0.7) (2019-11-20)
+
+Features:
+
+- use history latency data
+
 ## [0.0.6](https://github.com/haishanh/yacd/compare/v0.0.5...v0.0.6) (2019-11-17)
 
 Improvements:
