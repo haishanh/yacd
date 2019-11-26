@@ -20,89 +20,35 @@ const html = new HTMLPlugin({
   filename: 'index.html'
 });
 
-const svgSpriteRule = {
-  test: /\.svg$/,
-  use: ['svg-sprite-loader']
-};
-
-const mode = isDev ? 'development' : 'production';
-
 const definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(isDev),
   __VERSION__: JSON.stringify(pkg.version),
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
 });
 
-const loaders = {
-  style: {
-    loader: 'style-loader'
-    // options: {
-    // workaround css modules HMR issue
-    // see https://github.com/webpack-contrib/style-loader/issues/320
-    // hmr: false
-    // }
-    //
-    // the options hmr is removed in style-loader v1.0.0
-  },
-  css: { loader: 'css-loader' },
-  cssModule: {
-    loader: 'css-loader',
-    options: {
-      modules: {
-        localIdentName: isDev
-          ? '[path]_[name]_[local]_[hash:base64:5]'
-          : '[hash:base64:10]'
-      }
-    }
-  },
-  postcss: {
-    loader: 'postcss-loader',
-    options: {
-      plugins: () =>
-        [
-          require('postcss-import')(),
-          require('postcss-custom-media')({
-            importFrom: [
-              {
-                customMedia: {
-                  '--breakpoint-not-small': 'screen and (min-width: 30em)',
-                  '--breakpoint-medium':
-                    'screen and (min-width: 30em) and (max-width: 60em)',
-                  '--breakpoint-large': 'screen and (min-width: 60em)'
-                }
-              }
-            ]
-          }),
-          require('postcss-nested')(),
-          require('autoprefixer')(),
-          require('postcss-extend-rule')(),
-          isDev ? false : require('cssnano')()
-        ].filter(Boolean)
-    }
-  }
-};
-
-const rulesCss = {
-  test: /\.css$/,
-  exclude: /\.module\.css$/,
-  use: [
-    isDev ? loaders.style : MiniCssExtractPlugin.loader,
-    loaders.css,
-    loaders.postcss
-  ].filter(Boolean)
-};
-
-const rulesCssModules = {
-  test: /\.module\.css$/,
-  use: [
-    isDev ? loaders.style : MiniCssExtractPlugin.loader,
-    loaders.cssModule,
-    loaders.postcss
-  ].filter(Boolean)
-};
+const postcssPlugins = () =>
+  [
+    require('postcss-import')(),
+    require('postcss-custom-media')({
+      importFrom: [
+        {
+          customMedia: {
+            '--breakpoint-not-small': 'screen and (min-width: 30em)',
+            '--breakpoint-medium':
+              'screen and (min-width: 30em) and (max-width: 60em)',
+            '--breakpoint-large': 'screen and (min-width: 60em)'
+          }
+        }
+      ]
+    }),
+    require('postcss-nested')(),
+    require('autoprefixer')(),
+    require('postcss-extend-rule')(),
+    isDev ? false : require('cssnano')()
+  ].filter(Boolean);
 
 const cssExtractPlugin = new MiniCssExtractPlugin({
-  filename: isDev ? '[name].bundle.css' : '[name].[chunkhash].css'
+  filename: isDev ? '[name].css' : '[name].[contenthash].css'
 });
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -138,7 +84,7 @@ module.exports = {
     filename: isDev ? '[name].bundle.js' : '[name].[contenthash].js',
     publicPath: ''
   },
-  mode,
+  mode: isDev ? 'development' : 'production',
   resolve: {
     alias: {
       'react-dom': '@hot-loader/react-dom',
@@ -151,7 +97,10 @@ module.exports = {
   },
   module: {
     rules: [
-      svgSpriteRule,
+      {
+        test: /\.svg$/,
+        use: ['svg-sprite-loader']
+      },
       // js loader
       {
         test: /\.js$/,
@@ -175,11 +124,55 @@ module.exports = {
           }
         ]
       },
-      rulesCss,
-      rulesCssModules
+      {
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: [
+          isDev
+            ? {
+                loader: 'style-loader'
+              }
+            : MiniCssExtractPlugin.loader,
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: postcssPlugins
+            }
+          }
+        ].filter(Boolean)
+      },
+      {
+        test: /\.module\.css$/,
+        use: [
+          isDev
+            ? {
+                loader: 'style-loader'
+              }
+            : MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: isDev
+                  ? '[path]_[name]_[local]_[hash:base64:5]'
+                  : '[hash:base64:10]'
+              }
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: postcssPlugins
+            }
+          }
+        ].filter(Boolean)
+      }
     ]
   },
   optimization: {
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
@@ -204,7 +197,6 @@ module.exports = {
         }
       }
     },
-    runtimeChunk: true,
     minimizer: [new TerserPlugin()]
   },
   plugins
