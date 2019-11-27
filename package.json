@@ -39,7 +39,7 @@
     "@sentry/browser": "^5.9.1",
     "chart.js": "^2.9.2",
     "classnames": "^2.2.6",
-    "core-js": "^3.4.3",
+    "core-js": "^3.4.4",
     "date-fns": "^2.8.1",
     "history": "^4.7.2",
     "invariant": "^2.2.4",
