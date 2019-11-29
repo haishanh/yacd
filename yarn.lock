@@ -2953,10 +2953,10 @@ eslint-plugin-import@^2.18.0:
     read-pkg-up "^2.0.0"
     resolve "^1.11.0"
 
-eslint-plugin-jest@^23.0.5:
-  version "23.0.5"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.0.5.tgz#3c7c5e636c5a21677d2dfc8ba5424233ee2b9f27"
-  integrity sha512-etxXrWsFWzxsrxKwJnFC38uppH/vlJ3oF7Wmp/cxedqxRIxVhXup8e5y5MmtVXelevgxrgA1QS1vo8j889iK5Q==
+eslint-plugin-jest@^23.1.0:
+  version "23.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.1.0.tgz#ae995dbb0bfe6576f54fe4ad3176fb6fb37f3fc6"
+  integrity sha512-KHy1K0647bn86NTcWhWGoEIF9VgQ8YxR9hHZf/wQ4OvDwjRx27uk+mqvyZakWnRvIWFS/L25JNs4rnhsiE0adg==
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
