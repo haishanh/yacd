@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.0.8](https://github.com/haishanh/yacd/compare/v0.0.7...v0.0.8) (2019-11-20)
+## [0.0.9](https://github.com/haishanh/yacd/compare/v0.0.8...v0.0.9) (2019-12-02)
+
+Fix:
+
+- specify fab group z-index
+
+## [0.0.8](https://github.com/haishanh/yacd/compare/v0.0.7...v0.0.8) (2019-12-01)
 
 Features:
 
