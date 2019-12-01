@@ -116,6 +116,7 @@ body.light {
 /* TODO remove fabgrp in component css files */
 .fabgrp {
   position: fixed;
+  z-index: 3;
   right: 20px;
   bottom: 20px;
 }
