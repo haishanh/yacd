@@ -25,3 +25,11 @@
     padding: 6px 12px;
   }
 }
+
+.withIconWrapper {
+  display: flex;
+  align-items: center;
+  .txt {
+    margin-left: 5px;
+  }
+}

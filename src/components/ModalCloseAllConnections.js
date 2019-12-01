@@ -1,0 +1,44 @@
+import React from 'react';
+
+import Modal from 'react-modal';
+import Button from './Button';
+import cx from 'classnames';
+
+import modalStyle from './Modal.module.css';
+import s from './ModalCloseAllConnections.module.css';
+
+const { useRef, useCallback, useMemo } = React;
+
+export default function Comp({ isOpen, onRequestClose, primaryButtonOnTap }) {
+  const primaryButtonRef = useRef(null);
+  const onAfterOpen = useCallback(() => {
+    primaryButtonRef.current.focus();
+  }, []);
+  const className = useMemo(
+    () => ({
+      base: cx(modalStyle.content, s.cnt),
+      afterOpen: s.afterOpen,
+      beforeClose: ''
+    }),
+    []
+  );
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      onAfterOpen={onAfterOpen}
+      className={className}
+      overlayClassName={cx(modalStyle.overlay, s.overlay)}
+    >
+      <p>Are you sure you want to close all connections?</p>
+      <div className={s.btngrp}>
+        <Button onClick={primaryButtonOnTap} ref={primaryButtonRef}>
+          I'm sure
+        </Button>
+        {/* im lazy :) */}
+        <div style={{ width: 20 }} />
+        <Button onClick={onRequestClose}>No</Button>
+      </div>
+    </Modal>
+  );
+}

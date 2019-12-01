@@ -34,6 +34,13 @@ function renderCell(cell, now) {
   }
 }
 
+const tableState = {
+  sortBy: [
+    // maintain a more stable order
+    { id: 'start', desc: true }
+  ]
+};
+
 function Table({ data }) {
   const now = new Date();
   const {
@@ -45,7 +52,8 @@ function Table({ data }) {
   } = useTable(
     {
       columns,
-      data
+      data,
+      initialState: tableState
     },
     useSortBy
   );

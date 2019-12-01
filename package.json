@@ -67,6 +67,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.7.1",
+    "@babel/preset-flow": "^7.7.4",
     "@babel/preset-react": "^7.7.0",
     "autoprefixer": "^9.7.1",
     "babel-eslint": "^10.0.3",

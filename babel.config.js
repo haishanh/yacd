@@ -10,7 +10,8 @@ const presets = [
       corejs: 3
     }
   ],
-  '@babel/preset-react'
+  '@babel/preset-react',
+  '@babel/preset-flow'
 ];
 
 const plugins = [

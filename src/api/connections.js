@@ -1,10 +1,39 @@
+import { getURLAndInit } from 'm/request-helper';
+
 const endpoint = '/connections';
 
 let fetched = false;
 let subscribers = [];
 
+// see also https://github.com/Dreamacro/clash/blob/dev/constant/metadata.go#L41
+type UUID = string;
+type ConnectionItem = {
+  id: UUID,
+  metadata: {
+    network: 'tcp' | 'udp',
+    type: 'HTTP' | 'HTTP Connect' | 'Socks5' | 'Redir' | 'Unknown',
+    sourceIP: string,
+    destinationIP: string,
+    sourcePort: string,
+    destinationPort: string,
+    host: string
+  },
+  upload: number,
+  download: number,
+  // e.g. "2019-11-30T22:48:13.416668+08:00",
+  start: string,
+  chains: Array<string>,
+  // e.g. 'Match', 'DomainKeyword'
+  rule: string
+};
+type ConnectionsData = {
+  downloadTotal: number,
+  uploadTotal: number,
+  connections: Array<ConnectionItem>
+};
+
 function appendData(s) {
-  let o;
+  let o: ConnectionsData;
   try {
     o = JSON.parse(s);
   } catch (err) {
@@ -48,4 +77,9 @@ function subscribe(listener) {
   };
 }
 
-export { fetchData };
+async function closeAllConnections(apiConfig) {
+  const { url, init } = getURLAndInit(apiConfig);
+  return await fetch(url + endpoint, { ...init, method: 'DELETE' });
+}
+
+export { fetchData, closeAllConnections };

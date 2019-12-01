@@ -4,12 +4,15 @@ import ConnectionTable from 'c/ConnectionTable';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { useStoreState } from 'm/store';
 import { getClashAPIConfig } from 'd/app';
+import { X as IconClose } from 'react-feather';
 import SvgYacd from './SvgYacd';
+import { ButtonWithIcon } from './Button';
+import ModalCloseAllConnections from './ModalCloseAllConnections';
 import * as connAPI from '../api/connections';
 
 import s from './Connections.module.css';
 
-const { useEffect, useState, useRef } = React;
+const { useEffect, useState, useRef, useCallback, useMemo } = React;
 
 const paddingBottom = 30;
 
@@ -31,6 +34,17 @@ function Conn() {
   const [refContainer, containerHeight] = useRemainingViewPortHeight();
   const config = useStoreState(getClashAPIConfig);
   const [conns, setConns] = useState([]);
+  const [isCloseAllModalOpen, setIsCloseAllModalOpen] = useState(false);
+  const openCloseAllModal = useCallback(() => setIsCloseAllModalOpen(true), []);
+  const closeCloseAllModal = useCallback(
+    () => setIsCloseAllModalOpen(false),
+    []
+  );
+  const closeAllConnections = useCallback(() => {
+    connAPI.closeAllConnections(config);
+    closeCloseAllModal();
+  }, [config, closeCloseAllModal]);
+  const iconClose = useMemo(() => <IconClose width={16} />, []);
   const prevConnsRef = useRef(conns);
   useEffect(() => {
     function read({ connections }) {
@@ -65,6 +79,18 @@ function Conn() {
           )}
         </div>
       </div>
+      <div className="fabgrp">
+        <ButtonWithIcon
+          text="Close"
+          icon={iconClose}
+          onClick={openCloseAllModal}
+        />
+      </div>
+      <ModalCloseAllConnections
+        isOpen={isCloseAllModalOpen}
+        primaryButtonOnTap={closeAllConnections}
+        onRequestClose={closeCloseAllModal}
+      />
     </div>
   );
 }

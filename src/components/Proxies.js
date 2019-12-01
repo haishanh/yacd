@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useActions, useStoreState } from 'm/store';
 
 import ContentHeader from 'c/ContentHeader';
 import ProxyGroup from 'c/ProxyGroup';
-import Button from 'c/Button';
+import { ButtonWithIcon } from 'c/Button';
+import { Zap } from 'react-feather';
 
 import s0 from 'c/Proxies.module.css';
 
@@ -13,6 +14,8 @@ import {
   fetchProxies,
   requestDelayAll
 } from 'd/proxies';
+
+const { useEffect, useMemo } = React;
 
 const mapStateToProps = s => ({
   proxies: getProxies(s),
@@ -33,13 +36,19 @@ export default function Proxies() {
     })();
   }, [fetchProxies, requestDelayAll]);
   const { groupNames } = useStoreState(mapStateToProps);
+  const icon = useMemo(() => <Zap width={16} />, []);
 
   return (
     <>
       <ContentHeader title="Proxies" />
       <div className={s0.body}>
-        <div className={s0.fabgrp}>
-          <Button label="Test Latency" onClick={requestDelayAll} />
+        <div className="fabgrp">
+          <ButtonWithIcon
+            text="Test Latency"
+            icon={icon}
+            onClick={requestDelayAll}
+          />
+          {/* <Button onClick={requestDelayAll}>Test Latency</Button> */}
         </div>
         {groupNames.map(groupName => {
           return (

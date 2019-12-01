@@ -1,7 +1,8 @@
-import React, { memo, useEffect } from 'react';
+import React from 'react';
 import { useActions, useStoreState } from 'm/store';
-import Button from 'c/Button';
+import { ButtonWithIcon } from 'c/Button';
 import { FixedSizeList as List, areEqual } from 'react-window';
+import { RotateCw } from 'react-feather';
 
 import ContentHeader from 'c/ContentHeader';
 import Rule from 'c/Rule';
@@ -10,7 +11,9 @@ import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 
 import { getRules, fetchRules, fetchRulesOnce } from 'd/rules';
 
-import s0 from './Rules.module.css';
+const { memo, useEffect, useMemo } = React;
+
+// import s from './Rules.module.css';
 const paddingBottom = 30;
 
 const mapStateToProps = s => ({
@@ -43,7 +46,7 @@ export default function Rules() {
     fetchRulesOnce();
   }, [fetchRulesOnce]);
   const [refRulesContainer, containerHeight] = useRemainingViewPortHeight();
-
+  const refreshIcon = useMemo(() => <RotateCw width={16} />, []);
   return (
     <div>
       <ContentHeader title="Rules" />
@@ -60,8 +63,12 @@ export default function Rules() {
           {Row}
         </List>
       </div>
-      <div className={s0.fabgrp}>
-        <Button label="Refresh" onClick={fetchRules} />
+      <div className="fabgrp">
+        <ButtonWithIcon
+          text="Refresh"
+          icon={refreshIcon}
+          onClick={fetchRules}
+        />
       </div>
     </div>
   );

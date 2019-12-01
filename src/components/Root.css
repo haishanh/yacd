@@ -92,6 +92,7 @@ body.dark {
   --color-btn-fg: #bebebe;
   --color-bg-proxy-selected: #303030;
   --color-row-odd: #282828;
+  --bg-modal: #1f1f20;
 }
 
 body.light {
@@ -109,4 +110,12 @@ body.light {
   --color-btn-fg: #101010;
   --color-bg-proxy-selected: #cfcfcf;
   --color-row-odd: #f5f5f5;
+  --bg-modal: #fbfbfb;
+}
+
+/* TODO remove fabgrp in component css files */
+.fabgrp {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
 }

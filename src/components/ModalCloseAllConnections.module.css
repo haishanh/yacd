@@ -1,0 +1,23 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.cnt {
+  background-color: var(--bg-modal);
+  color: var(--color-text);
+  max-width: 300px;
+  line-height: 1.4;
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+.afterOpen {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.btngrp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
