@@ -18,6 +18,12 @@ const paddingBottom = 30;
 
 function formatConnectionDataItem(i) {
   const { id, metadata, upload, download, start, chains, rule } = i;
+  const { host, destinationPort } = metadata;
+  const metadataNext = {
+    ...metadata,
+    // merge host and destinationPort into one column
+    host: host + ':' + destinationPort
+  };
   // const started = formatDistance(new Date(start), now);
   return {
     id,
@@ -26,7 +32,7 @@ function formatConnectionDataItem(i) {
     start: 0 - new Date(start),
     chains: chains.reverse().join(' / '),
     rule,
-    ...metadata
+    ...metadataNext
   };
 }
 
