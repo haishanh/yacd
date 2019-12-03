@@ -2,25 +2,20 @@
   color: var(--color-text);
   display: flex;
   align-items: center;
-}
+  flex-wrap: wrap;
 
-.up,
-.down {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 200px;
-
-  div:nth-child(1) {
-    color: var(--color-text-secondary);
+  :global {
+    .sec {
+      padding: 10px;
+      width: 180px;
+      div:nth-child(1) {
+        color: var(--color-text-secondary);
+        font-size: 0.7em;
+      }
+      div:nth-child(2) {
+        padding: 10px 0 0;
+        font-size: 1.8em;
+      }
+    }
   }
-  div:nth-child(2) {
-    padding: 10px 0 0;
-    font-size: 2em;
-  }
-}
-.up {
-  padding-right: 20px;
-}
-.down {
-  padding-left: 20px;
 }

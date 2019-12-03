@@ -52,8 +52,8 @@ function Conn() {
   }, [config, closeCloseAllModal]);
   const iconClose = useMemo(() => <IconClose width={16} />, []);
   const prevConnsRef = useRef(conns);
-  useEffect(() => {
-    function read({ connections }) {
+  const read = useCallback(
+    ({ connections }) => {
       const x = connections.map(c => formatConnectionDataItem(c));
       // if previous connections and current connections are both empty
       // arrays, we wont update state to avaoid rerender
@@ -63,9 +63,12 @@ function Conn() {
       } else {
         prevConnsRef.current = x;
       }
-    }
+    },
+    [setConns]
+  );
+  useEffect(() => {
     return connAPI.fetchData(config, read);
-  }, [config]);
+  }, [config, read]);
   return (
     <div>
       <ContentHeader title="Connections" />
