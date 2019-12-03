@@ -52,7 +52,7 @@
     "react-feather": "^2.0.3",
     "react-modal": "^3.11.1",
     "react-router-dom": "^5.1.2",
-    "react-table": "^7.0.0-beta.12",
+    "react-table": "^7.0.0-beta.24",
     "react-window": "^1.8.5",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
