@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.10](https://github.com/haishanh/yacd/compare/v0.0.9...v0.0.10) (2019-12-04)
+
+Features:
+
+- add upload/download total and connectors number on overview
+
 ## [0.0.9](https://github.com/haishanh/yacd/compare/v0.0.8...v0.0.9) (2019-12-02)
 
 Fix:
