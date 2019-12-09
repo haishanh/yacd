@@ -6554,10 +6554,10 @@ react-router@5.1.2:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-table@^7.0.0-beta.12:
-  version "7.0.0-beta.20"
-  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.0.0-beta.20.tgz#2125726549a15d5fd1d264145c92b9807a82aa1e"
-  integrity sha512-809Zj/OHX+Jbfnb+kxULZDvDstHrpzjFl2+mYOF9pU1CcJKkL2GdBmlWr9pcDmznxMU6veJUYnAxXYqvAWKVrQ==
+react-table@^7.0.0-rc.4:
+  version "7.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.0.0-rc.4.tgz#88bc61747821f3c3bbbfc7e1a4a088cbe94ed9ee"
+  integrity sha512-NOYmNmAIvQ9sSZd5xMNSthqiZ/o5h8h28MhFQFSxCu5u3v9J8PNh7x9wYMnk737MTjoKCZWIZT/dMFCPItXzEg==
 
 react-window@^1.8.5:
   version "1.8.5"
