@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0](https://github.com/haishanh/yacd/compare/v0.0.10...v0.1.0) (2019-12-20)
+
+Features:
+
+- support proxy provider
+
 ## [0.0.10](https://github.com/haishanh/yacd/compare/v0.0.9...v0.0.10) (2019-12-04)
 
 Features:
