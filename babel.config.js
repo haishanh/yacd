@@ -14,23 +14,23 @@ const presets = [
   '@babel/preset-flow'
 ];
 
-const plugins = [
-  'react-hot-loader/babel',
-  [
-    '@babel/plugin-transform-runtime',
-    {
-      corejs: false,
-      helpers: true,
-      regenerator: true,
-      useESModules: true
-    }
-  ],
-  '@babel/plugin-syntax-dynamic-import',
-  '@babel/plugin-proposal-class-properties',
-  '@babel/plugin-proposal-do-expressions'
-];
-
 module.exports = api => {
-  api.cache(true);
+  api.cache.using(() => process.env.NODE_ENV);
+  const isDev = api.env('development');
+  const plugins = [
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        corejs: false,
+        helpers: true,
+        regenerator: true,
+        useESModules: true
+      }
+    ],
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-do-expressions',
+    isDev ? 'react-refresh/babel' : false
+  ].filter(Boolean);
   return { presets, plugins };
 };

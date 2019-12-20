@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { Provider } from '../misc/store';
 import StateProvider from './StateProvider';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import { hot } from 'react-hot-loader/root';
 import Loading2 from 'c/Loading2';
 import ErrorBoundary from 'c/ErrorBoundary';
 import SideBar from 'c/SideBar';
@@ -71,4 +70,4 @@ const Root = () => (
   </ErrorBoundary>
 );
 
-export default hot(Root);
+export default Root;

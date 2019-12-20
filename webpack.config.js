@@ -6,6 +6,9 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ReactRefreshWebpackPlugin = require('@hsjs/react-refresh-webpack-plugin');
+// const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 const pkg = require('./package.json');
 
 process.env.BABEL_ENV = process.env.NODE_ENV;
@@ -67,6 +70,8 @@ const plugins = [
   // chart.js requires moment
   // and we don't need locale stuff in moment
   new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+  // https://github.com/pmmmwh/react-refresh-webpack-plugin
+  isDev ? new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }) : false,
   isDev ? false : new webpack.HashedModuleIdsPlugin(),
   isDev ? false : cssExtractPlugin,
   isDev ? false : bundleAnalyzerPlugin
@@ -76,7 +81,8 @@ module.exports = {
   // https://webpack.js.org/configuration/devtool/
   devtool: isDev ? 'eval-source-map' : false,
   entry: {
-    app: ['react-hot-loader/patch', './src/app.js']
+    // app: ['react-hot-loader/patch', './src/app.js']
+    app: ['./src/app.js']
   },
   output: {
     path: path.resolve(__dirname, 'public'),
@@ -87,7 +93,7 @@ module.exports = {
   mode: isDev ? 'development' : 'production',
   resolve: {
     alias: {
-      'react-dom': '@hot-loader/react-dom',
+      // 'react-dom': '@hot-loader/react-dom',
       a: resolveDir('src/api'),
       s: resolveDir('src/svg'),
       m: resolveDir('src/misc'),
