@@ -2,10 +2,15 @@
   position: relative;
   padding: 5px;
   border-radius: 8px;
+  overflow: hidden;
+
+  max-width: 280px;
   @media (--breakpoint-not-small) {
+    min-width: 150px;
     border-radius: 10px;
     padding: 10px;
   }
+
   background-color: var(--color-bg-proxy-selected);
   &.now {
     background-color: var(--color-focus-blue);
@@ -39,4 +44,13 @@
   height: 30px;
   display: flex;
   align-items: flex-end;
+}
+
+.proxySmall {
+  .now {
+    outline: pink solid 1px;
+  }
+  width: 12px;
+  height: 12px;
+  border-radius: 8px;
 }

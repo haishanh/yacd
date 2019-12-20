@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
-import { Provider } from 'm/store';
+import { Provider } from '../misc/store';
+import StateProvider from './StateProvider';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader/root';
 import Loading2 from 'c/Loading2';
@@ -36,30 +37,38 @@ const Rules = React.lazy(() =>
 
 window.store = store;
 
+const initialState = {
+  proxies: {
+    proxies: {},
+    delay: {},
+    groupNames: []
+  }
+};
+
 const Root = () => (
   <ErrorBoundary>
-    <Provider store={store}>
-      <Router>
-        <div className={s0.app}>
-          <APIDiscovery />
-          <Route path="/" render={props => <SideBar {...props} />} />
-          <div className={s0.content}>
-            <Suspense fallback={<Loading2 />}>
-              <Route exact path="/" render={() => <Home />} />
-              <Route exact path="/connections" component={Connections} />
-              <Route exact path="/overview" render={() => <Home />} />
-              <Route exact path="/configs" component={Config} />
-              <Route exact path="/logs" component={Logs} />
-              <Route exact path="/proxies" render={() => <Proxies />} />
-              <Route exact path="/rules" render={() => <Rules />} />
-            </Suspense>
+    <StateProvider initialState={initialState}>
+      <Provider store={store}>
+        <Router>
+          <div className={s0.app}>
+            <APIDiscovery />
+            <Route path="/" render={props => <SideBar {...props} />} />
+            <div className={s0.content}>
+              <Suspense fallback={<Loading2 />}>
+                <Route exact path="/" render={() => <Home />} />
+                <Route exact path="/connections" component={Connections} />
+                <Route exact path="/overview" render={() => <Home />} />
+                <Route exact path="/configs" component={Config} />
+                <Route exact path="/logs" component={Logs} />
+                <Route exact path="/proxies" render={() => <Proxies />} />
+                <Route exact path="/rules" render={() => <Rules />} />
+              </Suspense>
+            </div>
           </div>
-        </div>
-      </Router>
-    </Provider>
+        </Router>
+      </Provider>
+    </StateProvider>
   </ErrorBoundary>
 );
-// <Route exact path="/__0" render={() => <StyleGuide />} />
-// <Route exact path="/__1" component={Loading} />
 
 export default hot(Root);

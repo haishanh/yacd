@@ -10,6 +10,13 @@
     U+FEFF, U+FFFD;
 }
 
+.relative {
+  position: relative;
+}
+/* .absolute { */
+/*   position: absolute; */
+/* } */
+
 .border-left,
 .border-top,
 .border-bottom {
@@ -111,6 +118,12 @@ body.light {
   --color-bg-proxy-selected: #cfcfcf;
   --color-row-odd: #f5f5f5;
   --bg-modal: #fbfbfb;
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* TODO remove fabgrp in component css files */

@@ -18,13 +18,13 @@ Vary: Origin
 Date: Tue, 16 Oct 2018 16:38:33 GMT
 */
 
-async function fetchProxies(config) {
+export async function fetchProxies(config) {
   const { url, init } = getURLAndInit(config);
   const res = await fetch(url + endpoint, init);
   return await res.json();
 }
 
-async function requestToSwitchProxy(apiConfig, name1, name2) {
+export async function requestToSwitchProxy(apiConfig, name1, name2) {
   const body = { name: name2 };
   const { url, init } = getURLAndInit(apiConfig);
   const fullURL = `${url}${endpoint}/${name1}`;
@@ -35,11 +35,27 @@ async function requestToSwitchProxy(apiConfig, name1, name2) {
   });
 }
 
-async function requestDelayForProxy(apiConfig, name) {
+export async function requestDelayForProxy(apiConfig, name) {
   const { url, init } = getURLAndInit(apiConfig);
   const qs = 'timeout=5000&url=http://www.google.com/generate_204';
   const fullURL = `${url}${endpoint}/${name}/delay?${qs}`;
   return await fetch(fullURL, init);
 }
 
-export { fetchProxies, requestToSwitchProxy, requestDelayForProxy };
+export async function fetchProviderProxies(config) {
+  const { url, init } = getURLAndInit(config);
+  const res = await fetch(url + '/providers/proxies', init);
+  if (res.status === 404) {
+    return { providers: {} };
+  }
+  return await res.json();
+}
+
+export async function updateProviderByName(config, name) {
+  const { url, init } = getURLAndInit(config);
+  const options = {
+    ...init,
+    method: 'PUT'
+  };
+  return await fetch(url + '/providers/proxies/' + name, options);
+}

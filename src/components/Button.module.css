@@ -24,6 +24,22 @@
     font-size: 1em;
     padding: 6px 12px;
   }
+
+  &.plain {
+    border-radius: 100%;
+    padding: 0;
+    display: flex;
+    border-color: transparent;
+    background: none;
+    &:focus {
+      border-color: var(--color-focus-blue);
+    }
+    &:hover {
+      background: #387cec;
+      border: 1px solid #387cec;
+      color: #fff;
+    }
+  }
 }
 
 .withIconWrapper {

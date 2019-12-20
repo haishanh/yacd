@@ -1,0 +1,14 @@
+h2.sectionNameType {
+  margin: 0;
+  font-size: 1.3em;
+  @media (--breakpoint-not-small) {
+    font-size: 1.5em;
+  }
+
+  span:nth-child(2) {
+    font-size: 12px;
+    color: #777;
+    font-weight: normal;
+    margin: 0 0.3em;
+  }
+}

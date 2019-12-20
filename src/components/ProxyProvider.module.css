@@ -1,0 +1,43 @@
+.header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  .arrow {
+    display: inline-flex;
+    transform: rotate(0deg);
+    transition: transform 0.3s;
+    &.isOpen {
+      transform: rotate(180deg);
+    }
+
+    &:focus {
+      outline: var(--color-focus-blue) solid 1px;
+    }
+  }
+}
+
+.updatedAt {
+  margin-bottom: 12px;
+  small {
+    color: #777;
+  }
+}
+
+.body {
+  padding: 10px 15px;
+  @media (--breakpoint-not-small) {
+    padding: 10px 40px;
+  }
+}
+
+.actionFooter {
+  display: flex;
+}
+
+.refresh {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

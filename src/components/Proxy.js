@@ -1,13 +1,36 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useStoreState } from 'm/store';
 
-import ProxyLatency from 'c/ProxyLatency';
+import { connect } from './StateProvider';
+import ProxyLatency from './ProxyLatency';
+
+import { getProxies, getDelay } from '../store/proxies';
 
 import s0 from './Proxy.module.css';
 
-import { getDelay, getProxies } from 'd/proxies';
+const { useMemo } = React;
+
+const colorMap = {
+  // green
+  good: '#67c23a',
+  // yellow
+  normal: '#d4b75c',
+  // orange
+  bad: '#e67f3c',
+  // bad: '#F56C6C',
+  na: '#909399'
+};
+
+function getLabelColor({ number, error } = {}) {
+  if (number < 200) {
+    return colorMap.good;
+  } else if (number < 400) {
+    return colorMap.normal;
+  } else if (typeof number === 'number') {
+    return colorMap.bad;
+  }
+  return colorMap.na;
+}
 
 /*
 const colors = {
@@ -22,18 +45,28 @@ const colors = {
 };
 */
 
-const mapStateToProps = s => {
-  return {
-    proxies: getProxies(s),
-    delay: getDelay(s)
-  };
+type ProxyProps = {
+  name: string,
+  now?: boolean,
+
+  // connect injected
+  // TODO refine type
+  proxy: any,
+  latency: any
 };
 
-function Proxy({ now, name }) {
-  const { proxies, delay } = useStoreState(mapStateToProps);
-  const latency = delay[name];
-  const proxy = proxies[name];
+function ProxySmallImpl({ now, name, proxy, latency }: ProxyProps) {
+  const color = useMemo(() => getLabelColor(latency), [latency]);
+  return (
+    <div
+      className={cx(s0.proxySmall, { [s0.now]: now })}
+      style={{ backgroundColor: color }}
+    />
+  );
+}
 
+function Proxy({ now, name, proxy, latency }: ProxyProps) {
+  const color = useMemo(() => getLabelColor(latency), [latency]);
   return (
     <div
       className={cx(s0.proxy, {
@@ -46,14 +79,22 @@ function Proxy({ now, name }) {
         {proxy.type}
       </div>
       <div className={s0.proxyLatencyWrap}>
-        {latency && latency.number ? <ProxyLatency latency={latency} /> : null}
+        {latency && latency.number ? (
+          <ProxyLatency number={latency.number} color={color} />
+        ) : null}
       </div>
     </div>
   );
 }
-Proxy.propTypes = {
-  now: PropTypes.bool,
-  name: PropTypes.string
+
+const mapState = (s, { name }) => {
+  const proxies = getProxies(s);
+  const delay = getDelay(s);
+  return {
+    proxy: proxies[name],
+    latency: delay[name]
+  };
 };
 
-export default Proxy;
+export default connect(mapState)(Proxy);
+export const ProxySmall = connect(mapState)(ProxySmallImpl);

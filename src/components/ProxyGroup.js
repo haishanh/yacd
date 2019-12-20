@@ -1,60 +1,108 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useActions, useStoreState } from 'm/store';
 
-import Proxy from 'c/Proxy';
+import Proxy, { ProxySmall } from './Proxy';
+import { SectionNameType } from './shared/Basic';
 
 import s0 from './ProxyGroup.module.css';
 
-import { getProxies, switchProxy } from 'd/proxies';
+import { switchProxy } from '../store/proxies';
 
-const mapStateToProps = s => ({
-  proxies: getProxies(s)
-});
+const { memo, useCallback, useMemo } = React;
 
-export default function ProxyGroup({ name }) {
-  const { proxies } = useStoreState(mapStateToProps);
-  const actions = useActions({ switchProxy });
+function ProxyGroup({ name, proxies, apiConfig, dispatch }) {
   const group = proxies[name];
-  const { all } = group;
+  const { all, type, now } = group;
+
+  const isSelectable = useMemo(() => type === 'Selector', [type]);
+
+  const itemOnTapCallback = useCallback(
+    proxyName => {
+      if (!isSelectable) return;
+
+      dispatch(switchProxy(apiConfig, name, proxyName));
+      // switchProxyFn(name, proxyName);
+    },
+    [apiConfig, dispatch, name, isSelectable]
+  );
 
   return (
     <div className={s0.group}>
       <div className={s0.header}>
-        <h2>
-          <span>{name}</span>
-          <span>{group.type}</span>
-        </h2>
+        <SectionNameType name={name} type={group.type} />
       </div>
-      <div className={s0.list}>
-        {all.map(proxyName => {
-          const isSelectable = group.type === 'Selector';
-          const proxyClassName = cx(s0.proxy, {
-            [s0.proxySelectable]: isSelectable
-          });
-          return (
-            <div
-              className={proxyClassName}
-              key={proxyName}
-              onClick={() => {
-                if (!isSelectable) return;
-                actions.switchProxy(name, proxyName);
-              }}
-            >
-              <Proxy
-                isSelectable={isSelectable}
-                name={proxyName}
-                now={proxyName === group.now}
-              />
-            </div>
-          );
-        })}
-      </div>
+      <ProxyList
+        all={all}
+        now={now}
+        isSelectable={isSelectable}
+        itemOnTapCallback={itemOnTapCallback}
+      />
     </div>
   );
 }
 
-ProxyGroup.propTypes = {
-  name: PropTypes.string
+type ProxyListProps = {
+  all: string[],
+  now?: string,
+  isSelectable?: boolean,
+  itemOnTapCallback?: string => void
 };
+export function ProxyList({
+  all,
+  now,
+  isSelectable,
+  itemOnTapCallback
+}: ProxyListProps) {
+  return (
+    <div className={s0.list}>
+      {all.map(proxyName => {
+        const proxyClassName = cx(s0.proxy, {
+          [s0.proxySelectable]: isSelectable
+        });
+        return (
+          <div
+            className={proxyClassName}
+            key={proxyName}
+            onClick={() => {
+              if (!isSelectable || !itemOnTapCallback) return;
+              itemOnTapCallback(proxyName);
+            }}
+          >
+            <Proxy name={proxyName} now={proxyName === now} />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export function ProxyListSummaryView({
+  all,
+  now,
+  isSelectable,
+  itemOnTapCallback
+}: ProxyListProps) {
+  return (
+    <div className={s0.list}>
+      {all.map(proxyName => {
+        const proxyClassName = cx(s0.proxy, {
+          [s0.proxySelectable]: isSelectable
+        });
+        return (
+          <div
+            className={proxyClassName}
+            key={proxyName}
+            onClick={() => {
+              if (!isSelectable || !itemOnTapCallback) return;
+              itemOnTapCallback(proxyName);
+            }}
+          >
+            <ProxySmall name={proxyName} now={proxyName === now} />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default memo(ProxyGroup);
