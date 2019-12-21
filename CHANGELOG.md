@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.1](https://github.com/haishanh/yacd/compare/v0.1.0...v0.1.1) (2019-12-21)
+
+Fixes:
+
+- connections table header data miss alignment
+
 ## [0.1.0](https://github.com/haishanh/yacd/compare/v0.0.10...v0.1.0) (2019-12-20)
 
 Features:
