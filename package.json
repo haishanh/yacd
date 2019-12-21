@@ -101,7 +101,7 @@
     "prettier": "^1.17.1",
     "react-refresh": "^0.0.0-experimental-f42431abe",
     "resize-observer-polyfill": "^1.5.1",
-    "style-loader": "^1.0.2",
+    "style-loader": "^1.1.1",
     "svg-sprite-loader": "^4.1.2",
     "terser-webpack-plugin": "^2.3.1",
     "webpack": "^4.41.4",
