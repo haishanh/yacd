@@ -8,7 +8,7 @@ import { useTable, useSortBy } from 'react-table';
 import s from './ConnectionTable.module.css';
 
 const columns = [
-  { accessor: 'id', show: false },
+  // { accessor: 'id', show: false },
   { Header: 'Host', accessor: 'host' },
   { Header: 'Download', accessor: 'download' },
   { Header: 'Upload', accessor: 'upload' },
@@ -34,43 +34,38 @@ function renderCell(cell, now) {
   }
 }
 
-const sortById = { id: 'id', desc: true };
+// const sortById = { id: 'id', desc: true };
 // const sortByStart = { id: 'start', desc: true };
-const tableState = {
-  sortBy: [
-    // maintain a more stable order
-    sortById
-  ]
-};
+// const tableState = {
+//   sortBy: [
+//     // maintain a more stable order
+//     sortById
+//   ],
+//   hiddenColumns: ['id']
+// };
 
-function tableReducer(newState, action, _prevState) {
-  const { type } = action;
-  if (type === 'toggleSortBy') {
-    const { sortBy = [] } = newState;
-    if (sortBy.length === 0) {
-      return {
-        ...newState,
-        sortBy: [sortById]
-      };
-    }
-  }
-  return newState;
-}
+// function tableReducer(newState, action, _prevState) {
+//   const { type } = action;
+//   if (type === 'toggleSortBy') {
+//     const { sortBy = [] } = newState;
+//     if (sortBy.length === 0) {
+//       return {
+//         ...newState,
+//         sortBy: [sortById]
+//       };
+//     }
+//   }
+//   return newState;
+// }
 
 function Table({ data }) {
   const now = new Date();
-  const {
-    getTableProps,
-    // getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable(
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
-      data,
-      initialState: tableState,
-      reducer: tableReducer
+      data
+      // initialState: tableState,
+      // reducer: tableReducer
     },
     useSortBy
   );
