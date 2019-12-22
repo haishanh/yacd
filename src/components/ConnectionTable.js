@@ -19,7 +19,7 @@ const columns = [
   { Header: 'Time', accessor: 'start' },
   { Header: 'Source IP', accessor: 'sourceIP' },
   { Header: 'Source Port', accessor: 'sourcePort' },
-  { Header: 'Designation IP', accessor: 'destinationIP' }
+  { Header: 'Destination IP', accessor: 'destinationIP' }
 ];
 
 function renderCell(cell, now) {
