@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDown, RotateCw } from 'react-feather';
+import { ChevronDown, RotateCw, Zap } from 'react-feather';
 import { formatDistance } from 'date-fns';
 import ResizeObserver from 'resize-observer-polyfill';
 import { motion } from 'framer-motion';
@@ -12,7 +12,10 @@ import { SectionNameType } from './shared/Basic';
 import { ProxyList, ProxyListSummaryView } from './ProxyGroup';
 import { ButtonWithIcon, ButtonPlain } from './Button';
 
-import { updateProviderByName } from '../store/proxies';
+import {
+  updateProviderByName,
+  healthcheckProviderByName
+} from '../store/proxies';
 
 import s from './ProxyProvider.module.css';
 
@@ -42,6 +45,10 @@ function ProxyProvider({ item, dispatch }: Props) {
     () => dispatch(updateProviderByName(apiConfig, item.name)),
     [apiConfig, dispatch, item.name]
   );
+  const healthcheckProvider = useCallback(
+    () => dispatch(healthcheckProviderByName(apiConfig, item.name)),
+    [apiConfig, dispatch, item.name]
+  );
 
   const [isCollapsibleOpen, setCollapsibleOpen] = useState(false);
   const toggle = useCallback(() => setCollapsibleOpen(x => !x), []);
@@ -66,6 +73,11 @@ function ProxyProvider({ item, dispatch }: Props) {
             text="Update"
             icon={<Refresh />}
             onClick={updateProvider}
+          />
+          <ButtonWithIcon
+            text="Health Check"
+            icon={<Zap size={16} />}
+            onClick={healthcheckProvider}
           />
         </div>
       </Collapsible2>

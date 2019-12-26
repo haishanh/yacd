@@ -66,6 +66,19 @@ export function updateProviderByName(apiConfig, name) {
   };
 }
 
+export function healthcheckProviderByName(apiConfig, name) {
+  return async dispatch => {
+    try {
+      await proxiesAPI.healthcheckProviderByName(apiConfig, name);
+    } catch (x) {
+      // ignore
+    }
+    // should be optimized
+    // but ¯\_(ツ)_/¯
+    dispatch(fetchProxies(apiConfig));
+  };
+}
+
 export function switchProxy(apiConfig, name1, name2) {
   return async dispatch => {
     proxiesAPI

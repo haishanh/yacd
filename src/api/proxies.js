@@ -53,9 +53,15 @@ export async function fetchProviderProxies(config) {
 
 export async function updateProviderByName(config, name) {
   const { url, init } = getURLAndInit(config);
-  const options = {
-    ...init,
-    method: 'PUT'
-  };
+  const options = { ...init, method: 'PUT' };
   return await fetch(url + '/providers/proxies/' + name, options);
+}
+
+export async function healthcheckProviderByName(config, name) {
+  const { url, init } = getURLAndInit(config);
+  const options = { ...init, method: 'GET' };
+  return await fetch(
+    url + '/providers/proxies/' + name + '/healthcheck',
+    options
+  );
 }
