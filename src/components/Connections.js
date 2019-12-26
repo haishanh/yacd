@@ -1,9 +1,9 @@
 import React from 'react';
-import ContentHeader from 'c/ContentHeader';
-import ConnectionTable from 'c/ConnectionTable';
+import ContentHeader from './ContentHeader';
+import ConnectionTable from './ConnectionTable';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
-import { useStoreState } from 'm/store';
-import { getClashAPIConfig } from 'd/app';
+import { useStoreState } from '../misc/store';
+import { getClashAPIConfig } from '../ducks/app';
 import { X as IconClose } from 'react-feather';
 import SvgYacd from './SvgYacd';
 import { ButtonWithIcon } from './Button';

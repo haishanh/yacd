@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { useActions, useStoreState } from 'm/store';
-
-import Modal from 'c/Modal';
-import APIConfig from 'c/APIConfig';
-
-import { closeModal } from 'd/modals';
-import { fetchConfigs } from 'd/configs';
-
+import { useActions, useStoreState } from '../misc/store';
 import { DOES_NOT_SUPPORT_FETCH, errors } from '../misc/errors';
+
+import Modal from './Modal';
+import APIConfig from './APIConfig';
+
+import { closeModal } from '../ducks/modals';
+import { fetchConfigs } from '../ducks/configs';
 
 import s0 from './APIDiscovery.module.css';
 

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import ToggleSwitch from 'c/ToggleSwitch';
-import Input from 'c/Input';
-import Switch from 'c/Switch';
-import Button from 'c/Button';
+import ToggleSwitch from './ToggleSwitch';
+import Input from './Input';
+import Switch from './Switch';
+import Button from './Button';
 // import Modal from 'c/Modal';
 // import APIConfig from 'c/APIConfig';
 // import Proxy from 'c/Proxy';

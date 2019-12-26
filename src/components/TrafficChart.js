@@ -1,9 +1,13 @@
 import React, { useMemo } from 'react';
 import { fetchData } from '../api/traffic';
 import useLineChart from '../hooks/useLineChart';
-import { useStoreState } from 'm/store';
-import { getClashAPIConfig, getSelectedChartStyleIndex } from 'd/app';
-import { chartJSResource, commonDataSetProps, chartStyles } from 'm/chart';
+import { useStoreState } from '../misc/store';
+import { getClashAPIConfig, getSelectedChartStyleIndex } from '../ducks/app';
+import {
+  chartJSResource,
+  commonDataSetProps,
+  chartStyles
+} from '../misc/chart';
 
 const chartWrapperStyle = {
   // make chartjs chart responsive

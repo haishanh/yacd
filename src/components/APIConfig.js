@@ -1,13 +1,13 @@
 import React from 'react';
-import { useStoreState, useActions } from 'm/store';
+import { useStoreState, useActions } from '../misc/store';
 
-import Field from 'c/Field';
-import Button from 'c/Button';
+import Field from './Field';
+import Button from './Button';
 import SvgYacd from './SvgYacd';
 
 import s0 from './APIConfig.module.css';
 
-import { getClashAPIConfig, updateClashAPIConfig } from 'd/app';
+import { getClashAPIConfig, updateClashAPIConfig } from '../ducks/app';
 
 const { useState, useEffect, useRef, useCallback } = React;
 

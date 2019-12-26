@@ -1,8 +1,8 @@
 import React, { memo, useState, useMemo } from 'react';
-import Icon from 'c/Icon';
+import Icon from './Icon';
 
-import search from 's/search.svg';
-import { useActions, useStoreState } from 'm/store';
+import search from '../svg/search.svg';
+import { useActions, useStoreState } from '../misc/store';
 
 import debounce from 'lodash-es/debounce';
 

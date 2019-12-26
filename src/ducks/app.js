@@ -1,6 +1,6 @@
-import { loadState, saveState, clearState } from 'm/storage';
-import { fetchConfigs } from 'd/configs';
-import { closeModal } from 'd/modals';
+import { loadState, saveState, clearState } from '../misc/storage';
+import { fetchConfigs } from './configs';
+import { closeModal } from './modals';
 
 const UpdateClashAPIConfig = 'app/UpdateClashAPIConfig';
 const SwitchTheme = 'app/SwitchTheme';

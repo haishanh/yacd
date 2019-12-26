@@ -1,7 +1,7 @@
-import * as configsAPI from 'a/configs';
-import * as trafficAPI from 'a/traffic';
-import { openModal } from 'd/modals';
-import { getClashAPIConfig } from 'd/app';
+import * as configsAPI from '../api/configs';
+import * as trafficAPI from '../api/traffic';
+import { openModal } from './modals';
+import { getClashAPIConfig } from './app';
 
 const CompletedFetchConfigs = 'configs/CompletedFetchConfigs';
 const OptimisticUpdateConfigs = 'configs/OptimisticUpdateConfigs';

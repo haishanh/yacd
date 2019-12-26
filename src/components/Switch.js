@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import s0 from 'c/Switch.module.css';
+import s0 from './Switch.module.css';
 const noop = () => {};
 
 function Switch({ checked = false, onChange = noop, name = '' }) {

@@ -1,4 +1,4 @@
-import { getURLAndInit } from 'm/request-helper';
+import { getURLAndInit } from '../misc/request-helper';
 
 const endpoint = '/connections';
 

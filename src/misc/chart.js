@@ -1,5 +1,5 @@
 import { unstable_createResource as createResource } from '@hsjs/react-cache';
-import prettyBytes from 'm/pretty-bytes';
+import prettyBytes from './pretty-bytes';
 
 export const chartJSResource = createResource(() => {
   return import(

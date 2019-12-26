@@ -20,7 +20,8 @@ extends:
 settings:
   import/resolver: webpack
 
-# globals:
+globals:
+  __DEV__: true
   # Promise: true
 
 rules:

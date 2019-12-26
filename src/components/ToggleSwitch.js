@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import s0 from 'c/ToggleSwitch.module.css';
+import s0 from './ToggleSwitch.module.css';
 
 function ToggleSwitch({ options, value, name, onChange }) {
   const idxSelected = useMemo(() => options.map(o => o.value).indexOf(value), [

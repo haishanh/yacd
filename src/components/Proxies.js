@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStoreState } from 'm/store';
+import { useStoreState } from '../misc/store';
 
 import { connect } from './StateProvider';
 

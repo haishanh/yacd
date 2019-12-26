@@ -1,6 +1,10 @@
 import React, { useMemo } from 'react';
 import useLineChart from '../hooks/useLineChart';
-import { chartJSResource, commonDataSetProps, chartStyles } from 'm/chart';
+import {
+  chartJSResource,
+  commonDataSetProps,
+  chartStyles
+} from '../misc/chart';
 
 const extraChartOptions = {
   legend: {

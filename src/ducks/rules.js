@@ -1,5 +1,5 @@
-import * as rulesAPI from 'a/rules';
-import { getClashAPIConfig } from 'd/app';
+import * as rulesAPI from '../api/rules';
+import { getClashAPIConfig } from '../ducks/app';
 import invariant from 'invariant';
 import { createSelector } from 'reselect';
 

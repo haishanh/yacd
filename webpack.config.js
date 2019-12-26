@@ -14,7 +14,6 @@ const pkg = require('./package.json');
 process.env.BABEL_ENV = process.env.NODE_ENV;
 const isDev = process.env.NODE_ENV !== 'production';
 
-const resolveDir = dir => path.resolve(__dirname, dir);
 const HTMLPlugin = require('html-webpack-plugin');
 const html = new HTMLPlugin({
   title: 'yacd - Yet Another Clash Dashboard',
@@ -91,23 +90,12 @@ module.exports = {
     publicPath: ''
   },
   mode: isDev ? 'development' : 'production',
-  resolve: {
-    alias: {
-      // 'react-dom': '@hot-loader/react-dom',
-      a: resolveDir('src/api'),
-      s: resolveDir('src/svg'),
-      m: resolveDir('src/misc'),
-      d: resolveDir('src/ducks'),
-      c: resolveDir('src/components')
-    }
-  },
   module: {
     rules: [
       {
         test: /\.svg$/,
         use: ['svg-sprite-loader']
       },
-      // js loader
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -118,7 +106,6 @@ module.exports = {
           }
         }
       },
-      // file loader
       {
         test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
         use: [

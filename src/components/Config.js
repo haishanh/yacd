@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useStoreState, useActions } from 'm/store';
+import { useStoreState, useActions } from '../misc/store';
 
-import { getConfigs, fetchConfigs, updateConfigs } from 'd/configs';
+import { getConfigs, fetchConfigs, updateConfigs } from '../ducks/configs';
 import {
   clearStorage,
   selectChartStyleIndex,
   getSelectedChartStyleIndex
-} from 'd/app';
+} from '../ducks/app';
 
-import ContentHeader from 'c/ContentHeader';
-import Switch from 'c/Switch';
-import ToggleSwitch from 'c/ToggleSwitch';
-import Input from 'c/Input';
-import Button from 'c/Button';
-import Selection from 'c/Selection';
-import TrafficChartSample from 'c/TrafficChartSample';
+import ContentHeader from './ContentHeader';
+import Switch from './Switch';
+import ToggleSwitch from './ToggleSwitch';
+import Input from './Input';
+import Button from './Button';
+import Selection from './Selection';
+import TrafficChartSample from './TrafficChartSample';
 
-import s0 from 'c/Config.module.css';
+import s0 from './Config.module.css';
 
 const propsList = [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }];
 

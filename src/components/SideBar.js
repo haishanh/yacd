@@ -4,16 +4,13 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
 
-import { useActions } from 'm/store';
-import { switchTheme } from 'd/app';
+import { useActions } from '../misc/store';
+import { switchTheme } from '../ducks/app';
 
-import Icon from 'c/Icon';
-
-import moon from 's/moon.svg';
-
+import Icon from './Icon';
+import moon from '../svg/moon.svg';
 import SvgYacd from './SvgYacd';
-
-import s from 'c/SideBar.module.css';
+import s from './SideBar.module.css';
 
 const icons = {
   activity: Activity,

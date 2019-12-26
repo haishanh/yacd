@@ -1,12 +1,12 @@
 import React from 'react';
-import prettyBytes from 'm/pretty-bytes';
+import prettyBytes from '../misc/pretty-bytes';
 
-import { useStoreState } from 'm/store';
-import { getClashAPIConfig } from 'd/app';
+import { useStoreState } from '../misc/store';
+import { getClashAPIConfig } from '../ducks/app';
 import { fetchData } from '../api/traffic';
 import * as connAPI from '../api/connections';
 
-import s0 from 'c/TrafficNow.module.css';
+import s0 from './TrafficNow.module.css';
 
 const { useState, useEffect, useCallback } = React;
 

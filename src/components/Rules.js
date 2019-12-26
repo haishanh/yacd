@@ -1,15 +1,15 @@
 import React from 'react';
-import { useActions, useStoreState } from 'm/store';
-import { ButtonWithIcon } from 'c/Button';
+import { useActions, useStoreState } from '../misc/store';
+import { ButtonWithIcon } from './Button';
 import { FixedSizeList as List, areEqual } from 'react-window';
 import { RotateCw } from 'react-feather';
 
-import ContentHeader from 'c/ContentHeader';
-import Rule from 'c/Rule';
-import RuleSearch from 'c/RuleSearch';
+import ContentHeader from './ContentHeader';
+import Rule from './Rule';
+import RuleSearch from './RuleSearch';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 
-import { getRules, fetchRules, fetchRulesOnce } from 'd/rules';
+import { getRules, fetchRules, fetchRulesOnce } from '../ducks/rules';
 
 const { memo, useEffect, useMemo } = React;
 

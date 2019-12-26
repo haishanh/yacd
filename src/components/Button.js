@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import s0 from 'c/Button.module.css';
+import s0 from './Button.module.css';
 const noop = () => {};
 
 const { memo, forwardRef } = React;

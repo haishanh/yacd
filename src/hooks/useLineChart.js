@@ -1,5 +1,5 @@
 import React from 'react';
-import { commonChartOptions } from 'm/chart';
+import { commonChartOptions } from '../misc/chart';
 
 const { useEffect } = React;
 const options = commonChartOptions;

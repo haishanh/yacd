@@ -2,14 +2,15 @@ import React, { Suspense } from 'react';
 import { Provider } from '../misc/store';
 import StateProvider from './StateProvider';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import Loading2 from 'c/Loading2';
-import ErrorBoundary from 'c/ErrorBoundary';
-import SideBar from 'c/SideBar';
-import Home from 'c/Home';
-import Logs from 'c/Logs';
-import Config from 'c/Config';
-import Connections from 'c/Connections';
-import APIDiscovery from 'c/APIDiscovery';
+import Loading2 from './Loading2';
+import ErrorBoundary from './ErrorBoundary';
+import SideBar from './SideBar';
+import Home from './Home';
+import Logs from './Logs';
+import Config from './Config';
+import StyleGuide from './StyleGuide';
+import Connections from './Connections';
+import APIDiscovery from './APIDiscovery';
 import { store } from '../store/configureStore';
 import './Root.css';
 import s0 from './Root.module.css';
@@ -31,9 +32,6 @@ const Rules = React.lazy(() =>
   )
 );
 
-// testing...
-// import StyleGuide from 'c/StyleGuide';
-
 window.store = store;
 
 const initialState = {
@@ -43,6 +41,16 @@ const initialState = {
     groupNames: []
   }
 };
+
+const routes = [
+  ['home', '/', Home],
+  ['connections', '/connections', Connections],
+  ['configs', '/configs', Config],
+  ['logs', '/logs', Logs],
+  ['proxies', '/proxies', Proxies],
+  ['rules', '/rules', Rules],
+  __DEV__ ? ['style', '/style', StyleGuide] : false
+].filter(Boolean);
 
 const Root = () => (
   <ErrorBoundary>
@@ -54,13 +62,9 @@ const Root = () => (
             <Route path="/" render={props => <SideBar {...props} />} />
             <div className={s0.content}>
               <Suspense fallback={<Loading2 />}>
-                <Route exact path="/" render={() => <Home />} />
-                <Route exact path="/connections" component={Connections} />
-                <Route exact path="/overview" render={() => <Home />} />
-                <Route exact path="/configs" component={Config} />
-                <Route exact path="/logs" component={Logs} />
-                <Route exact path="/proxies" render={() => <Proxies />} />
-                <Route exact path="/rules" render={() => <Rules />} />
+                {routes.map(([key, path, component]) => (
+                  <Route exact key={key} path={path} component={component} />
+                ))}
               </Suspense>
             </div>
           </div>

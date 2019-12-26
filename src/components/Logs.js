@@ -1,20 +1,19 @@
 import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useStoreState, useActions } from 'm/store';
-import { getClashAPIConfig } from 'd/app';
+import { useStoreState, useActions } from '../misc/store';
+import { getClashAPIConfig } from '../ducks/app';
 
 import SvgYacd from './SvgYacd';
 import { FixedSizeList as List, areEqual } from 'react-window';
-import ContentHeader from 'c/ContentHeader';
+import ContentHeader from './ContentHeader';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
-// TODO move this into a redux action
 import { fetchLogs } from '../api/logs';
 import LogSearch from './LogSearch';
-import { getLogsForDisplay, appendLog } from 'd/logs';
-import { getLogLevel } from 'd/configs';
+import { getLogsForDisplay, appendLog } from '../ducks/logs';
+import { getLogLevel } from '../ducks/configs';
 
-import s0 from 'c/Logs.module.css';
+import s0 from './Logs.module.css';
 const paddingBottom = 30;
 const colors = {
   debug: 'none',
