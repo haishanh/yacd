@@ -133,3 +133,119 @@ body.light {
   right: 20px;
   bottom: 20px;
 }
+
+.dot_loading,
+.dot_loading:before,
+.dot_loading:after {
+  display: inline-block;
+  vertical-align: middle;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 0;
+}
+.dot_loading {
+  position: relative;
+  animation: dot2 1.6s step-start infinite;
+  &:before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    background-color: rgba(0, 0, 0, 0.1);
+    animation: dot1 1.6s step-start infinite;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: -12px;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: dot3 1.6s step-start infinite;
+  }
+}
+
+@keyframes dot1 {
+  0%,
+  100% {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  30% {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  60% {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+@keyframes dot2 {
+  0%,
+  100% {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  30% {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  60% {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+@keyframes dot3 {
+  0%,
+  100% {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  30% {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  60% {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.dot_loading_white {
+  background-color: rgba(255, 255, 255, 0.3);
+  animation: dotw2 1.6s step-start infinite;
+  &:before {
+    background-color: rgba(255, 255, 255, 0.5);
+    animation: dotw1 1.6s step-start infinite;
+  }
+  &:after {
+    background-color: rgba(255, 255, 255, 0.1);
+    animation: dotw3 1.6s step-start infinite;
+  }
+}
+@keyframes dotw1 {
+  0%,
+  100% {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  30% {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  60% {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+@keyframes dotw2 {
+  0%,
+  100% {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  30% {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  60% {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+@keyframes dotw3 {
+  0%,
+  100% {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  30% {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  60% {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}

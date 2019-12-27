@@ -10,7 +10,7 @@ import { getClashAPIConfig } from '../ducks/app';
 import { connect } from './StateProvider';
 import { SectionNameType } from './shared/Basic';
 import { ProxyList, ProxyListSummaryView } from './ProxyGroup';
-import { ButtonWithIcon, ButtonPlain } from './Button';
+import Button, { ButtonPlain } from './Button';
 
 import {
   updateProviderByName,
@@ -69,12 +69,8 @@ function ProxyProvider({ item, dispatch }: Props) {
       <Collapsible2 isOpen={isCollapsibleOpen}>
         <ProxyList all={item.proxies} />
         <div className={s.actionFooter}>
-          <ButtonWithIcon
-            text="Update"
-            icon={<Refresh />}
-            onClick={updateProvider}
-          />
-          <ButtonWithIcon
+          <Button text="Update" start={<Refresh />} onClick={updateProvider} />
+          <Button
             text="Health Check"
             icon={<Zap size={16} />}
             onClick={healthcheckProvider}

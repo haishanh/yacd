@@ -5,7 +5,7 @@ import { connect } from './StateProvider';
 
 import ContentHeader from './ContentHeader';
 import ProxyGroup from './ProxyGroup';
-import { ButtonWithIcon } from './Button';
+import Button from './Button';
 import { Zap } from 'react-feather';
 
 import ProxyProviderList from './ProxyProviderList';
@@ -45,9 +45,9 @@ function Proxies({ dispatch, groupNames, proxies, delay, proxyProviders }) {
       <ContentHeader title="Proxies" />
       <div>
         <div className="fabgrp">
-          <ButtonWithIcon
+          <Button
             text="Test Latency"
-            icon={icon}
+            start={icon}
             onClick={requestDelayAllFn}
           />
         </div>

@@ -6,7 +6,7 @@ import { useStoreState } from '../misc/store';
 import { getClashAPIConfig } from '../ducks/app';
 import { X as IconClose } from 'react-feather';
 import SvgYacd from './SvgYacd';
-import { ButtonWithIcon } from './Button';
+import Button from './Button';
 import ModalCloseAllConnections from './ModalCloseAllConnections';
 import * as connAPI from '../api/connections';
 
@@ -89,11 +89,7 @@ function Conn() {
         </div>
       </div>
       <div className="fabgrp">
-        <ButtonWithIcon
-          text="Close"
-          icon={iconClose}
-          onClick={openCloseAllModal}
-        />
+        <Button text="Close" start={iconClose} onClick={openCloseAllModal} />
       </div>
       <ModalCloseAllConnections
         isOpen={isCloseAllModalOpen}

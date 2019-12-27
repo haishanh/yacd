@@ -1,11 +1,14 @@
 .btn {
   -webkit-appearance: none;
   outline: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-btn-fg);
   background: var(--color-btn-bg);
   border: 1px solid #555;
   border-radius: 100px;
-  user-select: none;
   &:focus {
     border-color: var(--color-focus-blue);
   }
@@ -42,10 +45,9 @@
   }
 }
 
-.withIconWrapper {
-  display: flex;
+.btnStart {
+  margin-right: 5px;
+  display: inline-flex;
   align-items: center;
-  .txt {
-    margin-left: 5px;
-  }
+  justify-content: center;
 }

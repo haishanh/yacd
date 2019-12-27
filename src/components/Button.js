@@ -6,10 +6,11 @@ const noop = () => {};
 
 const { memo, forwardRef } = React;
 
-function Button({ children, label, onClick = noop }, ref) {
+function Button({ children, label, text, start, onClick = noop }, ref) {
   return (
     <button className={s0.btn} ref={ref} onClick={onClick}>
-      {children || label}
+      {start ? <span className={s0.btnStart}>{start}</span> : null}
+      {children || label || text}
     </button>
   );
 }
@@ -21,18 +22,5 @@ export function ButtonPlain({ children, label, onClick = noop }) {
     </button>
   );
 }
-
-function WithIcon({ text, icon, onClick = noop }, ref) {
-  return (
-    <button className={s0.btn} ref={ref} onClick={onClick}>
-      <div className={s0.withIconWrapper}>
-        {icon}
-        <span className={s0.txt}>{text}</span>
-      </div>
-    </button>
-  );
-}
-
-export const ButtonWithIcon = memo(forwardRef(WithIcon));
 
 export default memo(forwardRef(Button));

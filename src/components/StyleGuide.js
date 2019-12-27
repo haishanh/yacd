@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+
+import { Zap } from 'react-feather';
 
 import ToggleSwitch from './ToggleSwitch';
 import Input from './Input';
 import Switch from './Switch';
-import Button from './Button';
+import Button, { ButtonWithIcon, ButtonPlain } from './Button';
 // import Modal from 'c/Modal';
 // import APIConfig from 'c/APIConfig';
 // import Proxy from 'c/Proxy';
@@ -28,10 +29,9 @@ const optionsRule = [
   }
 ];
 
-const Pane = ({ children }) => <div style={paneStyle}>{children}</div>;
-Pane.propTypes = {
-  children: PropTypes.element
-};
+const Pane = ({ children, style }) => (
+  <div style={{ ...paneStyle, ...style }}>{children}</div>
+);
 
 class StyleGuide extends PureComponent {
   render() {
@@ -52,7 +52,12 @@ class StyleGuide extends PureComponent {
           />
         </Pane>
         <Pane>
-          <Button label="Test Latency" />
+          <Button label="Test Lxatency" />
+          <Button text="Test Lxatency" start={<Zap size={17} />} />
+          <ButtonPlain label="Plain" />
+        </Pane>
+        <Pane style={{ paddingLeft: 20 }}>
+          <div className="dot_loading dot_loading_white" />
         </Pane>
       </div>
     );

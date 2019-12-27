@@ -1,6 +1,6 @@
 import React from 'react';
 import { useActions, useStoreState } from '../misc/store';
-import { ButtonWithIcon } from './Button';
+import Button from './Button';
 import { FixedSizeList as List, areEqual } from 'react-window';
 import { RotateCw } from 'react-feather';
 
@@ -64,11 +64,7 @@ export default function Rules() {
         </List>
       </div>
       <div className="fabgrp">
-        <ButtonWithIcon
-          text="Refresh"
-          icon={refreshIcon}
-          onClick={fetchRules}
-        />
+        <Button text="Refresh" start={refreshIcon} onClick={fetchRules} />
       </div>
     </div>
   );
