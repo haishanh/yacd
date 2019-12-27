@@ -99,7 +99,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.2.0",
     "prettier": "^1.17.1",
-    "react-refresh": "^0.0.0-experimental-f42431abe",
+    "react-refresh": "^0.7.1",
     "resize-observer-polyfill": "^1.5.1",
     "style-loader": "^1.1.2",
     "svg-sprite-loader": "^4.1.2",
