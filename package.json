@@ -47,7 +47,7 @@
     "invariant": "^2.2.4",
     "lodash-es": "^4.17.14",
     "memoize-one": "^5.1.1",
-    "modern-normalize": "^0.5.0",
+    "modern-normalize": "^0.6.0",
     "prop-types": "^15.5.10",
     "react": "^0.0.0-experimental-f42431abe",
     "react-dom": "^0.0.0-experimental-f42431abe",
