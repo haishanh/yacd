@@ -10,3 +10,7 @@ export function SectionNameType({ name, type }) {
     </h2>
   );
 }
+
+export function LoadingDot() {
+  return <span className={s.loadingDot} />;
+}

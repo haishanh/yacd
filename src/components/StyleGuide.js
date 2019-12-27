@@ -5,10 +5,8 @@ import { Zap } from 'react-feather';
 import ToggleSwitch from './ToggleSwitch';
 import Input from './Input';
 import Switch from './Switch';
-import Button, { ButtonWithIcon, ButtonPlain } from './Button';
-// import Modal from 'c/Modal';
-// import APIConfig from 'c/APIConfig';
-// import Proxy from 'c/Proxy';
+import Button from './Button';
+import { LoadingDot } from './shared/Basic';
 
 const paneStyle = {
   padding: '20px 0'
@@ -52,12 +50,13 @@ class StyleGuide extends PureComponent {
           />
         </Pane>
         <Pane>
+          <Button text="Test Lxatency" start={<Zap size={16} />} />
+          <Button text="Test Lxatency" start={<Zap size={16} />} isLoading />
           <Button label="Test Lxatency" />
-          <Button text="Test Lxatency" start={<Zap size={17} />} />
-          <ButtonPlain label="Plain" />
+          <Button label="Button Plain" kind="minimal" />
         </Pane>
         <Pane style={{ paddingLeft: 20 }}>
-          <div className="dot_loading dot_loading_white" />
+          <LoadingDot />
         </Pane>
       </div>
     );

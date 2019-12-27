@@ -31,6 +31,7 @@ const definePlugin = new webpack.DefinePlugin({
 const postcssPlugins = () =>
   [
     require('postcss-import')(),
+    require('postcss-simple-vars')(),
     require('postcss-custom-media')({
       importFrom: [
         {

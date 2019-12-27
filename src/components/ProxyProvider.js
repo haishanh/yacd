@@ -10,7 +10,7 @@ import { getClashAPIConfig } from '../ducks/app';
 import { connect } from './StateProvider';
 import { SectionNameType } from './shared/Basic';
 import { ProxyList, ProxyListSummaryView } from './ProxyGroup';
-import Button, { ButtonPlain } from './Button';
+import Button from './Button';
 
 import {
   updateProviderByName,
@@ -40,15 +40,17 @@ const mapStateToProps = s => ({
 });
 
 function ProxyProvider({ item, dispatch }: Props) {
+  const [isHealthcheckLoading, setIsHealthcheckLoading] = useState(false);
   const { apiConfig } = useStoreState(mapStateToProps);
   const updateProvider = useCallback(
     () => dispatch(updateProviderByName(apiConfig, item.name)),
     [apiConfig, dispatch, item.name]
   );
-  const healthcheckProvider = useCallback(
-    () => dispatch(healthcheckProviderByName(apiConfig, item.name)),
-    [apiConfig, dispatch, item.name]
-  );
+  const healthcheckProvider = useCallback(async () => {
+    setIsHealthcheckLoading(true);
+    await dispatch(healthcheckProviderByName(apiConfig, item.name));
+    setIsHealthcheckLoading(false);
+  }, [apiConfig, dispatch, item.name, setIsHealthcheckLoading]);
 
   const [isCollapsibleOpen, setCollapsibleOpen] = useState(false);
   const toggle = useCallback(() => setCollapsibleOpen(x => !x), []);
@@ -57,11 +59,11 @@ function ProxyProvider({ item, dispatch }: Props) {
     <div className={s.body}>
       <div className={s.header} onClick={toggle}>
         <SectionNameType name={item.name} type={item.vehicleType} />
-        <ButtonPlain>
+        <Button kind="minimal">
           <span className={cx(s.arrow, { [s.isOpen]: isCollapsibleOpen })}>
             <ChevronDown />
           </span>
-        </ButtonPlain>
+        </Button>
       </div>
       <div className={s.updatedAt}>
         <small>Updated {timeAgo} ago</small>
@@ -72,8 +74,9 @@ function ProxyProvider({ item, dispatch }: Props) {
           <Button text="Update" start={<Refresh />} onClick={updateProvider} />
           <Button
             text="Health Check"
-            icon={<Zap size={16} />}
+            start={<Zap size={16} />}
             onClick={healthcheckProvider}
+            isLoading={isHealthcheckLoading}
           />
         </div>
       </Collapsible2>
@@ -125,39 +128,6 @@ function useMeasure() {
   }, []);
   return [ref, bounds];
 }
-
-// import { useSpring, a } from 'react-spring';
-// const Collapsible = memo(({ children, isOpen }) => {
-//   const previous = usePrevious(isOpen);
-//   const [refToMeature, { height: viewHeight }] = useMeasure();
-//   const { height, opacity, visibility, transform } = useSpring({
-//     from: {
-//       height: 0,
-//       opacity: 0,
-//       transform: 'translate3d(20px,0,0)',
-//       visibility: 'hidden'
-//     },
-//     to: {
-//       height: isOpen ? viewHeight : 0,
-//       opacity: isOpen ? 1 : 0,
-//       visibility: isOpen ? 'visible' : 'hidden',
-//       transform: `translate3d(${isOpen ? 0 : 20}px,0,0)`
-//     }
-//   });
-//   return (
-//     <div>
-//       <a.div
-//         style={{
-//           opacity,
-//           willChange: 'transform, opacity, height, visibility',
-//           visibility,
-//           height: isOpen && previous === isOpen ? 'auto' : height
-//         }}>
-//         <a.div style={{ transform }} ref={refToMeature} children={children} />
-//       </a.div>
-//     </div>
-//   );
-// });
 
 const variantsCollpapsibleWrap = {
   initialOpen: {

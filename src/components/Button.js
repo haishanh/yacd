@@ -1,25 +1,68 @@
 import React from 'react';
 import cx from 'classnames';
 
+import type { Node, Element, SyntheticEvent } from 'react';
+
+import { LoadingDot } from './shared/Basic';
+
 import s0 from './Button.module.css';
-const noop = () => {};
 
-const { memo, forwardRef } = React;
+const { memo, forwardRef, useCallback } = React;
 
-function Button({ children, label, text, start, onClick = noop }, ref) {
+type ButtonProps = {
+  children?: Node,
+  label?: string,
+  text?: string,
+  isLoading?: boolean,
+  start?: Element | (() => Element),
+  onClick?: (SyntheticEvent<HTMLButtonElement>) => mixed,
+  kind?: 'primary' | 'minimal'
+};
+function Button(props: ButtonProps, ref) {
+  const { onClick, isLoading, kind = 'primary', ...restProps } = props;
+  const internalOnClick = useCallback(
+    e => {
+      if (isLoading) return;
+      onClick && onClick(e);
+    },
+    [isLoading, onClick]
+  );
+  const btnClassName = cx(s0.btn, {
+    [s0.minimal]: kind === 'minimal'
+  });
   return (
-    <button className={s0.btn} ref={ref} onClick={onClick}>
-      {start ? <span className={s0.btnStart}>{start}</span> : null}
-      {children || label || text}
+    <button className={btnClassName} ref={ref} onClick={internalOnClick}>
+      {isLoading ? (
+        <>
+          <span
+            style={{
+              display: 'inline-flex',
+              opacity: 0
+            }}
+          >
+            <ButtonInternal {...restProps} />
+          </span>
+          <span className={s0.loadingContainer}>
+            <LoadingDot />
+          </span>
+        </>
+      ) : (
+        <ButtonInternal {...restProps} />
+      )}
     </button>
   );
 }
 
-export function ButtonPlain({ children, label, onClick = noop }) {
+function ButtonInternal({ children, label, text, start }) {
   return (
-    <button className={cx(s0.btn, s0.plain)} onClick={onClick}>
-      {children || label}
-    </button>
+    <>
+      {start ? (
+        <span className={s0.btnStart}>
+          {typeof start === 'function' ? start() : start}
+        </span>
+      ) : null}
+      {children || label || text}
+    </>
   );
 }
 

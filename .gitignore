@@ -5,5 +5,6 @@ public/
 experimental/
 deploy_ghpages.sh
 tags
+.eslintcache
 *.log
 !.github

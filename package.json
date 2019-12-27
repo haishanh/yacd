@@ -4,7 +4,7 @@
   "description": "Yet another Clash dashboard",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint --cache src",
     "dll": "webpack --config webpack.dll.config.js",
     "start": "NODE_ENV=development node server.js",
     "build": "NODE_ENV=production webpack -p --progress",
@@ -12,23 +12,15 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn lint"
     }
   },
   "lint-staged": {
-    "*.{js,scss,css,md}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.{js,scss,css,md}": ["prettier --single-quote --write", "git add"]
   },
-  "browserslist": [
-    ">0.25%",
-    "not ie 11",
-    "not op_mini all"
-  ],
-  "keywords": [
-    "react"
-  ],
+  "browserslist": [">0.25%", "not ie 11", "not op_mini all"],
+  "keywords": ["react"],
   "author": "Haishan <haishanhan@gmail.com> (https://haishan.me)",
   "private": true,
   "license": "MIT",
@@ -98,6 +90,7 @@
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.2.0",
+    "postcss-simple-vars": "^5.0.2",
     "prettier": "^1.17.1",
     "react-refresh": "^0.0.0-experimental-f42431abe",
     "resize-observer-polyfill": "^1.5.1",

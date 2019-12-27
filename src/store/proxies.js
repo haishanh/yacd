@@ -75,7 +75,7 @@ export function healthcheckProviderByName(apiConfig, name) {
     }
     // should be optimized
     // but ¯\_(ツ)_/¯
-    dispatch(fetchProxies(apiConfig));
+    await dispatch(fetchProxies(apiConfig));
   };
 }
 
