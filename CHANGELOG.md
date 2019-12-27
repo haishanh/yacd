@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3](https://github.com/haishanh/yacd/compare/v0.1.2...v0.1.3) (2019-12-27)
+
+Features:
+
+- can healthcheck a provider
+
 ## [0.1.2](https://github.com/haishanh/yacd/compare/v0.1.1...v0.1.2) (2019-12-22)
 
 Fixes:
