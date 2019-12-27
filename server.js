@@ -15,8 +15,6 @@ const port = PORT ? Number(PORT) : 3000;
 config.entry.app.unshift('webpack-hot-middleware/client');
 config.plugins.push(
   new webpack.HotModuleReplacementPlugin(),
-  // prints more readable module names in the browser console on HMR updates
-  new webpack.NamedModulesPlugin(),
   new webpack.NoEmitOnErrorsPlugin()
 );
 

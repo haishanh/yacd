@@ -3,6 +3,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const HTMLPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -14,7 +16,6 @@ const pkg = require('./package.json');
 process.env.BABEL_ENV = process.env.NODE_ENV;
 const isDev = process.env.NODE_ENV !== 'production';
 
-const HTMLPlugin = require('html-webpack-plugin');
 const html = new HTMLPlugin({
   title: 'yacd - Yet Another Clash Dashboard',
   template: 'src/index.template.ejs',
@@ -54,7 +55,6 @@ const cssExtractPlugin = new MiniCssExtractPlugin({
   filename: isDev ? '[name].css' : '[name].[contenthash].css'
 });
 
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
   analyzerMode: 'static',
   reportFilename: 'report.html',
@@ -62,7 +62,6 @@ const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
 });
 
 const plugins = [
-  // in webpack 4 namedModules will be enabled by default
   html,
   definePlugin,
   new CopyPlugin([{ from: 'assets/*', flatten: true }]),
@@ -72,7 +71,7 @@ const plugins = [
   new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   // https://github.com/pmmmwh/react-refresh-webpack-plugin
   isDev ? new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }) : false,
-  isDev ? false : new webpack.HashedModuleIdsPlugin(),
+  // isDev ? false : new webpack.HashedModuleIdsPlugin(),
   isDev ? false : cssExtractPlugin,
   isDev ? false : bundleAnalyzerPlugin
 ].filter(Boolean);
@@ -165,13 +164,13 @@ module.exports = {
     ]
   },
   optimization: {
-    moduleIds: 'hashed',
+    moduleIds: isDev ? 'named' : 'hashed',
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
         'core-js': {
-          test(module, chunks) {
+          test(module, _chunks) {
             return (
               module.resource &&
               module.resource.indexOf('node_modules/core-js/') >= 0
@@ -179,7 +178,7 @@ module.exports = {
           }
         },
         react: {
-          test(module, chunks) {
+          test(module, _chunks) {
             return (
               module.resource &&
               (module.resource.indexOf('node_modules/@hot-loader/react-dom/') >=
