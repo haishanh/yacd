@@ -23,7 +23,7 @@ import {
 
 import { getClashAPIConfig } from '../ducks/app';
 
-const { useEffect, useMemo, useCallback } = React;
+const { useEffect, useMemo, useCallback, useRef } = React;
 
 const mapStateToProps = s => ({
   apiConfig: getClashAPIConfig(s)
@@ -31,13 +31,33 @@ const mapStateToProps = s => ({
 
 function Proxies({ dispatch, groupNames, proxies, delay, proxyProviders }) {
   const { apiConfig } = useStoreState(mapStateToProps);
-  useEffect(() => {
-    dispatch(fetchProxies(apiConfig));
-  }, [dispatch, apiConfig]);
+  const refFetchedTimestamp = useRef({});
   const requestDelayAllFn = useCallback(
     () => dispatch(requestDelayAll(apiConfig)),
     [apiConfig, dispatch]
   );
+  const fetchProxiesHooked = useCallback(() => {
+    refFetchedTimestamp.current.startAt = new Date();
+    dispatch(fetchProxies(apiConfig)).then(() => {
+      refFetchedTimestamp.current.completeAt = new Date();
+    });
+  }, [apiConfig, dispatch]);
+  useEffect(() => {
+    // fetch it now
+    fetchProxiesHooked();
+
+    // arm a window on focus listener to refresh it
+    const fn = () => {
+      if (
+        refFetchedTimestamp.current.startAt &&
+        new Date() - refFetchedTimestamp.current.startAt > 3e4 // 30s
+      ) {
+        fetchProxiesHooked();
+      }
+    };
+    window.addEventListener('focus', fn, false);
+    return () => window.removeEventListener('focus', fn, false);
+  }, [fetchProxiesHooked]);
   const icon = useMemo(() => <Zap width={16} />, []);
 
   return (

@@ -34,8 +34,7 @@ export default function Provider({ initialState, children }) {
     }
   }, [getState]);
   const dispatch = useCallback(
-    (actionId, fn, thunk) => {
-      // if (thunk) return thunk(dispatch, getState);
+    (actionId, fn) => {
       if (typeof actionId === 'function') return actionId(dispatch, getState);
 
       const stateNext = produce(getState(), fn);
