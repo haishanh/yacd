@@ -2,6 +2,7 @@
 // vim: set ft=javascript.flow :
 import * as proxiesAPI from '../api/proxies';
 
+// eslint-disable-next-line no-unused-vars
 type ProxyProvider = {
   name: string,
   type: 'Proxy',

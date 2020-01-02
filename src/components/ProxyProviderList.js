@@ -4,6 +4,8 @@ import ContentHeader from './ContentHeader';
 import ProxyProvider from './ProxyProvider';
 
 function ProxyProviderList({ items }) {
+  if (items.length === 0) return null;
+
   return (
     <>
       <ContentHeader title="Proxy Provider" />
