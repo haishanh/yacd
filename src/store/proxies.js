@@ -1,4 +1,19 @@
+// @flow
+// vim: set ft=javascript.flow :
 import * as proxiesAPI from '../api/proxies';
+
+type ProxyProvider = {
+  name: string,
+  type: 'Proxy',
+  updatedAt: string,
+  vehicleType: 'HTTP' | 'File' | 'Compatible',
+  proxies: Array<{
+    history: Array<{ time: string, delay: number }>,
+    name: string,
+    // Shadowsocks, Http ...
+    type: string
+  }>
+};
 
 // see all types:
 // https://github.com/Dreamacro/clash/blob/master/constant/adapters.go
@@ -12,6 +27,7 @@ export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
 export const getProxyGroupNames = s => s.proxies.groupNames;
 export const getProxyProviders = s => s.proxies.proxyProviders || [];
+export const getDangleProxyNames = s => s.proxies.dangleProxyNames;
 
 export function fetchProxies(apiConfig) {
   return async (dispatch, getState) => {
@@ -44,11 +60,18 @@ export function fetchProxies(apiConfig) {
       }
     }
 
+    // proxies that are not from a provider
+    const dangleProxyNames = [];
+    for (const v of proxyNames) {
+      if (!providerProxies[v]) dangleProxyNames.push(v);
+    }
+
     dispatch('store/proxies#fetchProxies', s => {
       s.proxies.proxies = proxies;
       s.proxies.groupNames = groupNames;
       s.proxies.delay = delayNext;
       s.proxies.proxyProviders = proxyProviders;
+      s.proxies.dangleProxyNames = dangleProxyNames;
     });
   };
 }
@@ -66,13 +89,17 @@ export function updateProviderByName(apiConfig, name) {
   };
 }
 
+async function healthcheckProviderByNameInternal(apiConfig, name) {
+  try {
+    await proxiesAPI.healthcheckProviderByName(apiConfig, name);
+  } catch (x) {
+    // ignore
+  }
+}
+
 export function healthcheckProviderByName(apiConfig, name) {
   return async dispatch => {
-    try {
-      await proxiesAPI.healthcheckProviderByName(apiConfig, name);
-    } catch (x) {
-      // ignore
-    }
+    await healthcheckProviderByNameInternal(apiConfig, name);
     // should be optimized
     // but ¯\_(ツ)_/¯
     await dispatch(fetchProxies(apiConfig));
@@ -140,18 +167,16 @@ export function requestDelayForProxy(apiConfig, name) {
 
 export function requestDelayAll(apiConfig) {
   return async (dispatch, getState) => {
-    const state = getState();
-    const proxies = getProxies(state);
-    const keys = Object.keys(proxies);
-    const proxyNames = [];
-    keys.forEach(k => {
-      if (proxies[k].type === 'Vmess' || proxies[k].type === 'Shadowsocks') {
-        proxyNames.push(k);
-      }
-    });
+    const proxyNames = getDangleProxyNames(getState());
     await Promise.all(
       proxyNames.map(p => dispatch(requestDelayForProxy(apiConfig, p)))
     );
+    const proxyProviders = getProxyProviders(getState());
+    // one by one
+    for (const p of proxyProviders) {
+      await healthcheckProviderByNameInternal(apiConfig, p.name);
+    }
+    await dispatch(fetchProxies(apiConfig));
   };
 }
 
