@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.4](https://github.com/haishanh/yacd/compare/v0.1.3...v0.1.4) (2020-01-03)
+
+Features:
+
+- refresh providers and proxies on window regain focus
+
+Fixes:
+
+- optimize test latency action when there are providers
+- do not show provider section when is no provider
+
 ## [0.1.3](https://github.com/haishanh/yacd/compare/v0.1.2...v0.1.3) (2019-12-27)
 
 Features:
