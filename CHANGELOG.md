@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.5](https://github.com/haishanh/yacd/compare/v0.1.4...v0.1.5) (2020-01-04)
+
+Features:
+
+- support change latency test url #286
+
 ## [0.1.4](https://github.com/haishanh/yacd/compare/v0.1.3...v0.1.4) (2020-01-03)
 
 Features:
