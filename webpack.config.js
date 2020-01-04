@@ -85,64 +85,34 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'public'),
-    // use contenthash instead of chunkhash to take advantage of caching
-    filename: isDev ? '[name].bundle.js' : '[name].[contenthash].js',
+    filename: isDev ? '[name].js' : '[name].[contenthash].js',
     publicPath: ''
   },
   mode: isDev ? 'development' : 'production',
   module: {
     rules: [
       {
-        test: /\.svg$/,
-        use: ['svg-sprite-loader']
-      },
-      {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: true
-          }
-        }
+        use: { loader: 'babel-loader', options: { cacheDirectory: true } }
       },
       {
         test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]'
-            }
-          }
-        ]
+        use: [{ loader: 'file-loader', options: { name: '[name].[ext]' } }]
       },
       {
         test: /\.css$/,
         exclude: /\.module\.css$/,
         use: [
-          isDev
-            ? {
-                loader: 'style-loader'
-              }
-            : MiniCssExtractPlugin.loader,
+          isDev ? { loader: 'style-loader' } : MiniCssExtractPlugin.loader,
           { loader: 'css-loader' },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: postcssPlugins
-            }
-          }
+          { loader: 'postcss-loader', options: { plugins: postcssPlugins } }
         ].filter(Boolean)
       },
       {
         test: /\.module\.css$/,
         use: [
-          isDev
-            ? {
-                loader: 'style-loader'
-              }
-            : MiniCssExtractPlugin.loader,
+          isDev ? { loader: 'style-loader' } : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -155,9 +125,7 @@ module.exports = {
           },
           {
             loader: 'postcss-loader',
-            options: {
-              plugins: postcssPlugins
-            }
+            options: { plugins: postcssPlugins }
           }
         ].filter(Boolean)
       }

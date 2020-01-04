@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import Icon from './Icon';
 
-import search from '../svg/search.svg';
+import { Search as SearchIcon } from 'react-feather';
 
 import debounce from 'lodash-es/debounce';
 
@@ -36,7 +35,7 @@ function RuleSearch({ dispatch, searchText, updateSearchText }) {
           />
         </div>
         <div className={s0.iconWrapper}>
-          <Icon id={search.id} />
+          <SearchIcon size={20} />
         </div>
       </div>
     </div>

@@ -2,13 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
+import {
+  Moon,
+  Command,
+  Activity,
+  Globe,
+  Link2,
+  Settings,
+  File
+} from 'react-feather';
 
 import { connect } from './StateProvider';
 import { switchTheme } from '../store/app';
 
-import Icon from './Icon';
-import moon from '../svg/moon.svg';
 import SvgYacd from './SvgYacd';
 import s from './SideBar.module.css';
 
@@ -109,7 +115,7 @@ function SideBar({ dispatch, location }) {
         ))}
       </div>
       <div className={s.themeSwitchContainer} onClick={switchThemeHooked}>
-        <Icon id={moon.id} width={20} height={20} />
+        <Moon size={20} />
       </div>
     </div>
   );
