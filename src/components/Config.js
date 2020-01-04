@@ -1,24 +1,26 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import { connect } from './StateProvider';
+import { connect, useStoreActions } from './StateProvider';
 import { getConfigs, fetchConfigs, updateConfigs } from '../store/configs';
 import {
   getClashAPIConfig,
   getSelectedChartStyleIndex,
-  clearStorage,
-  selectChartStyleIndex
+  getLatencyTestUrl,
+  clearStorage
 } from '../store/app';
 
 import ContentHeader from './ContentHeader';
 import Switch from './Switch';
 import ToggleSwitch from './ToggleSwitch';
-import Input from './Input';
+import Input, { SelfControlledInput } from './Input';
 import Button from './Button';
 import Selection from './Selection';
 import TrafficChartSample from './TrafficChartSample';
 
 import s0 from './Config.module.css';
+
+const { useEffect, useState, useCallback, useRef } = React;
 
 const propsList = [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }];
 
@@ -60,10 +62,6 @@ const optionsLogLevel = [
   }
 ];
 
-// const actions = {
-//   selectChartStyleIndex
-// };
-
 const mapState = s => ({
   configs: getConfigs(s),
   apiConfig: getClashAPIConfig(s)
@@ -71,6 +69,7 @@ const mapState = s => ({
 
 const mapState2 = s => ({
   selectedChartStyleIndex: getSelectedChartStyleIndex(s),
+  latencyTestUrl: getLatencyTestUrl(s),
   apiConfig: getClashAPIConfig(s)
 });
 
@@ -84,74 +83,88 @@ function ConfigContainer({ dispatch, configs, apiConfig }) {
   return <Config configs={configs} />;
 }
 
-function ConfigImpl({ dispatch, configs, selectedChartStyleIndex, apiConfig }) {
-  // prevConfigs to track external props.configs
-  const [configState, _setConfigState] = useState(configs);
-  const [prevConfigs, setPrevConfigs] = useState(configs);
-  // equivalent of getDerivedStateFromProps
-  if (prevConfigs !== configs) {
-    setPrevConfigs(configs);
-    _setConfigState(configs);
-  }
-
-  const setConfigState = (name, val) => {
-    _setConfigState({
-      ...configState,
-      [name]: val
-    });
-  };
-
-  function handleInputOnChange(e) {
-    const target = e.target;
-    const { name } = target;
-    let { value } = target;
-    switch (target.name) {
-      case 'allow-lan':
-        value = target.checked;
-        setConfigState(name, value);
-        dispatch(updateConfigs(apiConfig, { [name]: value }));
-        break;
-      case 'mode':
-      case 'log-level':
-        setConfigState(name, value);
-        dispatch(updateConfigs(apiConfig, { [name]: value }));
-        break;
-      case 'redir-port':
-      case 'socks-port':
-      case 'port':
-        if (target.value !== '') {
-          const num = parseInt(target.value, 10);
-          if (num < 0 || num > 65535) return;
-        }
-        setConfigState(name, value);
-        break;
-      default:
-        return;
+function ConfigImpl({
+  dispatch,
+  configs,
+  selectedChartStyleIndex,
+  latencyTestUrl,
+  apiConfig
+}) {
+  const [configState, setConfigStateInternal] = useState(configs);
+  const refConfigs = useRef(configs);
+  useEffect(() => {
+    if (refConfigs.current !== configs) {
+      setConfigStateInternal(configs);
     }
-  }
+    refConfigs.current = configs;
+  }, [configs]);
 
-  function handleInputOnBlur(e) {
-    const target = e.target;
-    const { name, value } = target;
-    switch (name) {
-      case 'port':
-      case 'socks-port':
-      case 'redir-port': {
-        const num = parseInt(value, 10);
-        if (num < 0 || num > 65535) return;
-        dispatch(updateConfigs(apiConfig, { [name]: num }));
-        break;
-      }
-      default:
-        throw new Error(`unknown input name ${name}`);
-    }
-  }
-
-  const handleChartStyleIndexOnChange = useCallback(
-    idx => {
-      dispatch(selectChartStyleIndex(idx));
+  const setConfigState = useCallback(
+    (name, val) => {
+      setConfigStateInternal({
+        ...configState,
+        [name]: val
+      });
     },
-    [dispatch]
+    [configState]
+  );
+
+  const handleInputOnChange = useCallback(
+    e => {
+      const target = e.target;
+      const { name } = target;
+      let { value } = target;
+      switch (target.name) {
+        case 'allow-lan':
+          value = target.checked;
+          setConfigState(name, value);
+          dispatch(updateConfigs(apiConfig, { [name]: value }));
+          break;
+        case 'mode':
+        case 'log-level':
+          setConfigState(name, value);
+          dispatch(updateConfigs(apiConfig, { [name]: value }));
+          break;
+        case 'redir-port':
+        case 'socks-port':
+        case 'port':
+          if (target.value !== '') {
+            const num = parseInt(target.value, 10);
+            if (num < 0 || num > 65535) return;
+          }
+          setConfigState(name, value);
+          break;
+        default:
+          return;
+      }
+    },
+    [apiConfig, dispatch, setConfigState]
+  );
+
+  const { selectChartStyleIndex, updateAppConfig } = useStoreActions();
+
+  const handleInputOnBlur = useCallback(
+    e => {
+      const target = e.target;
+      const { name, value } = target;
+      switch (name) {
+        case 'port':
+        case 'socks-port':
+        case 'redir-port': {
+          const num = parseInt(value, 10);
+          if (num < 0 || num > 65535) return;
+          dispatch(updateConfigs(apiConfig, { [name]: num }));
+          break;
+        }
+        case 'latencyTestUrl': {
+          updateAppConfig(name, value);
+          break;
+        }
+        default:
+          throw new Error(`unknown input name ${name}`);
+      }
+    },
+    [apiConfig, dispatch, updateAppConfig]
   );
 
   return (
@@ -229,7 +242,16 @@ function ConfigImpl({ dispatch, configs, selectedChartStyleIndex, apiConfig }) {
             OptionComponent={TrafficChartSample}
             optionPropsList={propsList}
             selectedIndex={selectedChartStyleIndex}
-            onChange={handleChartStyleIndexOnChange}
+            onChange={selectChartStyleIndex}
+          />
+        </div>
+        <div style={{ maxWidth: 360 }}>
+          <div className={s0.label}>Latency Test URL</div>
+          <SelfControlledInput
+            name="latencyTestUrl"
+            type="text"
+            value={latencyTestUrl}
+            onBlur={handleInputOnBlur}
           />
         </div>
         <div>

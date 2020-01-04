@@ -1,6 +1,7 @@
 // @flow
 // vim: set ft=javascript.flow :
 import * as proxiesAPI from '../api/proxies';
+import { getLatencyTestUrl } from './app';
 
 // eslint-disable-next-line no-unused-vars
 type ProxyProvider = {
@@ -138,7 +139,12 @@ export function switchProxy(apiConfig, name1, name2) {
 
 function requestDelayForProxyOnce(apiConfig, name) {
   return async (dispatch, getState) => {
-    const res = await proxiesAPI.requestDelayForProxy(apiConfig, name);
+    const latencyTestUrl = getLatencyTestUrl(getState());
+    const res = await proxiesAPI.requestDelayForProxy(
+      apiConfig,
+      name,
+      latencyTestUrl
+    );
     let error = '';
     if (res.ok === false) {
       error = res.statusText;

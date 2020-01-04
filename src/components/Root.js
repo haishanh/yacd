@@ -12,7 +12,7 @@ import StyleGuide from './StyleGuide';
 import Connections from './Connections';
 import APIDiscovery from './APIDiscovery';
 // import { store } from '../store/configureStore';
-import { initialState } from '../store';
+import { initialState, actions } from '../store';
 import './Root.css';
 import s0 from './Root.module.css';
 
@@ -45,7 +45,7 @@ const routes = [
 
 const Root = () => (
   <ErrorBoundary>
-    <StateProvider initialState={initialState}>
+    <StateProvider initialState={initialState} actions={actions}>
       <Router>
         <div className={s0.app}>
           <APIDiscovery />

@@ -4,6 +4,7 @@ import produce, * as immer from 'immer';
 const {
   createContext,
   memo,
+  useMemo,
   useRef,
   useEffect,
   useCallback,
@@ -11,10 +12,11 @@ const {
   useState
 } = React;
 
+export { immer };
+
 const StateContext = createContext(null);
 const DispatchContext = createContext(null);
-
-export { immer };
+const ActionsContext = createContext(null);
 
 export function useStoreState() {
   return useContext(StateContext);
@@ -24,7 +26,12 @@ export function useStoreDispatch() {
   return useContext(DispatchContext);
 }
 
-export default function Provider({ initialState, children }) {
+export function useStoreActions() {
+  return useContext(ActionsContext);
+}
+
+// boundActionCreators
+export default function Provider({ initialState, actions = {}, children }) {
   const stateRef = useRef(initialState);
   const [state, setState] = useState(initialState);
   const getState = useCallback(() => stateRef.current, []);
@@ -49,11 +56,17 @@ export default function Provider({ initialState, children }) {
     },
     [getState]
   );
+  const boundActions = useMemo(() => bindActions(actions, dispatch), [
+    actions,
+    dispatch
+  ]);
 
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
-        {children}
+        <ActionsContext.Provider value={boundActions}>
+          {children}
+        </ActionsContext.Provider>
       </DispatchContext.Provider>
     </StateContext.Provider>
   );
@@ -75,4 +88,21 @@ export function connect(mapStateToProps) {
     }
     return Connected;
   };
+}
+
+// steal from https://github.com/reduxjs/redux/blob/master/src/bindActionCreators.ts
+function bindAction(action, dispatch) {
+  return function() {
+    return dispatch(action.apply(this, arguments));
+  };
+}
+function bindActions(actions, dispatch) {
+  const boundActions = {};
+  for (const key in actions) {
+    const action = actions[key];
+    if (typeof action === 'function') {
+      boundActions[key] = bindAction(action, dispatch);
+    }
+  }
+  return boundActions;
 }

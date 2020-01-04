@@ -1,4 +1,8 @@
-import { initialState as app } from './app';
+import {
+  initialState as app,
+  selectChartStyleIndex,
+  updateAppConfig
+} from './app';
 import { initialState as proxies } from './proxies';
 import { initialState as modals } from './modals';
 import { initialState as configs } from './configs';
@@ -12,4 +16,9 @@ export const initialState = {
   proxies,
   rules,
   logs
+};
+
+export const actions = {
+  selectChartStyleIndex,
+  updateAppConfig
 };

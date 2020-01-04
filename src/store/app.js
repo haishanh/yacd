@@ -6,6 +6,7 @@ import { closeModal } from './modals';
 export const getClashAPIConfig = s => s.app.clashAPIConfig;
 export const getTheme = s => s.app.theme;
 export const getSelectedChartStyleIndex = s => s.app.selectedChartStyleIndex;
+export const getLatencyTestUrl = s => s.app.latencyTestUrl;
 
 export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
   return async (dispatch, getState) => {
@@ -65,6 +66,16 @@ export function selectChartStyleIndex(selectedChartStyleIndex) {
   };
 }
 
+export function updateAppConfig(name, value) {
+  return (dispatch, getState) => {
+    dispatch('appUpdateAppConfig', s => {
+      s.app[name] = value;
+    });
+    // side effect
+    saveState(getState().app);
+  };
+}
+
 // type Theme = 'light' | 'dark';
 const defaultState = {
   clashAPIConfig: {
@@ -72,6 +83,7 @@ const defaultState = {
     port: '7892',
     secret: ''
   },
+  latencyTestUrl: 'http://www.gstatic.com/generate_204',
   selectedChartStyleIndex: 0,
   theme: 'dark'
 };

@@ -4,9 +4,6 @@ const endpoint = '/proxies';
 /*
 $ curl "http://127.0.0.1:8080/proxies/Proxy" -XPUT -d '{ "name": "ss3" }' -i
 HTTP/1.1 400 Bad Request
-Vary: Origin
-Date: Tue, 16 Oct 2018 16:38:20 GMT
-Content-Length: 56
 Content-Type: text/plain; charset=utf-8
 
 {"error":"Selector update error: Proxy does not exist"}
@@ -14,8 +11,6 @@ Content-Type: text/plain; charset=utf-8
 ~
 $ curl "http://127.0.0.1:8080/proxies/GLOBAL" -XPUT -d '{ "name": "Proxy" }' -i
 HTTP/1.1 204 No Content
-Vary: Origin
-Date: Tue, 16 Oct 2018 16:38:33 GMT
 */
 
 export async function fetchProxies(config) {
@@ -35,9 +30,13 @@ export async function requestToSwitchProxy(apiConfig, name1, name2) {
   });
 }
 
-export async function requestDelayForProxy(apiConfig, name) {
+export async function requestDelayForProxy(
+  apiConfig,
+  name,
+  latencyTestUrl = 'http://www.gstatic.com/generate_204'
+) {
   const { url, init } = getURLAndInit(apiConfig);
-  const qs = 'timeout=5000&url=http://www.google.com/generate_204';
+  const qs = `timeout=5000&url=${latencyTestUrl}`;
   const fullURL = `${url}${endpoint}/${name}/delay?${qs}`;
   return await fetch(fullURL, init);
 }
