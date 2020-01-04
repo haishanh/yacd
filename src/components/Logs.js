@@ -1,8 +1,8 @@
-import React, { memo, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useStoreState, useActions } from '../misc/store';
-import { getClashAPIConfig } from '../ducks/app';
+import { connect } from './StateProvider';
+// import { useStoreState, useActions } from '../misc/store';
 
 import SvgYacd from './SvgYacd';
 import { FixedSizeList as List, areEqual } from 'react-window';
@@ -10,10 +10,14 @@ import ContentHeader from './ContentHeader';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { fetchLogs } from '../api/logs';
 import LogSearch from './LogSearch';
-import { getLogsForDisplay, appendLog } from '../ducks/logs';
-import { getLogLevel } from '../ducks/configs';
+import { getLogsForDisplay, appendLog } from '../store/logs';
+import { getClashAPIConfig } from '../store/app';
+import { getLogLevel } from '../store/configs';
 
 import s0 from './Logs.module.css';
+
+const { useCallback, memo, useEffect } = React;
+
 const paddingBottom = 30;
 const colors = {
   debug: 'none',
@@ -60,17 +64,17 @@ const Row = memo(({ index, style, data }) => {
   );
 }, areEqual);
 
-const actions = { appendLog };
-
-export default function Logs() {
-  const { hostname, port, secret } = useStoreState(getClashAPIConfig);
-  const { appendLog } = useActions(actions);
-  const logs = useStoreState(getLogsForDisplay);
-  const logLevel = useStoreState(getLogLevel);
-
+function Logs({ dispatch, logLevel, apiConfig, logs }) {
+  const { hostname, port, secret } = apiConfig;
+  const appendLogInternal = useCallback(
+    log => {
+      dispatch(appendLog(log));
+    },
+    [dispatch]
+  );
   useEffect(() => {
-    fetchLogs({ hostname, port, secret, logLevel }, appendLog);
-  }, [hostname, port, secret, logLevel, appendLog]);
+    fetchLogs({ hostname, port, secret, logLevel }, appendLogInternal);
+  }, [hostname, port, secret, logLevel, appendLogInternal]);
   const [refLogsContainer, containerHeight] = useRemainingViewPortHeight();
 
   return (
@@ -106,3 +110,11 @@ export default function Logs() {
     </div>
   );
 }
+
+const mapState = s => ({
+  logs: getLogsForDisplay(s),
+  logLevel: getLogLevel(s),
+  apiConfig: getClashAPIConfig(s)
+});
+
+export default connect(mapState)(Logs);

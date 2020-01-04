@@ -1,29 +1,21 @@
 import React from 'react';
-import { useActions, useStoreState } from '../misc/store';
 import Button from './Button';
 import { FixedSizeList as List, areEqual } from 'react-window';
 import { RotateCw } from 'react-feather';
 
+import { connect } from './StateProvider';
+import { getClashAPIConfig } from '../store/app';
 import ContentHeader from './ContentHeader';
 import Rule from './Rule';
 import RuleSearch from './RuleSearch';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 
-import { getRules, fetchRules, fetchRulesOnce } from '../ducks/rules';
+import { getRules, fetchRules, fetchRulesOnce } from '../store/rules';
 
-const { memo, useEffect, useMemo } = React;
+const { memo, useEffect, useMemo, useCallback } = React;
 
 // import s from './Rules.module.css';
 const paddingBottom = 30;
-
-const mapStateToProps = s => ({
-  rules: getRules(s)
-});
-
-const actions = {
-  fetchRules,
-  fetchRulesOnce
-};
 
 function itemKey(index, data) {
   const item = data[index];
@@ -39,12 +31,20 @@ const Row = memo(({ index, style, data }) => {
   );
 }, areEqual);
 
-export default function Rules() {
-  const { fetchRulesOnce, fetchRules } = useActions(actions);
-  const { rules } = useStoreState(mapStateToProps);
+const mapState = s => ({
+  apiConfig: getClashAPIConfig(s),
+  rules: getRules(s)
+});
+
+export default connect(mapState)(Rules);
+
+function Rules({ dispatch, apiConfig, rules }) {
+  const fetchRulesHooked = useCallback(() => {
+    dispatch(fetchRules(apiConfig));
+  }, [apiConfig, dispatch]);
   useEffect(() => {
-    fetchRulesOnce();
-  }, [fetchRulesOnce]);
+    dispatch(fetchRulesOnce(apiConfig));
+  }, [dispatch, apiConfig]);
   const [refRulesContainer, containerHeight] = useRemainingViewPortHeight();
   const refreshIcon = useMemo(() => <RotateCw width={16} />, []);
   return (
@@ -64,7 +64,7 @@ export default function Rules() {
         </List>
       </div>
       <div className="fabgrp">
-        <Button text="Refresh" start={refreshIcon} onClick={fetchRules} />
+        <Button text="Refresh" start={refreshIcon} onClick={fetchRulesHooked} />
       </div>
     </div>
   );

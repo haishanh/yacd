@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useStoreState, useActions } from '../misc/store';
 
-import { getConfigs, fetchConfigs, updateConfigs } from '../ducks/configs';
+import { connect } from './StateProvider';
+import { getConfigs, fetchConfigs, updateConfigs } from '../store/configs';
 import {
+  getClashAPIConfig,
+  getSelectedChartStyleIndex,
   clearStorage,
-  selectChartStyleIndex,
-  getSelectedChartStyleIndex
-} from '../ducks/app';
+  selectChartStyleIndex
+} from '../store/app';
 
 import ContentHeader from './ContentHeader';
 import Switch from './Switch';
@@ -59,33 +60,31 @@ const optionsLogLevel = [
   }
 ];
 
-const actions = {
-  selectChartStyleIndex,
-  fetchConfigs,
-  updateConfigs
-};
+// const actions = {
+//   selectChartStyleIndex
+// };
 
-const mapStateToProps = s => ({
-  configs: getConfigs(s)
+const mapState = s => ({
+  configs: getConfigs(s),
+  apiConfig: getClashAPIConfig(s)
 });
 
-export default function ConfigContainer() {
-  const { fetchConfigs } = useActions(actions);
-  const { configs } = useStoreState(mapStateToProps);
+const mapState2 = s => ({
+  selectedChartStyleIndex: getSelectedChartStyleIndex(s),
+  apiConfig: getClashAPIConfig(s)
+});
+
+const Config = connect(mapState2)(ConfigImpl);
+export default connect(mapState)(ConfigContainer);
+
+function ConfigContainer({ dispatch, configs, apiConfig }) {
   useEffect(() => {
-    fetchConfigs();
-  }, [fetchConfigs]);
+    dispatch(fetchConfigs(apiConfig));
+  }, [dispatch, apiConfig]);
   return <Config configs={configs} />;
 }
 
-const mapStateToProps2 = s => ({
-  selectedChartStyleIndex: getSelectedChartStyleIndex(s)
-});
-
-function Config({ configs }) {
-  const { updateConfigs, selectChartStyleIndex } = useActions(actions);
-  const { selectedChartStyleIndex } = useStoreState(mapStateToProps2);
-  // configState to track component internal state
+function ConfigImpl({ dispatch, configs, selectedChartStyleIndex, apiConfig }) {
   // prevConfigs to track external props.configs
   const [configState, _setConfigState] = useState(configs);
   const [prevConfigs, setPrevConfigs] = useState(configs);
@@ -110,12 +109,12 @@ function Config({ configs }) {
       case 'allow-lan':
         value = target.checked;
         setConfigState(name, value);
-        updateConfigs({ [name]: value });
+        dispatch(updateConfigs(apiConfig, { [name]: value }));
         break;
       case 'mode':
       case 'log-level':
         setConfigState(name, value);
-        updateConfigs({ [name]: value });
+        dispatch(updateConfigs(apiConfig, { [name]: value }));
         break;
       case 'redir-port':
       case 'socks-port':
@@ -140,7 +139,7 @@ function Config({ configs }) {
       case 'redir-port': {
         const num = parseInt(value, 10);
         if (num < 0 || num > 65535) return;
-        updateConfigs({ [name]: num });
+        dispatch(updateConfigs(apiConfig, { [name]: num }));
         break;
       }
       default:
@@ -148,9 +147,12 @@ function Config({ configs }) {
     }
   }
 
-  function handleChartStyleIndexOnChange(idx) {
-    selectChartStyleIndex(idx);
-  }
+  const handleChartStyleIndexOnChange = useCallback(
+    idx => {
+      dispatch(selectChartStyleIndex(idx));
+    },
+    [dispatch]
+  );
 
   return (
     <div>

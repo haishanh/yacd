@@ -5,13 +5,12 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { motion } from 'framer-motion';
 import cx from 'classnames';
 
-import { useStoreState } from '../misc/store';
-import { getClashAPIConfig } from '../ducks/app';
 import { connect } from './StateProvider';
 import { SectionNameType } from './shared/Basic';
 import { ProxyList, ProxyListSummaryView } from './ProxyGroup';
 import Button from './Button';
 
+import { getClashAPIConfig } from '../store/app';
 import {
   updateProviderByName,
   healthcheckProviderByName
@@ -35,13 +34,8 @@ type Props = {
   dispatch: any => void
 };
 
-const mapStateToProps = s => ({
-  apiConfig: getClashAPIConfig(s)
-});
-
-function ProxyProvider({ item, dispatch }: Props) {
+function ProxyProvider({ item, dispatch, apiConfig }: Props) {
   const [isHealthcheckLoading, setIsHealthcheckLoading] = useState(false);
-  const { apiConfig } = useStoreState(mapStateToProps);
   const updateProvider = useCallback(
     () => dispatch(updateProviderByName(apiConfig, item.name)),
     [apiConfig, dispatch, item.name]
@@ -184,6 +178,6 @@ const Collapsible2 = memo(({ children, isOpen }) => {
 });
 
 const mapState = s => ({
-  // proxies: getProxies(s)
+  apiConfig: getClashAPIConfig(s)
 });
 export default connect(mapState)(ProxyProvider);

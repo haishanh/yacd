@@ -1,8 +1,8 @@
 import React from 'react';
 import prettyBytes from '../misc/pretty-bytes';
 
-import { useStoreState } from '../misc/store';
-import { getClashAPIConfig } from '../ducks/app';
+import { connect } from './StateProvider';
+import { getClashAPIConfig } from '../store/app';
 import { fetchData } from '../api/traffic';
 import * as connAPI from '../api/connections';
 
@@ -10,9 +10,14 @@ import s0 from './TrafficNow.module.css';
 
 const { useState, useEffect, useCallback } = React;
 
-export default function TrafficNow() {
-  const { upStr, downStr } = useSpeed();
-  const { upTotal, dlTotal, connNumber } = useConnection();
+const mapState = s => ({
+  apiConfig: getClashAPIConfig(s)
+});
+export default connect(mapState)(TrafficNow);
+
+function TrafficNow({ apiConfig }) {
+  const { upStr, downStr } = useSpeed(apiConfig);
+  const { upTotal, dlTotal, connNumber } = useConnection(apiConfig);
   return (
     <div className={s0.TrafficNow}>
       <div className="sec">
@@ -39,31 +44,25 @@ export default function TrafficNow() {
   );
 }
 
-function useSpeed() {
+function useSpeed(apiConfig) {
   const [speed, setSpeed] = useState({ upStr: '0 B/s', downStr: '0 B/s' });
-  const { hostname, port, secret } = useStoreState(getClashAPIConfig);
   useEffect(() => {
-    return fetchData({
-      hostname,
-      port,
-      secret
-    }).subscribe(o =>
+    return fetchData(apiConfig).subscribe(o =>
       setSpeed({
         upStr: prettyBytes(o.up) + '/s',
         downStr: prettyBytes(o.down) + '/s'
       })
     );
-  }, [hostname, port, secret]);
+  }, [apiConfig]);
   return speed;
 }
 
-function useConnection() {
+function useConnection(apiConfig) {
   const [state, setState] = useState({
     upTotal: '0 B',
     dlTotal: '0 B',
     connNumber: 0
   });
-  const config = useStoreState(getClashAPIConfig);
   const read = useCallback(
     ({ downloadTotal, uploadTotal, connections }) => {
       setState({
@@ -75,7 +74,7 @@ function useConnection() {
     [setState]
   );
   useEffect(() => {
-    return connAPI.fetchData(config, read);
-  }, [config, read]);
+    return connAPI.fetchData(apiConfig, read);
+  }, [apiConfig, read]);
   return state;
 }

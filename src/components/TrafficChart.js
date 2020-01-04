@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { fetchData } from '../api/traffic';
 import useLineChart from '../hooks/useLineChart';
-import { useStoreState } from '../misc/store';
-import { getClashAPIConfig, getSelectedChartStyleIndex } from '../ducks/app';
+import { connect } from './StateProvider';
+import { getClashAPIConfig, getSelectedChartStyleIndex } from '../store/app';
 import {
   chartJSResource,
   commonDataSetProps,
@@ -15,14 +15,16 @@ const chartWrapperStyle = {
   maxWidth: 1000
 };
 
-const mapStateToProps = s => ({
+const mapState = s => ({
+  apiConfig: getClashAPIConfig(s),
   selectedChartStyleIndex: getSelectedChartStyleIndex(s)
 });
 
-export default function TrafficChart() {
+export default connect(mapState)(TrafficChart);
+
+function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
   const Chart = chartJSResource.read();
-  const { hostname, port, secret } = useStoreState(getClashAPIConfig);
-  const { selectedChartStyleIndex } = useStoreState(mapStateToProps);
+  const { hostname, port, secret } = apiConfig;
   const traffic = fetchData({ hostname, port, secret });
   const data = useMemo(
     () => ({

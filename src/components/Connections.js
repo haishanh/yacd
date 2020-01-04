@@ -2,12 +2,12 @@ import React from 'react';
 import ContentHeader from './ContentHeader';
 import ConnectionTable from './ConnectionTable';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
-import { useStoreState } from '../misc/store';
-import { getClashAPIConfig } from '../ducks/app';
+import { getClashAPIConfig } from '../store/app';
 import { X as IconClose } from 'react-feather';
 import SvgYacd from './SvgYacd';
 import Button from './Button';
 import ModalCloseAllConnections from './ModalCloseAllConnections';
+import { connect } from './StateProvider';
 import * as connAPI from '../api/connections';
 
 import s from './Connections.module.css';
@@ -36,9 +36,8 @@ function formatConnectionDataItem(i) {
   };
 }
 
-function Conn() {
+function Conn({ apiConfig }) {
   const [refContainer, containerHeight] = useRemainingViewPortHeight();
-  const config = useStoreState(getClashAPIConfig);
   const [conns, setConns] = useState([]);
   const [isCloseAllModalOpen, setIsCloseAllModalOpen] = useState(false);
   const openCloseAllModal = useCallback(() => setIsCloseAllModalOpen(true), []);
@@ -47,9 +46,9 @@ function Conn() {
     []
   );
   const closeAllConnections = useCallback(() => {
-    connAPI.closeAllConnections(config);
+    connAPI.closeAllConnections(apiConfig);
     closeCloseAllModal();
-  }, [config, closeCloseAllModal]);
+  }, [apiConfig, closeCloseAllModal]);
   const iconClose = useMemo(() => <IconClose width={16} />, []);
   const prevConnsRef = useRef(conns);
   const read = useCallback(
@@ -67,8 +66,8 @@ function Conn() {
     [setConns]
   );
   useEffect(() => {
-    return connAPI.fetchData(config, read);
-  }, [config, read]);
+    return connAPI.fetchData(apiConfig, read);
+  }, [apiConfig, read]);
   return (
     <div>
       <ContentHeader title="Connections" />
@@ -100,4 +99,8 @@ function Conn() {
   );
 }
 
-export default Conn;
+const mapState = s => ({
+  apiConfig: getClashAPIConfig(s)
+});
+
+export default connect(mapState)(Conn);

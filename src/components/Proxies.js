@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStoreState } from '../misc/store';
+// import { useStoreState } from '../misc/store';
 
 import { connect } from './StateProvider';
 
@@ -20,17 +20,18 @@ import {
   fetchProxies,
   requestDelayAll
 } from '../store/proxies';
-
-import { getClashAPIConfig } from '../ducks/app';
+import { getClashAPIConfig } from '../store/app';
 
 const { useEffect, useMemo, useCallback, useRef } = React;
 
-const mapStateToProps = s => ({
-  apiConfig: getClashAPIConfig(s)
-});
-
-function Proxies({ dispatch, groupNames, proxies, delay, proxyProviders }) {
-  const { apiConfig } = useStoreState(mapStateToProps);
+function Proxies({
+  dispatch,
+  groupNames,
+  proxies,
+  delay,
+  proxyProviders,
+  apiConfig
+}) {
   const refFetchedTimestamp = useRef({});
   const requestDelayAllFn = useCallback(
     () => dispatch(requestDelayAll(apiConfig)),
@@ -92,6 +93,7 @@ function Proxies({ dispatch, groupNames, proxies, delay, proxyProviders }) {
 }
 
 const mapState = s => ({
+  apiConfig: getClashAPIConfig(s),
   groupNames: getProxyGroupNames(s),
   proxies: getProxies(s),
   proxyProviders: getProxyProviders(s),

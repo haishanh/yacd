@@ -1,25 +1,20 @@
-import React, { useEffect } from 'react';
-import { useActions, useStoreState } from '../misc/store';
+import React from 'react';
 import { DOES_NOT_SUPPORT_FETCH, errors } from '../misc/errors';
+
+import { connect } from './StateProvider';
 
 import Modal from './Modal';
 import APIConfig from './APIConfig';
 
-import { closeModal } from '../ducks/modals';
-import { fetchConfigs } from '../ducks/configs';
+import { getClashAPIConfig } from '../store/app';
+import { closeModal } from '../store/modals';
+import { fetchConfigs } from '../store/configs';
 
 import s0 from './APIDiscovery.module.css';
 
-const mapStateToProps = s => ({
-  modals: s.modals
-});
+const { useCallback, useEffect } = React;
 
-const actions = {
-  closeModal,
-  fetchConfigs
-};
-
-export default function APIDiscovery() {
+function APIDiscovery({ dispatch, apiConfig, modals }) {
   if (!window.fetch) {
     const { detail } = errors[DOES_NOT_SUPPORT_FETCH];
     const err = new Error(detail);
@@ -27,11 +22,12 @@ export default function APIDiscovery() {
     throw err;
   }
 
-  const { modals } = useStoreState(mapStateToProps);
-  const { closeModal, fetchConfigs } = useActions(actions);
+  const closeApiConfigModal = useCallback(() => {
+    dispatch(closeModal('apiConfig'));
+  }, [dispatch]);
   useEffect(() => {
-    fetchConfigs();
-  }, [fetchConfigs]);
+    dispatch(fetchConfigs(apiConfig));
+  }, [dispatch, apiConfig]);
 
   return (
     <Modal
@@ -40,7 +36,7 @@ export default function APIDiscovery() {
       overlayClassName={s0.overlay}
       shouldCloseOnOverlayClick={false}
       shouldCloseOnEsc={false}
-      onRequestClose={() => closeModal('apiConfig')}
+      onRequestClose={closeApiConfigModal}
     >
       <div className={s0.container}>
         <APIConfig />
@@ -48,3 +44,10 @@ export default function APIDiscovery() {
     </Modal>
   );
 }
+
+const mapState = s => ({
+  modals: s.modals,
+  apiConfig: getClashAPIConfig(s)
+});
+
+export default connect(mapState)(APIDiscovery);

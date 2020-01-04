@@ -4,13 +4,15 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
 
-import { useActions } from '../misc/store';
-import { switchTheme } from '../ducks/app';
+import { connect } from './StateProvider';
+import { switchTheme } from '../store/app';
 
 import Icon from './Icon';
 import moon from '../svg/moon.svg';
 import SvgYacd from './SvgYacd';
 import s from './SideBar.module.css';
+
+const { useCallback } = React;
 
 const icons = {
   activity: Activity,
@@ -78,10 +80,10 @@ const pages = [
   }
 ];
 
-const actions = { switchTheme };
-
-function SideBar({ location }) {
-  const { switchTheme } = useActions(actions);
+function SideBar({ dispatch, location }) {
+  const switchThemeHooked = useCallback(() => {
+    dispatch(switchTheme());
+  }, [dispatch]);
   return (
     <div className={s.root}>
       <a
@@ -106,17 +108,18 @@ function SideBar({ location }) {
           />
         ))}
       </div>
-      <div className={s.themeSwitchContainer} onClick={switchTheme}>
+      <div className={s.themeSwitchContainer} onClick={switchThemeHooked}>
         <Icon id={moon.id} width={20} height={20} />
       </div>
     </div>
   );
 }
 
-SideBar.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string
-  }).isRequired
-};
+// SideBar.propTypes = {
+//   location: PropTypes.shape({
+//     pathname: PropTypes.string
+//   }).isRequired
+// };
 
-export default React.memo(SideBar);
+const mapState = () => null;
+export default connect(mapState)(SideBar);

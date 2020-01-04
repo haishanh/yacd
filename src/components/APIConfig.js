@@ -1,26 +1,24 @@
 import React from 'react';
-import { useStoreState, useActions } from '../misc/store';
 
+import { connect } from './StateProvider';
 import Field from './Field';
 import Button from './Button';
 import SvgYacd from './SvgYacd';
 
 import s0 from './APIConfig.module.css';
 
-import { getClashAPIConfig, updateClashAPIConfig } from '../ducks/app';
+import { getClashAPIConfig, updateClashAPIConfig } from '../store/app';
 
 const { useState, useEffect, useRef, useCallback } = React;
 
-const mapStateToProps = s => ({
+const mapState = s => ({
   apiConfig: getClashAPIConfig(s)
 });
 
-function APIConfig() {
-  const { apiConfig } = useStoreState(mapStateToProps);
+function APIConfig({ apiConfig, dispatch }) {
   const [hostname, setHostname] = useState(apiConfig.hostname);
   const [port, setPort] = useState(apiConfig.port);
   const [secret, setSecret] = useState(apiConfig.secret);
-  const actions = useActions({ updateClashAPIConfig });
 
   const userTouchedFlagRef = useRef(false);
   const contentEl = useRef(null);
@@ -69,8 +67,8 @@ function APIConfig() {
   }, []);
 
   const updateConfig = useCallback(() => {
-    actions.updateClashAPIConfig({ hostname, port, secret });
-  }, [hostname, port, secret, actions]);
+    dispatch(updateClashAPIConfig({ hostname, port, secret }));
+  }, [hostname, port, secret, dispatch]);
 
   const handleContentOnKeyDown = useCallback(
     e => {
@@ -129,4 +127,4 @@ function APIConfig() {
   );
 }
 
-export default APIConfig;
+export default connect(mapState)(APIConfig);

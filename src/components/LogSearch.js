@@ -1,7 +1,6 @@
 import Search from './Search';
-import { getSearchText, updateSearchText } from '../ducks/logs';
+import { getSearchText, updateSearchText } from '../store/logs';
+import { connect } from './StateProvider';
 
-const mapStateToProps = s => ({ searchText: getSearchText(s) });
-const actions = { updateSearchText };
-
-export default Search({ mapStateToProps, actions });
+const mapState = s => ({ searchText: getSearchText(s), updateSearchText });
+export default connect(mapState)(Search);

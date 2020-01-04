@@ -12,14 +12,11 @@ export const getRules = createSelector(
     return allRules.filter(r => r.payload.indexOf(searchText) >= 0);
   }
 );
-
-const CompletedFetchRules = 'rules/CompletedFetchRules';
-const UpdateSearchText = 'rule/UpdateSearchText';
-
 export function updateSearchText(text) {
-  return {
-    type: UpdateSearchText,
-    payload: { searchText: text.toLowerCase() }
+  return dispatch => {
+    dispatch('rulesUpdateSearchText', s => {
+      s.rules.searchText = text.toLowerCase();
+    });
   };
 }
 
@@ -38,9 +35,8 @@ export function fetchRules(apiConfig) {
       return r;
     });
 
-    dispatch({
-      type: CompletedFetchRules,
-      payload: { allRules }
+    dispatch('rulesFetchRules', s => {
+      s.rules.allRules = allRules;
     });
   };
 }
@@ -54,20 +50,8 @@ export function fetchRulesOnce(apiConfig) {
 
 // {"type":"FINAL","payload":"","proxy":"Proxy"}
 // {"type":"IPCIDR","payload":"172.16.0.0/12","proxy":"DIRECT"}
-const initialState = {
+export const initialState = {
   // filteredRules: [],
   allRules: [],
   searchText: ''
 };
-
-export default function reducer(state = initialState, { type, payload }) {
-  switch (type) {
-    case UpdateSearchText:
-    case CompletedFetchRules: {
-      return { ...state, ...payload };
-    }
-
-    default:
-      return state;
-  }
-}

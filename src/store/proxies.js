@@ -231,3 +231,9 @@ function formatProxyProviders(providersInput) {
 
   return [providers, proxies];
 }
+
+export const initialState = {
+  proxies: {},
+  delay: {},
+  groupNames: []
+};

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Provider } from '../misc/store';
+// import { Provider } from '../misc/store';
 import StateProvider from './StateProvider';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Loading2 from './Loading2';
@@ -11,7 +11,8 @@ import Config from './Config';
 import StyleGuide from './StyleGuide';
 import Connections from './Connections';
 import APIDiscovery from './APIDiscovery';
-import { store } from '../store/configureStore';
+// import { store } from '../store/configureStore';
+import { initialState } from '../store';
 import './Root.css';
 import s0 from './Root.module.css';
 
@@ -32,16 +33,6 @@ const Rules = React.lazy(() =>
   )
 );
 
-window.store = store;
-
-const initialState = {
-  proxies: {
-    proxies: {},
-    delay: {},
-    groupNames: []
-  }
-};
-
 const routes = [
   ['home', '/', Home],
   ['connections', '/connections', Connections],
@@ -55,21 +46,19 @@ const routes = [
 const Root = () => (
   <ErrorBoundary>
     <StateProvider initialState={initialState}>
-      <Provider store={store}>
-        <Router>
-          <div className={s0.app}>
-            <APIDiscovery />
-            <Route path="/" render={props => <SideBar {...props} />} />
-            <div className={s0.content}>
-              <Suspense fallback={<Loading2 />}>
-                {routes.map(([key, path, component]) => (
-                  <Route exact key={key} path={path} component={component} />
-                ))}
-              </Suspense>
-            </div>
+      <Router>
+        <div className={s0.app}>
+          <APIDiscovery />
+          <Route path="/" render={props => <SideBar {...props} />} />
+          <div className={s0.content}>
+            <Suspense fallback={<Loading2 />}>
+              {routes.map(([key, path, component]) => (
+                <Route exact key={key} path={path} component={component} />
+              ))}
+            </Suspense>
           </div>
-        </Router>
-      </Provider>
+        </div>
+      </Router>
     </StateProvider>
   </ErrorBoundary>
 );
