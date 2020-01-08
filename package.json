@@ -39,7 +39,7 @@
     "chart.js": "^2.9.2",
     "classnames": "^2.2.6",
     "core-js": "^3.6.2",
-    "date-fns": "^2.8.1",
+    "date-fns": "^2.9.0",
     "framer-motion": "^1.7.0",
     "history": "^4.7.2",
     "immer": "^5.1.0",
