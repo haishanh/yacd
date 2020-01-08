@@ -35,7 +35,7 @@
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
-    "@sentry/browser": "^5.9.1",
+    "@sentry/browser": "^5.11.0",
     "chart.js": "^2.9.2",
     "classnames": "^2.2.6",
     "core-js": "^3.6.2",
