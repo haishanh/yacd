@@ -42,7 +42,7 @@
     "date-fns": "^2.8.1",
     "framer-motion": "^1.7.0",
     "history": "^4.7.2",
-    "immer": "^5.1.0",
+    "immer": "^5.2.0",
     "invariant": "^2.2.4",
     "lodash-es": "^4.17.14",
     "memoize-one": "^5.1.1",
