@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Moon,
   Command,
@@ -86,7 +86,8 @@ const pages = [
   }
 ];
 
-function SideBar({ dispatch, location }) {
+function SideBar({ dispatch }) {
+  const location = useLocation();
   const switchThemeHooked = useCallback(() => {
     dispatch(switchTheme());
   }, [dispatch]);

@@ -15,7 +15,9 @@ const presets = [
 ];
 
 module.exports = api => {
+  // https://babeljs.io/docs/en/config-files#apicache
   api.cache.using(() => process.env.NODE_ENV);
+  // https://babeljs.io/docs/en/config-files#apienv
   const isDev = api.env('development');
   const plugins = [
     [

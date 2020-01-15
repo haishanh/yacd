@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 // import { Provider } from '../misc/store';
 import StateProvider from './StateProvider';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import Loading2 from './Loading2';
 import ErrorBoundary from './ErrorBoundary';
 import SideBar from './SideBar';
@@ -34,13 +34,13 @@ const Rules = React.lazy(() =>
 );
 
 const routes = [
-  ['home', '/', Home],
-  ['connections', '/connections', Connections],
-  ['configs', '/configs', Config],
-  ['logs', '/logs', Logs],
-  ['proxies', '/proxies', Proxies],
-  ['rules', '/rules', Rules],
-  __DEV__ ? ['style', '/style', StyleGuide] : false
+  ['home', '/', <Home />],
+  ['connections', '/connections', <Connections />],
+  ['configs', '/configs', <Config />],
+  ['logs', '/logs', <Logs />],
+  ['proxies', '/proxies', <Proxies />],
+  ['rules', '/rules', <Rules />],
+  __DEV__ ? ['style', '/style', <StyleGuide />] : false
 ].filter(Boolean);
 
 const Root = () => (
@@ -49,12 +49,14 @@ const Root = () => (
       <Router>
         <div className={s0.app}>
           <APIDiscovery />
-          <Route path="/" render={props => <SideBar {...props} />} />
+          <Route path="/" element={<SideBar />} />
           <div className={s0.content}>
             <Suspense fallback={<Loading2 />}>
-              {routes.map(([key, path, component]) => (
-                <Route exact key={key} path={path} component={component} />
-              ))}
+              <Routes>
+                {routes.map(([key, path, element]) => (
+                  <Route key={key} path={path} element={element} />
+                ))}
+              </Routes>
             </Suspense>
           </div>
         </div>
