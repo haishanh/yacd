@@ -103,7 +103,7 @@
     "react-refresh": "^0.0.0-experimental-f42431abe",
     "resize-observer-polyfill": "^1.5.1",
     "style-loader": "^1.1.2",
-    "terser-webpack-plugin": "^2.3.1",
+    "terser-webpack-plugin": "^2.3.4",
     "webpack": "4.41.5",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.10",
