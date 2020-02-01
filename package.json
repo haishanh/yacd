@@ -33,7 +33,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.7.7",
+    "@babel/runtime": "^7.8.4",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
     "@sentry/browser": "^5.9.1",
     "chart.js": "^2.9.2",
