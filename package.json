@@ -17,8 +17,7 @@
   },
   "lint-staged": {
     "*.{js,scss,css,md}": [
-      "prettier --single-quote --write",
-      "git add"
+      "prettier --single-quote --write"
     ]
   },
   "browserslist": [
@@ -92,7 +91,7 @@
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^4.0.0",
-    "lint-staged": "^9.5.0",
+    "lint-staged": "^10.0.7",
     "mini-css-extract-plugin": "^0.9.0",
     "postcss-custom-media": "^7.0.8",
     "postcss-extend-rule": "^3.0.0",

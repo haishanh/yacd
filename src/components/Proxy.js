@@ -1,3 +1,4 @@
+// vim: set ft=javascript.flow :
 import React from 'react';
 import cx from 'classnames';
 
@@ -57,8 +58,16 @@ type ProxyProps = {
 
 function ProxySmallImpl({ now, name, proxy, latency }: ProxyProps) {
   const color = useMemo(() => getLabelColor(latency), [latency]);
+  const title = useMemo(() => {
+    let ret = name;
+    if (latency && typeof latency.number === 'number') {
+      ret += ' ' + latency.number + ' ms';
+    }
+    return ret;
+  }, [name, latency]);
   return (
     <div
+      title={title}
       className={cx(s0.proxySmall, { [s0.now]: now })}
       style={{ backgroundColor: color }}
     />

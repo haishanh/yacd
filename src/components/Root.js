@@ -49,7 +49,7 @@ const Root = () => (
       <Router>
         <div className={s0.app}>
           <APIDiscovery />
-          <Route path="/" element={<SideBar />} />
+          <SideBar />
           <div className={s0.content}>
             <Suspense fallback={<Loading2 />}>
               <Routes>
