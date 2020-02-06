@@ -20,7 +20,9 @@ const paddingBottom = 30;
 
 function formatConnectionDataItem(i) {
   const { id, metadata, upload, download, start, chains, rule } = i;
-  const { host, destinationPort } = metadata;
+  let { host, destinationPort, destinationIP } = metadata;
+  // host could be an empty string if it's direct IP connection
+  if (host === '') host = destinationIP;
   const metadataNext = {
     ...metadata,
     // merge host and destinationPort into one column
