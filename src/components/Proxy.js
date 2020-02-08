@@ -75,14 +75,14 @@ function Proxy({ now, name, proxy, latency }: ProxyProps) {
       })}
     >
       <div className={s0.proxyName}>{name}</div>
-      <div className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
+      <span className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
         {proxy.type}
-      </div>
-      <div className={s0.proxyLatencyWrap}>
-        {latency && latency.number ? (
+      </span>
+      {latency && latency.number ? (
+        <span className={s0.proxyLatencyWrap}>
           <ProxyLatency number={latency.number} color={color} />
-        ) : null}
-      </div>
+        </span>
+      ) : null}
     </div>
   );
 }

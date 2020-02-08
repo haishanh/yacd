@@ -23,26 +23,33 @@
 
 .proxyType {
   font-family: var(--font-mono);
+  display: inline;
+  padding: 0 0.3em;
   font-size: 0.6em;
   @media (--breakpoint-not-small) {
     font-size: 1em;
   }
 }
 
+.proxyDisable {
+  display: inline;
+}
 .proxyName {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 5px;
   font-size: 0.85em;
+  display: inline;
   @media (--breakpoint-not-small) {
     font-size: 1.1em;
   }
 }
 
 .proxyLatencyWrap {
+  padding: 0 0.3em;
   height: 30px;
-  display: flex;
+  /* display: flex; */
   align-items: flex-end;
 }
 
