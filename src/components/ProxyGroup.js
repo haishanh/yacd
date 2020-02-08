@@ -159,7 +159,7 @@ const mapState = (s, { all, filterError }) => {
   };
 };
 
-const ProxyList = connect(mapState)(ProxyListImpl);
+export const ProxyList = connect(mapState)(ProxyListImpl);
 
 export function ProxyListSummaryView({
   all,
