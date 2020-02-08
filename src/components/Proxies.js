@@ -79,6 +79,7 @@ function Proxies({
                 name={groupName}
                 proxies={proxies}
                 delay={delay}
+                sort={true}
                 apiConfig={apiConfig}
                 dispatch={dispatch}
               />
