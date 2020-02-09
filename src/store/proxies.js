@@ -27,6 +27,8 @@ const ProxyTypes = ['Shadowsocks', 'Snell', 'Socks5', 'Http', 'Vmess'];
 
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
+export const getRtFilterSwitch = s => s.filterZeroRT;
+export const switchRtFilter = s => (s.filterZeroRT = !getRtFilterSwitch(s));
 export const getProxyGroupNames = s => s.proxies.groupNames;
 export const getProxyProviders = s => s.proxies.proxyProviders || [];
 export const getDangleProxyNames = s => s.proxies.dangleProxyNames;
@@ -241,5 +243,6 @@ function formatProxyProviders(providersInput) {
 export const initialState = {
   proxies: {},
   delay: {},
-  groupNames: []
+  groupNames: [],
+  filterZeroRT: true
 };

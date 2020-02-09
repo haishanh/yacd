@@ -6,7 +6,7 @@ import { connect } from './StateProvider';
 import ContentHeader from './ContentHeader';
 import ProxyGroup from './ProxyGroup';
 import Button from './Button';
-import { Zap } from 'react-feather';
+import { Zap, Filter } from 'react-feather';
 
 import ProxyProviderList from './ProxyProviderList';
 
@@ -15,6 +15,7 @@ import s0 from './Proxies.module.css';
 import {
   getProxies,
   getDelay,
+  getRtFilterSwitch,
   getProxyGroupNames,
   getProxyProviders,
   fetchProxies,
@@ -30,13 +31,26 @@ function Proxies({
   proxies,
   delay,
   proxyProviders,
-  apiConfig
+  apiConfig,
+  filterZeroRT
 }) {
   const refFetchedTimestamp = useRef({});
+
+  const switchRequetState = (dispath, getState) => {
+    const preState = getRtFilterSwitch(getState());
+
+    dispatch('store/proxies#filterZeroRTProxies', s => {
+      s.filterZeroRT = !preState;
+    });
+  };
+  const filterZeroRTFn = useCallback(() => dispatch(switchRequetState), [
+    dispatch
+  ]);
   const requestDelayAllFn = useCallback(
     () => dispatch(requestDelayAll(apiConfig)),
     [apiConfig, dispatch]
   );
+
   const fetchProxiesHooked = useCallback(() => {
     refFetchedTimestamp.current.startAt = new Date();
     dispatch(fetchProxies(apiConfig)).then(() => {
@@ -60,6 +74,7 @@ function Proxies({
     return () => window.removeEventListener('focus', fn, false);
   }, [fetchProxiesHooked]);
   const icon = useMemo(() => <Zap width={16} />, []);
+  const filterIcon = useMemo(() => <Filter width={16} />, []);
 
   return (
     <>
@@ -71,6 +86,9 @@ function Proxies({
             start={icon}
             onClick={requestDelayAllFn}
           />
+          <Button start={filterIcon} onClick={filterZeroRTFn}>
+            <span>{filterZeroRT ? 'show' : 'hide'} 0ms proxies</span>
+          </Button>
         </div>
         {groupNames.map(groupName => {
           return (
@@ -97,7 +115,8 @@ const mapState = s => ({
   groupNames: getProxyGroupNames(s),
   proxies: getProxies(s),
   proxyProviders: getProxyProviders(s),
-  delay: getDelay(s)
+  delay: getDelay(s),
+  filterZeroRT: getRtFilterSwitch(s)
 });
 
 export default connect(mapState)(Proxies);

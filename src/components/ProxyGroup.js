@@ -1,10 +1,11 @@
 import React from 'react';
 
 import Button from './Button';
+import { ChevronsDown } from 'react-feather';
 
 import cx from 'classnames';
 import { connect } from './StateProvider';
-import { getDelay } from '../store/proxies';
+import { getDelay, getProxies, getRtFilterSwitch } from '../store/proxies';
 
 import Proxy, { ProxySmall } from './Proxy';
 import { SectionNameType } from './shared/Basic';
@@ -22,23 +23,14 @@ function ProxyGroup({ name, proxies, apiConfig, dispatch }) {
   const isSelectable = useMemo(() => type === 'Selector', [type]);
 
   const [isShow, setIsShow] = useState({
-    show: false,
-    showAll: false
+    show: false
   });
 
   const updateShow = useCallback(
     type => {
-      if (type === 'all') {
-        setIsShow({
-          ...isShow,
-          showAll: !isShow.showAll
-        });
-      } else {
-        setIsShow({
-          ...isShow,
-          show: !isShow.show
-        });
-      }
+      setIsShow({
+        show: !isShow.show
+      });
     },
     [isShow]
   );
@@ -53,27 +45,28 @@ function ProxyGroup({ name, proxies, apiConfig, dispatch }) {
     [apiConfig, dispatch, name, isSelectable]
   );
 
+  const button = useMemo(
+    () => (
+      <Button
+        className="btn"
+        start={<ChevronsDown width={16} />}
+        onClick={() => updateShow()}
+        // text={isShow.show ? 'hide' : 'show'}
+      />
+    ),
+    [updateShow]
+  );
+
   return (
     <div className={s0.group}>
       <div className={s0.header}>
-        <SectionNameType name={name} type={group.type} />
-        <Button
-          className="btn"
-          onClick={() => updateShow()}
-          text={isShow.show ? 'hide' : 'show'}
-        ></Button>
-        <Button
-          className="btn"
-          onClick={() => updateShow('all')}
-          text={isShow.showAll ? 'hide error' : 'all proxies'}
-        ></Button>
+        <SectionNameType name={name} type={group.type} dropDown={button} />
       </div>
       <ProxyList
         all={isShow.show ? all : []}
         now={now}
         isSelectable={isSelectable}
         itemOnTapCallback={itemOnTapCallback}
-        filterError={!isShow.showAll}
       />
     </div>
   );
@@ -91,7 +84,6 @@ function ProxyListImpl({
   now,
   isSelectable,
   itemOnTapCallback,
-  filterError,
   sortedAll
 }: ProxyListProps) {
   const proxies = sortedAll || all;
@@ -130,32 +122,43 @@ const getSortDelay = (d, w) => {
   return w;
 };
 
-const mapState = (s, { all, filterError }) => {
+const mapState = (s, { all }) => {
   const delay = getDelay(s);
+  const filterError = getRtFilterSwitch(s);
+
+  const groupList = [];
+  const proxyList = [];
 
   let clonelist = [...all];
 
   if (filterError) {
-    clonelist = clonelist.filter(e => {
-      const d = delay[e];
-      if (d === undefined) return true;
-      if (d.error || d.number === 0 || d.number > 1000) {
+    const filterList = clonelist.filter(name => {
+      const d = delay[name];
+      if (d === undefined) {
+        groupList.push(name);
+        return true;
+      }
+      if (d.error || d.number === 0) {
         return false;
       } else {
+        proxyList.push(name);
         return true;
       }
     });
+
+    //
+    if (proxyList.length > 0) {
+      //not test connection yet ,,show all
+      clonelist = filterList;
+    }
   }
 
-  clonelist = clonelist.sort((first, second) => {
-    const d1 = getSortDelay(delay[first], 999999);
-    const d2 = getSortDelay(delay[second], 999999);
-
-    return d1 - d2;
-  });
-
   return {
-    sortedAll: clonelist
+    all: clonelist.sort((first, second) => {
+      const d1 = getSortDelay(delay[first], 999999);
+      const d2 = getSortDelay(delay[second], 999999);
+      return d1 - d2;
+    })
   };
 };
 
