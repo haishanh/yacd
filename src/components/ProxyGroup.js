@@ -5,7 +5,7 @@ import { ChevronsDown } from 'react-feather';
 
 import cx from 'classnames';
 import { connect } from './StateProvider';
-import { getDelay, getProxies, getRtFilterSwitch } from '../store/proxies';
+import { getDelay, getRtFilterSwitch } from '../store/proxies';
 
 import Proxy, { ProxySmall } from './Proxy';
 import { SectionNameType } from './shared/Basic';
@@ -124,14 +124,14 @@ const getSortDelay = (d, w) => {
 
 const mapState = (s, { all }) => {
   const delay = getDelay(s);
-  const filterError = getRtFilterSwitch(s);
+  const filterByRt = getRtFilterSwitch(s);
 
   const groupList = [];
   const proxyList = [];
 
   let clonelist = [...all];
 
-  if (filterError) {
+  if (filterByRt) {
     const filterList = clonelist.filter(name => {
       const d = delay[name];
       if (d === undefined) {
