@@ -1,4 +1,3 @@
-// vim: set ft=javascript.flow :
 import React from 'react';
 import cx from 'classnames';
 
@@ -84,14 +83,14 @@ function Proxy({ now, name, proxy, latency }: ProxyProps) {
       })}
     >
       <div className={s0.proxyName}>{name}</div>
-      <span className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
-        {proxy.type}
-      </span>
-      {latency && latency.number ? (
-        <span className={s0.proxyLatencyWrap}>
-          <ProxyLatency number={latency.number} color={color} />
+      <div className={s0.row}>
+        <span className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
+          {proxy.type}
         </span>
-      ) : null}
+        {latency && latency.number ? (
+          <ProxyLatency number={latency.number} color={color} />
+        ) : null}
+      </div>
     </div>
   );
 }

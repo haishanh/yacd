@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+
+  .arrow {
+    display: inline-flex;
+    transform: rotate(0deg);
+    transition: transform 0.3s;
+    &.isOpen {
+      transform: rotate(180deg);
+    }
+
+    &:focus {
+      outline: var(--color-focus-blue) solid 1px;
+    }
+  }
+}
+
+/* TODO duplicate with connQty in Connections.module.css */
+.qty {
+  font-family: var(--font-normal);
+  font-size: 0.75em;
+  margin-left: 3px;
+  padding: 2px 7px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-near-transparent);
+  border-radius: 30px;
+}

@@ -11,7 +11,14 @@ function ProxyProviderList({ items }) {
       <ContentHeader title="Proxy Provider" />
       <div>
         {items.map(item => (
-          <ProxyProvider key={item.name} item={item} />
+          <ProxyProvider
+            key={item.name}
+            name={item.name}
+            proxies={item.proxies}
+            type={item.type}
+            vehicleType={item.vehicleType}
+            updatedAt={item.updatedAt}
+          />
         ))}
       </div>
     </>

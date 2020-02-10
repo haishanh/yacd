@@ -6,7 +6,7 @@
 
   max-width: 280px;
   @media (--breakpoint-not-small) {
-    min-width: 150px;
+    min-width: 200px;
     border-radius: 10px;
     padding: 10px;
   }
@@ -23,12 +23,16 @@
 
 .proxyType {
   font-family: var(--font-mono);
-  display: inline;
-  padding: 0 0.3em;
   font-size: 0.6em;
   @media (--breakpoint-not-small) {
     font-size: 1em;
   }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .proxyName {
@@ -37,17 +41,9 @@
   text-overflow: ellipsis;
   margin-bottom: 5px;
   font-size: 0.85em;
-  display: inline;
   @media (--breakpoint-not-small) {
     font-size: 1.1em;
   }
-}
-
-.proxyLatencyWrap {
-  padding: 0 0.3em;
-  height: 30px;
-  /* display: flex; */
-  align-items: flex-end;
 }
 
 .proxySmall {

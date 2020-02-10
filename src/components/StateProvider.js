@@ -79,11 +79,7 @@ export function connect(mapStateToProps) {
       const state = useContext(StateContext);
       const dispatch = useContext(DispatchContext);
       const mapped = mapStateToProps(state, props);
-      const nextProps = {
-        ...props,
-        ...mapped,
-        dispatch
-      };
+      const nextProps = { dispatch, ...props, ...mapped };
       return <MemoComponent {...nextProps} />;
     }
     return Connected;

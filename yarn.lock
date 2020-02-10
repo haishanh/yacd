@@ -6692,6 +6692,11 @@ react-tabs@^3.1.0:
     classnames "^2.2.0"
     prop-types "^15.5.0"
 
+react-tiny-fab@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/react-tiny-fab/-/react-tiny-fab-3.4.0.tgz#65edafa65826aaab8da8cca5f6e099ee81c52eaa"
+  integrity sha512-8R1z0k5I/tcQFDDJHGRycyiAm991htdvgpaSgT1dB83SiG89L1VQJE7TVEaoDng8R50+fxLZaoOCUkNFmZBKgA==
+
 react-window@^1.8.5:
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/react-window/-/react-window-1.8.5.tgz#a56b39307e79979721021f5d06a67742ecca52d1"

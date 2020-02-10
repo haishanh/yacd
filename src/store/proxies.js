@@ -1,5 +1,3 @@
-// @flow
-// vim: set ft=javascript.flow :
 import * as proxiesAPI from '../api/proxies';
 import { getLatencyTestUrl } from './app';
 
@@ -27,7 +25,7 @@ const ProxyTypes = ['Shadowsocks', 'Snell', 'Socks5', 'Http', 'Vmess'];
 
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
-export const getRtFilterSwitch = s => s.filterZeroRT;
+export const getRtFilterSwitch = s => s.proxies.filterZeroRT;
 export const getProxyGroupNames = s => s.proxies.groupNames;
 export const getProxyProviders = s => s.proxies.proxyProviders || [];
 export const getDangleProxyNames = s => s.proxies.dangleProxyNames;
@@ -188,6 +186,15 @@ export function requestDelayAll(apiConfig) {
   };
 }
 
+export function toggleUnavailableProxiesFilter() {
+  return (dispatch, getState) => {
+    const preState = getRtFilterSwitch(getState());
+    dispatch('store/proxies#toggleUnavailableProxiesFilter', s => {
+      s.proxies.filterZeroRT = !preState;
+    });
+  };
+}
+
 function retrieveGroupNamesFrom(proxies) {
   let groupNames = [];
   let globalAll;
@@ -243,5 +250,5 @@ export const initialState = {
   proxies: {},
   delay: {},
   groupNames: [],
-  filterZeroRT: true
+  filterZeroRT: false
 };

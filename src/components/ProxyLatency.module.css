@@ -1,6 +1,5 @@
 .proxyLatency {
   border-radius: 20px;
-  padding: 3px 0;
   color: #eee;
   font-size: 0.6em;
   @media (--breakpoint-not-small) {

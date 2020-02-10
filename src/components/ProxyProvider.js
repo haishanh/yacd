@@ -1,69 +1,75 @@
 import React from 'react';
-import { ChevronDown, RotateCw, Zap } from 'react-feather';
+import { RotateCw, Zap } from 'react-feather';
 import { formatDistance } from 'date-fns';
-import ResizeObserver from 'resize-observer-polyfill';
 import { motion } from 'framer-motion';
-import cx from 'classnames';
 
 import { connect } from './StateProvider';
-import { SectionNameType } from './shared/Basic';
-import { ProxyList, ProxyListSummaryView } from './ProxyGroup';
+import Collapsible from './Collapsible';
+import CollapsibleSectionHeader from './CollapsibleSectionHeader';
+import {
+  ProxyList,
+  ProxyListSummaryView,
+  filterAvailableProxiesAndSort
+} from './ProxyGroup';
 import Button from './Button';
 
 import { getClashAPIConfig } from '../store/app';
 import {
+  getDelay,
+  getRtFilterSwitch,
   updateProviderByName,
   healthcheckProviderByName
 } from '../store/proxies';
 
 import s from './ProxyProvider.module.css';
 
-const { memo, useState, useRef, useEffect, useCallback } = React;
+const { useState, useCallback } = React;
 
 type Props = {
-  item: Array<{
-    name: string,
-    proxies: Array<string>,
-    type: 'Proxy' | 'Rule',
-    vehicleType: 'HTTP' | 'File' | 'Compatible',
-    updatedAt?: string
-  }>,
-  proxies: {
-    [string]: any
-  },
+  name: string,
+  proxies: Array<string>,
+  type: 'Proxy' | 'Rule',
+  vehicleType: 'HTTP' | 'File' | 'Compatible',
+  updatedAt?: string,
   dispatch: any => void
 };
 
-function ProxyProvider({ item, dispatch, apiConfig }: Props) {
+function ProxyProvider({
+  name,
+  proxies,
+  vehicleType,
+  updatedAt,
+  dispatch,
+  apiConfig
+}: Props) {
   const [isHealthcheckLoading, setIsHealthcheckLoading] = useState(false);
   const updateProvider = useCallback(
-    () => dispatch(updateProviderByName(apiConfig, item.name)),
-    [apiConfig, dispatch, item.name]
+    () => dispatch(updateProviderByName(apiConfig, name)),
+    [apiConfig, dispatch, name]
   );
   const healthcheckProvider = useCallback(async () => {
     setIsHealthcheckLoading(true);
-    await dispatch(healthcheckProviderByName(apiConfig, item.name));
+    await dispatch(healthcheckProviderByName(apiConfig, name));
     setIsHealthcheckLoading(false);
-  }, [apiConfig, dispatch, item.name, setIsHealthcheckLoading]);
+  }, [apiConfig, dispatch, name, setIsHealthcheckLoading]);
 
   const [isCollapsibleOpen, setCollapsibleOpen] = useState(false);
   const toggle = useCallback(() => setCollapsibleOpen(x => !x), []);
-  const timeAgo = formatDistance(new Date(item.updatedAt), new Date());
+  const timeAgo = formatDistance(new Date(updatedAt), new Date());
   return (
     <div className={s.body}>
-      <div className={s.header} onClick={toggle}>
-        <SectionNameType name={item.name} type={item.vehicleType} />
-        <Button kind="minimal">
-          <span className={cx(s.arrow, { [s.isOpen]: isCollapsibleOpen })}>
-            <ChevronDown />
-          </span>
-        </Button>
-      </div>
+      <CollapsibleSectionHeader
+        name={name}
+        toggle={toggle}
+        type={vehicleType}
+        isOpen={isCollapsibleOpen}
+        qty={proxies.length}
+      />
       <div className={s.updatedAt}>
         <small>Updated {timeAgo} ago</small>
       </div>
-      <Collapsible2 isOpen={isCollapsibleOpen}>
-        <ProxyList all={item.proxies} />
+      <Collapsible isOpen={isCollapsibleOpen}>
+        <ProxyList all={proxies} />
         <div className={s.actionFooter}>
           <Button text="Update" start={<Refresh />} onClick={updateProvider} />
           <Button
@@ -73,10 +79,10 @@ function ProxyProvider({ item, dispatch, apiConfig }: Props) {
             isLoading={isHealthcheckLoading}
           />
         </div>
-      </Collapsible2>
-      <Collapsible2 isOpen={!isCollapsibleOpen}>
-        <ProxyListSummaryView all={item.proxies} />
-      </Collapsible2>
+      </Collapsible>
+      <Collapsible isOpen={!isCollapsibleOpen}>
+        <ProxyListSummaryView all={proxies} />
+      </Collapsible>
     </div>
   );
 }
@@ -106,78 +112,17 @@ function Refresh() {
   );
 }
 
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => void (ref.current = value), [value]);
-  return ref.current;
-}
-
-function useMeasure() {
-  const ref = useRef();
-  const [bounds, set] = useState({ height: 0 });
-  useEffect(() => {
-    const ro = new ResizeObserver(([entry]) => set(entry.contentRect));
-    if (ref.current) ro.observe(ref.current);
-    return () => ro.disconnect();
-  }, []);
-  return [ref, bounds];
-}
-
-const variantsCollpapsibleWrap = {
-  initialOpen: {
-    height: 'auto',
-    transition: { duration: 0 }
-  },
-  open: height => ({
-    height,
-    opacity: 1,
-    visibility: 'visible',
-    transition: { duration: 0.3 }
-  }),
-  closed: {
-    height: 0,
-    opacity: 0,
-    visibility: 'hidden',
-    transition: { duration: 0.3 }
-  }
-};
-const variantsCollpapsibleChildContainer = {
-  open: {
-    x: 0
-  },
-  closed: {
-    x: 20
-  }
+const mapState = (s, { proxies }) => {
+  const filterByRt = getRtFilterSwitch(s);
+  const delay = getDelay(s);
+  const apiConfig = getClashAPIConfig(s);
+  return {
+    apiConfig,
+    proxies: filterAvailableProxiesAndSort(proxies, delay, filterByRt)
+  };
 };
 
-const Collapsible2 = memo(({ children, isOpen }) => {
-  const previous = usePrevious(isOpen);
-  const [refToMeature, { height }] = useMeasure();
-  return (
-    <div>
-      <motion.div
-        animate={
-          isOpen && previous === isOpen
-            ? 'initialOpen'
-            : isOpen
-            ? 'open'
-            : 'closed'
-        }
-        custom={height}
-        variants={variantsCollpapsibleWrap}
-      >
-        <motion.div
-          variants={variantsCollpapsibleChildContainer}
-          ref={refToMeature}
-        >
-          {children}
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-});
-
-const mapState = s => ({
-  apiConfig: getClashAPIConfig(s)
-});
+// const mapState = s => ({
+//   apiConfig: getClashAPIConfig(s)
+// });
 export default connect(mapState)(ProxyProvider);
