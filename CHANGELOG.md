@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.7](https://github.com/haishanh/yacd/compare/v0.1.6...v0.1.7) (2020-02-11)
+
+Refactor:
+
+- proxies page UI improvement
+
+Fixes:
+
+- use destination ip as host if host is an empty string
+
 ## [0.1.6](https://github.com/haishanh/yacd/compare/v0.1.5...v0.1.6) (2020-01-07)
 
 Features:

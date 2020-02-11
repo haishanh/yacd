@@ -1,6 +1,6 @@
 {
   "name": "yacd",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Yet another Clash dashboard",
   "main": "index.js",
   "scripts": {
