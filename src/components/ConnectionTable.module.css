@@ -1,6 +1,6 @@
 .thead .tr {
   display: grid;
-  grid-template-columns: repeat(11, max-content);
+  grid-template-columns: repeat(13, max-content);
 }
 
 .th {

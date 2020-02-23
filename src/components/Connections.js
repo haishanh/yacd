@@ -18,7 +18,16 @@ const { useEffect, useState, useRef, useCallback, useMemo } = React;
 
 const paddingBottom = 30;
 
-function formatConnectionDataItem(i) {
+function arrayToIdKv(items) {
+  const o = {};
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    o[item.id] = item;
+  }
+  return o;
+}
+
+function formatConnectionDataItem(i, prevKv) {
   const { id, metadata, upload, download, start, chains, rule } = i;
   let { host, destinationPort, destinationIP } = metadata;
   // host could be an empty string if it's direct IP connection
@@ -29,7 +38,7 @@ function formatConnectionDataItem(i) {
     host: host + ':' + destinationPort
   };
   // const started = formatDistance(new Date(start), now);
-  return {
+  const ret = {
     id,
     upload,
     download,
@@ -38,6 +47,10 @@ function formatConnectionDataItem(i) {
     rule,
     ...metadataNext
   };
+  const prev = prevKv[id];
+  ret.downloadSpeedCurr = download - (prev ? prev.download : 0);
+  ret.uploadSpeedCurr = upload - (prev ? prev.upload : 0);
+  return ret;
 }
 
 function renderTableOrPlaceholder(conns) {
@@ -72,7 +85,8 @@ function Conn({ apiConfig }) {
   const prevConnsRef = useRef(conns);
   const read = useCallback(
     ({ connections }) => {
-      const x = connections.map(c => formatConnectionDataItem(c));
+      const prevConnsKv = arrayToIdKv(prevConnsRef.current);
+      const x = connections.map(c => formatConnectionDataItem(c, prevConnsKv));
       const closed = [];
       for (const c of prevConnsRef.current) {
         const idx = x.findIndex(conn => conn.id === c.id);

@@ -12,6 +12,8 @@ const columns = [
   { Header: 'Host', accessor: 'host' },
   { Header: 'Download', accessor: 'download' },
   { Header: 'Upload', accessor: 'upload' },
+  { Header: 'Download Speed', accessor: 'downloadSpeedCurr' },
+  { Header: 'Upload Speed', accessor: 'uploadSpeedCurr' },
   { Header: 'Network', accessor: 'network' },
   { Header: 'Type', accessor: 'type' },
   { Header: 'Chains', accessor: 'chains' },
@@ -29,6 +31,9 @@ function renderCell(cell, now) {
     case 'download':
     case 'upload':
       return prettyBytes(cell.value);
+    case 'downloadSpeedCurr':
+    case 'uploadSpeedCurr':
+      return prettyBytes(cell.value) + '/s';
     default:
       return cell.value;
   }
@@ -57,43 +62,45 @@ function Table({ data }) {
   return (
     <div {...getTableProps()}>
       <div className={s.thead}>
-        {headerGroups.map(headerGroup => (
-          <div {...headerGroup.getHeaderGroupProps()} className={s.tr}>
-            {headerGroup.headers.map(column => (
-              <div
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                className={s.th}
-              >
-                <span>{column.render('Header')}</span>
-                <span className={s.sortIconContainer}>
-                  {column.isSorted ? (
-                    <span className={column.isSortedDesc ? '' : s.rotate180}>
-                      <ChevronDown size={16} />
-                    </span>
-                  ) : null}
-                </span>
-              </div>
-            ))}
+        {headerGroups.map(headerGroup => {
+          return (
+            <div {...headerGroup.getHeaderGroupProps()} className={s.tr}>
+              {headerGroup.headers.map(column => (
+                <div
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className={s.th}
+                >
+                  <span>{column.render('Header')}</span>
+                  <span className={s.sortIconContainer}>
+                    {column.isSorted ? (
+                      <span className={column.isSortedDesc ? '' : s.rotate180}>
+                        <ChevronDown size={16} />
+                      </span>
+                    ) : null}
+                  </span>
+                </div>
+              ))}
 
-            {rows.map((row, i) => {
-              prepareRow(row);
-              return row.cells.map((cell, j) => {
-                return (
-                  <div
-                    {...cell.getCellProps()}
-                    className={cx(
-                      s.td,
-                      i % 2 === 0 ? s.odd : false,
-                      j === 1 || j === 2 ? s.du : false
-                    )}
-                  >
-                    {renderCell(cell, now)}
-                  </div>
-                );
-              });
-            })}
-          </div>
-        ))}
+              {rows.map((row, i) => {
+                prepareRow(row);
+                return row.cells.map((cell, j) => {
+                  return (
+                    <div
+                      {...cell.getCellProps()}
+                      className={cx(
+                        s.td,
+                        i % 2 === 0 ? s.odd : false,
+                        j >= 1 && j <= 4 ? s.du : false
+                      )}
+                    >
+                      {renderCell(cell, now)}
+                    </div>
+                  );
+                });
+              })}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
