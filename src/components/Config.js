@@ -11,7 +11,7 @@ import {
 } from '../store/app';
 
 import ContentHeader from './ContentHeader';
-import Switch from './Switch';
+import Switch from './SwitchThemed';
 import ToggleSwitch from './ToggleSwitch';
 import Input, { SelfControlledInput } from './Input';
 import Button from './Button';

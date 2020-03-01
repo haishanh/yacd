@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 
 import { Zap } from 'react-feather';
 
+import SwitchThemed from './SwitchThemed';
 import ToggleSwitch from './ToggleSwitch';
 import Input from './Input';
-import Switch from './Switch';
 import Button from './Button';
 import { LoadingDot } from './shared/Basic';
 
@@ -31,12 +31,25 @@ const Pane = ({ children, style }) => (
   <div style={{ ...paneStyle, ...style }}>{children}</div>
 );
 
+function useToggle(initialState = false) {
+  const [onoff, setonoff] = React.useState(initialState);
+  const handleChange = React.useCallback(() => {
+    setonoff(x => !x);
+  }, []);
+  return [onoff, handleChange];
+}
+
+function SwitchExample() {
+  const [checked, handleChange] = useToggle(false);
+  return <SwitchThemed checked={checked} onChange={handleChange} />;
+}
+
 class StyleGuide extends PureComponent {
   render() {
     return (
       <div>
         <Pane>
-          <Switch />
+          <SwitchExample />
         </Pane>
         <Pane>
           <Input />
