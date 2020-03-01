@@ -106,6 +106,9 @@ export function initialState() {
   // TODO flat clashAPIConfig?
 
   const configQuery = parseConfigQueryString();
+  if (configQuery.hostname) {
+    s.clashAPIConfig.hostname = configQuery.hostname;
+  }
   if (configQuery.port) {
     s.clashAPIConfig.port = configQuery.port;
   }
