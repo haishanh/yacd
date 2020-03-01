@@ -96,24 +96,33 @@
 }
 
 .themeSwitchContainer {
-  --sz: 50px;
+  --sz: 40px;
 
   @media (max-width: 768px) {
     display: none;
   }
 
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   width: var(--sz);
   height: var(--sz);
-  padding: 20px 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  svg {
-    display: block;
-    color: var(--color-icon);
+
+  color: var(--color-text);
+
+  padding: 5px;
+  appearance: none;
+  outline: none;
+  user-select: none;
+  background: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 100%;
+  &:focus {
+    border-color: var(--color-focus-blue);
   }
 }

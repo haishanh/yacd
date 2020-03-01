@@ -1,19 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  Moon,
-  Command,
-  Activity,
-  Globe,
-  Link2,
-  Settings,
-  File
-} from 'react-feather';
+import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
 
 import { connect } from './StateProvider';
-import { switchTheme } from '../store/app';
+import { getTheme, switchTheme } from '../store/app';
 
 import SvgYacd from './SvgYacd';
 import s from './SideBar.module.css';
@@ -68,7 +61,6 @@ const pages = [
     iconId: 'command',
     labelText: 'Rules'
   },
-
   {
     to: '/connections',
     iconId: 'link',
@@ -86,7 +78,7 @@ const pages = [
   }
 ];
 
-function SideBar({ dispatch }) {
+function SideBar({ dispatch, theme }) {
   const location = useLocation();
   const switchThemeHooked = useCallback(() => {
     dispatch(switchTheme());
@@ -115,18 +107,67 @@ function SideBar({ dispatch }) {
           />
         ))}
       </div>
-      <div className={s.themeSwitchContainer} onClick={switchThemeHooked}>
-        <Moon size={20} />
-      </div>
+      <button className={s.themeSwitchContainer} onClick={switchThemeHooked}>
+        {theme === 'light' ? <MoonA /> : <Sun />}
+      </button>
     </div>
   );
 }
 
-// SideBar.propTypes = {
-//   location: PropTypes.shape({
-//     pathname: PropTypes.string
-//   }).isRequired
-// };
+function MoonA() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <motion.path
+        d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+        initial={{ rotate: -30 }}
+        animate={{ rotate: 0 }}
+        transition={{ duration: 0.7 }}
+      />
+    </svg>
+  );
+}
 
-const mapState = () => null;
+function Sun() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="5"></circle>
+      <motion.g
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.7 }}
+      >
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </motion.g>
+    </svg>
+  );
+}
+
+const mapState = s => ({ theme: getTheme(s) });
 export default connect(mapState)(SideBar);
