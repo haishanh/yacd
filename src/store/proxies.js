@@ -21,7 +21,17 @@ type ProxyProvider = {
 // const ProxyTypeBuiltin = ['DIRECT', 'GLOBAL', 'REJECT'];
 // const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector', 'LoadBalance'];
 
-const ProxyTypes = ['Shadowsocks', 'Snell', 'Socks5', 'Http', 'Vmess'];
+// const ProxyTypes = ['Shadowsocks', 'Snell', 'Socks5', 'Http', 'Vmess'];
+
+const NonProxyTypes = [
+  'Direct',
+  'Fallback',
+  'Reject',
+  'Selector',
+  'URLTest',
+  'LoadBalance',
+  'Unknown'
+];
 
 export const getProxies = s => s.proxies.proxies;
 export const getDelay = s => s.proxies.delay;
@@ -206,7 +216,7 @@ function retrieveGroupNamesFrom(proxies) {
       if (prop === 'GLOBAL') {
         globalAll = p.all;
       }
-    } else if (ProxyTypes.indexOf(p.type) >= 0) {
+    } else if (NonProxyTypes.indexOf(p.type) < 0) {
       proxyNames.push(prop);
     }
   }
