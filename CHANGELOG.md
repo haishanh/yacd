@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.9](https://github.com/haishanh/yacd/compare/v0.1.8...v0.1.9) (2020-03-01)
+
+Fixes:
+
+- allow request latency for non-original clash proxy types
+
 ## [0.1.8](https://github.com/haishanh/yacd/compare/v0.1.7...v0.1.8) (2020-03-01)
 
 Features:
