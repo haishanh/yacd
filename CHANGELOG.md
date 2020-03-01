@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.8](https://github.com/haishanh/yacd/compare/v0.1.7...v0.1.8) (2020-03-01)
+
+Features:
+
+- support overwrite API hostname in querystring with `?hostname=`
+- show current download/upload speed of connections
+
 ## [0.1.7](https://github.com/haishanh/yacd/compare/v0.1.6...v0.1.7) (2020-02-11)
 
 Refactor:
