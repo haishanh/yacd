@@ -92,6 +92,7 @@ function bindAction(action, dispatch) {
     return dispatch(action.apply(this, arguments));
   };
 }
+
 function bindActions(actions, dispatch) {
   const boundActions = {};
   for (const key in actions) {
