@@ -4,7 +4,7 @@ import Switch from 'react-switch';
 import { connect } from './StateProvider';
 import { getTheme } from '../store/app';
 
-function SwitchThemed({ checked = false, onChange, theme }) {
+function SwitchThemed({ checked = false, onChange, theme, name }) {
   const offColor = theme === 'dark' ? '#393939' : '#e9e9e9';
 
   return (
@@ -21,6 +21,7 @@ function SwitchThemed({ checked = false, onChange, theme }) {
       height={28}
       width={44}
       className="rs"
+      name={name}
     />
   );
 }

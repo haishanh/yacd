@@ -109,17 +109,22 @@ function ConfigImpl({
     [configState]
   );
 
+  const handleSwitchOnChange = useCallback(
+    checked => {
+      const name = 'allow-lan';
+      const value = checked;
+      setConfigState(name, value);
+      dispatch(updateConfigs(apiConfig, { [name]: value }));
+    },
+    [apiConfig, dispatch, setConfigState]
+  );
+
   const handleInputOnChange = useCallback(
     e => {
       const target = e.target;
       const { name } = target;
       let { value } = target;
       switch (target.name) {
-        case 'allow-lan':
-          value = target.checked;
-          setConfigState(name, value);
-          dispatch(updateConfigs(apiConfig, { [name]: value }));
-          break;
         case 'mode':
         case 'log-level':
           setConfigState(name, value);
@@ -206,7 +211,7 @@ function ConfigImpl({
           <Switch
             name="allow-lan"
             checked={configState['allow-lan']}
-            onChange={handleInputOnChange}
+            onChange={handleSwitchOnChange}
           />
         </div>
 

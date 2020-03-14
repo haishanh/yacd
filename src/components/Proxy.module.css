@@ -11,7 +11,7 @@
     padding: 10px;
   }
 
-  background-color: var(--color-bg-proxy-selected);
+  background-color: var(--color-bg-proxy);
   &.now {
     background-color: var(--color-focus-blue);
     color: #ddd;
