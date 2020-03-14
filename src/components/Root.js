@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-// import { Provider } from '../misc/store';
 import StateProvider from './StateProvider';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import Loading2 from './Loading2';
@@ -11,7 +10,6 @@ import Config from './Config';
 import StyleGuide from './StyleGuide';
 import Connections from './Connections';
 import APIDiscovery from './APIDiscovery';
-// import { store } from '../store/configureStore';
 import { initialState, actions } from '../store';
 import './Root.css';
 import s0 from './Root.module.css';
