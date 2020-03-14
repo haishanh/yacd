@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.10](https://github.com/haishanh/yacd/compare/v0.1.9...v0.1.10) (2020-03-14)
+
+Fixes:
+
+- fix broken allow-lan switch
+
+Features:
+
+- support set theme with querystring `?theme=dark` or `?theme=light`
+
 ## [0.1.9](https://github.com/haishanh/yacd/compare/v0.1.8...v0.1.9) (2020-03-01)
 
 Fixes:
