@@ -105,15 +105,20 @@ export function initialState() {
   s = { ...defaultState, ...s };
   // TODO flat clashAPIConfig?
 
-  const configQuery = parseConfigQueryString();
-  if (configQuery.hostname) {
-    s.clashAPIConfig.hostname = configQuery.hostname;
+  const query = parseConfigQueryString();
+  if (query.hostname) {
+    s.clashAPIConfig.hostname = query.hostname;
   }
-  if (configQuery.port) {
-    s.clashAPIConfig.port = configQuery.port;
+  if (query.port) {
+    s.clashAPIConfig.port = query.port;
   }
-  if (configQuery.secret) {
-    s.clashAPIConfig.secret = configQuery.secret;
+  if (query.secret) {
+    s.clashAPIConfig.secret = query.secret;
+  }
+  if (query.theme) {
+    if (query.theme === 'dark' || query.theme === 'light') {
+      s.theme = query.theme;
+    }
   }
   // set initial theme
   setTheme(s.theme);
