@@ -1,7 +1,8 @@
 import {
   initialState as app,
   selectChartStyleIndex,
-  updateAppConfig
+  updateAppConfig,
+  updateCollapsibleIsOpen
 } from './app';
 import {
   initialState as proxies,
@@ -25,5 +26,9 @@ export const actions = {
   selectChartStyleIndex,
   updateAppConfig,
   // proxies
-  toggleUnavailableProxiesFilter
+  toggleUnavailableProxiesFilter,
+
+  app: {
+    updateCollapsibleIsOpen
+  }
 };

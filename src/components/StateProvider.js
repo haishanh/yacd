@@ -99,6 +99,8 @@ function bindActions(actions, dispatch) {
     const action = actions[key];
     if (typeof action === 'function') {
       boundActions[key] = bindAction(action, dispatch);
+    } else if (typeof action === 'object') {
+      boundActions[key] = bindActions(action, dispatch);
     }
   }
   return boundActions;

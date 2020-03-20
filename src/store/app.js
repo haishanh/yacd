@@ -1,4 +1,5 @@
 import { loadState, saveState, clearState } from '../misc/storage';
+import { debounce } from '../misc/utils';
 
 import { fetchConfigs } from './configs';
 import { closeModal } from './modals';
@@ -7,6 +8,9 @@ export const getClashAPIConfig = s => s.app.clashAPIConfig;
 export const getTheme = s => s.app.theme;
 export const getSelectedChartStyleIndex = s => s.app.selectedChartStyleIndex;
 export const getLatencyTestUrl = s => s.app.latencyTestUrl;
+export const getCollapsibleIsOpen = s => s.app.collapsibleIsOpen;
+
+const saveStateDebounced = debounce(saveState, 600);
 
 export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
   return async (dispatch, getState) => {
@@ -76,6 +80,16 @@ export function updateAppConfig(name, value) {
   };
 }
 
+export function updateCollapsibleIsOpen(prefix, name, v) {
+  return (dispatch, getState) => {
+    dispatch('updateCollapsibleIsOpen', s => {
+      s.app.collapsibleIsOpen[`${prefix}:${name}`] = v;
+    });
+    // side effect
+    saveStateDebounced(getState().app);
+  };
+}
+
 // type Theme = 'light' | 'dark';
 const defaultState = {
   clashAPIConfig: {
@@ -85,7 +99,10 @@ const defaultState = {
   },
   latencyTestUrl: 'http://www.gstatic.com/generate_204',
   selectedChartStyleIndex: 0,
-  theme: 'dark'
+  theme: 'dark',
+
+  // type { [string]: boolean }
+  collapsibleIsOpen: {}
 };
 
 function parseConfigQueryString() {

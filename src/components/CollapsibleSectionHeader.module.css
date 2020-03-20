@@ -16,6 +16,10 @@
   }
 }
 
+.btn {
+  margin-left: 5px;
+}
+
 /* TODO duplicate with connQty in Connections.module.css */
 .qty {
   font-family: var(--font-normal);

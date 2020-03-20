@@ -3,7 +3,7 @@ import { RotateCw, Zap } from 'react-feather';
 import { formatDistance } from 'date-fns';
 import { motion } from 'framer-motion';
 
-import { connect } from './StateProvider';
+import { connect, useStoreActions } from './StateProvider';
 import Collapsible from './Collapsible';
 import CollapsibleSectionHeader from './CollapsibleSectionHeader';
 import {
@@ -13,7 +13,7 @@ import {
 } from './ProxyGroup';
 import Button from './Button';
 
-import { getClashAPIConfig } from '../store/app';
+import { getClashAPIConfig, getCollapsibleIsOpen } from '../store/app';
 import {
   getDelay,
   getRtFilterSwitch,
@@ -31,7 +31,8 @@ type Props = {
   type: 'Proxy' | 'Rule',
   vehicleType: 'HTTP' | 'File' | 'Compatible',
   updatedAt?: string,
-  dispatch: any => void
+  dispatch: any => void,
+  isOpen: boolean
 };
 
 function ProxyProvider({
@@ -39,6 +40,7 @@ function ProxyProvider({
   proxies,
   vehicleType,
   updatedAt,
+  isOpen,
   dispatch,
   apiConfig
 }: Props) {
@@ -53,8 +55,17 @@ function ProxyProvider({
     setIsHealthcheckLoading(false);
   }, [apiConfig, dispatch, name, setIsHealthcheckLoading]);
 
-  const [isCollapsibleOpen, setCollapsibleOpen] = useState(false);
-  const toggle = useCallback(() => setCollapsibleOpen(x => !x), []);
+  const {
+    app: { updateCollapsibleIsOpen }
+  } = useStoreActions();
+
+  // const [isCollapsibleOpen, setCollapsibleOpen] = useState(false);
+  // const toggle = useCallback(() => setCollapsibleOpen(x => !x), []);
+
+  const toggle = useCallback(() => {
+    updateCollapsibleIsOpen('proxyProvider', name, !isOpen);
+  }, [isOpen, updateCollapsibleIsOpen, name]);
+
   const timeAgo = formatDistance(new Date(updatedAt), new Date());
   return (
     <div className={s.body}>
@@ -62,13 +73,13 @@ function ProxyProvider({
         name={name}
         toggle={toggle}
         type={vehicleType}
-        isOpen={isCollapsibleOpen}
+        isOpen={isOpen}
         qty={proxies.length}
       />
       <div className={s.updatedAt}>
         <small>Updated {timeAgo} ago</small>
       </div>
-      <Collapsible isOpen={isCollapsibleOpen}>
+      <Collapsible isOpen={isOpen}>
         <ProxyList all={proxies} />
         <div className={s.actionFooter}>
           <Button text="Update" start={<Refresh />} onClick={updateProvider} />
@@ -80,7 +91,7 @@ function ProxyProvider({
           />
         </div>
       </Collapsible>
-      <Collapsible isOpen={!isCollapsibleOpen}>
+      <Collapsible isOpen={!isOpen}>
         <ProxyListSummaryView all={proxies} />
       </Collapsible>
     </div>
@@ -112,13 +123,15 @@ function Refresh() {
   );
 }
 
-const mapState = (s, { proxies }) => {
+const mapState = (s, { proxies, name }) => {
   const filterByRt = getRtFilterSwitch(s);
   const delay = getDelay(s);
+  const collapsibleIsOpen = getCollapsibleIsOpen(s);
   const apiConfig = getClashAPIConfig(s);
   return {
     apiConfig,
-    proxies: filterAvailableProxiesAndSort(proxies, delay, filterByRt)
+    proxies: filterAvailableProxiesAndSort(proxies, delay, filterByRt),
+    isOpen: collapsibleIsOpen[`proxyProvider:${name}`]
   };
 };
 

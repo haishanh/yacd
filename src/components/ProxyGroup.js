@@ -2,11 +2,11 @@ import React from 'react';
 import cx from 'classnames';
 import memoizeOne from 'memoize-one';
 
-import { connect } from './StateProvider';
+import { connect, useStoreActions } from './StateProvider';
 import { getProxies, getRtFilterSwitch } from '../store/proxies';
+import { getCollapsibleIsOpen } from '../store/app';
 import CollapsibleSectionHeader from './CollapsibleSectionHeader';
 import Proxy, { ProxySmall } from './Proxy';
-import { useToggle } from '../hooks/basic';
 
 import s0 from './ProxyGroup.module.css';
 
@@ -14,9 +14,17 @@ import { switchProxy } from '../store/proxies';
 
 const { useCallback, useMemo } = React;
 
-function ProxyGroup({ name, all, type, now, apiConfig, dispatch }) {
+function ProxyGroup({ name, all, type, now, isOpen, apiConfig, dispatch }) {
   const isSelectable = useMemo(() => type === 'Selector', [type]);
-  const [isOpen, toggle] = useToggle(true);
+
+  const {
+    app: { updateCollapsibleIsOpen }
+  } = useStoreActions();
+
+  const toggle = useCallback(() => {
+    updateCollapsibleIsOpen('proxyGroup', name, !isOpen);
+  }, [isOpen, updateCollapsibleIsOpen, name]);
+
   const itemOnTapCallback = useCallback(
     proxyName => {
       if (!isSelectable) return;
@@ -161,11 +169,13 @@ export function ProxyListSummaryView({
 export default connect((s, { name, delay }) => {
   const proxies = getProxies(s);
   const filterByRt = getRtFilterSwitch(s);
+  const collapsibleIsOpen = getCollapsibleIsOpen(s);
   const group = proxies[name];
   const { all, type, now } = group;
   return {
     all: filterAvailableProxiesAndSort(all, delay, filterByRt),
     type,
-    now
+    now,
+    isOpen: collapsibleIsOpen[`proxyGroup:${name}`]
   };
 })(ProxyGroup);

@@ -16,10 +16,17 @@ type ButtonProps = {
   isLoading?: boolean,
   start?: Element | (() => Element),
   onClick?: (SyntheticEvent<HTMLButtonElement>) => mixed,
-  kind?: 'primary' | 'minimal'
+  kind?: 'primary' | 'minimal',
+  className?: string
 };
 function Button(props: ButtonProps, ref) {
-  const { onClick, isLoading, kind = 'primary', ...restProps } = props;
+  const {
+    onClick,
+    isLoading,
+    kind = 'primary',
+    className,
+    ...restProps
+  } = props;
   const internalOnClick = useCallback(
     e => {
       if (isLoading) return;
@@ -27,9 +34,13 @@ function Button(props: ButtonProps, ref) {
     },
     [isLoading, onClick]
   );
-  const btnClassName = cx(s0.btn, {
-    [s0.minimal]: kind === 'minimal'
-  });
+  const btnClassName = cx(
+    s0.btn,
+    {
+      [s0.minimal]: kind === 'minimal'
+    },
+    className
+  );
   return (
     <button className={btnClassName} ref={ref} onClick={internalOnClick}>
       {isLoading ? (
