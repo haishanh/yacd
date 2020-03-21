@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.11](https://github.com/haishanh/yacd/compare/v0.1.10...v0.1.11) (2020-03-21)
+
+Features:
+
+- remembers group collapse state
+
 ## [0.1.10](https://github.com/haishanh/yacd/compare/v0.1.9...v0.1.10) (2020-03-14)
 
 Fixes:
