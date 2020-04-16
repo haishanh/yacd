@@ -21,16 +21,8 @@
   <meta property="og:url" content="http://yacd.haishan.me">
   <meta property="og:description" content="Yet Another Clash Dashboard">
 
-  <% for (key in htmlWebpackPlugin.files.css) { %>
-  <link href="<%= htmlWebpackPlugin.files.css[key] %>" rel="stylesheet">
-  <% } %>
 
 <body>
   <div id="app"></div>
-
-  <% for (key in htmlWebpackPlugin.files.chunks) { %>
-  <script src="<%= htmlWebpackPlugin.files.chunks[key].entry %>" type="text/javascript"></script>
-  <% } %>
-
 </body>
 </html>
