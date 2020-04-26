@@ -2,12 +2,9 @@ import {
   initialState as app,
   selectChartStyleIndex,
   updateAppConfig,
-  updateCollapsibleIsOpen
+  updateCollapsibleIsOpen,
 } from './app';
-import {
-  initialState as proxies,
-  toggleUnavailableProxiesFilter
-} from './proxies';
+import { initialState as proxies } from './proxies';
 import { initialState as modals } from './modals';
 import { initialState as configs } from './configs';
 import { initialState as rules } from './rules';
@@ -19,16 +16,15 @@ export const initialState = {
   configs,
   proxies,
   rules,
-  logs
+  logs,
 };
 
 export const actions = {
   selectChartStyleIndex,
   updateAppConfig,
-  // proxies
-  toggleUnavailableProxiesFilter,
 
   app: {
-    updateCollapsibleIsOpen
-  }
+    updateCollapsibleIsOpen,
+    updateAppConfig,
+  },
 };

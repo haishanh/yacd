@@ -1,24 +1,7 @@
 ---
-env:
-  browser: true
-  node: true
-  jest/globals: true
-  es6: true
-
-parser: babel-eslint
-
-plugins:
-  - import
-  - react-hooks
-  - jest
-
 extends:
   - react-app
   - eslint:recommended
-  - plugin:import/errors
-
-settings:
-  import/resolver: webpack
 
 globals:
   __DEV__: true

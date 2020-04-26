@@ -1,15 +1,3 @@
-@font-face {
-  font-family: 'Roboto Mono';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Roboto Mono'), local('RobotoMono-Regular'),
-    url('https://cdn.jsdelivr.net/npm/@hsjs/fonts@0.0.1/robotomono/v5/L0x5DF4xlVMF-BfR8bXMIjhLq3-cXbKD.woff2')
-      format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-
 .relative {
   position: relative;
 }
@@ -88,6 +76,7 @@ body.dark {
   --color-background: #202020;
   --color-text: #ddd;
   --color-text-secondary: #ccc;
+  --color-text-highlight: #fff;
   --color-bg-sidebar: #2d2d30;
   --color-sb-active-row-bg: #494b4e;
   --color-input-bg: #2d2d30;
@@ -95,18 +84,22 @@ body.dark {
   --color-toggle-bg: #353535;
   --color-toggle-selected: #181818;
   --color-icon: #c7c7c7;
+  --color-separator: #333;
   --color-btn-bg: #232323;
   --color-btn-fg: #bebebe;
   --color-bg-proxy: #303030;
   --color-row-odd: #282828;
   --bg-modal: #1f1f20;
   --bg-near-transparent: rgba(255, 255, 255, 0.1);
+  --select-border-color: #040404;
+  --select-bg-hover: url(data:image/svg+xml,%0A%20%20%20%20%3Csvg%20width%3D%228%22%20height%3D%2224%22%20viewBox%3D%220%200%208%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M4%207L7%2011H1L4%207Z%22%20fill%3D%22%23ffffff%22%20%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M4%2017L1%2013L7%2013L4%2017Z%22%20fill%3D%22%23ffffff%22%20%2F%3E%0A%20%20%20%20%3C%2Fsvg%3E%0A%20%20);
 }
 
 body.light {
   --color-background: #fbfbfb;
   --color-text: #222;
   --color-text-secondary: #646464;
+  --color-text-highlight: #040404;
   --color-bg-sidebar: #e7e7e7;
   --color-sb-active-row-bg: #d0d0d0;
   --color-input-bg: #ffffff;
@@ -114,12 +107,15 @@ body.light {
   --color-toggle-bg: #ffffff;
   --color-toggle-selected: #d7d7d7;
   --color-icon: #5b5b5b;
+  --color-separator: #ccc;
   --color-btn-bg: #f4f4f4;
   --color-btn-fg: #101010;
   --color-bg-proxy: #e7e7e7;
   --color-row-odd: #f5f5f5;
   --bg-modal: #fbfbfb;
   --bg-near-transparent: rgba(0, 0, 0, 0.1);
+  --select-border-color: #999999;
+  --select-bg-hover: url(data:image/svg+xml,%0A%20%20%20%20%3Csvg%20width%3D%228%22%20height%3D%2224%22%20viewBox%3D%220%200%208%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M4%207L7%2011H1L4%207Z%22%20fill%3D%22%23222222%22%20%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M4%2017L1%2013L7%2013L4%2017Z%22%20fill%3D%22%23222222%22%20%2F%3E%0A%20%20%20%20%3C%2Fsvg%3E%0A%20%20);
 }
 
 .flexCenter {

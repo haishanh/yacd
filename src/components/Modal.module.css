@@ -10,7 +10,7 @@
 
 .content {
   outline: none;
-  position: absolute;
+  position: relative;
   color: #ddd;
   top: 50%;
   left: 50%;

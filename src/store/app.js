@@ -4,11 +4,13 @@ import { debounce } from '../misc/utils';
 import { fetchConfigs } from './configs';
 import { closeModal } from './modals';
 
-export const getClashAPIConfig = s => s.app.clashAPIConfig;
-export const getTheme = s => s.app.theme;
-export const getSelectedChartStyleIndex = s => s.app.selectedChartStyleIndex;
-export const getLatencyTestUrl = s => s.app.latencyTestUrl;
-export const getCollapsibleIsOpen = s => s.app.collapsibleIsOpen;
+export const getClashAPIConfig = (s) => s.app.clashAPIConfig;
+export const getTheme = (s) => s.app.theme;
+export const getSelectedChartStyleIndex = (s) => s.app.selectedChartStyleIndex;
+export const getLatencyTestUrl = (s) => s.app.latencyTestUrl;
+export const getCollapsibleIsOpen = (s) => s.app.collapsibleIsOpen;
+export const getProxySortBy = (s) => s.app.proxySortBy;
+export const getHideUnavailableProxies = (s) => s.app.hideUnavailableProxies;
 
 const saveStateDebounced = debounce(saveState, 600);
 
@@ -16,7 +18,7 @@ export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
   return async (dispatch, getState) => {
     const hostname = iHostname.trim().replace(/^http(s):\/\//, '');
     const clashAPIConfig = { hostname, port, secret };
-    dispatch('appUpdateClashAPIConfig', s => {
+    dispatch('appUpdateClashAPIConfig', (s) => {
       s.app.clashAPIConfig = clashAPIConfig;
     });
     // side effect
@@ -43,7 +45,7 @@ export function switchTheme() {
     const theme = currentTheme === 'light' ? 'dark' : 'light';
     // side effect
     setTheme(theme);
-    dispatch('storeSwitchTheme', s => {
+    dispatch('storeSwitchTheme', (s) => {
       s.app.theme = theme;
     });
     // side effect
@@ -62,7 +64,7 @@ export function clearStorage() {
 
 export function selectChartStyleIndex(selectedChartStyleIndex) {
   return (dispatch, getState) => {
-    dispatch('appSelectChartStyleIndex', s => {
+    dispatch('appSelectChartStyleIndex', (s) => {
       s.app.selectedChartStyleIndex = selectedChartStyleIndex;
     });
     // side effect
@@ -72,7 +74,7 @@ export function selectChartStyleIndex(selectedChartStyleIndex) {
 
 export function updateAppConfig(name, value) {
   return (dispatch, getState) => {
-    dispatch('appUpdateAppConfig', s => {
+    dispatch('appUpdateAppConfig', (s) => {
       s.app[name] = value;
     });
     // side effect
@@ -82,7 +84,7 @@ export function updateAppConfig(name, value) {
 
 export function updateCollapsibleIsOpen(prefix, name, v) {
   return (dispatch, getState) => {
-    dispatch('updateCollapsibleIsOpen', s => {
+    dispatch('updateCollapsibleIsOpen', (s) => {
       s.app.collapsibleIsOpen[`${prefix}:${name}`] = v;
     });
     // side effect
@@ -95,14 +97,17 @@ const defaultState = {
   clashAPIConfig: {
     hostname: '127.0.0.1',
     port: '7892',
-    secret: ''
+    secret: '',
   },
   latencyTestUrl: 'http://www.gstatic.com/generate_204',
   selectedChartStyleIndex: 0,
   theme: 'dark',
 
   // type { [string]: boolean }
-  collapsibleIsOpen: {}
+  collapsibleIsOpen: {},
+  // how proxies are sorted in a group or provider
+  proxySortBy: 'Natural',
+  hideUnavailableProxies: false,
 };
 
 function parseConfigQueryString() {

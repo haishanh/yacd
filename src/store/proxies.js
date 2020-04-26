@@ -11,8 +11,8 @@ type ProxyProvider = {
     history: Array<{ time: string, delay: number }>,
     name: string,
     // Shadowsocks, Http ...
-    type: string
-  }>
+    type: string,
+  }>,
 };
 
 // see all types:
@@ -30,21 +30,20 @@ const NonProxyTypes = [
   'Selector',
   'URLTest',
   'LoadBalance',
-  'Unknown'
+  'Unknown',
 ];
 
-export const getProxies = s => s.proxies.proxies;
-export const getDelay = s => s.proxies.delay;
-export const getRtFilterSwitch = s => s.proxies.filterZeroRT;
-export const getProxyGroupNames = s => s.proxies.groupNames;
-export const getProxyProviders = s => s.proxies.proxyProviders || [];
-export const getDangleProxyNames = s => s.proxies.dangleProxyNames;
+export const getProxies = (s) => s.proxies.proxies;
+export const getDelay = (s) => s.proxies.delay;
+export const getProxyGroupNames = (s) => s.proxies.groupNames;
+export const getProxyProviders = (s) => s.proxies.proxyProviders || [];
+export const getDangleProxyNames = (s) => s.proxies.dangleProxyNames;
 
 export function fetchProxies(apiConfig) {
   return async (dispatch, getState) => {
     const [proxiesData, providersData] = await Promise.all([
       proxiesAPI.fetchProxies(apiConfig),
-      proxiesAPI.fetchProviderProxies(apiConfig)
+      proxiesAPI.fetchProviderProxies(apiConfig),
     ]);
 
     const [proxyProviders, providerProxies] = formatProxyProviders(
@@ -77,7 +76,7 @@ export function fetchProxies(apiConfig) {
       if (!providerProxies[v]) dangleProxyNames.push(v);
     }
 
-    dispatch('store/proxies#fetchProxies', s => {
+    dispatch('store/proxies#fetchProxies', (s) => {
       s.proxies.proxies = proxies;
       s.proxies.groupNames = groupNames;
       s.proxies.delay = delayNext;
@@ -88,7 +87,7 @@ export function fetchProxies(apiConfig) {
 }
 
 export function updateProviderByName(apiConfig, name) {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       await proxiesAPI.updateProviderByName(apiConfig, name);
     } catch (x) {
@@ -109,7 +108,7 @@ async function healthcheckProviderByNameInternal(apiConfig, name) {
 }
 
 export function healthcheckProviderByName(apiConfig, name) {
-  return async dispatch => {
+  return async (dispatch) => {
     await healthcheckProviderByNameInternal(apiConfig, name);
     // should be optimized
     // but ¯\_(ツ)_/¯
@@ -118,17 +117,17 @@ export function healthcheckProviderByName(apiConfig, name) {
 }
 
 export function switchProxy(apiConfig, name1, name2) {
-  return async dispatch => {
+  return async (dispatch) => {
     proxiesAPI
       .requestToSwitchProxy(apiConfig, name1, name2)
       .then(
-        res => {
+        (res) => {
           if (res.ok === false) {
             // eslint-disable-next-line no-console
             console.log('failed to swith proxy', res.statusText);
           }
         },
-        err => {
+        (err) => {
           // eslint-disable-next-line no-console
           console.log(err, 'failed to swith proxy');
         }
@@ -137,7 +136,7 @@ export function switchProxy(apiConfig, name1, name2) {
         dispatch(fetchProxies(apiConfig));
       });
     // optimistic UI update
-    dispatch('store/proxies#switchProxy', s => {
+    dispatch('store/proxies#switchProxy', (s) => {
       const proxies = s.proxies.proxies;
       if (proxies[name1] && proxies[name1].now) {
         proxies[name1].now = name2;
@@ -165,18 +164,18 @@ function requestDelayForProxyOnce(apiConfig, name) {
       ...delayPrev,
       [name]: {
         error,
-        number: delay
-      }
+        number: delay,
+      },
     };
 
-    dispatch('requestDelayForProxyOnce', s => {
+    dispatch('requestDelayForProxyOnce', (s) => {
       s.proxies.delay = delayNext;
     });
   };
 }
 
 export function requestDelayForProxy(apiConfig, name) {
-  return async dispatch => {
+  return async (dispatch) => {
     await dispatch(requestDelayForProxyOnce(apiConfig, name));
   };
 }
@@ -185,7 +184,7 @@ export function requestDelayAll(apiConfig) {
   return async (dispatch, getState) => {
     const proxyNames = getDangleProxyNames(getState());
     await Promise.all(
-      proxyNames.map(p => dispatch(requestDelayForProxy(apiConfig, p)))
+      proxyNames.map((p) => dispatch(requestDelayForProxy(apiConfig, p)))
     );
     const proxyProviders = getProxyProviders(getState());
     // one by one
@@ -193,15 +192,6 @@ export function requestDelayAll(apiConfig) {
       await healthcheckProviderByNameInternal(apiConfig, p.name);
     }
     await dispatch(fetchProxies(apiConfig));
-  };
-}
-
-export function toggleUnavailableProxiesFilter() {
-  return (dispatch, getState) => {
-    const preState = getRtFilterSwitch(getState());
-    dispatch('store/proxies#toggleUnavailableProxiesFilter', s => {
-      s.proxies.filterZeroRT = !preState;
-    });
   };
 }
 
@@ -225,9 +215,9 @@ function retrieveGroupNamesFrom(proxies) {
     globalAll.push('GLOBAL');
     // Sort groups according to its index in GLOBAL group
     groupNames = groupNames
-      .map(name => [globalAll.indexOf(name), name])
+      .map((name) => [globalAll.indexOf(name), name])
       .sort((a, b) => a[0] - b[0])
-      .map(group => group[1]);
+      .map((group) => group[1]);
   }
   return [groupNames, proxyNames];
 }
@@ -260,5 +250,4 @@ export const initialState = {
   proxies: {},
   delay: {},
   groupNames: [],
-  filterZeroRT: false
 };

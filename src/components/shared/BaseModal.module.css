@@ -2,22 +2,16 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 .cnt {
+  position: absolute;
   background-color: var(--bg-modal);
   color: var(--color-text);
-  max-width: 300px;
   line-height: 1.4;
-  transform: translate(-50%, -50%) scale(1.2);
   opacity: 0.6;
   transition: all 0.3s ease;
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 4px, rgba(0, 0, 0, 0.24) 0px 16px 32px;
 }
 .afterOpen {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
-}
-
-.btngrp {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 30px;
 }

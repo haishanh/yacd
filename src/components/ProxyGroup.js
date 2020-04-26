@@ -3,8 +3,12 @@ import cx from 'classnames';
 import memoizeOne from 'memoize-one';
 
 import { connect, useStoreActions } from './StateProvider';
-import { getProxies, getRtFilterSwitch } from '../store/proxies';
-import { getCollapsibleIsOpen } from '../store/app';
+import { getProxies } from '../store/proxies';
+import {
+  getCollapsibleIsOpen,
+  getProxySortBy,
+  getHideUnavailableProxies,
+} from '../store/app';
 import CollapsibleSectionHeader from './CollapsibleSectionHeader';
 import Proxy, { ProxySmall } from './Proxy';
 
@@ -18,7 +22,7 @@ function ProxyGroup({ name, all, type, now, isOpen, apiConfig, dispatch }) {
   const isSelectable = useMemo(() => type === 'Selector', [type]);
 
   const {
-    app: { updateCollapsibleIsOpen }
+    app: { updateCollapsibleIsOpen },
   } = useStoreActions();
 
   const toggle = useCallback(() => {
@@ -26,7 +30,7 @@ function ProxyGroup({ name, all, type, now, isOpen, apiConfig, dispatch }) {
   }, [isOpen, updateCollapsibleIsOpen, name]);
 
   const itemOnTapCallback = useCallback(
-    proxyName => {
+    (proxyName) => {
       if (!isSelectable) return;
       dispatch(switchProxy(apiConfig, name, proxyName));
     },
@@ -60,23 +64,23 @@ type ProxyListProps = {
   all: string[],
   now?: string,
   isSelectable?: boolean,
-  itemOnTapCallback?: string => void,
-  show?: boolean
+  itemOnTapCallback?: (string) => void,
+  show?: boolean,
 };
 export function ProxyList({
   all,
   now,
   isSelectable,
   itemOnTapCallback,
-  sortedAll
+  sortedAll,
 }: ProxyListProps) {
   const proxies = sortedAll || all;
 
   return (
     <div className={s0.list}>
-      {proxies.map(proxyName => {
+      {proxies.map((proxyName) => {
         const proxyClassName = cx(s0.proxy, {
-          [s0.proxySelectable]: isSelectable
+          [s0.proxySelectable]: isSelectable,
         });
         return (
           <div
@@ -107,7 +111,7 @@ const getSortDelay = (d, w) => {
 };
 
 function filterAvailableProxies(list, delay) {
-  return list.filter(name => {
+  return list.filter((name) => {
     const d = delay[name];
     if (d === undefined) {
       return true;
@@ -120,19 +124,50 @@ function filterAvailableProxies(list, delay) {
   });
 }
 
-function filterAvailableProxiesAndSortImpl(all, delay, filterByRt) {
+const ProxySortingFns = {
+  Natural: (proxies, _delay) => {
+    return proxies;
+  },
+  LatencyAsc: (proxies, delay) => {
+    return proxies.sort((a, b) => {
+      const d1 = getSortDelay(delay[a], 999999);
+      const d2 = getSortDelay(delay[b], 999999);
+      return d1 - d2;
+    });
+  },
+  LatencyDesc: (proxies, delay) => {
+    return proxies.sort((a, b) => {
+      const d1 = getSortDelay(delay[a], 999999);
+      const d2 = getSortDelay(delay[b], 999999);
+      return d2 - d1;
+    });
+  },
+  NameAsc: (proxies) => {
+    return proxies.sort();
+  },
+  NameDesc: (proxies) => {
+    return proxies.sort((a, b) => {
+      if (a > b) return -1;
+      if (a < b) return 1;
+      return 0;
+    });
+  },
+};
+
+function filterAvailableProxiesAndSortImpl(
+  all,
+  delay,
+  hideUnavailableProxies,
+  proxySortBy
+) {
   // all is freezed
   let filtered = [...all];
-  if (filterByRt) {
+  if (hideUnavailableProxies) {
     filtered = filterAvailableProxies(all, delay);
   }
-
-  return filtered.sort((first, second) => {
-    const d1 = getSortDelay(delay[first], 999999);
-    const d2 = getSortDelay(delay[second], 999999);
-    return d1 - d2;
-  });
+  return ProxySortingFns[proxySortBy](filtered, delay);
 }
+
 export const filterAvailableProxiesAndSort = memoizeOne(
   filterAvailableProxiesAndSortImpl
 );
@@ -141,13 +176,13 @@ export function ProxyListSummaryView({
   all,
   now,
   isSelectable,
-  itemOnTapCallback
+  itemOnTapCallback,
 }: ProxyListProps) {
   return (
     <div className={s0.list}>
-      {all.map(proxyName => {
+      {all.map((proxyName) => {
         const proxyClassName = cx(s0.proxy, {
-          [s0.proxySelectable]: isSelectable
+          [s0.proxySelectable]: isSelectable,
         });
         return (
           <div
@@ -168,14 +203,21 @@ export function ProxyListSummaryView({
 
 export default connect((s, { name, delay }) => {
   const proxies = getProxies(s);
-  const filterByRt = getRtFilterSwitch(s);
   const collapsibleIsOpen = getCollapsibleIsOpen(s);
+  const proxySortBy = getProxySortBy(s);
+  const hideUnavailableProxies = getHideUnavailableProxies(s);
+
   const group = proxies[name];
   const { all, type, now } = group;
   return {
-    all: filterAvailableProxiesAndSort(all, delay, filterByRt),
+    all: filterAvailableProxiesAndSort(
+      all,
+      delay,
+      hideUnavailableProxies,
+      proxySortBy
+    ),
     type,
     now,
-    isOpen: collapsibleIsOpen[`proxyGroup:${name}`]
+    isOpen: collapsibleIsOpen[`proxyGroup:${name}`],
   };
 })(ProxyGroup);

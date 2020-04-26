@@ -1,0 +1,17 @@
+.labeledInput {
+  max-width: 85vw;
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 13px 0;
+}
+
+hr {
+  height: 1px;
+  background-color: var(--color-separator);
+  border: none;
+  outline: none;
+  margin: 1rem 0px;
+}

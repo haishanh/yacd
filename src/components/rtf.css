@@ -13,7 +13,7 @@
 }
 .rtf.open .rtf--mb > * {
   transform-origin: center center;
-  transform: rotate(315deg);
+  transform: rotate(360deg);
   transition: ease-in-out transform 0.2s;
 }
 .rtf.open .rtf--mb > ul {
@@ -107,18 +107,15 @@
 }
 
 .rtf--mb {
-  height: 56px;
-  width: 56px;
+  height: 48px;
+  width: 48px;
   z-index: 9999;
-  /* background-color: #666666; */
   background: #387cec;
-  /* background: var(--color-btn-bg); */
   display: inline-flex;
   justify-content: center;
   align-items: center;
   position: relative;
   border: none;
-  /* border: 1px solid #555; */
   border-radius: 50%;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
   cursor: pointer;

@@ -9,16 +9,20 @@ import CollapsibleSectionHeader from './CollapsibleSectionHeader';
 import {
   ProxyList,
   ProxyListSummaryView,
-  filterAvailableProxiesAndSort
+  filterAvailableProxiesAndSort,
 } from './ProxyGroup';
 import Button from './Button';
 
-import { getClashAPIConfig, getCollapsibleIsOpen } from '../store/app';
+import {
+  getClashAPIConfig,
+  getCollapsibleIsOpen,
+  getProxySortBy,
+  getHideUnavailableProxies,
+} from '../store/app';
 import {
   getDelay,
-  getRtFilterSwitch,
   updateProviderByName,
-  healthcheckProviderByName
+  healthcheckProviderByName,
 } from '../store/proxies';
 
 import s from './ProxyProvider.module.css';
@@ -31,8 +35,8 @@ type Props = {
   type: 'Proxy' | 'Rule',
   vehicleType: 'HTTP' | 'File' | 'Compatible',
   updatedAt?: string,
-  dispatch: any => void,
-  isOpen: boolean
+  dispatch: (any) => void,
+  isOpen: boolean,
 };
 
 function ProxyProvider({
@@ -42,7 +46,7 @@ function ProxyProvider({
   updatedAt,
   isOpen,
   dispatch,
-  apiConfig
+  apiConfig,
 }: Props) {
   const [isHealthcheckLoading, setIsHealthcheckLoading] = useState(false);
   const updateProvider = useCallback(
@@ -56,7 +60,7 @@ function ProxyProvider({
   }, [apiConfig, dispatch, name, setIsHealthcheckLoading]);
 
   const {
-    app: { updateCollapsibleIsOpen }
+    app: { updateCollapsibleIsOpen },
   } = useStoreActions();
 
   // const [isCollapsibleOpen, setCollapsibleOpen] = useState(false);
@@ -101,11 +105,11 @@ function ProxyProvider({
 const button = {
   rest: { scale: 1 },
   // hover: { scale: 1.1 },
-  pressed: { scale: 0.95 }
+  pressed: { scale: 0.95 },
 };
 const arrow = {
   rest: { rotate: 0 },
-  hover: { rotate: 360, transition: { duration: 0.3 } }
+  hover: { rotate: 360, transition: { duration: 0.3 } },
 };
 function Refresh() {
   return (
@@ -124,18 +128,23 @@ function Refresh() {
 }
 
 const mapState = (s, { proxies, name }) => {
-  const filterByRt = getRtFilterSwitch(s);
+  const hideUnavailableProxies = getHideUnavailableProxies(s);
   const delay = getDelay(s);
   const collapsibleIsOpen = getCollapsibleIsOpen(s);
   const apiConfig = getClashAPIConfig(s);
+
+  const proxySortBy = getProxySortBy(s);
+
   return {
     apiConfig,
-    proxies: filterAvailableProxiesAndSort(proxies, delay, filterByRt),
-    isOpen: collapsibleIsOpen[`proxyProvider:${name}`]
+    proxies: filterAvailableProxiesAndSort(
+      proxies,
+      delay,
+      hideUnavailableProxies,
+      proxySortBy
+    ),
+    isOpen: collapsibleIsOpen[`proxyProvider:${name}`],
   };
 };
 
-// const mapState = s => ({
-//   apiConfig: getClashAPIConfig(s)
-// });
 export default connect(mapState)(ProxyProvider);
