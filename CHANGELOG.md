@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.12](https://github.com/haishanh/yacd/compare/v0.1.11...v0.1.12) (2020-04-26)
+
+Features:
+
+- allow change proxies sorting in group
+
 ## [0.1.11](https://github.com/haishanh/yacd/compare/v0.1.10...v0.1.11) (2020-03-21)
 
 Features:
