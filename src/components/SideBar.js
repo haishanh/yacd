@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
+// import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
+import {
+  FcAreaChart,
+  FcGlobe,
+  FcRuler,
+  FcDocument,
+  FcSettings,
+  FcLink,
+} from 'react-icons/fc';
 
 import { connect } from './StateProvider';
 import { getTheme, switchTheme } from '../store/app';
@@ -13,20 +21,31 @@ import s from './SideBar.module.css';
 
 const { useCallback } = React;
 
+// testing color icons
+
+// const icons = {
+//   activity: Activity,
+//   globe: Globe,
+//   command: Command,
+//   file: File,
+//   settings: Settings,
+//   link: Link2
+// };
+
 const icons = {
-  activity: Activity,
-  globe: Globe,
-  command: Command,
-  file: File,
-  settings: Settings,
-  link: Link2
+  activity: FcAreaChart,
+  globe: FcGlobe,
+  command: FcRuler,
+  file: FcDocument,
+  settings: FcSettings,
+  link: FcLink,
 };
 
 const SideBarRow = React.memo(function SideBarRow({
   isActive,
   to,
   iconId,
-  labelText
+  labelText,
 }) {
   const Comp = icons[iconId];
   const className = cx(s.row, isActive ? s.rowActive : null);
@@ -42,40 +61,40 @@ SideBarRow.propTypes = {
   isActive: PropTypes.bool.isRequired,
   to: PropTypes.string.isRequired,
   iconId: PropTypes.string,
-  labelText: PropTypes.string
+  labelText: PropTypes.string,
 };
 
 const pages = [
   {
     to: '/',
     iconId: 'activity',
-    labelText: 'Overview'
+    labelText: 'Overview',
   },
   {
     to: '/proxies',
     iconId: 'globe',
-    labelText: 'Proxies'
+    labelText: 'Proxies',
   },
   {
     to: '/rules',
     iconId: 'command',
-    labelText: 'Rules'
+    labelText: 'Rules',
   },
   {
     to: '/connections',
     iconId: 'link',
-    labelText: 'Conns'
+    labelText: 'Conns',
   },
   {
     to: '/configs',
     iconId: 'settings',
-    labelText: 'Config'
+    labelText: 'Config',
   },
   {
     to: '/logs',
     iconId: 'file',
-    labelText: 'Logs'
-  }
+    labelText: 'Logs',
+  },
 ];
 
 function SideBar({ dispatch, theme }) {
@@ -169,5 +188,5 @@ function Sun() {
   );
 }
 
-const mapState = s => ({ theme: getTheme(s) });
+const mapState = (s) => ({ theme: getTheme(s) });
 export default connect(mapState)(SideBar);
