@@ -1,6 +1,6 @@
 {
   "name": "yacd",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Yet another Clash dashboard",
   "scripts": {
     "lint": "eslint --cache src",

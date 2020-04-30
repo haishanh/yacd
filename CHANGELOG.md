@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.13](https://github.com/haishanh/yacd/compare/v0.1.12...v0.1.13) (2020-05-01)
+
+Changed:
+
+- use color icons in sidebar (experimental)
+
 ## [0.1.12](https://github.com/haishanh/yacd/compare/v0.1.11...v0.1.12) (2020-04-26)
 
 Features:
