@@ -22,17 +22,16 @@ const traffic = {
     if (this.down.length > this.size) this.down.shift();
     if (this.labels.length > this.size) this.labels.shift();
 
-    this.subscribers.forEach(f => f(o));
+    this.subscribers.forEach((f) => f(o));
   },
 
   subscribe(listener) {
-    const me = this;
     this.subscribers.push(listener);
-    return function unsubscribe() {
-      const idx = me.subscribers.indexOf(listener);
-      me.subscribers.splice(idx, 1);
+    return () => {
+      const idx = this.subscribers.indexOf(listener);
+      this.subscribers.splice(idx, 1);
     };
-  }
+  },
 };
 
 let fetched = false;
@@ -89,14 +88,14 @@ function fetchData(apiConfig) {
   wsState = 1;
   const url = getWsUrl(apiConfig);
   const ws = new WebSocket(url);
-  ws.addEventListener('error', function(_ev) {
+  ws.addEventListener('error', function (_ev) {
     wsState = 3;
   });
-  ws.addEventListener('close', function(_ev) {
+  ws.addEventListener('close', function (_ev) {
     wsState = 3;
     fetchDataWithFetch(apiConfig);
   });
-  ws.addEventListener('message', function(event) {
+  ws.addEventListener('message', function (event) {
     parseAndAppend(event.data);
   });
   return traffic;
@@ -107,7 +106,7 @@ function fetchDataWithFetch(apiConfig) {
   fetched = true;
   const { url, init } = getURLAndInit(apiConfig);
   fetch(url + endpoint, init).then(
-    response => {
+    (response) => {
       if (response.ok) {
         const reader = response.body.getReader();
         pump(reader);
@@ -115,7 +114,7 @@ function fetchDataWithFetch(apiConfig) {
         fetched = false;
       }
     },
-    err => {
+    (err) => {
       // eslint-disable-next-line no-console
       console.log('fetch /traffic error', err);
       fetched = false;

@@ -7,7 +7,7 @@ import {
   getClashAPIConfig,
   getSelectedChartStyleIndex,
   getLatencyTestUrl,
-  clearStorage
+  clearStorage,
 } from '../store/app';
 
 import ContentHeader from './ContentHeader';
@@ -27,50 +27,50 @@ const propsList = [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }];
 const optionsRule = [
   {
     label: 'Global',
-    value: 'Global'
+    value: 'Global',
   },
   {
     label: 'Rule',
-    value: 'Rule'
+    value: 'Rule',
   },
   {
     label: 'Direct',
-    value: 'Direct'
-  }
+    value: 'Direct',
+  },
 ];
 
 const optionsLogLevel = [
   {
     label: 'info',
-    value: 'info'
+    value: 'info',
   },
   {
     label: 'warning',
-    value: 'warning'
+    value: 'warning',
   },
   {
     label: 'error',
-    value: 'error'
+    value: 'error',
   },
   {
     label: 'debug',
-    value: 'debug'
+    value: 'debug',
   },
   {
     label: 'silent',
-    value: 'silent'
-  }
+    value: 'silent',
+  },
 ];
 
-const mapState = s => ({
+const mapState = (s) => ({
   configs: getConfigs(s),
-  apiConfig: getClashAPIConfig(s)
+  apiConfig: getClashAPIConfig(s),
 });
 
-const mapState2 = s => ({
+const mapState2 = (s) => ({
   selectedChartStyleIndex: getSelectedChartStyleIndex(s),
   latencyTestUrl: getLatencyTestUrl(s),
-  apiConfig: getClashAPIConfig(s)
+  apiConfig: getClashAPIConfig(s),
 });
 
 const Config = connect(mapState2)(ConfigImpl);
@@ -88,7 +88,7 @@ function ConfigImpl({
   configs,
   selectedChartStyleIndex,
   latencyTestUrl,
-  apiConfig
+  apiConfig,
 }) {
   const [configState, setConfigStateInternal] = useState(configs);
   const refConfigs = useRef(configs);
@@ -103,14 +103,14 @@ function ConfigImpl({
     (name, val) => {
       setConfigStateInternal({
         ...configState,
-        [name]: val
+        [name]: val,
       });
     },
     [configState]
   );
 
   const handleSwitchOnChange = useCallback(
-    checked => {
+    (checked) => {
       const name = 'allow-lan';
       const value = checked;
       setConfigState(name, value);
@@ -120,10 +120,10 @@ function ConfigImpl({
   );
 
   const handleInputOnChange = useCallback(
-    e => {
+    (e) => {
       const target = e.target;
       const { name } = target;
-      let { value } = target;
+      const { value } = target;
       switch (target.name) {
         case 'mode':
         case 'log-level':
@@ -149,7 +149,7 @@ function ConfigImpl({
   const { selectChartStyleIndex, updateAppConfig } = useStoreActions();
 
   const handleInputOnBlur = useCallback(
-    e => {
+    (e) => {
       const target = e.target;
       const { name, value } = target;
       switch (name) {
@@ -269,5 +269,5 @@ function ConfigImpl({
 }
 
 Config.propTypes = {
-  configs: PropTypes.object
+  configs: PropTypes.object,
 };

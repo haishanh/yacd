@@ -11,9 +11,8 @@ import Equalizer from './svg/Equalizer';
 import { Zap } from 'react-feather';
 
 import ProxyProviderList from './ProxyProviderList';
-import { Fab } from 'react-tiny-fab';
+import { Fab, position as fabPosition } from './shared/Fab';
 
-import './rtf.css';
 import s0 from './Proxies.module.css';
 
 import {
@@ -96,7 +95,8 @@ function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
         icon={<Zap width={16} />}
         onClick={requestDelayAllFn}
         text="Test Latency"
-      ></Fab>
+        position={fabPosition}
+      />
     </>
   );
 }

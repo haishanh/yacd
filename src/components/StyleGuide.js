@@ -8,23 +8,27 @@ import Input from './Input';
 import Button from './Button';
 import { LoadingDot } from './shared/Basic';
 
+const noop = () => {
+  /* empty */
+};
+
 const paneStyle = {
-  padding: '20px 0'
+  padding: '20px 0',
 };
 
 const optionsRule = [
   {
     label: 'Global',
-    value: 'Global'
+    value: 'Global',
   },
   {
     label: 'Rule',
-    value: 'Rule'
+    value: 'Rule',
   },
   {
     label: 'Direct',
-    value: 'Direct'
-  }
+    value: 'Direct',
+  },
 ];
 
 const Pane = ({ children, style }) => (
@@ -34,7 +38,7 @@ const Pane = ({ children, style }) => (
 function useToggle(initialState = false) {
   const [onoff, setonoff] = React.useState(initialState);
   const handleChange = React.useCallback(() => {
-    setonoff(x => !x);
+    setonoff((x) => !x);
   }, []);
   return [onoff, handleChange];
 }
@@ -59,7 +63,7 @@ class StyleGuide extends PureComponent {
             name="test"
             options={optionsRule}
             value="Rule"
-            onChange={() => {}}
+            onChange={noop}
           />
         </Pane>
         <Pane>

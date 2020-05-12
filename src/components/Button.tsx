@@ -1,7 +1,5 @@
-import React from 'react';
-import cx from 'classnames';
-
-import type { Node, Element, SyntheticEvent } from 'react';
+import * as React from 'react';
+import cx from 'clsx';
 
 import { LoadingDot } from './shared/Basic';
 
@@ -9,17 +7,21 @@ import s0 from './Button.module.css';
 
 const { memo, forwardRef, useCallback } = React;
 
-type ButtonProps = {
-  children?: Node,
-  label?: string,
-  text?: string,
-  isLoading?: boolean,
-  start?: Element | (() => Element),
-  onClick?: (SyntheticEvent<HTMLButtonElement>) => mixed,
-  kind?: 'primary' | 'minimal',
-  className?: string
+type ButtonInternalProps = {
+  children?: React.ReactChildren;
+  label?: string;
+  text?: string;
+  start?: React.ReactElement | (() => React.ReactElement);
 };
-function Button(props: ButtonProps, ref) {
+
+type ButtonProps = {
+  isLoading?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => unknown;
+  kind?: 'primary' | 'minimal';
+  className?: string;
+} & ButtonInternalProps;
+
+function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
   const {
     onClick,
     isLoading,
@@ -28,7 +30,7 @@ function Button(props: ButtonProps, ref) {
     ...restProps
   } = props;
   const internalOnClick = useCallback(
-    e => {
+    (e) => {
       if (isLoading) return;
       onClick && onClick(e);
     },
@@ -37,7 +39,7 @@ function Button(props: ButtonProps, ref) {
   const btnClassName = cx(
     s0.btn,
     {
-      [s0.minimal]: kind === 'minimal'
+      [s0.minimal]: kind === 'minimal',
     },
     className
   );
@@ -48,7 +50,7 @@ function Button(props: ButtonProps, ref) {
           <span
             style={{
               display: 'inline-flex',
-              opacity: 0
+              opacity: 0,
             }}
           >
             <ButtonInternal {...restProps} />
@@ -64,7 +66,7 @@ function Button(props: ButtonProps, ref) {
   );
 }
 
-function ButtonInternal({ children, label, text, start }) {
+function ButtonInternal({ children, label, text, start }: ButtonInternalProps) {
   return (
     <>
       {start ? (

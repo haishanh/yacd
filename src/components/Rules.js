@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from './Button';
 import { FixedSizeList as List, areEqual } from 'react-window';
 import { RotateCw } from 'react-feather';
 
+import { Fab, position as fabPosition } from './shared/Fab';
 import { connect } from './StateProvider';
 import { getClashAPIConfig } from '../store/app';
 import ContentHeader from './ContentHeader';
@@ -31,9 +31,9 @@ const Row = memo(({ index, style, data }) => {
   );
 }, areEqual);
 
-const mapState = s => ({
+const mapState = (s) => ({
   apiConfig: getClashAPIConfig(s),
-  rules: getRules(s)
+  rules: getRules(s),
 });
 
 export default connect(mapState)(Rules);
@@ -63,9 +63,13 @@ function Rules({ dispatch, apiConfig, rules }) {
           {Row}
         </List>
       </div>
-      <div className="fabgrp">
-        <Button text="Refresh" start={refreshIcon} onClick={fetchRulesHooked} />
-      </div>
+
+      <Fab
+        icon={refreshIcon}
+        text="Refresh"
+        onClick={fetchRulesHooked}
+        position={fabPosition}
+      />
     </div>
   );
 }

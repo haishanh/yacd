@@ -11,8 +11,8 @@ import { getClashAPIConfig, updateClashAPIConfig } from '../store/app';
 
 const { useState, useEffect, useRef, useCallback } = React;
 
-const mapState = s => ({
-  apiConfig: getClashAPIConfig(s)
+const mapState = (s) => ({
+  apiConfig: getClashAPIConfig(s),
 });
 
 function APIConfig({ apiConfig, dispatch }) {
@@ -46,11 +46,11 @@ function APIConfig({ apiConfig, dispatch }) {
     detectApiServer();
   }, []);
 
-  const handleInputOnChange = useCallback(e => {
+  const handleInputOnChange = useCallback((e) => {
     userTouchedFlagRef.current = true;
     const target = e.target;
     const { name } = target;
-    let value = target.value;
+    const value = target.value;
     switch (name) {
       case 'port':
         setPort(value);
@@ -71,7 +71,7 @@ function APIConfig({ apiConfig, dispatch }) {
   }, [hostname, port, secret, dispatch]);
 
   const handleContentOnKeyDown = useCallback(
-    e => {
+    (e) => {
       // enter keyCode is 13
       if (e.keyCode !== 13) return;
       updateConfig();

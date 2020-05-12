@@ -198,7 +198,7 @@ export function requestDelayAll(apiConfig) {
 function retrieveGroupNamesFrom(proxies) {
   let groupNames = [];
   let globalAll;
-  let proxyNames = [];
+  const proxyNames = [];
   for (const prop in proxies) {
     const p = proxies[prop];
     if (p.all && Array.isArray(p.all)) {

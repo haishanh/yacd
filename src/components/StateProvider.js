@@ -9,7 +9,7 @@ const {
   useEffect,
   useCallback,
   useContext,
-  useState
+  useState,
 } = React;
 
 export { immer };
@@ -58,7 +58,7 @@ export default function Provider({ initialState, actions = {}, children }) {
   );
   const boundActions = useMemo(() => bindActions(actions, dispatch), [
     actions,
-    dispatch
+    dispatch,
   ]);
 
   return (
@@ -73,7 +73,7 @@ export default function Provider({ initialState, actions = {}, children }) {
 }
 
 export function connect(mapStateToProps) {
-  return Component => {
+  return (Component) => {
     const MemoComponent = memo(Component);
     function Connected(props) {
       const state = useContext(StateContext);
@@ -88,8 +88,8 @@ export function connect(mapStateToProps) {
 
 // steal from https://github.com/reduxjs/redux/blob/master/src/bindActionCreators.ts
 function bindAction(action, dispatch) {
-  return function() {
-    return dispatch(action.apply(this, arguments));
+  return function (...args) {
+    return dispatch(action.apply(this, args));
   };
 }
 

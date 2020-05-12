@@ -18,10 +18,10 @@ const colorMap = {
   // orange
   bad: '#e67f3c',
   // bad: '#F56C6C',
-  na: '#909399'
+  na: '#909399',
 };
 
-function getLabelColor({ number, error } = {}) {
+function getLabelColor({ number } = {}) {
   if (number < 200) {
     return colorMap.good;
   } else if (number < 400) {
@@ -52,10 +52,10 @@ type ProxyProps = {
   // connect injected
   // TODO refine type
   proxy: any,
-  latency: any
+  latency: any,
 };
 
-function ProxySmallImpl({ now, name, proxy, latency }: ProxyProps) {
+function ProxySmallImpl({ now, name, latency }: ProxyProps) {
   const color = useMemo(() => getLabelColor(latency), [latency]);
   const title = useMemo(() => {
     let ret = name;
@@ -79,7 +79,7 @@ function Proxy({ now, name, proxy, latency }: ProxyProps) {
     <div
       className={cx(s0.proxy, {
         [s0.now]: now,
-        [s0.error]: latency && latency.error
+        [s0.error]: latency && latency.error,
       })}
     >
       <div className={s0.proxyName}>{name}</div>
@@ -100,7 +100,7 @@ const mapState = (s, { name }) => {
   const delay = getDelay(s);
   return {
     proxy: proxies[name],
-    latency: delay[name]
+    latency: delay[name],
   };
 };
 
