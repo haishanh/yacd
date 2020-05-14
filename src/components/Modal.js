@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
-import cx from 'classnames';
+import cx from 'clsx';
 
 import s0 from './Modal.module.css';
 
@@ -33,7 +33,7 @@ ModalAPIConfig.propTypes = {
   onRequestClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  overlayClassName: PropTypes.string
+  overlayClassName: PropTypes.string,
 };
 
 export default React.memo(ModalAPIConfig);

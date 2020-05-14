@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronDown } from 'react-feather';
-import cx from 'classnames';
+import cx from 'clsx';
 
 import { SectionNameType } from './shared/Basic';
 import Button from './Button';
@@ -12,7 +12,7 @@ type Props = {
   type: string,
   qty?: number,
   toggle?: () => void,
-  isOpen?: boolean
+  isOpen?: boolean,
 };
 
 export default function Header({ name, type, toggle, isOpen, qty }: Props) {

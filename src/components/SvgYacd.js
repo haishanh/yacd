@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import cx from 'clsx';
 
 import s from './SvgYacd.module.css';
 
@@ -9,7 +9,7 @@ function SvgYacd({
   height = 320,
   animate = false,
   c0 = 'currentColor',
-  c1 = '#eee'
+  c1 = '#eee',
 }) {
   const faceClasName = cx({ [s.path]: animate });
   return (
@@ -42,7 +42,7 @@ function SvgYacd({
 
 SvgYacd.propTypes = {
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
 };
 
 export default SvgYacd;

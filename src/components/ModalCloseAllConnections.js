@@ -2,7 +2,7 @@ import React from 'react';
 
 import Modal from 'react-modal';
 import Button from './Button';
-import cx from 'classnames';
+import cx from 'clsx';
 
 import modalStyle from './Modal.module.css';
 import s from './ModalCloseAllConnections.module.css';
@@ -18,7 +18,7 @@ export default function Comp({ isOpen, onRequestClose, primaryButtonOnTap }) {
     () => ({
       base: cx(modalStyle.content, s.cnt),
       afterOpen: s.afterOpen,
-      beforeClose: ''
+      beforeClose: '',
     }),
     []
   );

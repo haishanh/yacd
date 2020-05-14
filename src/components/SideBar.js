@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import cx from 'clsx';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 // import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';

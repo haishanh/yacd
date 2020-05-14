@@ -1,6 +1,6 @@
 import React from 'react';
 import { func, array, number } from 'prop-types';
-import cx from 'classnames';
+import cx from 'clsx';
 
 import s from './Selection.module.css';
 
@@ -8,7 +8,7 @@ export default function Selection({
   OptionComponent,
   optionPropsList,
   selectedIndex,
-  onChange
+  onChange,
 }) {
   return (
     // TODO a11y
@@ -20,7 +20,7 @@ export default function Selection({
           <div
             key={idx}
             className={className}
-            onClick={ev => {
+            onClick={(ev) => {
               ev.preventDefault();
               if (idx !== selectedIndex) {
                 onChange(idx);
@@ -39,7 +39,7 @@ Selection.propTypes = {
   OptionComponent: func,
   optionPropsList: array,
   selectedIndex: number,
-  onChange: func
+  onChange: func,
 };
 
 // for test
@@ -51,7 +51,7 @@ export function Option({ title }) {
         style={{
           width: 100,
           height: 60,
-          backgroundColor: '#eee'
+          backgroundColor: '#eee',
         }}
       >
         {title}

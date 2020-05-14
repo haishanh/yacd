@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronDown } from 'react-feather';
 import prettyBytes from '../misc/pretty-bytes';
 import { formatDistance } from 'date-fns';
-import cx from 'classnames';
+import cx from 'clsx';
 import { useTable, useSortBy } from 'react-table';
 
 import s from './ConnectionTable.module.css';
@@ -21,7 +21,7 @@ const columns = [
   { Header: 'Time', accessor: 'start' },
   { Header: 'Source IP', accessor: 'sourceIP' },
   { Header: 'Source Port', accessor: 'sourcePort' },
-  { Header: 'Destination IP', accessor: 'destinationIP' }
+  { Header: 'Destination IP', accessor: 'destinationIP' },
 ];
 
 function renderCell(cell, now) {
@@ -43,9 +43,9 @@ const sortById = { id: 'id', desc: true };
 const tableState = {
   sortBy: [
     // maintain a more stable order
-    sortById
+    sortById,
   ],
-  hiddenColumns: ['id']
+  hiddenColumns: ['id'],
 };
 
 function Table({ data }) {
@@ -55,17 +55,17 @@ function Table({ data }) {
       columns,
       data,
       initialState: tableState,
-      autoResetSortBy: false
+      autoResetSortBy: false,
     },
     useSortBy
   );
   return (
     <div {...getTableProps()}>
       <div className={s.thead}>
-        {headerGroups.map(headerGroup => {
+        {headerGroups.map((headerGroup) => {
           return (
             <div {...headerGroup.getHeaderGroupProps()} className={s.tr}>
-              {headerGroup.headers.map(column => (
+              {headerGroup.headers.map((column) => (
                 <div
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   className={s.th}
