@@ -9,15 +9,16 @@
   transform: none;
   padding: 0;
   border-radius: 0;
+
+  display: flex;
+  justify-content: center;
 }
 
 .container {
-  position: absolute;
+  position: relative;
   top: 10%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  max-width: 376px;
-  margin: 0 auto;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .overlay {
