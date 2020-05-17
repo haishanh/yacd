@@ -13,6 +13,8 @@ export function fetchConfigs(apiConfig) {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log('Error fetch configs', err);
+      // eslint-disable-next-line no-console
+      console.log(openModal);
       // dispatch(openModal('apiConfig'));
       return;
     }
