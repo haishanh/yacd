@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.14](https://github.com/haishanh/yacd/compare/v0.1.13...v0.1.14) (2020-05-17)
+
+Added:
+
+- button to pause connection refresh
+
+Fixed:
+
+- sorting option accessibility issue due to incorrect background in dark mode
+
 ## [0.1.13](https://github.com/haishanh/yacd/compare/v0.1.12...v0.1.13) (2020-05-01)
 
 Changed:
