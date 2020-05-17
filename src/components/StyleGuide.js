@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 
 import { Zap } from 'react-feather';
 
+import Select from './shared/Select';
 import SwitchThemed from './SwitchThemed';
 import ToggleSwitch from './ToggleSwitch';
 import Input from './Input';
@@ -31,6 +32,14 @@ const optionsRule = [
   },
 ];
 
+const options = [
+  ['Natural', 'Original order in config file'],
+  ['LatencyAsc', 'By latency from small to big'],
+  ['LatencyDesc', 'By latency from big to small'],
+  ['NameAsc', 'By name alphabetically (A-Z)'],
+  ['NameDesc', 'By name alphabetically (Z-A)'],
+];
+
 const Pane = ({ children, style }) => (
   <div style={{ ...paneStyle, ...style }}>{children}</div>
 );
@@ -52,6 +61,9 @@ class StyleGuide extends PureComponent {
   render() {
     return (
       <div>
+        <Pane>
+          <Select options={options} selected={'Natural'} onChange={noop} />
+        </Pane>
         <Pane>
           <SwitchExample />
         </Pane>

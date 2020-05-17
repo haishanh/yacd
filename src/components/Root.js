@@ -7,7 +7,6 @@ import SideBar from './SideBar';
 import Home from './Home';
 import Logs from './Logs';
 import Config from './Config';
-import StyleGuide from './StyleGuide';
 import Connections from './Connections';
 import APIDiscovery from './APIDiscovery';
 import { initialState, actions } from '../store';
@@ -31,6 +30,13 @@ const Rules = React.lazy(() =>
   )
 );
 
+const StyleGuide = React.lazy(() =>
+  import(
+    /* webpackChunkName: "styleguide" */
+    './StyleGuide'
+  )
+);
+
 const routes = [
   ['home', '/', <Home />],
   ['connections', '/connections', <Connections />],
@@ -38,7 +44,7 @@ const routes = [
   ['logs', '/logs', <Logs />],
   ['proxies', '/proxies', <Proxies />],
   ['rules', '/rules', <Rules />],
-  __DEV__ ? ['style', '/style', <StyleGuide />] : false
+  ['style', '/style', <StyleGuide />],
 ].filter(Boolean);
 
 const Root = () => (
