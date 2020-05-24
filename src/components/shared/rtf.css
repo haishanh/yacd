@@ -27,6 +27,7 @@
   margin: 0;
   padding: 0;
 }
+
 .rtf.open .rtf--ab__c:hover > span {
   transition: ease-in-out opacity 0.2s;
   opacity: 0.9;

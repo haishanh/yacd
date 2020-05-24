@@ -29,8 +29,11 @@ rules:
     - error
     - functions: false
 
-  react-hooks/rules-of-hooks: error
+  # disable this temporarily since we have a lot of JS files
+  # and typescript-eslint runs against JS files too
+  '@typescript-eslint/explicit-module-boundary-types': off
 
+  react-hooks/rules-of-hooks: error
 #   quotes: ["error", "single"]
 #   strict: ["error", "never"]
 #   no-console: "warn"

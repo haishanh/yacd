@@ -28,10 +28,16 @@ const { useState, useEffect, useCallback, useRef } = React;
 
 function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
   const refFetchedTimestamp = useRef({});
-  const requestDelayAllFn = useCallback(
-    () => dispatch(requestDelayAll(apiConfig)),
-    [apiConfig, dispatch]
-  );
+  const [isTestingLatency, setIsTestingLatency] = useState(false);
+  const requestDelayAllFn = useCallback(() => {
+    if (isTestingLatency) return;
+
+    setIsTestingLatency(true);
+    dispatch(requestDelayAll(apiConfig)).then(
+      () => setIsTestingLatency(false),
+      () => setIsTestingLatency(false)
+    );
+  }, [apiConfig, dispatch, isTestingLatency]);
 
   const fetchProxiesHooked = useCallback(() => {
     refFetchedTimestamp.current.startAt = new Date();
@@ -92,12 +98,29 @@ function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
       <ProxyProviderList items={proxyProviders} />
       <div style={{ height: 60 }} />
       <Fab
-        icon={<Zap width={16} />}
+        icon={isTestingLatency ? <ColorZap /> : <Zap width={16} height={16} />}
         onClick={requestDelayAllFn}
         text="Test Latency"
         position={fabPosition}
       />
     </>
+  );
+}
+
+function ColorZap() {
+  return (
+    <div
+      className={s0.spining}
+      style={{
+        width: 48,
+        height: 48,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Zap width={16} height={16} />
+    </div>
   );
 }
 
