@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.16](https://github.com/haishanh/yacd/compare/v0.1.15...v0.1.16) (2020-05-31)
+
+Added:
+
+- filtering connections
+
 ## [0.1.15](https://github.com/haishanh/yacd/compare/v0.1.14...v0.1.15) (2020-05-25)
 
 Added:
