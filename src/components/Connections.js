@@ -27,6 +27,25 @@ function arrayToIdKv(items) {
   return o;
 }
 
+function filterConns(conns, keyword) {
+  const hasSubstring = (s, pat) => s.toLowerCase().includes(pat.toLowerCase());
+
+  return !keyword
+    ? conns
+    : conns.filter((conn) =>
+        [
+          conn.host,
+          conn.sourceIP,
+          conn.sourcePort,
+          conn.destinationIP,
+          conn.chains,
+          conn.rule,
+          conn.type,
+          conn.network,
+        ].some((field) => hasSubstring(field, keyword))
+      );
+}
+
 function formatConnectionDataItem(i, prevKv) {
   const { id, metadata, upload, download, start, chains, rule } = i;
   // eslint-disable-next-line prefer-const
@@ -72,6 +91,9 @@ function Conn({ apiConfig }) {
   const [refContainer, containerHeight] = useRemainingViewPortHeight();
   const [conns, setConns] = useState([]);
   const [closedConns, setClosedConns] = useState([]);
+  const [filterKeyword, setFilterKeyword] = useState('');
+  const filteredConns = filterConns(conns, filterKeyword);
+  const filteredClosedConns = filterConns(closedConns, filterKeyword);
   const [isCloseAllModalOpen, setIsCloseAllModalOpen] = useState(false);
   const openCloseAllModal = useCallback(() => setIsCloseAllModalOpen(true), []);
   const closeCloseAllModal = useCallback(
@@ -124,20 +146,38 @@ function Conn({ apiConfig }) {
     <div>
       <ContentHeader title="Connections" />
       <Tabs>
-        <TabList>
-          <Tab>
-            <span>Active</span>
-            <span className={s.connQty}>
-              <ConnQty qty={conns.length} />
-            </span>
-          </Tab>
-          <Tab>
-            <span>Closed</span>
-            <span className={s.connQty}>
-              <ConnQty qty={closedConns.length} />
-            </span>
-          </Tab>
-        </TabList>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}
+        >
+          <TabList>
+            <Tab>
+              <span>Active</span>
+              <span className={s.connQty}>
+                <ConnQty qty={filteredConns.length} />
+              </span>
+            </Tab>
+            <Tab>
+              <span>Closed</span>
+              <span className={s.connQty}>
+                <ConnQty qty={filteredClosedConns.length} />
+              </span>
+            </Tab>
+          </TabList>
+          <div className={s.inputWrapper}>
+            <input
+              type="text"
+              name="filter"
+              autoComplete="off"
+              className={s.input}
+              placeholder="Filter"
+              onChange={(e) => setFilterKeyword(e.target.value)}
+            />
+          </div>
+        </div>
         <div
           ref={refContainer}
           style={{ padding: 30, paddingBottom, paddingTop: 0 }}
@@ -149,7 +189,7 @@ function Conn({ apiConfig }) {
             }}
           >
             <TabPanel>
-              <>{renderTableOrPlaceholder(conns)}</>
+              <>{renderTableOrPlaceholder(filteredConns)}</>
               <Fab
                 icon={
                   isRefreshPaused ? <Play size={16} /> : <Pause size={16} />
@@ -173,7 +213,7 @@ function Conn({ apiConfig }) {
                 </Action>
               </Fab>
             </TabPanel>
-            <TabPanel>{renderTableOrPlaceholder(closedConns)}</TabPanel>
+            <TabPanel>{renderTableOrPlaceholder(filteredClosedConns)}</TabPanel>
           </div>
         </div>
         <ModalCloseAllConnections
