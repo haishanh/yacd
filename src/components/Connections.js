@@ -49,15 +49,18 @@ function filterConns(conns, keyword) {
 function formatConnectionDataItem(i, prevKv) {
   const { id, metadata, upload, download, start, chains, rule } = i;
   // eslint-disable-next-line prefer-const
-  let { host, destinationPort, destinationIP } = metadata;
+  let {
+    host,
+    destinationPort,
+    destinationIP,
+    network,
+    type,
+    sourceIP,
+    sourcePort,
+  } = metadata;
   // host could be an empty string if it's direct IP connection
   if (host === '') host = destinationIP;
-  const metadataNext = {
-    ...metadata,
-    // merge host and destinationPort into one column
-    host: host + ':' + destinationPort,
-  };
-  // const started = formatDistance(new Date(start), now);
+
   const ret = {
     id,
     upload,
@@ -65,7 +68,10 @@ function formatConnectionDataItem(i, prevKv) {
     start: 0 - new Date(start),
     chains: chains.reverse().join(' / '),
     rule,
-    ...metadataNext,
+    ...metadata,
+    host: `${host}:${destinationPort}`,
+    type: `${type}(${network})`,
+    source: `${sourceIP}:${sourcePort}`,
   };
   const prev = prevKv[id];
   ret.downloadSpeedCurr = download - (prev ? prev.download : 0);

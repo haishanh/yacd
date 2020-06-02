@@ -1,6 +1,7 @@
-.thead .tr {
+.tr {
   display: grid;
-  grid-template-columns: repeat(13, max-content);
+  /* grid-template-columns: repeat(11, minmax(max-content, 1fr)); */
+  grid-template-columns: repeat(11, minmax(max-content, auto));
 }
 
 .th {
@@ -9,10 +10,17 @@
   background: var(--color-background);
   position: sticky;
   top: 0;
+  font-size: 0.8em;
+  text-align: center;
+  user-select: none;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &:hover {
+    color: var(--color-text-highlight);
+  }
 }
 
 .td {
