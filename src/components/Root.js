@@ -19,7 +19,7 @@ const Proxies = React.lazy(() =>
     /* webpackChunkName: "proxies" */
     /* webpackPrefetch: true */
     /* webpackPreload: true */
-    './Proxies'
+    './proxies/Proxies'
   )
 );
 const Rules = React.lazy(() =>
@@ -38,7 +38,7 @@ const routes = [
   ['logs', '/logs', <Logs />],
   ['proxies', '/proxies', <Proxies />],
   ['rules', '/rules', <Rules />],
-  __DEV__ ? ['style', '/style', <StyleGuide />] : false
+  __DEV__ ? ['style', '/style', <StyleGuide />] : false,
 ].filter(Boolean);
 
 const Root = () => (

@@ -1,17 +1,17 @@
-import React from 'react';
+import * as React from 'react';
 
-import { connect } from './StateProvider';
+import { connect } from '../StateProvider';
 
-import Button from './Button';
-import ContentHeader from './ContentHeader';
-import ProxyGroup from './ProxyGroup';
-import BaseModal from './shared/BaseModal';
-import Settings from './proxies/Settings';
-import Equalizer from './svg/Equalizer';
+import Button from '../Button';
+import ContentHeader from '../ContentHeader';
+import { ProxyGroup } from './ProxyGroup';
+import BaseModal from '../shared/BaseModal';
+import Settings from './Settings';
+import Equalizer from '../svg/Equalizer';
 import { Zap } from 'react-feather';
 
-import ProxyProviderList from './ProxyProviderList';
-import { Fab, position as fabPosition } from './shared/Fab';
+import { ProxyProviderList } from './ProxyProviderList';
+import { Fab, position as fabPosition } from '../shared/Fab';
 
 import s0 from './Proxies.module.css';
 
@@ -21,13 +21,15 @@ import {
   getProxyProviders,
   fetchProxies,
   requestDelayAll,
-} from '../store/proxies';
-import { getClashAPIConfig } from '../store/app';
+} from '../../store/proxies';
+import { getClashAPIConfig } from '../../store/app';
 
 const { useState, useEffect, useCallback, useRef } = React;
 
 function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
-  const refFetchedTimestamp = useRef({});
+  const refFetchedTimestamp = useRef<{ startAt?: number; completeAt?: number }>(
+    {}
+  );
   const [isTestingLatency, setIsTestingLatency] = useState(false);
   const requestDelayAllFn = useCallback(() => {
     if (isTestingLatency) return;
@@ -40,9 +42,9 @@ function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
   }, [apiConfig, dispatch, isTestingLatency]);
 
   const fetchProxiesHooked = useCallback(() => {
-    refFetchedTimestamp.current.startAt = new Date();
+    refFetchedTimestamp.current.startAt = Date.now();
     dispatch(fetchProxies(apiConfig)).then(() => {
-      refFetchedTimestamp.current.completeAt = new Date();
+      refFetchedTimestamp.current.completeAt = Date.now();
     });
   }, [apiConfig, dispatch]);
   useEffect(() => {
@@ -53,7 +55,7 @@ function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
     const fn = () => {
       if (
         refFetchedTimestamp.current.startAt &&
-        new Date() - refFetchedTimestamp.current.startAt > 3e4 // 30s
+        Date.now() - refFetchedTimestamp.current.startAt > 3e4 // 30s
       ) {
         fetchProxiesHooked();
       }

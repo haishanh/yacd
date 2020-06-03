@@ -8,7 +8,7 @@ import s0 from './Button.module.css';
 const { memo, forwardRef, useCallback } = React;
 
 type ButtonInternalProps = {
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
   label?: string;
   text?: string;
   start?: React.ReactElement | (() => React.ReactElement);

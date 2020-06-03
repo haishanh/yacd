@@ -1,16 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 
-import ContentHeader from './ContentHeader';
-import ProxyProvider from './ProxyProvider';
+import ContentHeader from '../ContentHeader';
+import { ProxyProvider } from './ProxyProvider';
 
-function ProxyProviderList({ items }) {
+export function ProxyProviderList({ items }) {
   if (items.length === 0) return null;
 
   return (
     <>
       <ContentHeader title="Proxy Provider" />
       <div>
-        {items.map(item => (
+        {items.map((item) => (
           <ProxyProvider
             key={item.name}
             name={item.name}
@@ -24,5 +24,3 @@ function ProxyProviderList({ items }) {
     </>
   );
 }
-
-export default ProxyProviderList;

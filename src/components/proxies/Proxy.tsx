@@ -1,10 +1,10 @@
-import React from 'react';
+import * as React from 'react';
+
 import cx from 'clsx';
 
-import { connect } from './StateProvider';
-import ProxyLatency from './ProxyLatency';
-
-import { getProxies, getDelay } from '../store/proxies';
+import { connect } from '../StateProvider';
+import { ProxyLatency } from './ProxyLatency';
+import { getProxies, getDelay } from '../../store/proxies';
 
 import s0 from './Proxy.module.css';
 
@@ -21,7 +21,11 @@ const colorMap = {
   na: '#909399',
 };
 
-function getLabelColor({ number } = {}) {
+function getLabelColor({
+  number,
+}: {
+  number?: number;
+} = {}) {
   if (number < 200) {
     return colorMap.good;
   } else if (number < 400) {
@@ -32,27 +36,11 @@ function getLabelColor({ number } = {}) {
   return colorMap.na;
 }
 
-/*
-const colors = {
-  Direct: '#408b43',
-  Fallback: '#3483e8',
-  Selector: '#387cec',
-  Vmess: '#ca3487',
-  Shadowsocks: '#1a7dc0',
-  Socks5: '#2a477a',
-  URLTest: '#3483e8',
-  Http: '#d3782d'
-};
-*/
-
 type ProxyProps = {
-  name: string,
-  now?: boolean,
-
-  // connect injected
-  // TODO refine type
-  proxy: any,
-  latency: any,
+  name: string;
+  now?: boolean;
+  proxy: any;
+  latency: any;
 };
 
 function ProxySmallImpl({ now, name, latency }: ProxyProps) {
@@ -73,7 +61,7 @@ function ProxySmallImpl({ now, name, latency }: ProxyProps) {
   );
 }
 
-function Proxy({ now, name, proxy, latency }: ProxyProps) {
+function ProxyImpl({ now, name, proxy, latency }: ProxyProps) {
   const color = useMemo(() => getLabelColor(latency), [latency]);
   return (
     <div
@@ -95,7 +83,7 @@ function Proxy({ now, name, proxy, latency }: ProxyProps) {
   );
 }
 
-const mapState = (s, { name }) => {
+const mapState = (s: any, { name }) => {
   const proxies = getProxies(s);
   const delay = getDelay(s);
   return {
@@ -104,5 +92,5 @@ const mapState = (s, { name }) => {
   };
 };
 
-export default connect(mapState)(Proxy);
+export const Proxy = connect(mapState)(ProxyImpl);
 export const ProxySmall = connect(mapState)(ProxySmallImpl);

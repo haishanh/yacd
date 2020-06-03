@@ -1,28 +1,37 @@
-import React from 'react';
-import cx from 'clsx';
+import * as React from 'react';
 import memoizeOne from 'memoize-one';
+import { Zap } from 'react-feather';
 
-import { connect, useStoreActions } from './StateProvider';
-import { getProxies } from '../store/proxies';
+import { connect, useStoreActions } from '../StateProvider';
+import { getProxies } from '../../store/proxies';
 import {
   getCollapsibleIsOpen,
   getProxySortBy,
   getHideUnavailableProxies,
-} from '../store/app';
-import CollapsibleSectionHeader from './CollapsibleSectionHeader';
-import Proxy, { ProxySmall } from './Proxy';
+} from '../../store/app';
+import { switchProxy } from '../../store/proxies';
+import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
+import Button from '../Button';
+import { ProxyList, ProxyListSummaryView } from './ProxyList';
 
 import s0 from './ProxyGroup.module.css';
 
-import { switchProxy } from '../store/proxies';
+const { useCallback, useMemo, useState } = React;
 
-const { useCallback, useMemo } = React;
+function ZapWrapper() {
+  return (
+    <div className={s0.zapWrapper}>
+      <Zap size={16} />
+    </div>
+  );
+}
 
-function ProxyGroup({ name, all, type, now, isOpen, apiConfig, dispatch }) {
+function ProxyGroupImpl({ name, all, type, now, isOpen, apiConfig, dispatch }) {
   const isSelectable = useMemo(() => type === 'Selector', [type]);
 
   const {
     app: { updateCollapsibleIsOpen },
+    proxies: { requestDelayForProxies },
   } = useStoreActions();
 
   const toggle = useCallback(() => {
@@ -37,15 +46,33 @@ function ProxyGroup({ name, all, type, now, isOpen, apiConfig, dispatch }) {
     [apiConfig, dispatch, name, isSelectable]
   );
 
+  const [isTestingLatency, setIsTestingLatency] = useState(false);
+  const testLatency = useCallback(async () => {
+    setIsTestingLatency(true);
+    try {
+      await requestDelayForProxies(apiConfig, all);
+    } catch (err) {}
+    setIsTestingLatency(false);
+  }, [all, apiConfig, requestDelayForProxies]);
+
   return (
     <div className={s0.group}>
-      <CollapsibleSectionHeader
-        name={name}
-        type={type}
-        toggle={toggle}
-        qty={all.length}
-        isOpen={isOpen}
-      />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <CollapsibleSectionHeader
+          name={name}
+          type={type}
+          toggle={toggle}
+          qty={all.length}
+          isOpen={isOpen}
+        />
+        <Button
+          kind="minimal"
+          onClick={testLatency}
+          isLoading={isTestingLatency}
+        >
+          <ZapWrapper />
+        </Button>
+      </div>
       {isOpen ? (
         <ProxyList
           all={all}
@@ -56,45 +83,6 @@ function ProxyGroup({ name, all, type, now, isOpen, apiConfig, dispatch }) {
       ) : (
         <ProxyListSummaryView all={all} />
       )}
-    </div>
-  );
-}
-
-type ProxyListProps = {
-  all: string[],
-  now?: string,
-  isSelectable?: boolean,
-  itemOnTapCallback?: (string) => void,
-  show?: boolean,
-};
-export function ProxyList({
-  all,
-  now,
-  isSelectable,
-  itemOnTapCallback,
-  sortedAll,
-}: ProxyListProps) {
-  const proxies = sortedAll || all;
-
-  return (
-    <div className={s0.list}>
-      {proxies.map((proxyName) => {
-        const proxyClassName = cx(s0.proxy, {
-          [s0.proxySelectable]: isSelectable,
-        });
-        return (
-          <div
-            className={proxyClassName}
-            key={proxyName}
-            onClick={() => {
-              if (!isSelectable || !itemOnTapCallback) return;
-              itemOnTapCallback(proxyName);
-            }}
-          >
-            <Proxy name={proxyName} now={proxyName === now} />
-          </div>
-        );
-      })}
     </div>
   );
 }
@@ -172,36 +160,7 @@ export const filterAvailableProxiesAndSort = memoizeOne(
   filterAvailableProxiesAndSortImpl
 );
 
-export function ProxyListSummaryView({
-  all,
-  now,
-  isSelectable,
-  itemOnTapCallback,
-}: ProxyListProps) {
-  return (
-    <div className={s0.list}>
-      {all.map((proxyName) => {
-        const proxyClassName = cx(s0.proxy, {
-          [s0.proxySelectable]: isSelectable,
-        });
-        return (
-          <div
-            className={proxyClassName}
-            key={proxyName}
-            onClick={() => {
-              if (!isSelectable || !itemOnTapCallback) return;
-              itemOnTapCallback(proxyName);
-            }}
-          >
-            <ProxySmall name={proxyName} now={proxyName === now} />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-export default connect((s, { name, delay }) => {
+export const ProxyGroup = connect((s, { name, delay }) => {
   const proxies = getProxies(s);
   const collapsibleIsOpen = getCollapsibleIsOpen(s);
   const proxySortBy = getProxySortBy(s);
@@ -220,4 +179,4 @@ export default connect((s, { name, delay }) => {
     now,
     isOpen: collapsibleIsOpen[`proxyGroup:${name}`],
   };
-})(ProxyGroup);
+})(ProxyGroupImpl);

@@ -1,45 +1,43 @@
-import React from 'react';
+import * as React from 'react';
 import { RotateCw, Zap } from 'react-feather';
 import { formatDistance } from 'date-fns';
 import { motion } from 'framer-motion';
 
-import { connect, useStoreActions } from './StateProvider';
-import Collapsible from './Collapsible';
-import CollapsibleSectionHeader from './CollapsibleSectionHeader';
-import {
-  ProxyList,
-  ProxyListSummaryView,
-  filterAvailableProxiesAndSort,
-} from './ProxyGroup';
-import Button from './Button';
+import { connect, useStoreActions } from '../StateProvider';
+import Collapsible from '../Collapsible';
+import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
+import { filterAvailableProxiesAndSort } from './ProxyGroup';
+import { ProxyList, ProxyListSummaryView } from './ProxyList';
+import Button from '../Button';
 
 import {
   getClashAPIConfig,
   getCollapsibleIsOpen,
   getProxySortBy,
   getHideUnavailableProxies,
-} from '../store/app';
+} from '../../store/app';
 import {
   getDelay,
   updateProviderByName,
   healthcheckProviderByName,
-} from '../store/proxies';
+} from '../../store/proxies';
 
 import s from './ProxyProvider.module.css';
 
 const { useState, useCallback } = React;
 
 type Props = {
-  name: string,
-  proxies: Array<string>,
-  type: 'Proxy' | 'Rule',
-  vehicleType: 'HTTP' | 'File' | 'Compatible',
-  updatedAt?: string,
-  dispatch: (any) => void,
-  isOpen: boolean,
+  name: string;
+  proxies: Array<string>;
+  type: 'Proxy' | 'Rule';
+  vehicleType: 'HTTP' | 'File' | 'Compatible';
+  updatedAt?: string;
+  dispatch: (x: any) => Promise<any>;
+  isOpen: boolean;
+  apiConfig: any;
 };
 
-function ProxyProvider({
+function ProxyProviderImpl({
   name,
   proxies,
   vehicleType,
@@ -62,9 +60,6 @@ function ProxyProvider({
   const {
     app: { updateCollapsibleIsOpen },
   } = useStoreActions();
-
-  // const [isCollapsibleOpen, setCollapsibleOpen] = useState(false);
-  // const toggle = useCallback(() => setCollapsibleOpen(x => !x), []);
 
   const toggle = useCallback(() => {
     updateCollapsibleIsOpen('proxyProvider', name, !isOpen);
@@ -104,7 +99,6 @@ function ProxyProvider({
 
 const button = {
   rest: { scale: 1 },
-  // hover: { scale: 1.1 },
   pressed: { scale: 0.95 },
 };
 const arrow = {
@@ -147,4 +141,4 @@ const mapState = (s, { proxies, name }) => {
   };
 };
 
-export default connect(mapState)(ProxyProvider);
+export const ProxyProvider = connect(mapState)(ProxyProviderImpl);

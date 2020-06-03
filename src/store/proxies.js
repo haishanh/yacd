@@ -20,7 +20,6 @@ type ProxyProvider = {
 
 // const ProxyTypeBuiltin = ['DIRECT', 'GLOBAL', 'REJECT'];
 // const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector', 'LoadBalance'];
-
 // const ProxyTypes = ['Shadowsocks', 'Snell', 'Socks5', 'Http', 'Vmess'];
 
 const NonProxyTypes = [
@@ -180,6 +179,19 @@ export function requestDelayForProxy(apiConfig, name) {
   };
 }
 
+export function requestDelayForProxies(apiConfig, names) {
+  return async (dispatch, getState) => {
+    const proxyNames = getDangleProxyNames(getState());
+
+    const works = names
+      // remove names that are provided by proxy providers
+      .filter((p) => proxyNames.indexOf(p) > -1)
+      .map((p) => dispatch(requestDelayForProxy(apiConfig, p)));
+    await Promise.all(works);
+    await dispatch(fetchProxies(apiConfig));
+  };
+}
+
 export function requestDelayAll(apiConfig) {
   return async (dispatch, getState) => {
     const proxyNames = getDangleProxyNames(getState());
@@ -251,3 +263,5 @@ export const initialState = {
   delay: {},
   groupNames: [],
 };
+
+export const actions = { requestDelayForProxies };

@@ -1,13 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 
 import s0 from './ProxyLatency.module.css';
 
 type ProxyLatencyProps = {
-  number: number,
-  color: string
+  number: number;
+  color: string;
 };
 
-export default function ProxyLatency({ number, color }: ProxyLatencyProps) {
+export function ProxyLatency({ number, color }: ProxyLatencyProps) {
   return (
     <span className={s0.proxyLatency} style={{ color }}>
       <span>{number} ms</span>
