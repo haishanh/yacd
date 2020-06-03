@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.18](https://github.com/haishanh/yacd/compare/v0.1.17...v0.1.18) (2020-06-04)
+
+Added:
+
+- test latency button for each proxy group
+
 ## [0.1.17](https://github.com/haishanh/yacd/compare/v0.1.16...v0.1.17) (2020-06-03)
 
 Changed:
