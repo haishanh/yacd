@@ -1,5 +1,3 @@
-'use strict';
-
 const presets = [
   [
     '@babel/preset-env',
@@ -9,14 +7,15 @@ const presets = [
       useBuiltIns: 'usage',
       corejs: 3,
       // new in babel 7.9.0 https://babeljs.io/blog/2020/03/16/7.9.0
-      bugfixes: true
-    }
+      bugfixes: true,
+    },
   ],
   '@babel/preset-react',
-  '@babel/preset-flow'
+  '@babel/preset-flow',
+  '@babel/preset-typescript',
 ];
 
-module.exports = api => {
+module.exports = (api) => {
   // https://babeljs.io/docs/en/config-files#apicache
   api.cache.using(() => process.env.NODE_ENV);
   // https://babeljs.io/docs/en/config-files#apienv
@@ -28,13 +27,13 @@ module.exports = api => {
         corejs: false,
         helpers: true,
         regenerator: true,
-        useESModules: true
-      }
+        useESModules: true,
+      },
     ],
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-do-expressions',
-    isDev ? 'react-refresh/babel' : false
+    isDev ? 'react-refresh/babel' : false,
   ].filter(Boolean);
   return { presets, plugins };
 };

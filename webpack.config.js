@@ -99,16 +99,16 @@ module.exports = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.tsx?$/,
+      //   loader: 'ts-loader',
+      //   options: {
+      //     // disable type checker - we will use it in fork plugin
+      //     transpileOnly: true,
+      //   },
+      // },
       {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        options: {
-          // disable type checker - we will use it in fork plugin
-          transpileOnly: true,
-        },
-      },
-      {
-        test: /\.js$/,
+        test: /\.[tj]sx?$/,
         exclude: /node_modules/,
         use: { loader: 'babel-loader', options: { cacheDirectory: true } },
       },
