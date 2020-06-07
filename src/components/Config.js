@@ -27,15 +27,15 @@ const propsList = [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }];
 const optionsRule = [
   {
     label: 'Global',
-    value: 'Global',
+    value: 'global',
   },
   {
     label: 'Rule',
-    value: 'Rule',
+    value: 'rule',
   },
   {
     label: 'Direct',
-    value: 'Direct',
+    value: 'direct',
   },
 ];
 
@@ -220,7 +220,7 @@ function ConfigImpl({
           <ToggleSwitch
             options={optionsRule}
             name="mode"
-            value={configState.mode}
+            value={configState.mode && configState.mode.toLowerCase()}
             onChange={handleInputOnChange}
           />
         </div>
