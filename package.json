@@ -60,7 +60,9 @@
     "react-tiny-fab": "^3.5.0",
     "react-window": "^1.8.5",
     "regenerator-runtime": "^0.13.2",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "typeface-inter": "^3.12.0",
+    "typeface-roboto-mono": "^0.0.75"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
