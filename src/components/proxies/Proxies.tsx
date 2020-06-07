@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import { connect } from '../StateProvider';
+import { connect, useStoreActions } from '../StateProvider';
 
 import Button from '../Button';
 import ContentHeader from '../ContentHeader';
 import { ProxyGroup } from './ProxyGroup';
 import BaseModal from '../shared/BaseModal';
 import Settings from './Settings';
+import { ClosePrevConns } from './ClosePrevConns';
 import Equalizer from '../svg/Equalizer';
 import { Zap } from 'react-feather';
 
@@ -19,6 +20,7 @@ import {
   getDelay,
   getProxyGroupNames,
   getProxyProviders,
+  getShowModalClosePrevConns,
   fetchProxies,
   requestDelayAll,
 } from '../../store/proxies';
@@ -26,7 +28,14 @@ import { getClashAPIConfig } from '../../store/app';
 
 const { useState, useEffect, useCallback, useRef } = React;
 
-function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
+function Proxies({
+  dispatch,
+  groupNames,
+  delay,
+  proxyProviders,
+  apiConfig,
+  showModalClosePrevConns,
+}) {
   const refFetchedTimestamp = useRef<{ startAt?: number; completeAt?: number }>(
     {}
   );
@@ -69,6 +78,10 @@ function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
     setIsSettingsModalOpen(false);
   }, []);
 
+  const {
+    proxies: { closeModalClosePrevConns, closePrevConnsAndTheModal },
+  } = useStoreActions();
+
   return (
     <>
       <div className={s0.topBar}>
@@ -84,7 +97,7 @@ function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
       </BaseModal>
       <ContentHeader title="Proxies" />
       <div>
-        {groupNames.map((groupName) => {
+        {groupNames.map((groupName: string) => {
           return (
             <div className={s0.group} key={groupName}>
               <ProxyGroup
@@ -105,6 +118,15 @@ function Proxies({ dispatch, groupNames, delay, proxyProviders, apiConfig }) {
         text="Test Latency"
         position={fabPosition}
       />
+      <BaseModal
+        isOpen={showModalClosePrevConns}
+        onRequestClose={closeModalClosePrevConns}
+      >
+        <ClosePrevConns
+          onClickPrimaryButton={() => closePrevConnsAndTheModal(apiConfig)}
+          onClickSecondaryButton={closeModalClosePrevConns}
+        />
+      </BaseModal>
     </>
   );
 }
@@ -131,6 +153,7 @@ const mapState = (s) => ({
   groupNames: getProxyGroupNames(s),
   proxyProviders: getProxyProviders(s),
   delay: getDelay(s),
+  showModalClosePrevConns: getShowModalClosePrevConns(s),
 });
 
 export default connect(mapState)(Proxies);

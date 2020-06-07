@@ -82,4 +82,15 @@ async function closeAllConnections(apiConfig) {
   return await fetch(url + endpoint, { ...init, method: 'DELETE' });
 }
 
+export async function fetchConns(apiConfig) {
+  const { url, init } = getURLAndInit(apiConfig);
+  return await fetch(url + endpoint, { ...init });
+}
+
+export async function closeConnById(apiConfig, id) {
+  const { url: baseURL, init } = getURLAndInit(apiConfig);
+  const url = `${baseURL}${endpoint}/${id}`;
+  return await fetch(url, { ...init, method: 'DELETE' });
+}
+
 export { fetchData, closeAllConnections };
