@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.19](https://github.com/haishanh/yacd/compare/v0.1.18...v0.1.19) (2020-06-07)
+
+Added:
+
+- modal prompt to close previous connections when switch proxy
+
+Fixed:
+
+- mode not display correctly due to clash API change
+
+Changed:
+
+- switch primary font family from "Merriweather Sans" to "Inter", also starting to self hosting font files
+
 ## [0.1.18](https://github.com/haishanh/yacd/compare/v0.1.17...v0.1.18) (2020-06-04)
 
 Added:
