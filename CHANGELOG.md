@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.20](https://github.com/haishanh/yacd/compare/v0.1.19...v0.1.20) (2020-06-08)
+
+Changed:
+
+- switch to Open Sans and reduce emitted font files
+
 ## [0.1.19](https://github.com/haishanh/yacd/compare/v0.1.18...v0.1.19) (2020-06-07)
 
 Added:
