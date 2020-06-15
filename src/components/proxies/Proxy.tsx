@@ -41,9 +41,17 @@ type ProxyProps = {
   now?: boolean;
   proxy: any;
   latency: any;
+  isSelectable?: boolean;
+  onClick?: (proxyName: string) => unknown;
 };
 
-function ProxySmallImpl({ now, name, latency }: ProxyProps) {
+function ProxySmallImpl({
+  now,
+  name,
+  latency,
+  isSelectable,
+  onClick,
+}: ProxyProps) {
   const color = useMemo(() => getLabelColor(latency), [latency]);
   const title = useMemo(() => {
     let ret = name;
@@ -55,20 +63,37 @@ function ProxySmallImpl({ now, name, latency }: ProxyProps) {
   return (
     <div
       title={title}
-      className={cx(s0.proxySmall, { [s0.now]: now })}
+      className={cx(s0.proxySmall, {
+        [s0.now]: now,
+        [s0.selectable]: isSelectable,
+      })}
       style={{ backgroundColor: color }}
+      onClick={() => {
+        isSelectable && onClick && onClick(name);
+      }}
     />
   );
 }
 
-function ProxyImpl({ now, name, proxy, latency }: ProxyProps) {
+function ProxyImpl({
+  now,
+  name,
+  proxy,
+  latency,
+  isSelectable,
+  onClick,
+}: ProxyProps) {
   const color = useMemo(() => getLabelColor(latency), [latency]);
   return (
     <div
       className={cx(s0.proxy, {
         [s0.now]: now,
         [s0.error]: latency && latency.error,
+        [s0.selectable]: isSelectable,
       })}
+      onClick={() => {
+        isSelectable && onClick && onClick(name);
+      }}
     >
       <div className={s0.proxyName}>{name}</div>
       <div className={s0.row}>

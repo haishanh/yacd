@@ -1,22 +1,13 @@
 .list {
-  display: flex;
-  flex-wrap: wrap;
   margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(auto, 280px));
+  grid-gap: 10px;
 }
 
-.proxy {
-  margin-right: 5px;
-  margin-bottom: 5px;
-  @media (--breakpoint-not-small) {
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  transition: transform 0.2s ease-in-out;
-
-  &.proxySelectable {
-    cursor: pointer;
-    &:hover {
-      transform: translateY(-2px);
-    }
-  }
+.listSummaryView {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 13px);
+  grid-gap: 10px;
 }

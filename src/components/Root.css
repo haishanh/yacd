@@ -97,6 +97,9 @@ body {
     Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
     Segoe UI Symbol, 'PingFang SC', 'Microsoft YaHei', '微软雅黑', Arial,
     sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
 }

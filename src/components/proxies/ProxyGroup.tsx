@@ -16,7 +16,7 @@ import { ProxyList, ProxyListSummaryView } from './ProxyList';
 
 import s0 from './ProxyGroup.module.css';
 
-const { useCallback, useMemo, useState } = React;
+const { createElement, useCallback, useMemo, useState } = React;
 
 function ZapWrapper() {
   return (
@@ -73,16 +73,12 @@ function ProxyGroupImpl({ name, all, type, now, isOpen, apiConfig, dispatch }) {
           <ZapWrapper />
         </Button>
       </div>
-      {isOpen ? (
-        <ProxyList
-          all={all}
-          now={now}
-          isSelectable={isSelectable}
-          itemOnTapCallback={itemOnTapCallback}
-        />
-      ) : (
-        <ProxyListSummaryView all={all} />
-      )}
+      {createElement(isOpen ? ProxyList : ProxyListSummaryView, {
+        all,
+        now,
+        isSelectable,
+        itemOnTapCallback,
+      })}
     </div>
   );
 }

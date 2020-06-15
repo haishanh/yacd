@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import cx from 'clsx';
+/* import cx from 'clsx'; */
 
 import { Proxy, ProxySmall } from './Proxy';
 
@@ -25,20 +25,14 @@ export function ProxyList({
   return (
     <div className={s.list}>
       {proxies.map((proxyName) => {
-        const proxyClassName = cx(s.proxy, {
-          [s.proxySelectable]: isSelectable,
-        });
         return (
-          <div
-            className={proxyClassName}
+          <Proxy
             key={proxyName}
-            onClick={() => {
-              if (!isSelectable || !itemOnTapCallback) return;
-              itemOnTapCallback(proxyName);
-            }}
-          >
-            <Proxy name={proxyName} now={proxyName === now} />
-          </div>
+            onClick={itemOnTapCallback}
+            isSelectable={isSelectable}
+            name={proxyName}
+            now={proxyName === now}
+          />
         );
       })}
     </div>
@@ -52,22 +46,16 @@ export function ProxyListSummaryView({
   itemOnTapCallback,
 }: ProxyListProps) {
   return (
-    <div className={s.list}>
+    <div className={s.listSummaryView}>
       {all.map((proxyName) => {
-        const proxyClassName = cx(s.proxy, {
-          [s.proxySelectable]: isSelectable,
-        });
         return (
-          <div
-            className={proxyClassName}
+          <ProxySmall
             key={proxyName}
-            onClick={() => {
-              if (!isSelectable || !itemOnTapCallback) return;
-              itemOnTapCallback(proxyName);
-            }}
-          >
-            <ProxySmall name={proxyName} now={proxyName === now} />
-          </div>
+            onClick={itemOnTapCallback}
+            isSelectable={isSelectable}
+            name={proxyName}
+            now={proxyName === now}
+          />
         );
       })}
     </div>
