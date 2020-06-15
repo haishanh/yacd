@@ -84,13 +84,9 @@ function ProxyGroupImpl({ name, all, type, now, isOpen, apiConfig, dispatch }) {
 }
 
 const getSortDelay = (d, w) => {
-  if (d === undefined) {
-    return 0;
-  }
-  if (!d.error && d.number > 0) {
+  if (d && typeof d.number === 'number' && d.number > 0) {
     return d.number;
   }
-
   return w;
 };
 

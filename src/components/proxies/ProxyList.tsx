@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-/* import cx from 'clsx'; */
-
 import { Proxy, ProxySmall } from './Proxy';
 
 import s from './ProxyList.module.css';
