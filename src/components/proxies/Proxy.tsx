@@ -4,7 +4,7 @@ import cx from 'clsx';
 
 import { connect } from '../StateProvider';
 import { ProxyLatency } from './ProxyLatency';
-import { getProxies, getDelay } from '../../store/proxies';
+import { NonProxyTypes, getProxies, getDelay } from '../../store/proxies';
 
 import s0 from './Proxy.module.css';
 
@@ -36,6 +36,18 @@ function getLabelColor({
   return colorMap.na;
 }
 
+function getProxyDotBackgroundColor(
+  latency: {
+    number?: number;
+  },
+  proxyType: string
+) {
+  if (NonProxyTypes.indexOf(proxyType) > -1) {
+    return 'linear-gradient(135deg, white 15%, #999 15% 30%, white 30% 45%, #999 45% 60%, white 60% 75%, #999 75% 90%, white 90% 100%)';
+  }
+  return getLabelColor(latency);
+}
+
 type ProxyProps = {
   name: string;
   now?: boolean;
@@ -48,11 +60,15 @@ type ProxyProps = {
 function ProxySmallImpl({
   now,
   name,
+  proxy,
   latency,
   isSelectable,
   onClick,
 }: ProxyProps) {
-  const color = useMemo(() => getLabelColor(latency), [latency]);
+  const color = useMemo(() => getProxyDotBackgroundColor(latency, proxy.type), [
+    latency,
+    proxy,
+  ]);
   const title = useMemo(() => {
     let ret = name;
     if (latency && typeof latency.number === 'number') {
@@ -67,7 +83,7 @@ function ProxySmallImpl({
         [s0.now]: now,
         [s0.selectable]: isSelectable,
       })}
-      style={{ backgroundColor: color }}
+      style={{ background: color }}
       onClick={() => {
         isSelectable && onClick && onClick(name);
       }}

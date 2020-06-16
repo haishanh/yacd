@@ -6,7 +6,7 @@ type PrimitiveProxyType = 'Shadowsocks' | 'Snell' | 'Socks5' | 'Http' | 'Vmess';
 
 type LatencyHistory = Array<{ time: string; delay: number }>;
 
-type ProxyItem = {
+export type ProxyItem = {
   name: string;
   type: PrimitiveProxyType;
   history: LatencyHistory;
@@ -26,11 +26,12 @@ type FormattedProxyProvider = Omit<ProxyProvider, 'proxies'> & {
   proxies: string[];
 };
 
-type ProxiesDict = { [name: string]: ProxyItem };
+export type ProxiesMapping = Record<string, ProxyItem>;
+export type DelayMapping = Record<string, { number?: number }>;
 
 type ProxiesState = {
-  proxies: ProxiesDict;
-  delay: { [key: string]: { number: number } };
+  proxies: ProxiesMapping;
+  delay: DelayMapping;
   groupNames: string[];
   proxyProviders?: FormattedProxyProvider[];
   dangleProxyNames?: string[];
@@ -61,7 +62,7 @@ const noop = () => null;
 // const ProxyGroupTypes = ['Fallback', 'URLTest', 'Selector', 'LoadBalance'];
 // const ProxyTypes = ['Shadowsocks', 'Snell', 'Socks5', 'Http', 'Vmess'];
 
-const NonProxyTypes = [
+export const NonProxyTypes = [
   'Direct',
   'Fallback',
   'Reject',
@@ -189,7 +190,7 @@ async function closeGroupConns(
 }
 
 function resolveChain(
-  proxies: ProxiesDict,
+  proxies: ProxiesMapping,
   groupName: string,
   itemName: string
 ) {

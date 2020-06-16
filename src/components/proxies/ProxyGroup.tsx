@@ -3,13 +3,18 @@ import memoizeOne from 'memoize-one';
 import { Zap } from 'react-feather';
 
 import { connect, useStoreActions } from '../StateProvider';
-import { getProxies } from '../../store/proxies';
+import {
+  DelayMapping,
+  ProxiesMapping,
+  NonProxyTypes,
+  getProxies,
+  switchProxy,
+} from '../../store/proxies';
 import {
   getCollapsibleIsOpen,
   getProxySortBy,
   getHideUnavailableProxies,
 } from '../../store/app';
-import { switchProxy } from '../../store/proxies';
 import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
 import Button from '../Button';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
@@ -83,11 +88,15 @@ function ProxyGroupImpl({ name, all, type, now, isOpen, apiConfig, dispatch }) {
   );
 }
 
-const getSortDelay = (d, w) => {
+const getSortDelay = (d, proxyInfo) => {
   if (d && typeof d.number === 'number' && d.number > 0) {
     return d.number;
   }
-  return w;
+
+  const type = proxyInfo && proxyInfo.type;
+  if (type && NonProxyTypes.indexOf(type) > -1) return 999998;
+
+  return 999999;
 };
 
 function filterAvailableProxies(list, delay) {
@@ -105,27 +114,33 @@ function filterAvailableProxies(list, delay) {
 }
 
 const ProxySortingFns = {
-  Natural: (proxies, _delay) => {
-    return proxies;
-  },
-  LatencyAsc: (proxies, delay) => {
+  Natural: (proxies: string[]) => proxies,
+  LatencyAsc: (
+    proxies: string[],
+    delay: DelayMapping,
+    proxyMapping?: ProxiesMapping
+  ) => {
     return proxies.sort((a, b) => {
-      const d1 = getSortDelay(delay[a], 999999);
-      const d2 = getSortDelay(delay[b], 999999);
+      const d1 = getSortDelay(delay[a], proxyMapping && proxyMapping[a]);
+      const d2 = getSortDelay(delay[b], proxyMapping && proxyMapping[b]);
       return d1 - d2;
     });
   },
-  LatencyDesc: (proxies, delay) => {
+  LatencyDesc: (
+    proxies: string[],
+    delay: DelayMapping,
+    proxyMapping?: ProxiesMapping
+  ) => {
     return proxies.sort((a, b) => {
-      const d1 = getSortDelay(delay[a], 999999);
-      const d2 = getSortDelay(delay[b], 999999);
+      const d1 = getSortDelay(delay[a], proxyMapping && proxyMapping[a]);
+      const d2 = getSortDelay(delay[b], proxyMapping && proxyMapping[b]);
       return d2 - d1;
     });
   },
-  NameAsc: (proxies) => {
+  NameAsc: (proxies: string[]) => {
     return proxies.sort();
   },
-  NameDesc: (proxies) => {
+  NameDesc: (proxies: string[]) => {
     return proxies.sort((a, b) => {
       if (a > b) return -1;
       if (a < b) return 1;
@@ -135,17 +150,18 @@ const ProxySortingFns = {
 };
 
 function filterAvailableProxiesAndSortImpl(
-  all,
-  delay,
-  hideUnavailableProxies,
-  proxySortBy
+  all: string[],
+  delay: DelayMapping,
+  hideUnavailableProxies: boolean,
+  proxySortBy: string,
+  proxies?: ProxiesMapping
 ) {
   // all is freezed
   let filtered = [...all];
   if (hideUnavailableProxies) {
     filtered = filterAvailableProxies(all, delay);
   }
-  return ProxySortingFns[proxySortBy](filtered, delay);
+  return ProxySortingFns[proxySortBy](filtered, delay, proxies);
 }
 
 export const filterAvailableProxiesAndSort = memoizeOne(
@@ -165,7 +181,8 @@ export const ProxyGroup = connect((s, { name, delay }) => {
       all,
       delay,
       hideUnavailableProxies,
-      proxySortBy
+      proxySortBy,
+      proxies
     ),
     type,
     now,
