@@ -84,18 +84,20 @@ function Proxies({
 
   return (
     <>
-      <div className={s0.topBar}>
-        <Button kind="minimal" onClick={() => setIsSettingsModalOpen(true)}>
-          <Equalizer size={16} />
-        </Button>
-      </div>
       <BaseModal
         isOpen={isSettingsModalOpen}
         onRequestClose={closeSettingsModal}
       >
         <Settings />
       </BaseModal>
-      <ContentHeader title="Proxies" />
+      <div className={s0.topBar}>
+        <ContentHeader title="Proxies" />
+        <div className={s0.settingBtnContainer}>
+          <Button kind="minimal" onClick={() => setIsSettingsModalOpen(true)}>
+            <Equalizer size={16} />
+          </Button>
+        </div>
+      </div>
       <div>
         {groupNames.map((groupName: string) => {
           return (

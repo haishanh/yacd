@@ -1,11 +1,17 @@
 .topBar {
   position: sticky;
   top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   z-index: 1;
   background: var(--color-background);
-  display: flex;
-  justify-content: flex-end;
-  padding: 5px 5px 2px 0;
+  background: linear-gradient(var(--color-background) 70%, transparent);
+}
+
+.settingBtnContainer {
+  margin-right: 20px;
 }
 
 .group {

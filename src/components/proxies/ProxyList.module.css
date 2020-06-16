@@ -2,6 +2,7 @@
   margin: 8px 0;
   display: flex;
   flex-wrap: wrap;
+  margin-left: -3px;
 }
 
 .listSummaryView {
