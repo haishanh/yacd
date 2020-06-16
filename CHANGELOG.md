@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.21](https://github.com/haishanh/yacd/compare/v0.1.20...v0.1.21) (2020-06-17)
+
+Fixed:
+
+- default to big latency for items with unavailable statistics when sorting
+
+Added:
+
+- a toggle to close old connections automatically when switching proxy
+- use special color for non-proxy summary view dot item
+
 ## [0.1.20](https://github.com/haishanh/yacd/compare/v0.1.19...v0.1.20) (2020-06-08)
 
 Changed:
