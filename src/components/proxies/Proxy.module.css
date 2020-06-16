@@ -1,6 +1,7 @@
 .proxy {
-  position: relative;
+  margin: 3px;
   padding: 5px;
+  position: relative;
   border-radius: 8px;
   overflow: hidden;
 

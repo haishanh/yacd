@@ -1,8 +1,7 @@
 .list {
   margin: 8px 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(auto, 280px));
-  grid-gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .listSummaryView {
