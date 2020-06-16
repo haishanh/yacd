@@ -1,6 +1,6 @@
 import * as proxiesAPI from '../api/proxies';
 import * as connAPI from '../api/connections';
-import { getLatencyTestUrl } from './app';
+import { getLatencyTestUrl, getAutoCloseOldConns } from './app';
 
 type PrimitiveProxyType = 'Shadowsocks' | 'Snell' | 'Socks5' | 'Http' | 'Vmess';
 
@@ -29,6 +29,11 @@ type FormattedProxyProvider = Omit<ProxyProvider, 'proxies'> & {
 export type ProxiesMapping = Record<string, ProxyItem>;
 export type DelayMapping = Record<string, { number?: number }>;
 
+type SwitchProxyCtxItem = { groupName: string; itemName: string };
+type SwitchProxyCtx = {
+  to: SwitchProxyCtxItem;
+};
+
 type ProxiesState = {
   proxies: ProxiesMapping;
   delay: DelayMapping;
@@ -37,9 +42,7 @@ type ProxiesState = {
   dangleProxyNames?: string[];
 
   showModalClosePrevConns: boolean;
-  switchProxyCtx?: {
-    to: { groupName: string; itemName: string };
-  };
+  switchProxyCtx?: SwitchProxyCtx;
 };
 
 type GlobalState = {
@@ -207,6 +210,7 @@ function resolveChain(
 
 async function switchProxyImpl(
   dispatch: any,
+  getState: () => GlobalState,
   apiConfig: APIConfig,
   groupName: string,
   itemName: string
@@ -227,10 +231,18 @@ async function switchProxyImpl(
   }
 
   dispatch(fetchProxies(apiConfig));
-  dispatch('showModalClosePrevConns', (s: GlobalState) => {
-    s.proxies.showModalClosePrevConns = true;
-    s.proxies.switchProxyCtx = { to: { groupName, itemName } };
-  });
+  const autoCloseOldConns = getAutoCloseOldConns(getState());
+  if (autoCloseOldConns) {
+    // use fresh state
+    const proxies = getProxies(getState());
+    // no wait
+    closePrevConns(apiConfig, proxies, { groupName, itemName });
+  }
+
+  /* dispatch('showModalClosePrevConns', (s: GlobalState) => { */
+  /*   s.proxies.showModalClosePrevConns = true; */
+  /*   s.proxies.switchProxyCtx = { to: { groupName, itemName } }; */
+  /* }); */
 }
 
 function closeModalClosePrevConns() {
@@ -239,6 +251,18 @@ function closeModalClosePrevConns() {
       s.proxies.showModalClosePrevConns = false;
     });
   };
+}
+
+function closePrevConns(
+  apiConfig: APIConfig,
+  proxies: ProxiesMapping,
+  switchTo: SwitchProxyCtxItem
+) {
+  // we must have fetched the proxies before
+  // so the proxies here is fresh
+  /* const proxies = s.proxies.proxies; */
+  const chain = resolveChain(proxies, switchTo.groupName, switchTo.itemName);
+  closeGroupConns(apiConfig, switchTo.groupName, chain[0]);
 }
 
 function closePrevConnsAndTheModal(apiConfig: APIConfig) {
@@ -253,8 +277,7 @@ function closePrevConnsAndTheModal(apiConfig: APIConfig) {
     // we must have fetched the proxies before
     // so the proxies here is fresh
     const proxies = s.proxies.proxies;
-    const chain = resolveChain(proxies, switchTo.groupName, switchTo.itemName);
-    closeGroupConns(apiConfig, switchTo.groupName, chain[0]);
+    closePrevConns(apiConfig, proxies, switchTo);
 
     dispatch('closePrevConnsAndTheModal', (s: GlobalState) => {
       s.proxies.showModalClosePrevConns = false;
@@ -264,9 +287,11 @@ function closePrevConnsAndTheModal(apiConfig: APIConfig) {
 }
 
 export function switchProxy(apiConfig, groupName, itemName) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     // switch proxy asynchronously
-    switchProxyImpl(dispatch, apiConfig, groupName, itemName).catch(noop);
+    switchProxyImpl(dispatch, getState, apiConfig, groupName, itemName).catch(
+      noop
+    );
 
     // optimistic UI update
     dispatch('store/proxies#switchProxy', (s) => {

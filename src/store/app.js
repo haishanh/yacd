@@ -11,6 +11,7 @@ export const getLatencyTestUrl = (s) => s.app.latencyTestUrl;
 export const getCollapsibleIsOpen = (s) => s.app.collapsibleIsOpen;
 export const getProxySortBy = (s) => s.app.proxySortBy;
 export const getHideUnavailableProxies = (s) => s.app.hideUnavailableProxies;
+export const getAutoCloseOldConns = (s) => s.app.autoCloseOldConns;
 
 const saveStateDebounced = debounce(saveState, 600);
 
@@ -108,6 +109,7 @@ const defaultState = {
   // how proxies are sorted in a group or provider
   proxySortBy: 'Natural',
   hideUnavailableProxies: false,
+  autoCloseOldConns: false,
 };
 
 function parseConfigQueryString() {

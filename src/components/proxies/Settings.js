@@ -1,6 +1,10 @@
 import * as React from 'react';
 
-import { getProxySortBy, getHideUnavailableProxies } from '../../store/app';
+import {
+  getAutoCloseOldConns,
+  getProxySortBy,
+  getHideUnavailableProxies,
+} from '../../store/app';
 
 import Switch from '../SwitchThemed';
 import { connect, useStoreActions } from '../StateProvider';
@@ -58,6 +62,16 @@ function Settings({ appConfig }) {
           />
         </div>
       </div>
+      <div className={s.labeledInput}>
+        <span>Automatically close old connections</span>
+        <div>
+          <Switch
+            name="autoCloseOldConns"
+            checked={appConfig.autoCloseOldConns}
+            onChange={(v) => updateAppConfig('autoCloseOldConns', v)}
+          />
+        </div>
+      </div>
     </>
   );
 }
@@ -65,10 +79,13 @@ function Settings({ appConfig }) {
 const mapState = (s) => {
   const proxySortBy = getProxySortBy(s);
   const hideUnavailableProxies = getHideUnavailableProxies(s);
+  const autoCloseOldConns = getAutoCloseOldConns(s);
+
   return {
     appConfig: {
       proxySortBy,
       hideUnavailableProxies,
+      autoCloseOldConns,
     },
   };
 };
