@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.22](https://github.com/haishanh/yacd/compare/v0.1.21...v0.1.22) (2020-06-18)
+
+Fixed:
+
+- fix mode switching
+- fix broken "Hide unavailable proxies" setting
+
+Changed:
+
+- make proxy group lowest latency item when sorting by latency
+
 ## [0.1.21](https://github.com/haishanh/yacd/compare/v0.1.20...v0.1.21) (2020-06-17)
 
 Fixed:
