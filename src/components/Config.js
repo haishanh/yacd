@@ -20,7 +20,7 @@ import TrafficChartSample from './TrafficChartSample';
 
 import s0 from './Config.module.css';
 
-const { useEffect, useState, useCallback, useRef } = React;
+const { useEffect, useState, useCallback, useRef, useMemo } = React;
 
 const propsList = [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }];
 
@@ -172,6 +172,11 @@ function ConfigImpl({
     [apiConfig, dispatch, updateAppConfig]
   );
 
+  const mode = useMemo(() => {
+    const m = configState.mode;
+    return typeof m === 'string' && m[0].toUpperCase() + m.slice(1);
+  }, [configState.mode]);
+
   return (
     <div>
       <ContentHeader title="Config" />
@@ -220,7 +225,7 @@ function ConfigImpl({
           <ToggleSwitch
             options={optionsRule}
             name="mode"
-            value={configState.mode}
+            value={mode}
             onChange={handleInputOnChange}
           />
         </div>
