@@ -94,7 +94,7 @@ const getSortDelay = (d, proxyInfo) => {
   }
 
   const type = proxyInfo && proxyInfo.type;
-  if (type && NonProxyTypes.indexOf(type) > -1) return 999998;
+  if (type && NonProxyTypes.indexOf(type) > -1) return -1;
 
   return 999999;
 };
