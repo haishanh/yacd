@@ -2,13 +2,12 @@ import * as React from 'react';
 
 import {
   getAutoCloseOldConns,
-  getProxySortBy,
   getHideUnavailableProxies,
+  getProxySortBy,
 } from '../../store/app';
-
-import Switch from '../SwitchThemed';
-import { connect, useStoreActions } from '../StateProvider';
 import Select from '../shared/Select';
+import { connect, useStoreActions } from '../StateProvider';
+import Switch from '../SwitchThemed';
 import s from './Settings.module.css';
 
 const options = [

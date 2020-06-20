@@ -1,9 +1,8 @@
-import * as React from 'react';
 import cx from 'clsx';
-
-import { LoadingDot } from './shared/Basic';
+import * as React from 'react';
 
 import s0 from './Button.module.css';
+import { LoadingDot } from './shared/Basic';
 
 const { memo, forwardRef, useCallback } = React;
 

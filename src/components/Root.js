@@ -1,18 +1,21 @@
-import React, { Suspense } from 'react';
-import StateProvider from './StateProvider';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
-import Loading2 from './Loading2';
-import ErrorBoundary from './ErrorBoundary';
-import SideBar from './SideBar';
-import Home from './Home';
-import Logs from './Logs';
-import Config from './Config';
-import StyleGuide from './StyleGuide';
-import Connections from './Connections';
-import APIDiscovery from './APIDiscovery';
-import { initialState, actions } from '../store';
 import './Root.css';
+
+import React, { Suspense } from 'react';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+
+import { actions, initialState } from '../store';
+import APIDiscovery from './APIDiscovery';
+import Config from './Config';
+import Connections from './Connections';
+import ErrorBoundary from './ErrorBoundary';
+import Home from './Home';
+import Loading2 from './Loading2';
+import Logs from './Logs';
 import s0 from './Root.module.css';
+import SideBar from './SideBar';
+import StateProvider from './StateProvider';
+import StyleGuide from './StyleGuide';
 
 const Proxies = React.lazy(() =>
   import(
@@ -43,23 +46,25 @@ const routes = [
 
 const Root = () => (
   <ErrorBoundary>
-    <StateProvider initialState={initialState} actions={actions}>
-      <Router>
-        <div className={s0.app}>
-          <APIDiscovery />
-          <SideBar />
-          <div className={s0.content}>
-            <Suspense fallback={<Loading2 />}>
-              <Routes>
-                {routes.map(([key, path, element]) => (
-                  <Route key={key} path={path} element={element} />
-                ))}
-              </Routes>
-            </Suspense>
+    <RecoilRoot>
+      <StateProvider initialState={initialState} actions={actions}>
+        <Router>
+          <div className={s0.app}>
+            <APIDiscovery />
+            <SideBar />
+            <div className={s0.content}>
+              <Suspense fallback={<Loading2 />}>
+                <Routes>
+                  {routes.map(([key, path, element]) => (
+                    <Route key={key} path={path} element={element} />
+                  ))}
+                </Routes>
+              </Suspense>
+            </div>
           </div>
-        </div>
-      </Router>
-    </StateProvider>
+        </Router>
+      </StateProvider>
+    </RecoilRoot>
   </ErrorBoundary>
 );
 

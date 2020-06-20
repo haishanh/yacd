@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { Proxy, ProxySmall } from './Proxy';
-
 import s from './ProxyList.module.css';
 
 type ProxyListProps = {

@@ -1,16 +1,13 @@
 import React from 'react';
+
 import { DOES_NOT_SUPPORT_FETCH, errors } from '../misc/errors';
-
-import { connect } from './StateProvider';
-
-import Modal from './Modal';
-import APIConfig from './APIConfig';
-
 import { getClashAPIConfig } from '../store/app';
-import { closeModal } from '../store/modals';
 import { fetchConfigs } from '../store/configs';
-
+import { closeModal } from '../store/modals';
+import APIConfig from './APIConfig';
 import s0 from './APIDiscovery.module.css';
+import Modal from './Modal';
+import { connect } from './StateProvider';
 
 const { useCallback, useEffect } = React;
 
@@ -45,9 +42,9 @@ function APIDiscovery({ dispatch, apiConfig, modals }) {
   );
 }
 
-const mapState = s => ({
+const mapState = (s) => ({
   modals: s.modals,
-  apiConfig: getClashAPIConfig(s)
+  apiConfig: getClashAPIConfig(s),
 });
 
 export default connect(mapState)(APIDiscovery);

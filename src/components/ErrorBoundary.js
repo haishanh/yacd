@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import { deriveMessageFromError } from '../misc/errors';
 import { getSentry } from '../misc/sentry';
 import ErrorBoundaryFallback from './ErrorBoundaryFallback';
-import { deriveMessageFromError } from '../misc/errors';
 
 // XXX this is no Hook equivalents for componentDidCatch
 // we have to use class for now
 
 class ErrorBoundary extends Component {
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   };
 
   state = { error: null };
@@ -45,7 +46,7 @@ class ErrorBoundary extends Component {
   }
 
   showReportDialog = () => {
-    this.loadSentry().then(Sentry => Sentry.showReportDialog());
+    this.loadSentry().then((Sentry) => Sentry.showReportDialog());
   };
 
   render() {

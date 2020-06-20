@@ -1,6 +1,6 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
-import { motion } from 'framer-motion';
 
 const { memo, useState, useRef, useEffect } = React;
 
@@ -24,29 +24,29 @@ function useMeasure() {
 const variantsCollpapsibleWrap = {
   initialOpen: {
     height: 'auto',
-    transition: { duration: 0 }
+    transition: { duration: 0 },
   },
-  open: height => ({
+  open: (height) => ({
     height,
     opacity: 1,
     visibility: 'visible',
-    transition: { duration: 0.3 }
+    transition: { duration: 0.3 },
   }),
   closed: {
     height: 0,
     opacity: 0,
     visibility: 'hidden',
-    transition: { duration: 0.3 }
-  }
+    transition: { duration: 0.3 },
+  },
 };
 
 const variantsCollpapsibleChildContainer = {
   open: {
-    x: 0
+    x: 0,
   },
   closed: {
-    x: 20
-  }
+    x: 20,
+  },
 };
 
 const Collapsible = memo(({ children, isOpen }) => {

@@ -1,27 +1,28 @@
-import * as rulesAPI from '../api/rules';
 import invariant from 'invariant';
 import { createSelector } from 'reselect';
 
-export const getAllRules = s => s.rules.allRules;
-export const getSearchText = s => s.rules.searchText;
+import * as rulesAPI from '../api/rules';
+
+export const getAllRules = (s) => s.rules.allRules;
+export const getSearchText = (s) => s.rules.searchText;
 export const getRules = createSelector(
   getSearchText,
   getAllRules,
   (searchText, allRules) => {
     if (searchText === '') return allRules;
-    return allRules.filter(r => r.payload.indexOf(searchText) >= 0);
+    return allRules.filter((r) => r.payload.indexOf(searchText) >= 0);
   }
 );
 export function updateSearchText(text) {
-  return dispatch => {
-    dispatch('rulesUpdateSearchText', s => {
+  return (dispatch) => {
+    dispatch('rulesUpdateSearchText', (s) => {
       s.rules.searchText = text.toLowerCase();
     });
   };
 }
 
 export function fetchRules(apiConfig) {
-  return async dispatch => {
+  return async (dispatch) => {
     const res = await rulesAPI.fetchRules(apiConfig);
     const json = await res.json();
     invariant(
@@ -35,7 +36,7 @@ export function fetchRules(apiConfig) {
       return r;
     });
 
-    dispatch('rulesFetchRules', s => {
+    dispatch('rulesFetchRules', (s) => {
       s.rules.allRules = allRules;
     });
   };
@@ -53,5 +54,5 @@ export function fetchRulesOnce(apiConfig) {
 export const initialState = {
   // filteredRules: [],
   allRules: [],
-  searchText: ''
+  searchText: '',
 };

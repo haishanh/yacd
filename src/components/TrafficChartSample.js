@@ -1,19 +1,20 @@
 import React, { useMemo } from 'react';
+
 import useLineChart from '../hooks/useLineChart';
 import {
   chartJSResource,
+  chartStyles,
   commonDataSetProps,
-  chartStyles
 } from '../misc/chart';
 
 const extraChartOptions = {
   legend: {
-    display: false
+    display: false,
   },
   scales: {
     xAxes: [{ display: false }],
-    yAxes: [{ display: false }]
-  }
+    yAxes: [{ display: false }],
+  },
 };
 
 const data1 = [23e3, 35e3, 46e3, 33e3, 90e3, 68e3, 23e3, 45e3];
@@ -30,14 +31,14 @@ export default function TrafficChart({ id }) {
         {
           ...commonDataSetProps,
           ...chartStyles[id].up,
-          data: data1
+          data: data1,
         },
         {
           ...commonDataSetProps,
           ...chartStyles[id].down,
-          data: data2
-        }
-      ]
+          data: data2,
+        },
+      ],
     }),
     [id]
   );
@@ -49,7 +50,7 @@ export default function TrafficChart({ id }) {
     <div
       style={{
         width: 130,
-        padding: 5
+        padding: 5,
       }}
     >
       <canvas id={eleId} />

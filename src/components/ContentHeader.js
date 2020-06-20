@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import s0 from './ContentHeader.module.css';
 
@@ -12,7 +12,7 @@ function ContentHeader({ title }) {
 }
 
 ContentHeader.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 };
 
 export default React.memo(ContentHeader);

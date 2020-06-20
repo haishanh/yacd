@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import s from './Field.module.css';
 
 const { useCallback } = React;

@@ -1,5 +1,6 @@
-import { Fab, Action } from 'react-tiny-fab';
 import './rtf.css';
+
+import { Action,Fab } from 'react-tiny-fab';
 
 export const position = {
   right: 10,

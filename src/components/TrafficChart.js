@@ -1,23 +1,24 @@
 import React, { useMemo } from 'react';
+
 import { fetchData } from '../api/traffic';
 import useLineChart from '../hooks/useLineChart';
-import { connect } from './StateProvider';
-import { getClashAPIConfig, getSelectedChartStyleIndex } from '../store/app';
 import {
   chartJSResource,
+  chartStyles,
   commonDataSetProps,
-  chartStyles
 } from '../misc/chart';
+import { getClashAPIConfig, getSelectedChartStyleIndex } from '../store/app';
+import { connect } from './StateProvider';
 
 const chartWrapperStyle = {
   // make chartjs chart responsive
   position: 'relative',
-  maxWidth: 1000
+  maxWidth: 1000,
 };
 
-const mapState = s => ({
+const mapState = (s) => ({
   apiConfig: getClashAPIConfig(s),
-  selectedChartStyleIndex: getSelectedChartStyleIndex(s)
+  selectedChartStyleIndex: getSelectedChartStyleIndex(s),
 });
 
 export default connect(mapState)(TrafficChart);
@@ -34,15 +35,15 @@ function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
           ...commonDataSetProps,
           ...chartStyles[selectedChartStyleIndex].up,
           label: 'Up',
-          data: traffic.up
+          data: traffic.up,
         },
         {
           ...commonDataSetProps,
           ...chartStyles[selectedChartStyleIndex].down,
           label: 'Down',
-          data: traffic.down
-        }
-      ]
+          data: traffic.down,
+        },
+      ],
     }),
     [traffic, selectedChartStyleIndex]
   );

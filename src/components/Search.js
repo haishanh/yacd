@@ -1,15 +1,13 @@
-import React, { useState, useMemo, useCallback } from 'react';
-
-import { Search as SearchIcon } from 'react-feather';
-
 import debounce from 'lodash-es/debounce';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Search as SearchIcon } from 'react-feather';
 
 import s0 from './Search.module.css';
 
 function RuleSearch({ dispatch, searchText, updateSearchText }) {
   const [text, setText] = useState(searchText);
   const updateSearchTextInternal = useCallback(
-    v => {
+    (v) => {
       dispatch(updateSearchText(v));
     },
     [dispatch, updateSearchText]
@@ -18,7 +16,7 @@ function RuleSearch({ dispatch, searchText, updateSearchText }) {
     () => debounce(updateSearchTextInternal, 300),
     [updateSearchTextInternal]
   );
-  const onChange = e => {
+  const onChange = (e) => {
     setText(e.target.value);
     updateSearchTextDebounced(e.target.value);
   };

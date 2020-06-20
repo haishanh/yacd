@@ -1,10 +1,10 @@
+import cx from 'clsx';
+import { formatDistance } from 'date-fns';
 import React from 'react';
 import { ChevronDown } from 'react-feather';
-import prettyBytes from '../misc/pretty-bytes';
-import { formatDistance } from 'date-fns';
-import cx from 'clsx';
-import { useTable, useSortBy } from 'react-table';
+import { useSortBy, useTable } from 'react-table';
 
+import prettyBytes from '../misc/pretty-bytes';
 import s from './ConnectionTable.module.css';
 
 const columns = [

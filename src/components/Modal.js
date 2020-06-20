@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Modal from 'react-modal';
 import cx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Modal from 'react-modal';
 
 import s0 from './Modal.module.css';
 

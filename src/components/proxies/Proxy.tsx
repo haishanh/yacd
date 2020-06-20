@@ -1,12 +1,10 @@
+import cx from 'clsx';
 import * as React from 'react';
 
-import cx from 'clsx';
-
+import { getDelay,getProxies, NonProxyTypes } from '../../store/proxies';
 import { connect } from '../StateProvider';
-import { ProxyLatency } from './ProxyLatency';
-import { NonProxyTypes, getProxies, getDelay } from '../../store/proxies';
-
 import s0 from './Proxy.module.css';
+import { ProxyLatency } from './ProxyLatency';
 
 const { useMemo } = React;
 

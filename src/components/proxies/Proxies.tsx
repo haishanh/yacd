@@ -1,30 +1,27 @@
 import * as React from 'react';
-
-import { connect, useStoreActions } from '../StateProvider';
-
-import Button from '../Button';
-import ContentHeader from '../ContentHeader';
-import { ProxyGroup } from './ProxyGroup';
-import BaseModal from '../shared/BaseModal';
-import Settings from './Settings';
-import { ClosePrevConns } from './ClosePrevConns';
-import Equalizer from '../svg/Equalizer';
 import { Zap } from 'react-feather';
 
-import { ProxyProviderList } from './ProxyProviderList';
-import { Fab, position as fabPosition } from '../shared/Fab';
-
-import s0 from './Proxies.module.css';
-
+import { getClashAPIConfig } from '../../store/app';
 import {
+  fetchProxies,
   getDelay,
   getProxyGroupNames,
   getProxyProviders,
   getShowModalClosePrevConns,
-  fetchProxies,
   requestDelayAll,
 } from '../../store/proxies';
-import { getClashAPIConfig } from '../../store/app';
+import Button from '../Button';
+import ContentHeader from '../ContentHeader';
+import BaseModal from '../shared/BaseModal';
+import { Fab, position as fabPosition } from '../shared/Fab';
+import { connect, useStoreActions } from '../StateProvider';
+import Equalizer from '../svg/Equalizer';
+import { ClosePrevConns } from './ClosePrevConns';
+import s0 from './Proxies.module.css';
+import { ProxyGroup } from './ProxyGroup';
+import { ProxyProviderList } from './ProxyProviderList';
+import Settings from './Settings';
+import { TextFilter } from './TextFilter';
 
 const { useState, useEffect, useCallback, useRef } = React;
 
@@ -92,7 +89,10 @@ function Proxies({
       </BaseModal>
       <div className={s0.topBar}>
         <ContentHeader title="Proxies" />
-        <div className={s0.settingBtnContainer}>
+        <div className={s0.topBarRight}>
+          <div className={s0.textFilterContainer}>
+            <TextFilter />
+          </div>
           <Button kind="minimal" onClick={() => setIsSettingsModalOpen(true)}>
             <Equalizer size={16} />
           </Button>

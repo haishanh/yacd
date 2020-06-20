@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function SvgGithub({ width = 24, height = 24 } = {}) {
   return (
@@ -21,5 +21,5 @@ export default function SvgGithub({ width = 24, height = 24 } = {}) {
 
 SvgGithub.propTypes = {
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
 };

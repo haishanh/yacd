@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const Icon = ({ id, width = 20, height = 20, className, ...props }) => {
   const c = cx('icon', id, className);

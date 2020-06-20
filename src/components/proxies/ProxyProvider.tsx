@@ -1,27 +1,26 @@
-import * as React from 'react';
-import { RotateCw, Zap } from 'react-feather';
 import { formatDistance } from 'date-fns';
 import { motion } from 'framer-motion';
-
-import { connect, useStoreActions } from '../StateProvider';
-import Collapsible from '../Collapsible';
-import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
-import { filterAvailableProxiesAndSort } from './ProxyGroup';
-import { ProxyList, ProxyListSummaryView } from './ProxyList';
-import Button from '../Button';
+import * as React from 'react';
+import { RotateCw, Zap } from 'react-feather';
 
 import {
   getClashAPIConfig,
   getCollapsibleIsOpen,
-  getProxySortBy,
   getHideUnavailableProxies,
+  getProxySortBy,
 } from '../../store/app';
 import {
+  DelayMapping,
   getDelay,
-  updateProviderByName,
   healthcheckProviderByName,
+  updateProviderByName,
 } from '../../store/proxies';
-
+import Button from '../Button';
+import Collapsible from '../Collapsible';
+import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
+import { connect, useStoreActions } from '../StateProvider';
+import { useFilteredAndSorted } from './hooks';
+import { ProxyList, ProxyListSummaryView } from './ProxyList';
 import s from './ProxyProvider.module.css';
 
 const { useState, useCallback } = React;
@@ -29,6 +28,9 @@ const { useState, useCallback } = React;
 type Props = {
   name: string;
   proxies: Array<string>;
+  delay: DelayMapping;
+  hideUnavailableProxies: boolean;
+  proxySortBy: string;
   type: 'Proxy' | 'Rule';
   vehicleType: 'HTTP' | 'File' | 'Compatible';
   updatedAt?: string;
@@ -39,13 +41,22 @@ type Props = {
 
 function ProxyProviderImpl({
   name,
-  proxies,
+  proxies: all,
+  delay,
+  hideUnavailableProxies,
+  proxySortBy,
   vehicleType,
   updatedAt,
   isOpen,
   dispatch,
   apiConfig,
 }: Props) {
+  const proxies = useFilteredAndSorted(
+    all,
+    delay,
+    hideUnavailableProxies,
+    proxySortBy
+  );
   const [isHealthcheckLoading, setIsHealthcheckLoading] = useState(false);
   const updateProvider = useCallback(
     () => dispatch(updateProviderByName(apiConfig, name)),
@@ -131,12 +142,10 @@ const mapState = (s, { proxies, name }) => {
 
   return {
     apiConfig,
-    proxies: filterAvailableProxiesAndSort(
-      proxies,
-      delay,
-      hideUnavailableProxies,
-      proxySortBy
-    ),
+    proxies,
+    delay,
+    hideUnavailableProxies,
+    proxySortBy,
     isOpen: collapsibleIsOpen[`proxyProvider:${name}`],
   };
 };

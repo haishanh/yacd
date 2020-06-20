@@ -4,11 +4,11 @@ import {
   updateAppConfig,
   updateCollapsibleIsOpen,
 } from './app';
-import { initialState as proxies, actions as proxiesActions } from './proxies';
-import { initialState as modals } from './modals';
 import { initialState as configs } from './configs';
-import { initialState as rules } from './rules';
 import { initialState as logs } from './logs';
+import { initialState as modals } from './modals';
+import { actions as proxiesActions, initialState as proxies } from './proxies';
+import { initialState as rules } from './rules';
 
 export const initialState = {
   app: app(),

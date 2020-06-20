@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import s from './Styled.module.css';
 
 export function FlexCenter({ children }: { children: React.ReactNode }) {

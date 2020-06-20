@@ -1,12 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import s0 from './Rule.module.css';
 
 const colorMap = {
   _default: '#59caf9',
   DIRECT: '#f5bc41',
-  REJECT: '#cb3166'
+  REJECT: '#cb3166',
 };
 
 function getStyleFor({ proxy }) {
@@ -37,7 +37,7 @@ Rule.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
   payload: PropTypes.string,
-  proxy: PropTypes.string
+  proxy: PropTypes.string,
 };
 
 export default Rule;

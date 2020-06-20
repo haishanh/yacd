@@ -1,8 +1,8 @@
 import React from 'react';
 import Switch from 'react-switch';
 
-import { connect } from './StateProvider';
 import { getTheme } from '../store/app';
+import { connect } from './StateProvider';
 
 function SwitchThemed({ checked = false, onChange, theme, name }) {
   const offColor = theme === 'dark' ? '#393939' : '#e9e9e9';
@@ -26,6 +26,6 @@ function SwitchThemed({ checked = false, onChange, theme, name }) {
   );
 }
 
-export default connect(s => ({
-  theme: getTheme(s)
+export default connect((s) => ({
+  theme: getTheme(s),
 }))(SwitchThemed);

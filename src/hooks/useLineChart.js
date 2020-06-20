@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { commonChartOptions } from '../misc/chart';
 
 const { useEffect } = React;
@@ -16,7 +17,7 @@ export default function useLineChart(
     const c = new Chart(ctx, {
       type: 'line',
       data,
-      options: { ...options, ...extraChartOptions }
+      options: { ...options, ...extraChartOptions },
     });
     const unsubscribe =
       subscription && subscription.subscribe(() => c.update());

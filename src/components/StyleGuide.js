@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
-
 import { Zap } from 'react-feather';
 
+import Button from './Button';
+import Input from './Input';
+import { LoadingDot } from './shared/Basic';
 import SwitchThemed from './SwitchThemed';
 import ToggleSwitch from './ToggleSwitch';
-import Input from './Input';
-import Button from './Button';
-import { LoadingDot } from './shared/Basic';
 
 const noop = () => {
   /* empty */

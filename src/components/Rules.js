@@ -1,20 +1,18 @@
 import React from 'react';
-import { FixedSizeList as List, areEqual } from 'react-window';
 import { RotateCw } from 'react-feather';
+import { areEqual, FixedSizeList as List } from 'react-window';
 
-import { Fab, position as fabPosition } from './shared/Fab';
-import { connect } from './StateProvider';
+import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';
+import { fetchRules, fetchRulesOnce, getRules } from '../store/rules';
 import ContentHeader from './ContentHeader';
 import Rule from './Rule';
 import RuleSearch from './RuleSearch';
-import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
-
-import { getRules, fetchRules, fetchRulesOnce } from '../store/rules';
+import { Fab, position as fabPosition } from './shared/Fab';
+import { connect } from './StateProvider';
 
 const { memo, useEffect, useMemo, useCallback } = React;
 
-// import s from './Rules.module.css';
 const paddingBottom = 30;
 
 function itemKey(index, data) {

@@ -5,13 +5,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   z-index: 1;
   background: var(--color-background);
   background: linear-gradient(var(--color-background) 70%, transparent);
 }
 
-.settingBtnContainer {
+.topBarRight {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: flex-end;
+
   margin-right: 20px;
+}
+
+.textFilterContainer {
+  max-width: 350px;
+  min-width: 150px;
+  flex: 1;
+  margin-right: 8px;
 }
 
 .group {

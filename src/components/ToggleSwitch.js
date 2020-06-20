@@ -1,5 +1,5 @@
-import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
 
 import s0 from './ToggleSwitch.module.css';
 

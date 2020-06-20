@@ -1,9 +1,8 @@
-import React from 'react';
-
-import Modal from 'react-modal';
-import Button from './Button';
 import cx from 'clsx';
+import React from 'react';
+import Modal from 'react-modal';
 
+import Button from './Button';
 import modalStyle from './Modal.module.css';
 import s from './ModalCloseAllConnections.module.css';
 

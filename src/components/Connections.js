@@ -1,18 +1,19 @@
+import './Connections.css';
+
 import React from 'react';
-import ContentHeader from './ContentHeader';
-import ConnectionTable from './ConnectionTable';
+import { Pause, Play, X as IconClose } from 'react-feather';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+
+import * as connAPI from '../api/connections';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';
-import { X as IconClose, Pause, Play } from 'react-feather';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import SvgYacd from './SvgYacd';
-import ModalCloseAllConnections from './ModalCloseAllConnections';
-import { connect } from './StateProvider';
-import * as connAPI from '../api/connections';
-import { Fab, Action, position as fabPosition } from './shared/Fab';
-
-import './Connections.css';
 import s from './Connections.module.css';
+import ConnectionTable from './ConnectionTable';
+import ContentHeader from './ContentHeader';
+import ModalCloseAllConnections from './ModalCloseAllConnections';
+import { Action, Fab, position as fabPosition } from './shared/Fab';
+import { connect } from './StateProvider';
+import SvgYacd from './SvgYacd';
 
 const { useEffect, useState, useRef, useCallback } = React;
 

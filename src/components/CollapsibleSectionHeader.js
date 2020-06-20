@@ -1,11 +1,10 @@
+import cx from 'clsx';
 import React from 'react';
 import { ChevronDown } from 'react-feather';
-import cx from 'clsx';
 
-import { SectionNameType } from './shared/Basic';
 import Button from './Button';
-
 import s from './CollapsibleSectionHeader.module.css';
+import { SectionNameType } from './shared/Basic';
 
 type Props = {
   name: string,

@@ -1,7 +1,6 @@
-import * as React from 'react';
-
-import Modal from 'react-modal';
 import cx from 'clsx';
+import * as React from 'react';
+import Modal from 'react-modal';
 
 import modalStyle from '../Modal.module.css';
 import s from './BaseModal.module.css';

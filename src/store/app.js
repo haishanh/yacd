@@ -1,6 +1,5 @@
-import { loadState, saveState, clearState } from '../misc/storage';
+import { clearState, loadState, saveState } from '../misc/storage';
 import { debounce } from '../misc/utils';
-
 import { fetchConfigs } from './configs';
 import { closeModal } from './modals';
 

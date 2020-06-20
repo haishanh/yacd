@@ -1,24 +1,22 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-import { connect, useStoreActions } from './StateProvider';
-import { getConfigs, fetchConfigs, updateConfigs } from '../store/configs';
 import {
-  getClashAPIConfig,
-  getSelectedChartStyleIndex,
-  getLatencyTestUrl,
   clearStorage,
+  getClashAPIConfig,
+  getLatencyTestUrl,
+  getSelectedChartStyleIndex,
 } from '../store/app';
-
+import { fetchConfigs, getConfigs, updateConfigs } from '../store/configs';
+import Button from './Button';
+import s0 from './Config.module.css';
 import ContentHeader from './ContentHeader';
+import Input, { SelfControlledInput } from './Input';
+import Selection from './Selection';
+import { connect, useStoreActions } from './StateProvider';
 import Switch from './SwitchThemed';
 import ToggleSwitch from './ToggleSwitch';
-import Input, { SelfControlledInput } from './Input';
-import Button from './Button';
-import Selection from './Selection';
 import TrafficChartSample from './TrafficChartSample';
-
-import s0 from './Config.module.css';
 
 const { useEffect, useState, useCallback, useRef, useMemo } = React;
 

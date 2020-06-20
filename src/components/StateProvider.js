@@ -1,5 +1,5 @@
-import React from 'react';
 import produce, * as immer from 'immer';
+import React from 'react';
 
 const {
   createContext,

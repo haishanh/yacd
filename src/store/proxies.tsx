@@ -1,6 +1,8 @@
-import * as proxiesAPI from '../api/proxies';
+import { atom } from 'recoil';
+
 import * as connAPI from '../api/connections';
-import { getLatencyTestUrl, getAutoCloseOldConns } from './app';
+import * as proxiesAPI from '../api/proxies';
+import { getAutoCloseOldConns,getLatencyTestUrl } from './app';
 
 type PrimitiveProxyType = 'Shadowsocks' | 'Snell' | 'Socks5' | 'Http' | 'Vmess';
 
@@ -435,3 +437,8 @@ export const actions = {
   closeModalClosePrevConns,
   closePrevConnsAndTheModal,
 };
+
+export const proxyFilterText = atom({
+  key: 'proxyFilterText',
+  default: '',
+});

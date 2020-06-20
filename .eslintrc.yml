@@ -10,6 +10,9 @@ extends:
   - prettier/@typescript-eslint
   - react-app
 
+plugins:
+  - simple-import-sort
+
 env:
   node: true
   jest: true
@@ -24,16 +27,18 @@ rules:
   '@typescript-eslint/camelcase': 'off'
   '@typescript-eslint/no-unused-vars':
     - 'error'
-    - { argsIgnorePattern: '^_' }
+    - argsIgnorePattern: '^_'
   '@typescript-eslint/no-use-before-define':
     - error
     - functions: false
-
   # disable this temporarily since we have a lot of JS files
   # and typescript-eslint runs against JS files too
   '@typescript-eslint/explicit-module-boundary-types': off
-
   react-hooks/rules-of-hooks: error
+  react-hooks/exhaustive-deps:
+    - warn
+    - additionalHooks: useRecoilCallback
+  simple-import-sort/sort: error
 #   quotes: ["error", "single"]
 #   strict: ["error", "never"]
 #   no-console: "warn"

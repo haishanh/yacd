@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import s0 from './Loading.module.css';
 
@@ -13,7 +13,7 @@ const Loading = ({ height }) => {
 };
 
 Loading.propTypes = {
-  height: PropTypes.string
+  height: PropTypes.string,
 };
 
 export default Loading;

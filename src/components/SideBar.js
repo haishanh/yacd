@@ -1,23 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'clsx';
 import { motion } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import React from 'react';
 // import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
 import {
   FcAreaChart,
-  FcGlobe,
-  FcRuler,
   FcDocument,
-  FcSettings,
+  FcGlobe,
   FcLink,
+  FcRuler,
+  FcSettings,
 } from 'react-icons/fc';
+import { Link, useLocation } from 'react-router-dom';
 
-import { connect } from './StateProvider';
 import { getTheme, switchTheme } from '../store/app';
-
-import SvgYacd from './SvgYacd';
 import s from './SideBar.module.css';
+import { connect } from './StateProvider';
+import SvgYacd from './SvgYacd';
 
 const { useCallback } = React;
 
