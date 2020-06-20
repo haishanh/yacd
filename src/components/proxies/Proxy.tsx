@@ -1,7 +1,7 @@
 import cx from 'clsx';
 import * as React from 'react';
 
-import { getDelay,getProxies, NonProxyTypes } from '../../store/proxies';
+import { getDelay, getProxies, NonProxyTypes } from '../../store/proxies';
 import { connect } from '../StateProvider';
 import s0 from './Proxy.module.css';
 import { ProxyLatency } from './ProxyLatency';
@@ -24,7 +24,9 @@ function getLabelColor({
 }: {
   number?: number;
 } = {}) {
-  if (number < 200) {
+  if (number === 0) {
+    return colorMap.na;
+  } else if (number < 200) {
     return colorMap.good;
   } else if (number < 400) {
     return colorMap.normal;
