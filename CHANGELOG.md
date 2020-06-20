@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.23](https://github.com/haishanh/yacd/compare/v0.1.22...v0.1.23) (2020-06-20)
+
+Added:
+
+- add a simple filter for proxy names
+
+Fixed:
+
+- fix color display for unavailable proxy item
+
 ## [0.1.22](https://github.com/haishanh/yacd/compare/v0.1.21...v0.1.22) (2020-06-18)
 
 Fixed:
