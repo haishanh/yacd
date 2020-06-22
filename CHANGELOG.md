@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.24](https://github.com/haishanh/yacd/compare/v0.1.23...v0.1.24) (2020-06-22)
+
+Fixed:
+
+- fix can not type in Chinese in proxy text filter input
+
 ## [0.1.23](https://github.com/haishanh/yacd/compare/v0.1.22...v0.1.23) (2020-06-20)
 
 Added:
