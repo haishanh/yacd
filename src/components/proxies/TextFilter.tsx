@@ -1,24 +1,31 @@
+import debounce from 'lodash-es/debounce';
 import * as React from 'react';
 import { useRecoilState } from 'recoil';
 
 import { proxyFilterText } from '../../store/proxies';
 import shared from '../shared.module.css';
 
-const { useCallback } = React;
+const { useCallback, useState, useMemo } = React;
 
 export function TextFilter() {
-  const [text, setText] = useRecoilState(proxyFilterText);
+  const [, setTextGlobal] = useRecoilState(proxyFilterText);
+  const [text, setText] = useState('');
+
+  const setTextDebounced = useMemo(() => debounce(setTextGlobal, 300), [
+    setTextGlobal,
+  ]);
+
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setText(e.target.value);
+      setTextDebounced(e.target.value);
     },
-    [setText]
+    [setTextDebounced]
   );
 
   return (
     <input
       className={shared.input}
-      spellCheck={false}
       type="text"
       value={text}
       onChange={onChange}
