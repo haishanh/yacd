@@ -63,7 +63,7 @@ const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
 const plugins = [
   html,
   definePlugin,
-  new ForkTsCheckerWebpackPlugin({ eslint: false }),
+  new ForkTsCheckerWebpackPlugin(),
   new ForkTsCheckerNotifierWebpackPlugin({
     title: 'TypeScript',
     excludeWarnings: false,
@@ -96,6 +96,9 @@ module.exports = {
   mode: isDev ? 'development' : 'production',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
+    alias: {
+      src: path.resolve(__dirname, 'src'),
+    },
   },
   module: {
     rules: [
