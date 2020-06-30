@@ -60,6 +60,13 @@ const optionsLogLevel = [
   },
 ];
 
+const portFields = [
+  { key: 'port', label: 'HTTP Proxy Port' },
+  { key: 'socks-port', label: 'SOCKS5 Proxy Port' },
+  { key: 'mixed-port', label: 'Mixed Port' },
+  { key: 'redir-port', label: 'Redir Port' },
+];
+
 const mapState = (s) => ({
   configs: getConfigs(s),
   apiConfig: getClashAPIConfig(s),
@@ -153,6 +160,7 @@ function ConfigImpl({
       switch (name) {
         case 'port':
         case 'socks-port':
+        case 'mixed-port':
         case 'redir-port': {
           const num = parseInt(value, 10);
           if (num < 0 || num > 65535) return;
@@ -179,36 +187,19 @@ function ConfigImpl({
     <div>
       <ContentHeader title="Config" />
       <div className={s0.root}>
-        <div>
-          <div className={s0.label}>HTTP Proxy Port</div>
-          <Input
-            name="port"
-            value={configState.port}
-            onChange={handleInputOnChange}
-            onBlur={handleInputOnBlur}
-          />
-        </div>
-
-        <div>
-          <div className={s0.label}>SOCKS5 Proxy Port</div>
-          <Input
-            name="socks-port"
-            value={configState['socks-port']}
-            onChange={handleInputOnChange}
-            onBlur={handleInputOnBlur}
-          />
-        </div>
-
-        <div>
-          <div className={s0.label}>Redir Port</div>
-          <Input
-            name="redir-port"
-            value={configState['redir-port']}
-            onChange={handleInputOnChange}
-            onBlur={handleInputOnBlur}
-          />
-        </div>
-
+        {portFields.map((f) =>
+          configState[f.key] !== undefined ? (
+            <div key={f.key}>
+              <div className={s0.label}>{f.label}</div>
+              <Input
+                name={f.key}
+                value={configState[f.key]}
+                onChange={handleInputOnChange}
+                onBlur={handleInputOnBlur}
+              />
+            </div>
+          ) : null
+        )}
         <div>
           <div className={s0.label}>Allow LAN</div>
           <Switch
