@@ -2,9 +2,9 @@ import { createSelector } from 'reselect';
 
 const LogSize = 300;
 
-const getLogs = s => s.logs.logs;
-const getTail = s => s.logs.tail;
-export const getSearchText = s => s.logs.searchText;
+const getLogs = (s) => s.logs.logs;
+const getTail = (s) => s.logs.tail;
+export const getSearchText = (s) => s.logs.searchText;
 export const getLogsForDisplay = createSelector(
   getLogs,
   getTail,
@@ -21,13 +21,13 @@ export const getLogsForDisplay = createSelector(
     }
 
     if (searchText === '') return x;
-    return x.filter(r => r.payload.toLowerCase().indexOf(searchText) >= 0);
+    return x.filter((r) => r.payload.toLowerCase().indexOf(searchText) >= 0);
   }
 );
 
 export function updateSearchText(text) {
-  return dispatch => {
-    dispatch('logsUpdateSearchText', s => {
+  return (dispatch) => {
+    dispatch('logsUpdateSearchText', (s) => {
       s.logs.searchText = text.toLowerCase();
     });
   };
@@ -42,7 +42,7 @@ export function appendLog(log) {
     // mutate intentionally for performance
     logs[tail] = log;
 
-    dispatch('logsAppendLog', s => {
+    dispatch('logsAppendLog', (s) => {
       s.logs.tail = tail;
     });
   };
@@ -52,5 +52,5 @@ export const initialState = {
   searchText: '',
   logs: [],
   // tail's initial value must be -1
-  tail: -1
+  tail: -1,
 };

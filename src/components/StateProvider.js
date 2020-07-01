@@ -1,6 +1,11 @@
 import produce, * as immer from 'immer';
 import React from 'react';
 
+// in logs store we update logs in place
+// outside of immer produce
+// this is just workaround
+immer.setAutoFreeze(false);
+
 const {
   createContext,
   memo,

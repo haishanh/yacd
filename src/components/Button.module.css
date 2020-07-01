@@ -43,6 +43,10 @@
   }
 }
 
+.btn:disabled {
+  opacity: 0.5;
+}
+
 .btnStart {
   margin-right: 5px;
   display: inline-flex;

@@ -1,0 +1,43 @@
+.RuleProviderItem {
+  display: grid;
+  grid-template-columns: 40px 1fr 46px;
+  height: 100%;
+}
+
+.left {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-secondary);
+  opacity: 0.4;
+}
+
+.middle {
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  align-items: center;
+}
+
+.gray {
+  color: #777;
+}
+
+.refreshButtonWrapper {
+  display: grid;
+  place-items: center;
+}
+
+.rotate {
+  display: inline-flex;
+}
+.isRotating {
+  animation: rotating 3s infinite linear;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

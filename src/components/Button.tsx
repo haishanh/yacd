@@ -16,6 +16,7 @@ type ButtonInternalProps = {
 type ButtonProps = {
   isLoading?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => unknown;
+  disabled?: boolean;
   kind?: 'primary' | 'minimal';
   className?: string;
 } & ButtonInternalProps;
@@ -23,6 +24,7 @@ type ButtonProps = {
 function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
   const {
     onClick,
+    disabled = false,
     isLoading,
     kind = 'primary',
     className,
@@ -43,7 +45,12 @@ function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
     className
   );
   return (
-    <button className={btnClassName} ref={ref} onClick={internalOnClick}>
+    <button
+      className={btnClassName}
+      ref={ref}
+      onClick={internalOnClick}
+      disabled={disabled}
+    >
       {isLoading ? (
         <>
           <span
