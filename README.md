@@ -23,7 +23,11 @@ Visit `about:config`, search for `dom.streams.enabled` and `javascript.options.s
 yarn
 
 # start the dev server
+# then go to http://127.0.0.1:3000
 yarn start
 
-# go to http://127.0.0.1:3000
+
+# build optimized assets
+# ready to deploy assets will be in the directory `public`
+yarn build
 ```
