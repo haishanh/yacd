@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.25](https://github.com/haishanh/yacd/compare/v0.1.24...v0.1.25) (2020-07-01)
+
+Added:
+
+- support mixed-port
+
 ## [0.1.24](https://github.com/haishanh/yacd/compare/v0.1.23...v0.1.24) (2020-06-22)
 
 Fixed:
