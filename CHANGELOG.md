@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.0](https://github.com/haishanh/yacd/compare/v0.1.25...v0.2.0) (2020-07-04)
+
+Added:
+
+- support rule provider
+
 ## [0.1.25](https://github.com/haishanh/yacd/compare/v0.1.24...v0.1.25) (2020-07-01)
 
 Added:
