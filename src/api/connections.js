@@ -47,7 +47,7 @@ function getWsUrl(apiConfig) {
   const { hostname, port, secret } = apiConfig;
   let qs = '';
   if (typeof secret === 'string' && secret !== '') {
-    qs += '?token=' + secret;
+    qs += '?token=' + encodeURIComponent(secret);
   }
   return `ws://${hostname}:${port}${endpoint}${qs}`;
 }

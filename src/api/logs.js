@@ -63,7 +63,7 @@ function getWsUrl(apiConfig) {
   const { hostname, port, secret, logLevel } = apiConfig;
   let qs = '?level=' + logLevel;
   if (typeof secret === 'string' && secret !== '') {
-    qs += '&token=' + secret;
+    qs += '&token=' + encodeURIComponent(secret);
   }
   return `ws://${hostname}:${port}${endpoint}${qs}`;
 }
@@ -78,14 +78,14 @@ function fetchLogs(apiConfig, appendLog) {
   wsState = 1;
   const url = getWsUrl(apiConfig);
   const ws = new WebSocket(url);
-  ws.addEventListener('error', function(_ev) {
+  ws.addEventListener('error', function (_ev) {
     wsState = 3;
   });
-  ws.addEventListener('close', function(_ev) {
+  ws.addEventListener('close', function (_ev) {
     wsState = 3;
     fetchLogsWithFetch(apiConfig, appendLog);
   });
-  ws.addEventListener('message', function(event) {
+  ws.addEventListener('message', function (event) {
     appendData(event.data, appendLog);
   });
 }
@@ -116,13 +116,13 @@ function fetchLogsWithFetch(apiConfig, appendLog) {
   const { url, init } = getURLAndInit(apiConfig);
   fetch(url + endpoint + '?level=' + apiConfig.logLevel, {
     ...init,
-    signal
+    signal,
   }).then(
-    response => {
+    (response) => {
       const reader = response.body.getReader();
       pump(reader, appendLog);
     },
-    err => {
+    (err) => {
       fetched = false;
       if (signal.aborted) return;
 
