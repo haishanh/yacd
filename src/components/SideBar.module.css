@@ -68,34 +68,44 @@
   }
 }
 
-.themeSwitchContainer {
-  --sz: 40px;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-
+.footer {
   position: absolute;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+  .footer {
+    display: none;
+  }
+}
+
+.iconWrapper {
+  --sz: 40px;
+
   width: var(--sz);
   height: var(--sz);
   display: flex;
   justify-content: center;
   align-items: center;
 
-  color: var(--color-text);
-
   padding: 5px;
+  color: var(--color-text);
+  border-radius: 100%;
+  border: 1px solid transparent;
+}
+.iconWrapper:hover {
+  opacity: 0.6;
+}
+.iconWrapper:focus {
+  border-color: var(--color-focus-blue);
+}
+
+.themeSwitchContainer {
   appearance: none;
   outline: none;
   user-select: none;
   background: none;
   cursor: pointer;
-  border: 1px solid transparent;
-  border-radius: 100%;
-  &:focus {
-    border-color: var(--color-focus-blue);
-  }
 }

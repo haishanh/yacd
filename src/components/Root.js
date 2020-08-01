@@ -3,6 +3,7 @@ import './Root.css';
 import React, { Suspense } from 'react';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { About } from 'src/components/about/About';
 
 import { actions, initialState } from '../store';
 import APIDiscovery from './APIDiscovery';
@@ -41,6 +42,7 @@ const routes = [
   ['logs', '/logs', <Logs />],
   ['proxies', '/proxies', <Proxies />],
   ['rules', '/rules', <Rules />],
+  ['about', '/about', <About />],
   __DEV__ ? ['style', '/style', <StyleGuide />] : false,
 ].filter(Boolean);
 

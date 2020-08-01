@@ -1,0 +1,18 @@
+.root {
+  padding: 6px 15px;
+  @media (--breakpoint-not-small) {
+    padding: 10px 40px;
+  }
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.link {
+  color: var(--color-text-secondary);
+  display: inline-flex;
+}
+.link:hover {
+  color: var(--color-text-highlight);
+}

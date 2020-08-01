@@ -2,7 +2,7 @@ import cx from 'clsx';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React from 'react';
-// import { Command, Activity, Globe, Link2, Settings, File } from 'react-feather';
+import { Info } from 'react-feather';
 import {
   FcAreaChart,
   FcDocument,
@@ -16,7 +16,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { getTheme, switchTheme } from '../store/app';
 import s from './SideBar.module.css';
 import { connect } from './StateProvider';
-import SvgYacd from './SvgYacd';
 
 const { useCallback } = React;
 
@@ -115,9 +114,17 @@ function SideBar({ dispatch, theme }) {
           />
         ))}
       </div>
-      <button className={s.themeSwitchContainer} onClick={switchThemeHooked}>
-        {theme === 'light' ? <MoonA /> : <Sun />}
-      </button>
+      <div className={s.footer}>
+        <button
+          className={cx(s.iconWrapper, s.themeSwitchContainer)}
+          onClick={switchThemeHooked}
+        >
+          {theme === 'light' ? <MoonA /> : <Sun />}
+        </button>
+        <Link to="/about" className={s.iconWrapper}>
+          <Info size={20} />
+        </Link>
+      </div>
     </div>
   );
 }
