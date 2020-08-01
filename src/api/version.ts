@@ -2,7 +2,7 @@ import { getURLAndInit } from 'src/misc/request-helper';
 import { ClashAPIConfig } from 'src/types';
 
 type VersionData = {
-  version: string;
+  version?: string;
   premium?: boolean;
 };
 
@@ -10,7 +10,7 @@ export async function fetchVersion(
   endpoint: string,
   apiConfig: ClashAPIConfig
 ): Promise<VersionData> {
-  let json = { rules: [] };
+  let json = {};
   try {
     const { url, init } = getURLAndInit(apiConfig);
     const res = await fetch(url + endpoint, init);

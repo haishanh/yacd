@@ -50,12 +50,10 @@ function AboutImpl(props: Props) {
       suspense: true,
     }
   );
-  console.log(version);
-
   return (
     <>
       <ContentHeader title="About" />
-      {version ? (
+      {version && version.version ? (
         <Version
           name="Clash"
           version={version.version}
