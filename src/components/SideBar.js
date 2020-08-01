@@ -103,17 +103,7 @@ function SideBar({ dispatch, theme }) {
   }, [dispatch]);
   return (
     <div className={s.root}>
-      <a
-        href="https://github.com/haishanh/yacd"
-        className={s.logoLink}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <div className={s.logo}>
-          <SvgYacd width={80} height={80} />
-        </div>
-      </a>
-
+      <div className={s.logoPlaceholder} />
       <div className={s.rows}>
         {pages.map(({ to, iconId, labelText }) => (
           <SideBarRow

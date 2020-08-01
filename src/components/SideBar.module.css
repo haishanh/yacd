@@ -3,37 +3,10 @@
   position: relative;
 }
 
-.logoLink {
-  display: block;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 25px 0 15px;
+.logoPlaceholder {
+  height: 15px;
   @media (max-width: 768px) {
     display: none;
-  }
-  color: #2a477a;
-  transition: color 0.3s ease-in-out;
-
-  &:hover {
-    animation: pulse 0.3s ease-in-out 0s infinite alternate;
-  }
-
-  img {
-    width: 80px;
-    height: 80px;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    color: #2a477a;
-  }
-  100% {
-    color: #1f52ac;
   }
 }
 
