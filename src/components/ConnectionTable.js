@@ -7,25 +7,27 @@ import { useSortBy, useTable } from 'react-table';
 import prettyBytes from '../misc/pretty-bytes';
 import s from './ConnectionTable.module.css';
 
+const sortDescFirst = true;
+
 const columns = [
   { accessor: 'id', show: false },
   { Header: 'Host', accessor: 'host' },
-  { Header: 'DL', accessor: 'download' },
-  { Header: 'UL', accessor: 'upload' },
-  { Header: 'DL Speed', accessor: 'downloadSpeedCurr' },
-  { Header: 'UL Speed', accessor: 'uploadSpeedCurr' },
+  { Header: 'DL', accessor: 'download', sortDescFirst },
+  { Header: 'UL', accessor: 'upload', sortDescFirst },
+  { Header: 'DL Speed', accessor: 'downloadSpeedCurr', sortDescFirst },
+  { Header: 'UL Speed', accessor: 'uploadSpeedCurr', sortDescFirst },
   { Header: 'Chains', accessor: 'chains' },
   { Header: 'Rule', accessor: 'rule' },
-  { Header: 'Time', accessor: 'start' },
+  { Header: 'Time', accessor: 'start', sortDescFirst },
   { Header: 'Source', accessor: 'source' },
   { Header: 'Destination IP', accessor: 'destinationIP' },
   { Header: 'Type', accessor: 'type' },
 ];
 
-function renderCell(cell, now) {
+function renderCell(cell) {
   switch (cell.column.id) {
     case 'start':
-      return formatDistance(-cell.value, now);
+      return formatDistance(cell.value, 0);
     case 'download':
     case 'upload':
       return prettyBytes(cell.value);
@@ -47,7 +49,6 @@ const tableState = {
 };
 
 function Table({ data }) {
-  const now = new Date();
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -90,7 +91,7 @@ function Table({ data }) {
                       j >= 1 && j <= 4 ? s.du : false
                     )}
                   >
-                    {renderCell(cell, now)}
+                    {renderCell(cell)}
                   </div>
                 );
               });

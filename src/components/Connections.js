@@ -47,7 +47,7 @@ function filterConns(conns, keyword) {
       );
 }
 
-function formatConnectionDataItem(i, prevKv) {
+function formatConnectionDataItem(i, prevKv, now) {
   const { id, metadata, upload, download, start, chains, rule } = i;
   // eslint-disable-next-line prefer-const
   let {
@@ -66,7 +66,7 @@ function formatConnectionDataItem(i, prevKv) {
     id,
     upload,
     download,
-    start: 0 - new Date(start),
+    start: now - new Date(start),
     chains: chains.reverse().join(' / '),
     rule,
     ...metadata,
@@ -119,8 +119,9 @@ function Conn({ apiConfig }) {
   const read = useCallback(
     ({ connections }) => {
       const prevConnsKv = arrayToIdKv(prevConnsRef.current);
+      const now = new Date();
       const x = connections.map((c) =>
-        formatConnectionDataItem(c, prevConnsKv)
+        formatConnectionDataItem(c, prevConnsKv, now)
       );
       const closed = [];
       for (const c of prevConnsRef.current) {
