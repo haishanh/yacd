@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.3](https://github.com/haishanh/yacd/compare/v0.2.2...v0.2.3) (2020-08-06)
+
+Changed:
+
+- use desc sort first for columns with numeric value in connections table
+
 ## [0.2.2](https://github.com/haishanh/yacd/compare/v0.2.1...v0.2.2) (2020-08-01)
 
 Added:
