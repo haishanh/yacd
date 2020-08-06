@@ -4,14 +4,16 @@ parserOptions:
   project: tsconfig.json
   sourceType: module
 
+plugins:
+  - simple-import-sort
+  - jsx-a11y
+
 extends:
   - 'plugin:@typescript-eslint/recommended'
   - 'prettier'
   - prettier/@typescript-eslint
   - react-app
-
-plugins:
-  - simple-import-sort
+  - 'plugin:jsx-a11y/recommended'
 
 env:
   node: true

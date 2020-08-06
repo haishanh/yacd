@@ -1,5 +1,6 @@
 import cx from 'clsx';
 import * as React from 'react';
+import { keyCodes } from 'src/misc/keycode';
 
 import { getDelay, getProxies, NonProxyTypes } from '../../store/proxies';
 import { connect } from '../StateProvider';
@@ -76,17 +77,35 @@ function ProxySmallImpl({
     }
     return ret;
   }, [name, latency]);
+
+  const doSelect = React.useCallback(() => {
+    isSelectable && onClick && onClick(name);
+  }, [name, onClick, isSelectable]);
+
+  const className = useMemo(() => {
+    return cx(s0.proxySmall, {
+      [s0.now]: now,
+      [s0.selectable]: isSelectable,
+    });
+  }, [isSelectable, now]);
+
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.keyCode === keyCodes.Enter) {
+        doSelect();
+      }
+    },
+    [doSelect]
+  );
+
   return (
     <div
       title={title}
-      className={cx(s0.proxySmall, {
-        [s0.now]: now,
-        [s0.selectable]: isSelectable,
-      })}
+      className={className}
       style={{ background: color }}
-      onClick={() => {
-        isSelectable && onClick && onClick(name);
-      }}
+      onClick={doSelect}
+      onKeyDown={handleKeyDown}
+      role={isSelectable ? 'menuitem' : ''}
     />
   );
 }
@@ -100,16 +119,32 @@ function ProxyImpl({
   onClick,
 }: ProxyProps) {
   const color = useMemo(() => getLabelColor(latency), [latency]);
+  const doSelect = React.useCallback(() => {
+    isSelectable && onClick && onClick(name);
+  }, [name, onClick, isSelectable]);
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.keyCode === keyCodes.Enter) {
+        doSelect();
+      }
+    },
+    [doSelect]
+  );
+  const className = useMemo(() => {
+    return cx(s0.proxy, {
+      [s0.now]: now,
+      [s0.error]: latency && latency.error,
+      [s0.selectable]: isSelectable,
+    });
+  }, [isSelectable, now, latency]);
+
   return (
     <div
-      className={cx(s0.proxy, {
-        [s0.now]: now,
-        [s0.error]: latency && latency.error,
-        [s0.selectable]: isSelectable,
-      })}
-      onClick={() => {
-        isSelectable && onClick && onClick(name);
-      }}
+      tabIndex={0}
+      className={className}
+      onClick={doSelect}
+      onKeyDown={handleKeyDown}
+      role={isSelectable ? 'menuitem' : ''}
     >
       <div className={s0.proxyName}>{name}</div>
       <div className={s0.row}>

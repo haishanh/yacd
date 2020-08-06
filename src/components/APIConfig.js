@@ -78,6 +78,7 @@ function APIConfig({ apiConfig, dispatch }) {
   );
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className={s0.root} ref={contentEl} onKeyDown={handleContentOnKeyDown}>
       <div className={s0.header}>
         <div className={s0.icon}>

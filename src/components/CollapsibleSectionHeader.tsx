@@ -1,23 +1,40 @@
 import cx from 'clsx';
-import React from 'react';
+import * as React from 'react';
 import { ChevronDown } from 'react-feather';
 
+import { keyCodes } from '../misc/keycode';
 import Button from './Button';
 import s from './CollapsibleSectionHeader.module.css';
 import { SectionNameType } from './shared/Basic';
 
 type Props = {
-  name: string,
-  type: string,
-  qty?: number,
-  toggle?: () => void,
-  isOpen?: boolean,
+  name: string;
+  type: string;
+  qty?: number;
+  toggle?: () => void;
+  isOpen?: boolean;
 };
 
 export default function Header({ name, type, toggle, isOpen, qty }: Props) {
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      e.preventDefault();
+      if (e.keyCode === keyCodes.Enter || e.keyCode === keyCodes.Space) {
+        toggle();
+      }
+    },
+    [toggle]
+  );
   return (
-    <div className={s.header}>
-      <div onClick={toggle} style={{ cursor: 'pointer' }}>
+    <div
+      className={s.header}
+      onClick={toggle}
+      style={{ cursor: 'pointer' }}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      role="button"
+    >
+      <div>
         <SectionNameType name={name} type={type} />
       </div>
 

@@ -29,6 +29,7 @@ export function ClosePrevConns({
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div onKeyDown={handleKeyDown}>
       <h2>Close Connections?</h2>
       <p>

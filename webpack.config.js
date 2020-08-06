@@ -102,14 +102,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   test: /\.tsx?$/,
-      //   loader: 'ts-loader',
-      //   options: {
-      //     // disable type checker - we will use it in fork plugin
-      //     transpileOnly: true,
-      //   },
-      // },
       {
         test: /\.[tj]sx?$/,
         exclude: /node_modules/,
@@ -126,7 +118,7 @@ module.exports = {
           isDev ? { loader: 'style-loader' } : MiniCssExtractPlugin.loader,
           { loader: 'css-loader' },
           { loader: 'postcss-loader', options: { plugins: postcssPlugins } },
-        ].filter(Boolean),
+        ],
       },
       {
         test: /\.module\.css$/,
@@ -146,7 +138,7 @@ module.exports = {
             loader: 'postcss-loader',
             options: { plugins: postcssPlugins },
           },
-        ].filter(Boolean),
+        ],
       },
     ],
   },

@@ -11,21 +11,21 @@ export default function Selection({
   onChange,
 }) {
   return (
-    // TODO a11y
-    // tabIndex="0"
     <div className={s.root}>
       {optionPropsList.map((props, idx) => {
         const className = cx(s.item, { [s.itemActive]: idx === selectedIndex });
+        const doSelect = (ev) => {
+          ev.preventDefault();
+          if (idx !== selectedIndex) onChange(idx);
+        };
         return (
           <div
             key={idx}
             className={className}
-            onClick={(ev) => {
-              ev.preventDefault();
-              if (idx !== selectedIndex) {
-                onChange(idx);
-              }
-            }}
+            tabIndex={0}
+            role="menuitem"
+            onKeyDown={doSelect}
+            onClick={doSelect}
           >
             <OptionComponent {...props} />
           </div>
