@@ -137,6 +137,7 @@ function ConfigImpl({
           break;
         case 'redir-port':
         case 'socks-port':
+        case 'mixed-port':
         case 'port':
           if (target.value !== '') {
             const num = parseInt(target.value, 10);
