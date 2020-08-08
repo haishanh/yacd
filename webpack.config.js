@@ -81,6 +81,9 @@ const plugins = [
 ].filter(Boolean);
 
 module.exports = {
+  stats: {
+    children: false,
+  },
   // https://webpack.js.org/configuration/devtool/
   devtool: isDev ? 'eval-source-map' : false,
   entry: {

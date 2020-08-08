@@ -1,36 +1,52 @@
 import './Root.css';
 
-import React, { Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { About } from 'src/components/about/About';
 
 import { actions, initialState } from '../store';
 import APIDiscovery from './APIDiscovery';
-import Config from './Config';
-import Connections from './Connections';
 import ErrorBoundary from './ErrorBoundary';
 import Home from './Home';
 import Loading2 from './Loading2';
-import Logs from './Logs';
 import s0 from './Root.module.css';
 import SideBar from './SideBar';
 import StateProvider from './StateProvider';
 import StyleGuide from './StyleGuide';
 
-const Proxies = React.lazy(() =>
+const Connections = lazy(() =>
+  import(
+    /* webpackChunkName: "conns" */
+    /* webpackPrefetch: true */
+    './Connections'
+  )
+);
+const Config = lazy(() =>
+  import(
+    /* webpackChunkName: "config" */
+    /* webpackPrefetch: true */
+    './Config'
+  )
+);
+const Logs = lazy(() =>
+  import(
+    /* webpackChunkName: "logs" */
+    /* webpackPrefetch: true */
+    './Logs'
+  )
+);
+const Proxies = lazy(() =>
   import(
     /* webpackChunkName: "proxies" */
     /* webpackPrefetch: true */
-    /* webpackPreload: true */
     './proxies/Proxies'
   )
 );
-const Rules = React.lazy(() =>
+const Rules = lazy(() =>
   import(
     /* webpackChunkName: "rules" */
     /* webpackPrefetch: true */
-    /* webpackPreload: true */
     './Rules'
   )
 );
