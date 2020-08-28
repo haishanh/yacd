@@ -1,7 +1,9 @@
 FROM node:alpine AS builder
 WORKDIR /app
 COPY . .
-RUN yarn && yarn run build
+# Using yarn to install dependencies in CI will cause network timeout
+# Refer to https://github.com/date-fns/date-fns/issues/1004
+RUN yarn config set network-timeout 300000 && yarn && yarn run build
 
 FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
