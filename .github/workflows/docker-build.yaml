@@ -22,10 +22,8 @@ jobs:
         run: |
           IFS='/' read -ra repository_name_array <<<"$REPOSITORY_NAME"
           DOCKER_IMAGE_NAME=$(echo $DOCKER_USERNAME/${repository_name_array[1]} | tr '[:upper:]' '[:lower:]')
-          DOCKER_IMAGE_VERSION=${GITHUB_REF#refs/*/}
           docker buildx build \
             --platform "$DOCKER_IMAGE_PLATFORM" \
             --output "type=image,push=false" \
-            --tag "$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION" \
             --tag "$DOCKER_IMAGE_NAME":latest \
             --file ./Dockerfile .
