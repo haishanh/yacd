@@ -1,26 +1,8 @@
-# require the secrets DOCKER_HUB_PASSWORD
- 
-name: Release Docker Image
-on:
-  push:
-    tags:
-      - v*
+name: Build Docker Image
+on: [push, pull_request]
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run tests
-        run: |
-          if [ -f docker-compose.test.yml ]; then
-            docker-compose --file docker-compose.test.yml build
-            docker-compose --file docker-compose.test.yml run sut
-          else
-            docker build . --file Dockerfile
-          fi
-  push:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
       - name: Set up Checkout
         uses: actions/checkout@v2
@@ -32,13 +14,7 @@ jobs:
           mv buildx ~/.docker/cli-plugins/docker-buildx
           docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes --credential yes
           docker buildx create --use --name build --node build --driver-opt network=host
-      - name: Log in to Docker Hub
-        env:
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-        run: |
-          echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
-      - name: Build and push Docker image
+      - name: Build Docker image
         env:
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_IMAGE_PLATFORM: linux/amd64,linux/arm/v7,linux/arm64
@@ -46,10 +22,8 @@ jobs:
         run: |
           IFS='/' read -ra repository_name_array <<<"$REPOSITORY_NAME"
           DOCKER_IMAGE_NAME=$(echo $DOCKER_USERNAME/${repository_name_array[1]} | tr '[:upper:]' '[:lower:]')
-          DOCKER_IMAGE_VERSION=${GITHUB_REF#refs/*/}
           docker buildx build \
             --platform "$DOCKER_IMAGE_PLATFORM" \
-            --output "type=image,push=true" \
-            --tag "$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION" \
+            --output "type=image,push=false" \
             --tag "$DOCKER_IMAGE_NAME":latest \
             --file ./Dockerfile .
