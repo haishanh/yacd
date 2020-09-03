@@ -8,7 +8,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ReactRefreshWebpackPlugin = require('@hsjs/react-refresh-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const pkg = require('./package.json');
 
@@ -74,7 +74,11 @@ const plugins = [
   // and we don't need locale stuff in moment
   new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   // https://github.com/pmmmwh/react-refresh-webpack-plugin
-  isDev ? new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }) : false,
+  isDev
+    ? new ReactRefreshWebpackPlugin({
+        overlay: { sockIntegration: 'whm' },
+      })
+    : false,
   // isDev ? false : new webpack.HashedModuleIdsPlugin(),
   isDev ? false : cssExtractPlugin,
   isDev ? false : bundleAnalyzerPlugin,
