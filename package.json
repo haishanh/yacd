@@ -47,7 +47,7 @@
     "memoize-one": "^5.1.1",
     "modern-normalize": "^0.7.0",
     "prop-types": "^15.5.10",
-    "react": "0.0.0-experimental-241c4467e",
+    "react": "0.14.0",
     "react-dom": "0.0.0-experimental-241c4467e",
     "react-feather": "^2.0.3",
     "react-icons": "^3.10.0",
