@@ -1,9 +1,12 @@
 import { clearState, loadState, saveState } from '../misc/storage';
-import { debounce } from '../misc/utils';
+import { debounce, trimTrailingSlash } from '../misc/utils';
 import { fetchConfigs } from './configs';
 import { closeModal } from './modals';
 
-export const getClashAPIConfig = (s) => s.app.clashAPIConfig;
+export const getClashAPIConfig = (s) => {
+  const idx = s.app.selectedClashAPIConfigIndex;
+  return s.app.clashAPIConfigs[idx];
+};
 export const getTheme = (s) => s.app.theme;
 export const getSelectedChartStyleIndex = (s) => s.app.selectedChartStyleIndex;
 export const getLatencyTestUrl = (s) => s.app.latencyTestUrl;
@@ -14,12 +17,11 @@ export const getAutoCloseOldConns = (s) => s.app.autoCloseOldConns;
 
 const saveStateDebounced = debounce(saveState, 600);
 
-export function updateClashAPIConfig({ hostname: iHostname, port, secret }) {
+export function updateClashAPIConfig({ baseURL, secret }) {
   return async (dispatch, getState) => {
-    const hostname = iHostname.trim().replace(/^http(s):\/\//, '');
-    const clashAPIConfig = { hostname, port, secret };
+    const clashAPIConfig = { baseURL, secret };
     dispatch('appUpdateClashAPIConfig', (s) => {
-      s.app.clashAPIConfig = clashAPIConfig;
+      s.app.clashAPIConfigs[0] = clashAPIConfig;
     });
     // side effect
     saveState(getState().app);
@@ -92,13 +94,15 @@ export function updateCollapsibleIsOpen(prefix, name, v) {
   };
 }
 
+const defaultClashAPIConfig = {
+  baseURL: 'http://127.0.0.1:7892',
+  secret: '',
+};
 // type Theme = 'light' | 'dark';
 const defaultState = {
-  clashAPIConfig: {
-    hostname: '127.0.0.1',
-    port: '7892',
-    secret: '',
-  },
+  selectedClashAPIConfigIndex: 0,
+  clashAPIConfigs: [defaultClashAPIConfig],
+
   latencyTestUrl: 'http://www.gstatic.com/generate_204',
   selectedChartStyleIndex: 0,
   theme: 'dark',
@@ -126,18 +130,24 @@ function parseConfigQueryString() {
 export function initialState() {
   let s = loadState();
   s = { ...defaultState, ...s };
-  // TODO flat clashAPIConfig?
-
   const query = parseConfigQueryString();
+
+  const conf = s.clashAPIConfigs[s.selectedClashAPIConfigIndex];
+  const url = new URL(conf.baseURL);
   if (query.hostname) {
-    s.clashAPIConfig.hostname = query.hostname;
+    url.hostname = query.hostname;
   }
   if (query.port) {
-    s.clashAPIConfig.port = query.port;
+    url.port = query.port;
   }
+  // url.href is a stringifier and it appends a trailing slash
+  // that is not we want
+  conf.baseURL = trimTrailingSlash(url.href);
+
   if (query.secret) {
-    s.clashAPIConfig.secret = query.secret;
+    conf.secret = query.secret;
   }
+
   if (query.theme) {
     if (query.theme === 'dark' || query.theme === 'light') {
       s.theme = query.theme;

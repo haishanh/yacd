@@ -12,7 +12,6 @@ import ContentHeader from './ContentHeader';
 import s0 from './Logs.module.css';
 import LogSearch from './LogSearch';
 import { connect } from './StateProvider';
-// import { useStoreState, useActions } from '../misc/store';
 import SvgYacd from './SvgYacd';
 
 const { useCallback, memo, useEffect } = React;
@@ -64,7 +63,6 @@ const Row = memo(({ index, style, data }) => {
 }, areEqual);
 
 function Logs({ dispatch, logLevel, apiConfig, logs }) {
-  const { hostname, port, secret } = apiConfig;
   const appendLogInternal = useCallback(
     (log) => {
       dispatch(appendLog(log));
@@ -72,8 +70,8 @@ function Logs({ dispatch, logLevel, apiConfig, logs }) {
     [dispatch]
   );
   useEffect(() => {
-    fetchLogs({ hostname, port, secret, logLevel }, appendLogInternal);
-  }, [hostname, port, secret, logLevel, appendLogInternal]);
+    fetchLogs({ ...apiConfig, logLevel }, appendLogInternal);
+  }, [apiConfig, logLevel, appendLogInternal]);
   const [refLogsContainer, containerHeight] = useRemainingViewPortHeight();
 
   return (

@@ -10,6 +10,7 @@ const rootEl = document.getElementById('app');
 
 Modal.setAppElement(rootEl);
 
+// ReactDOM.render(<Root />, rootEl);
 const { createRoot } = ReactDOM;
 const root = createRoot(rootEl);
 root.render(<Root />);

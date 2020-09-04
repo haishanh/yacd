@@ -1,8 +1,9 @@
 import { atom } from 'recoil';
+import { ClashAPIConfig } from 'src/types';
 
 import * as connAPI from '../api/connections';
 import * as proxiesAPI from '../api/proxies';
-import { getAutoCloseOldConns,getLatencyTestUrl } from './app';
+import { getAutoCloseOldConns, getLatencyTestUrl } from './app';
 
 type PrimitiveProxyType = 'Shadowsocks' | 'Snell' | 'Socks5' | 'Http' | 'Vmess';
 
@@ -87,13 +88,7 @@ export const getDangleProxyNames = (s: GlobalState) =>
 export const getShowModalClosePrevConns = (s: GlobalState) =>
   s.proxies.showModalClosePrevConns;
 
-type APIConfig = {
-  hostname: string;
-  port: string;
-  secret?: string;
-};
-
-export function fetchProxies(apiConfig: APIConfig) {
+export function fetchProxies(apiConfig: ClashAPIConfig) {
   return async (dispatch: any, getState: any) => {
     const [proxiesData, providersData] = await Promise.all([
       proxiesAPI.fetchProxies(apiConfig),
@@ -135,7 +130,7 @@ export function fetchProxies(apiConfig: APIConfig) {
   };
 }
 
-export function updateProviderByName(apiConfig: APIConfig, name: string) {
+export function updateProviderByName(apiConfig: ClashAPIConfig, name: string) {
   return async (dispatch) => {
     try {
       await proxiesAPI.updateProviderByName(apiConfig, name);
@@ -166,7 +161,7 @@ export function healthcheckProviderByName(apiConfig, name) {
 }
 
 async function closeGroupConns(
-  apiConfig: APIConfig,
+  apiConfig: ClashAPIConfig,
   groupName: string,
   exceptionItemName: string
 ) {
@@ -213,7 +208,7 @@ function resolveChain(
 async function switchProxyImpl(
   dispatch: any,
   getState: () => GlobalState,
-  apiConfig: APIConfig,
+  apiConfig: ClashAPIConfig,
   groupName: string,
   itemName: string
 ) {
@@ -256,7 +251,7 @@ function closeModalClosePrevConns() {
 }
 
 function closePrevConns(
-  apiConfig: APIConfig,
+  apiConfig: ClashAPIConfig,
   proxies: ProxiesMapping,
   switchTo: SwitchProxyCtxItem
 ) {
@@ -267,7 +262,7 @@ function closePrevConns(
   closeGroupConns(apiConfig, switchTo.groupName, chain[0]);
 }
 
-function closePrevConnsAndTheModal(apiConfig: APIConfig) {
+function closePrevConnsAndTheModal(apiConfig: ClashAPIConfig) {
   return async (dispatch, getState) => {
     const s = getState();
     const switchTo = s.proxies.switchProxyCtx?.to;

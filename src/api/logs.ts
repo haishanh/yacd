@@ -1,4 +1,16 @@
-import { getURLAndInit } from '../misc/request-helper';
+import { ClashAPIConfig } from 'src/types';
+
+import { buildWebSocketURL, getURLAndInit } from '../misc/request-helper';
+
+type LogsAPIConfig = ClashAPIConfig & { logLevel: string };
+type LogEntry = {
+  time?: string;
+  id?: string;
+  even?: boolean;
+  // and some other props
+};
+type AppendLogFn = (x: LogEntry) => void;
+
 const endpoint = '/logs';
 const textDecoder = new TextDecoder('utf-8');
 
@@ -10,8 +22,8 @@ let even = false;
 let fetched = false;
 let decoded = '';
 
-function appendData(s, callback) {
-  let o;
+function appendData(s: string, callback: AppendLogFn) {
+  let o: LogEntry;
   try {
     o = JSON.parse(s);
   } catch (err) {
@@ -23,12 +35,12 @@ function appendData(s, callback) {
   const time = now.toLocaleString('zh-Hans');
   // mutate input param in place intentionally
   o.time = time;
-  o.id = now - 0 + getRandomStr();
+  o.id = +now - 0 + getRandomStr();
   o.even = even = !even;
   callback(o);
 }
 
-function pump(reader, appendLog) {
+function pump(reader: ReadableStreamDefaultReader, appendLog: AppendLogFn) {
   return reader.read().then(({ done, value }) => {
     const str = textDecoder.decode(value, { stream: !done });
     decoded += str;
@@ -56,31 +68,20 @@ function pump(reader, appendLog) {
   });
 }
 
-const apiConfigSnapshot = {};
-let controller;
-
-function getWsUrl(apiConfig) {
-  const { hostname, port, secret, logLevel } = apiConfig;
-  let qs = '?level=' + logLevel;
-  if (typeof secret === 'string' && secret !== '') {
-    qs += '&token=' + encodeURIComponent(secret);
-  }
-  return `ws://${hostname}:${port}${endpoint}${qs}`;
-}
+let apiConfigSnapshot: LogsAPIConfig;
+let controller: AbortController;
 
 // 1 OPEN
 // other value CLOSED
 // similar to ws readyState but not the same
 // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
-let wsState;
-function fetchLogs(apiConfig, appendLog) {
+let wsState: number;
+export function fetchLogs(apiConfig: LogsAPIConfig, appendLog: AppendLogFn) {
   if (fetched || wsState === 1) return;
   wsState = 1;
-  const url = getWsUrl(apiConfig);
+  const url = buildWebSocketURL(apiConfig, endpoint);
   const ws = new WebSocket(url);
-  ws.addEventListener('error', function (_ev) {
-    wsState = 3;
-  });
+  ws.addEventListener('error', () => (wsState = 3));
   ws.addEventListener('close', function (_ev) {
     wsState = 3;
     fetchLogsWithFetch(apiConfig, appendLog);
@@ -90,11 +91,10 @@ function fetchLogs(apiConfig, appendLog) {
   });
 }
 
-function fetchLogsWithFetch(apiConfig, appendLog) {
+function fetchLogsWithFetch(apiConfig: LogsAPIConfig, appendLog: AppendLogFn) {
   if (
     controller &&
-    (apiConfigSnapshot.hostname !== apiConfig.hostname ||
-      apiConfigSnapshot.port !== apiConfig.port ||
+    (apiConfigSnapshot.baseURL !== apiConfig.baseURL ||
       apiConfigSnapshot.secret !== apiConfig.secret ||
       apiConfigSnapshot.logLevel !== apiConfig.logLevel)
   ) {
@@ -104,11 +104,7 @@ function fetchLogsWithFetch(apiConfig, appendLog) {
   }
 
   fetched = true;
-
-  apiConfigSnapshot.hostname = apiConfig.hostname;
-  apiConfigSnapshot.port = apiConfig.port;
-  apiConfigSnapshot.secret = apiConfig.secret;
-  apiConfigSnapshot.logLevel = apiConfig.logLevel;
+  apiConfigSnapshot = { ...apiConfig };
 
   controller = new AbortController();
   const signal = controller.signal;
@@ -131,5 +127,3 @@ function fetchLogsWithFetch(apiConfig, appendLog) {
     }
   );
 }
-
-export { fetchLogs };

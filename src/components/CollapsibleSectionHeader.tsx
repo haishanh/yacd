@@ -2,7 +2,6 @@ import cx from 'clsx';
 import * as React from 'react';
 import { ChevronDown } from 'react-feather';
 
-import { keyCodes } from '../misc/keycode';
 import Button from './Button';
 import s from './CollapsibleSectionHeader.module.css';
 import { SectionNameType } from './shared/Basic';
@@ -19,7 +18,7 @@ export default function Header({ name, type, toggle, isOpen, qty }: Props) {
   const handleKeyDown = React.useCallback(
     (e: React.KeyboardEvent) => {
       e.preventDefault();
-      if (e.keyCode === keyCodes.Enter || e.keyCode === keyCodes.Space) {
+      if (e.key === 'Enter' || e.key === ' ') {
         toggle();
       }
     },

@@ -1,5 +1,4 @@
 export type ClashAPIConfig = {
-  hostname: string;
-  port: number;
+  baseURL: string;
   secret?: string;
 };

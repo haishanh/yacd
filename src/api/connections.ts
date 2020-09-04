@@ -1,4 +1,6 @@
-import { getURLAndInit } from '../misc/request-helper';
+import { ClashAPIConfig } from 'src/types';
+
+import { buildWebSocketURL, getURLAndInit } from '../misc/request-helper';
 
 const endpoint = '/connections';
 
@@ -8,31 +10,31 @@ const subscribers = [];
 // see also https://github.com/Dreamacro/clash/blob/dev/constant/metadata.go#L41
 type UUID = string;
 type ConnectionItem = {
-  id: UUID,
+  id: UUID;
   metadata: {
-    network: 'tcp' | 'udp',
-    type: 'HTTP' | 'HTTP Connect' | 'Socks5' | 'Redir' | 'Unknown',
-    sourceIP: string,
-    destinationIP: string,
-    sourcePort: string,
-    destinationPort: string,
-    host: string,
-  },
-  upload: number,
-  download: number,
+    network: 'tcp' | 'udp';
+    type: 'HTTP' | 'HTTP Connect' | 'Socks5' | 'Redir' | 'Unknown';
+    sourceIP: string;
+    destinationIP: string;
+    sourcePort: string;
+    destinationPort: string;
+    host: string;
+  };
+  upload: number;
+  download: number;
   // e.g. "2019-11-30T22:48:13.416668+08:00",
-  start: string,
-  chains: Array<string>,
+  start: string;
+  chains: Array<string>;
   // e.g. 'Match', 'DomainKeyword'
-  rule: string,
+  rule: string;
 };
 type ConnectionsData = {
-  downloadTotal: number,
-  uploadTotal: number,
-  connections: Array<ConnectionItem>,
+  downloadTotal: number;
+  uploadTotal: number;
+  connections: Array<ConnectionItem>;
 };
 
-function appendData(s) {
+function appendData(s: string) {
   let o: ConnectionsData;
   try {
     o = JSON.parse(s);
@@ -43,33 +45,25 @@ function appendData(s) {
   subscribers.forEach((f) => f(o));
 }
 
-function getWsUrl(apiConfig) {
-  const { hostname, port, secret } = apiConfig;
-  let qs = '';
-  if (typeof secret === 'string' && secret !== '') {
-    qs += '?token=' + encodeURIComponent(secret);
-  }
-  return `ws://${hostname}:${port}${endpoint}${qs}`;
-}
+type UnsubscribeFn = () => void;
 
-let wsState;
-function fetchData(apiConfig, listener) {
+let wsState: number;
+export function fetchData(
+  apiConfig: ClashAPIConfig,
+  listener: unknown
+): UnsubscribeFn | void {
   if (fetched || wsState === 1) {
     if (listener) return subscribe(listener);
   }
   wsState = 1;
-  const url = getWsUrl(apiConfig);
+  const url = buildWebSocketURL(apiConfig, endpoint);
   const ws = new WebSocket(url);
-  ws.addEventListener('error', function (_ev) {
-    wsState = 3;
-  });
-  ws.addEventListener('message', function (event) {
-    appendData(event.data);
-  });
+  ws.addEventListener('error', () => (wsState = 3));
+  ws.addEventListener('message', (event) => appendData(event.data));
   if (listener) return subscribe(listener);
 }
 
-function subscribe(listener) {
+function subscribe(listener: unknown): UnsubscribeFn {
   subscribers.push(listener);
   return function unsubscribe() {
     const idx = subscribers.indexOf(listener);
@@ -77,20 +71,18 @@ function subscribe(listener) {
   };
 }
 
-async function closeAllConnections(apiConfig) {
+export async function closeAllConnections(apiConfig: ClashAPIConfig) {
   const { url, init } = getURLAndInit(apiConfig);
   return await fetch(url + endpoint, { ...init, method: 'DELETE' });
 }
 
-export async function fetchConns(apiConfig) {
+export async function fetchConns(apiConfig: ClashAPIConfig) {
   const { url, init } = getURLAndInit(apiConfig);
   return await fetch(url + endpoint, { ...init });
 }
 
-export async function closeConnById(apiConfig, id) {
+export async function closeConnById(apiConfig: ClashAPIConfig, id: string) {
   const { url: baseURL, init } = getURLAndInit(apiConfig);
   const url = `${baseURL}${endpoint}/${id}`;
   return await fetch(url, { ...init, method: 'DELETE' });
 }
-
-export { fetchData, closeAllConnections };

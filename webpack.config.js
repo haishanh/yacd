@@ -50,6 +50,8 @@ const postcssPlugins = () =>
     isDev ? false : require('cssnano')(),
   ].filter(Boolean);
 
+const postcssOptions = { plugins: postcssPlugins() };
+
 const cssExtractPlugin = new MiniCssExtractPlugin({
   filename: isDev ? '[name].css' : '[name].[contenthash].css',
 });
@@ -89,7 +91,7 @@ module.exports = {
     children: false,
   },
   // https://webpack.js.org/configuration/devtool/
-  devtool: isDev ? 'eval-source-map' : false,
+  devtool: isDev ? 'eval-source-map' : 'source-map',
   entry: {
     // app: ['react-hot-loader/patch', './src/app.js']
     app: ['./src/app.js'],
@@ -124,7 +126,7 @@ module.exports = {
         use: [
           isDev ? { loader: 'style-loader' } : MiniCssExtractPlugin.loader,
           { loader: 'css-loader' },
-          { loader: 'postcss-loader', options: { plugins: postcssPlugins } },
+          { loader: 'postcss-loader', options: { postcssOptions } },
         ],
       },
       {
@@ -141,10 +143,7 @@ module.exports = {
               },
             },
           },
-          {
-            loader: 'postcss-loader',
-            options: { plugins: postcssPlugins },
-          },
+          { loader: 'postcss-loader', options: { postcssOptions } },
         ],
       },
     ],

@@ -4,7 +4,6 @@
   input {
     -webkit-appearance: none;
     background-color: transparent;
-    /* background-color: var(--color-input-bg); */
     background-image: none;
     border: none;
     border-radius: 0;
@@ -15,7 +14,7 @@
     font-size: inherit;
     height: 40px;
     outline: none;
-    padding: 0 8px;
+    padding: 0 4px;
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     width: 100%;
     &:focus {
@@ -25,10 +24,11 @@
 
   label {
     position: absolute;
-    left: 8px;
+    left: 5px;
     bottom: 22px;
     transition: transform 150ms ease-in-out;
     transform-origin: 0 0;
+    font-size: 0.9em;
     &.floatAbove {
       transform: scale(0.75) translateY(-25px);
     }

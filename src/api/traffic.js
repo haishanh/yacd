@@ -1,4 +1,4 @@
-import { getURLAndInit } from '../misc/request-helper';
+import { buildWebSocketURL, getURLAndInit } from '../misc/request-helper';
 const endpoint = '/traffic';
 const textDecoder = new TextDecoder('utf-8');
 
@@ -69,15 +69,6 @@ function pump(reader) {
   });
 }
 
-function getWsUrl(apiConfig) {
-  const { hostname, port, secret } = apiConfig;
-  let qs = '';
-  if (typeof secret === 'string' && secret !== '') {
-    qs += '?token=' + encodeURIComponent(secret);
-  }
-  return `ws://${hostname}:${port}${endpoint}${qs}`;
-}
-
 // 1 OPEN
 // other value CLOSED
 // similar to ws readyState but not the same
@@ -86,7 +77,7 @@ let wsState;
 function fetchData(apiConfig) {
   if (fetched || wsState === 1) return traffic;
   wsState = 1;
-  const url = getWsUrl(apiConfig);
+  const url = buildWebSocketURL(apiConfig, endpoint);
   const ws = new WebSocket(url);
   ws.addEventListener('error', function (_ev) {
     wsState = 3;
