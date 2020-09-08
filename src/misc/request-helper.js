@@ -23,7 +23,7 @@ export function getURLAndInit({ hostname, port, secret }) {
   };
 }
 
-export function getWsUrl(apiConfig) {
+export function getWsUrl(apiConfig,endpoint) {
   const { hostname, port, secret } = apiConfig;
   let qs = '';
   if (typeof secret === 'string' && secret !== '') {

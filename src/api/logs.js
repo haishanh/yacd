@@ -67,7 +67,7 @@ let wsState;
 function fetchLogs(apiConfig, appendLog) {
   if (fetched || wsState === 1) return;
   wsState = 1;
-  const url = getWsUrl(apiConfig);
+  const url = getWsUrl(apiConfig,endpoint);
   const ws = new WebSocket(url);
   ws.addEventListener('error', function (_ev) {
     wsState = 3;
