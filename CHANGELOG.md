@@ -1,8 +1,14 @@
 # Changelog
 
+## [0.2.6](https://github.com/haishanh/yacd/compare/v0.2.5...v0.2.6) (2020-09-08)
+
+Changed:
+
+- use API base URL instead of hostname and port for Clash backend config
+
 ## [0.2.5](https://github.com/haishanh/yacd/compare/v0.2.4...v0.2.5) (2020-08-30)
 
-Added
+Added:
 
 - docker image arm and arm64 support
 
