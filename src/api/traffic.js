@@ -1,4 +1,4 @@
-import { getURLAndInit } from '../misc/request-helper';
+import { getURLAndInit, getWsUrl } from '../misc/request-helper';
 const endpoint = '/traffic';
 const textDecoder = new TextDecoder('utf-8');
 
@@ -68,16 +68,6 @@ function pump(reader) {
     return pump(reader);
   });
 }
-
-function getWsUrl(apiConfig) {
-  const { hostname, port, secret } = apiConfig;
-  let qs = '';
-  if (typeof secret === 'string' && secret !== '') {
-    qs += '?token=' + encodeURIComponent(secret);
-  }
-  return `ws://${hostname}:${port}${endpoint}${qs}`;
-}
-
 // 1 OPEN
 // other value CLOSED
 // similar to ws readyState but not the same

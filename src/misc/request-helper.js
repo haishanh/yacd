@@ -11,7 +11,7 @@ export function genCommonHeaders({ secret }) {
 }
 
 export function getAPIBaseURL({ hostname, port }) {
-  return `http://${hostname}:${port}`;
+  return `//${hostname}:${port}`;
 }
 
 export function getURLAndInit({ hostname, port, secret }) {
@@ -21,4 +21,13 @@ export function getURLAndInit({ hostname, port, secret }) {
     url: baseURL,
     init: { headers }
   };
+}
+
+export function getWsUrl(apiConfig) {
+  const { hostname, port, secret } = apiConfig;
+  let qs = '';
+  if (typeof secret === 'string' && secret !== '') {
+    qs += '?token=' + encodeURIComponent(secret);
+  }
+  return `ws${/s:$/.test(location.protocol)?'s':''}://${hostname}:${port}${endpoint}${qs}`;
 }

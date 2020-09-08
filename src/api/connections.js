@@ -1,4 +1,4 @@
-import { getURLAndInit } from '../misc/request-helper';
+import { getURLAndInit, getWsUrl } from '../misc/request-helper';
 
 const endpoint = '/connections';
 
@@ -41,15 +41,6 @@ function appendData(s) {
     console.log('JSON.parse error', JSON.parse(s));
   }
   subscribers.forEach((f) => f(o));
-}
-
-function getWsUrl(apiConfig) {
-  const { hostname, port, secret } = apiConfig;
-  let qs = '';
-  if (typeof secret === 'string' && secret !== '') {
-    qs += '?token=' + encodeURIComponent(secret);
-  }
-  return `ws://${hostname}:${port}${endpoint}${qs}`;
 }
 
 let wsState;

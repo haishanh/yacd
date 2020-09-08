@@ -1,4 +1,4 @@
-import { getURLAndInit } from '../misc/request-helper';
+import { getURLAndInit, getWsUrl } from '../misc/request-helper';
 const endpoint = '/logs';
 const textDecoder = new TextDecoder('utf-8');
 
@@ -58,15 +58,6 @@ function pump(reader, appendLog) {
 
 const apiConfigSnapshot = {};
 let controller;
-
-function getWsUrl(apiConfig) {
-  const { hostname, port, secret, logLevel } = apiConfig;
-  let qs = '?level=' + logLevel;
-  if (typeof secret === 'string' && secret !== '') {
-    qs += '&token=' + encodeURIComponent(secret);
-  }
-  return `ws://${hostname}:${port}${endpoint}${qs}`;
-}
 
 // 1 OPEN
 // other value CLOSED
