@@ -2,8 +2,8 @@ import * as configsAPI from '../api/configs';
 import * as trafficAPI from '../api/traffic';
 import { openModal } from './modals';
 
-export const getConfigs = s => s.configs.configs;
-export const getLogLevel = s => s.configs.configs['log-level'];
+export const getConfigs = (s) => s.configs.configs;
+export const getLogLevel = (s) => s.configs.configs['log-level'];
 
 export function fetchConfigs(apiConfig) {
   return async (dispatch, getState) => {
@@ -11,25 +11,20 @@ export function fetchConfigs(apiConfig) {
     try {
       res = await configsAPI.fetchConfigs(apiConfig);
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('Error fetch configs', err);
+      // TypeError and AbortError
       dispatch(openModal('apiConfig'));
       return;
     }
 
     if (!res.ok) {
-      if (res.status === 404 || res.status === 401) {
-        dispatch(openModal('apiConfig'));
-      } else {
-        // eslint-disable-next-line no-console
-        console.log('Error fetch configs', res.statusText);
-      }
+      console.log('Error fetch configs', res.statusText);
+      dispatch(openModal('apiConfig'));
       return;
     }
 
     const payload = await res.json();
 
-    dispatch('store/configs#fetchConfigs', s => {
+    dispatch('store/configs#fetchConfigs', (s) => {
       s.configs.configs = payload;
     });
 
@@ -47,25 +42,25 @@ export function fetchConfigs(apiConfig) {
 }
 
 function markHaveFetchedConfig() {
-  return dispatch => {
-    dispatch('store/configs#markHaveFetchedConfig', s => {
+  return (dispatch) => {
+    dispatch('store/configs#markHaveFetchedConfig', (s) => {
       s.configs.haveFetchedConfig = true;
     });
   };
 }
 
 export function updateConfigs(apiConfig, partialConfg) {
-  return async dispatch => {
+  return async (dispatch) => {
     configsAPI
       .updateConfigs(apiConfig, partialConfg)
       .then(
-        res => {
+        (res) => {
           if (res.ok === false) {
             // eslint-disable-next-line no-console
             console.log('Error update configs', res.statusText);
           }
         },
-        err => {
+        (err) => {
           // eslint-disable-next-line no-console
           console.log('Error update configs', err);
           throw err;
@@ -75,7 +70,7 @@ export function updateConfigs(apiConfig, partialConfg) {
         dispatch(fetchConfigs(apiConfig));
       });
 
-    dispatch('storeConfigsOptimisticUpdateConfigs', s => {
+    dispatch('storeConfigsOptimisticUpdateConfigs', (s) => {
       s.configs.configs = { ...s.configs.configs, ...partialConfg };
     });
   };
@@ -88,7 +83,7 @@ export const initialState = {
     'redir-port': 0,
     'allow-lan': false,
     mode: 'Rule',
-    'log-level': 'info'
+    'log-level': 'info',
   },
-  haveFetchedConfig: false
+  haveFetchedConfig: false,
 };

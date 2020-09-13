@@ -1,0 +1,99 @@
+.ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  line-height: 1.8;
+
+  --width-max-content: 230px;
+}
+
+.li {
+  position: relative;
+  margin: 5px 0;
+  padding: 10px 0;
+  border-radius: 10px;
+  display: grid;
+  place-content: center;
+  grid-template-columns: 40px 1fr 40px;
+  grid-template-rows: 30px;
+  grid-template-areas: 'close url .';
+  column-gap: 10px;
+}
+
+.li:hover {
+  background-color: var(--bg-near-transparent);
+}
+
+.close {
+  opacity: 0;
+  grid-area: close;
+  place-self: center;
+}
+
+.li:hover .close,
+.li:hover .eye {
+  opacity: 1;
+}
+.close:focus,
+.eye:focus {
+  opacity: 1;
+}
+
+.hasSecret {
+  grid-template-rows: repeat(2, 30px);
+  grid-template-areas:
+    'close url .'
+    'close secret eye';
+}
+
+.url {
+  grid-area: url;
+}
+.secret {
+  grid-area: secret;
+}
+.eye {
+  grid-area: eye;
+  opacity: 0;
+  place-self: center;
+  cursor: pointer;
+}
+
+.url,
+.secret {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn {
+  outline: none;
+  appearance: none;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 100px;
+}
+.btn:focus {
+  border-color: var(--color-focus-blue);
+}
+.btn:hover:enabled {
+  background-color: var(--color-focus-blue);
+}
+.btn:active:enabled {
+  transform: scale(0.97);
+}
+.btn:disabled {
+  color: var(--color-text-secondary);
+}
+
+.url {
+  cursor: pointer;
+}
+.url:hover {
+  color: var(--color-text-highlight);
+}

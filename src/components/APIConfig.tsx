@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { fetchConfigs } from 'src/api/configs';
+import { BackendList } from 'src/components/BackendList';
 import { ClashAPIConfig } from 'src/types';
 
-import { getClashAPIConfig, updateClashAPIConfig } from '../store/app';
+import { addClashAPIConfig, getClashAPIConfig } from '../store/app';
 import s0 from './APIConfig.module.css';
 import Button from './Button';
 import Field from './Field';
@@ -16,9 +17,9 @@ const mapState = (s) => ({
   apiConfig: getClashAPIConfig(s),
 });
 
-function APIConfig({ apiConfig, dispatch }) {
-  const [baseURL, setBaseURL] = useState(apiConfig.baseURL);
-  const [secret, setSecret] = useState(apiConfig.secret);
+function APIConfig({ dispatch }) {
+  const [baseURL, setBaseURL] = useState('');
+  const [secret, setSecret] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
   const userTouchedFlagRef = useRef(false);
@@ -47,14 +48,21 @@ function APIConfig({ apiConfig, dispatch }) {
       if (ret[0] !== Ok) {
         setErrMsg(ret[1]);
       } else {
-        dispatch(updateClashAPIConfig({ baseURL, secret }));
+        dispatch(addClashAPIConfig({ baseURL, secret }));
       }
     });
   }, [baseURL, secret, dispatch]);
 
   const handleContentOnKeyDown = useCallback(
-    (e) => {
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (
+        e.target instanceof Element &&
+        (!e.target.tagName || e.target.tagName.toUpperCase() !== 'INPUT')
+      ) {
+        return;
+      }
       if (e.key !== 'Enter') return;
+
       onConfirm();
     },
     [onConfirm]
@@ -90,8 +98,10 @@ function APIConfig({ apiConfig, dispatch }) {
       </div>
       <div className={s0.error}>{errMsg ? errMsg : null}</div>
       <div className={s0.footer}>
-        <Button label="Confirm" onClick={onConfirm} />
+        <Button label="Add" onClick={onConfirm} />
       </div>
+      <div style={{ height: 20 }} />
+      <BackendList />
     </div>
   );
 }

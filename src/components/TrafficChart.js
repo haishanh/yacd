@@ -25,8 +25,7 @@ export default connect(mapState)(TrafficChart);
 
 function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
   const Chart = chartJSResource.read();
-  const { hostname, port, secret } = apiConfig;
-  const traffic = fetchData({ hostname, port, secret });
+  const traffic = fetchData(apiConfig);
   const data = useMemo(
     () => ({
       labels: traffic.labels,

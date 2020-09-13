@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  clearStorage,
   getClashAPIConfig,
   getLatencyTestUrl,
   getSelectedChartStyleIndex,
 } from '../store/app';
 import { fetchConfigs, getConfigs, updateConfigs } from '../store/configs';
+import { openModal } from '../store/modals';
 import Button from './Button';
 import s0 from './Config.module.css';
 import ContentHeader from './ContentHeader';
@@ -103,6 +103,10 @@ function ConfigImpl({
     }
     refConfigs.current = configs;
   }, [configs]);
+
+  const openAPIConfigModal = useCallback(() => {
+    dispatch(openModal('apiConfig'));
+  }, [dispatch]);
 
   const setConfigState = useCallback(
     (name, val) => {
@@ -256,7 +260,7 @@ function ConfigImpl({
         </div>
         <div>
           <div className={s0.label}>Action</div>
-          <Button label="Log out" onClick={clearStorage} />
+          <Button label="Switch backend" onClick={openAPIConfigModal} />
         </div>
       </div>
     </div>
