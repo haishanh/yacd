@@ -1,11 +1,12 @@
 import './Root.css';
 
 import React, { lazy, Suspense } from 'react';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, useRoutes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { About } from 'src/components/about/About';
 
 import { actions, initialState } from '../store';
+import APIConfig from './APIConfig';
 import APIDiscovery from './APIDiscovery';
 import ErrorBoundary from './ErrorBoundary';
 import Home from './Home';
@@ -52,15 +53,40 @@ const Rules = lazy(() =>
 );
 
 const routes = [
-  ['home', '/', <Home />],
-  ['connections', '/connections', <Connections />],
-  ['configs', '/configs', <Config />],
-  ['logs', '/logs', <Logs />],
-  ['proxies', '/proxies', <Proxies />],
-  ['rules', '/rules', <Rules />],
-  ['about', '/about', <About />],
-  __DEV__ ? ['style', '/style', <StyleGuide />] : false,
+  { path: '/', element: <Home /> },
+  { path: '/connections', element: <Connections /> },
+  { path: '/configs', element: <Config /> },
+  { path: '/logs', element: <Logs /> },
+  { path: '/proxies', element: <Proxies /> },
+  { path: '/rules', element: <Rules /> },
+  { path: '/about', element: <About /> },
+  __DEV__ ? { path: '/style', element: <StyleGuide /> } : false,
 ].filter(Boolean);
+
+function RouteInnerApp() {
+  return useRoutes(routes);
+}
+
+function SideBarApp() {
+  return (
+    <>
+      <APIDiscovery />
+      <SideBar />
+      <div className={s0.content}>
+        <Suspense fallback={<Loading2 />}>
+          <RouteInnerApp />
+        </Suspense>
+      </div>
+    </>
+  );
+}
+
+function App() {
+  return useRoutes([
+    { path: '/backend', element: <APIConfig /> },
+    { path: '*', element: <SideBarApp /> },
+  ]);
+}
 
 const Root = () => (
   <ErrorBoundary>
@@ -68,17 +94,9 @@ const Root = () => (
       <StateProvider initialState={initialState} actions={actions}>
         <Router>
           <div className={s0.app}>
-            <APIDiscovery />
-            <SideBar />
-            <div className={s0.content}>
-              <Suspense fallback={<Loading2 />}>
-                <Routes>
-                  {routes.map(([key, path, element]) => (
-                    <Route key={key} path={path} element={element} />
-                  ))}
-                </Routes>
-              </Suspense>
-            </div>
+            <Suspense fallback={<Loading2 />}>
+              <App />
+            </Suspense>
           </div>
         </Router>
       </StateProvider>

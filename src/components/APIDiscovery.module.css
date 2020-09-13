@@ -12,11 +12,11 @@
 
   display: flex;
   justify-content: center;
+  overflow-y: auto;
 }
 
 .container {
   position: relative;
-  top: 10%;
   margin-left: 20px;
   margin-right: 20px;
 }
