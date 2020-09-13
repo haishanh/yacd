@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.7](https://github.com/haishanh/yacd/compare/v0.2.6...v0.2.7) (2020-09-13)
+
+Added:
+
+- multi backends management (see "Switch backend" action the the bottom of Config page)
+
 ## [0.2.6](https://github.com/haishanh/yacd/compare/v0.2.5...v0.2.6) (2020-09-08)
 
 Changed:
