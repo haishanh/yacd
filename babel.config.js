@@ -10,7 +10,7 @@ const presets = [
       bugfixes: true,
     },
   ],
-  '@babel/preset-react',
+  ['@babel/preset-react', { runtime: 'automatic' }],
   '@babel/preset-flow',
   '@babel/preset-typescript',
 ];

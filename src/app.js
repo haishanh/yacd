@@ -10,9 +10,7 @@ const rootEl = document.getElementById('app');
 
 Modal.setAppElement(rootEl);
 
-// ReactDOM.render(<Root />, rootEl);
-const { createRoot } = ReactDOM;
-const root = createRoot(rootEl);
+const root = ReactDOM.unstable_createRoot(rootEl);
 root.render(<Root />);
 
 // eslint-disable-next-line no-console
