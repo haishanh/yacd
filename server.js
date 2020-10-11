@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 const config = require('./webpack.config');
 const webpack = require('webpack');
@@ -12,7 +10,7 @@ const hotMiddleware = require('webpack-hot-middleware');
 const { PORT } = process.env;
 const port = PORT ? Number(PORT) : 3000;
 
-config.entry.app.unshift('webpack-hot-middleware/client');
+config.entry.app.import.unshift('webpack-hot-middleware/client');
 config.plugins.push(
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin()
@@ -29,7 +27,7 @@ const stats = {
   cached: false,
   cachedAssets: false,
   chunks: false,
-  chunkModules: false
+  chunkModules: false,
 };
 
 const options = { publicPath, stats };

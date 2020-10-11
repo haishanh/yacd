@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
 import React from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
+
+import { framerMotionResouce } from '../misc/motion';
 
 const { memo, useState, useRef, useEffect } = React;
 
@@ -50,6 +51,8 @@ const variantsCollpapsibleChildContainer = {
 };
 
 const Collapsible = memo(({ children, isOpen }) => {
+  const module = framerMotionResouce.read();
+  const motion = module.motion;
   const previous = usePrevious(isOpen);
   const [refToMeature, { height }] = useMeasure();
   return (

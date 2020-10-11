@@ -7,6 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
@@ -47,7 +48,6 @@ const postcssPlugins = () =>
     require('postcss-nested')(),
     require('autoprefixer')(),
     require('postcss-extend-rule')(),
-    isDev ? false : require('cssnano')(),
   ].filter(Boolean);
 
 const postcssOptions = { plugins: postcssPlugins() };
@@ -74,7 +74,7 @@ const plugins = [
   new CleanWebpackPlugin(),
   // chart.js requires moment
   // and we don't need locale stuff in moment
-  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+  new webpack.IgnorePlugin({ resourceRegExp: /(^\.\/locale$)|(moment$)/ }),
   // https://github.com/pmmmwh/react-refresh-webpack-plugin
   isDev
     ? new ReactRefreshWebpackPlugin({
@@ -93,8 +93,10 @@ module.exports = {
   // https://webpack.js.org/configuration/devtool/
   devtool: isDev ? 'eval-source-map' : 'source-map',
   entry: {
-    // app: ['react-hot-loader/patch', './src/app.js']
-    app: ['./src/app.js'],
+    app: { import: ['./src/app.js'], dependOn: 'libs' },
+    libs: { import: ['react-query', 'react-modal'], dependOn: 'vendor' },
+    vendor: { import: ['react', 'react-dom'], dependOn: 'corejs' },
+    corejs: { import: 'core-js' },
   },
   context: __dirname,
   output: {
@@ -111,6 +113,14 @@ module.exports = {
   },
   module: {
     rules: [
+      // to work around "Module not found" issue for babel runtime imports
+      // https://github.com/webpack/webpack/issues/11467
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
       {
         test: /\.[tj]sx?$/,
         exclude: /node_modules/,
@@ -149,33 +159,15 @@ module.exports = {
     ],
   },
   optimization: {
-    moduleIds: isDev ? 'named' : 'hashed',
-    runtimeChunk: 'single',
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        'core-js': {
-          test(module, _chunks) {
-            return (
-              module.resource &&
-              module.resource.indexOf('node_modules/core-js/') >= 0
-            );
-          },
-        },
-        react: {
-          test(module, _chunks) {
-            return (
-              module.resource &&
-              (module.resource.indexOf('node_modules/@hot-loader/react-dom/') >=
-                0 ||
-                module.resource.indexOf('node_modules/react-dom/') >= 0 ||
-                module.resource.indexOf('node_modules/react/') >= 0)
-            );
-          },
-        },
-      },
-    },
-    minimizer: [new TerserPlugin()],
+    splitChunks: { chunks: 'all' },
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
   },
   plugins,
+  bail: true,
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
 };

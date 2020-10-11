@@ -1,8 +1,8 @@
 import { formatDistance } from 'date-fns';
-import { motion } from 'framer-motion';
 import * as React from 'react';
 import { RotateCw, Zap } from 'react-feather';
 
+import { framerMotionResouce } from '../../misc/motion';
 import {
   getClashAPIConfig,
   getCollapsibleIsOpen,
@@ -117,6 +117,8 @@ const arrow = {
   hover: { rotate: 360, transition: { duration: 0.3 } },
 };
 function Refresh() {
+  const module = framerMotionResouce.read();
+  const motion = module.motion;
   return (
     <motion.div
       className={s.refresh}

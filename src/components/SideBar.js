@@ -1,5 +1,4 @@
 import cx from 'clsx';
-import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Info } from 'react-feather';
@@ -13,6 +12,7 @@ import {
 } from 'react-icons/fc';
 import { Link, useLocation } from 'react-router-dom';
 
+import { framerMotionResouce } from '../misc/motion';
 import { getTheme, switchTheme } from '../store/app';
 import s from './SideBar.module.css';
 import { connect } from './StateProvider';
@@ -130,6 +130,8 @@ function SideBar({ dispatch, theme }) {
 }
 
 function MoonA() {
+  const module = framerMotionResouce.read();
+  const motion = module.motion;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -153,6 +155,9 @@ function MoonA() {
 }
 
 function Sun() {
+  const module = framerMotionResouce.read();
+  const motion = module.motion;
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
