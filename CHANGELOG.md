@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.8](https://github.com/haishanh/yacd/compare/v0.2.7...v0.2.8) (2020-10-12)
+
+Added:
+
+- Better error message for filling API base URL without providing a http protocol prefix.
+
 ## [0.2.7](https://github.com/haishanh/yacd/compare/v0.2.6...v0.2.7) (2020-09-13)
 
 Added:
