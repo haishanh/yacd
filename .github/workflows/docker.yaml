@@ -1,44 +1,35 @@
-# require the secrets DOCKER_HUB_PASSWORD
- 
-name: Release Docker Image
-on:
-  push:
-    tags:
-      - v*
+name: Build Docker Image
+on: [push]
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run tests
-        run: |
-          if [ -f docker-compose.test.yml ]; then
-            docker-compose --file docker-compose.test.yml build
-            docker-compose --file docker-compose.test.yml run sut
-          else
-            docker build . --file Dockerfile
-          fi
-  push:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
       - name: Set up Checkout
         uses: actions/checkout@v2
-      - name: Install Buildx and QEMU
-        run: |
-          export DOCKER_BUILDKIT=1
-          docker build --platform=local -o . git://github.com/docker/buildx
-          mkdir -p ~/.docker/cli-plugins
-          mv buildx ~/.docker/cli-plugins/docker-buildx
-          docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes --credential yes
-          docker buildx create --use --name build --node build --driver-opt network=host
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+      - name: Builder instance name
+        run: echo ${{ steps.buildx.outputs.name }}
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+
       - name: Log in to Docker Hub
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
         env:
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
         run: |
           echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
+
       - name: Build and push Docker image
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
         env:
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_IMAGE_PLATFORM: linux/amd64,linux/arm/v7,linux/arm64
@@ -53,3 +44,10 @@ jobs:
             --tag "$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION" \
             --tag "$DOCKER_IMAGE_NAME":latest \
             --file ./Dockerfile .
+
+      - name: Send Notification
+        uses: haishanh/actions-telegram-notification@v1
+        if: ${{ always() }}
+        with:
+          notification-token: ${{ secrets.TG_NOTIFICATION_TOKEN }}
+          job-status: ${{ job.status }}

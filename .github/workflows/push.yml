@@ -57,6 +57,7 @@ jobs:
 
       - name: Send Notification
         uses: haishanh/actions-telegram-notification@v1
+        if: ${{ always() }}
         with:
           notification-token: ${{ secrets.TG_NOTIFICATION_TOKEN }}
           job-status: ${{ job.status }}
