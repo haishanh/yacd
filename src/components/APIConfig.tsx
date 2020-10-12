@@ -112,6 +112,13 @@ async function verify(apiConfig: ClashAPIConfig): Promise<[number, string?]> {
   try {
     new URL(apiConfig.baseURL);
   } catch (e) {
+    if (apiConfig.baseURL) {
+      const prefix = apiConfig.baseURL.substring(0, 7);
+      if (prefix !== 'http://' && prefix !== 'https:/') {
+        return [1, 'Must starts with http:// or https://'];
+      }
+    }
+
     return [1, 'Invalid URL'];
   }
   try {
