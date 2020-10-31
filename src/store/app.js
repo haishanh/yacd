@@ -149,7 +149,7 @@ export function updateCollapsibleIsOpen(prefix, name, v) {
 }
 
 const defaultClashAPIConfig = {
-  baseURL: 'http://127.0.0.1:7892',
+  baseURL: 'http://127.0.0.1:9090',
   secret: '',
   addedAt: 0,
 };
