@@ -114,6 +114,7 @@ function Item({
         <>
           <span className={s.secret}>{show ? secret : '***'}</span>
 
+          {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'boolean | (() => void)' is not assignable to... Remove this comment to see the full error message */}
           <Button onClick={toggle} className={s.eye}>
             <Icon size={20} />
           </Button>

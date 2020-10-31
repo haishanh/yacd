@@ -119,11 +119,11 @@ function ConfigImpl({
   );
 
   const handleSwitchOnChange = useCallback(
-    (checked) => {
+    (checked: boolean) => {
       const name = 'allow-lan';
       const value = checked;
       setConfigState(name, value);
-      dispatch(updateConfigs(apiConfig, { [name]: value }));
+      dispatch(updateConfigs(apiConfig, { 'allow-lan': value }));
     },
     [apiConfig, dispatch, setConfigState]
   );
@@ -200,6 +200,7 @@ function ConfigImpl({
                 name={f.key}
                 value={configState[f.key]}
                 onChange={handleInputOnChange}
+                // @ts-expect-error ts-migrate(2322) FIXME: Type '{ name: string; value: any; onChange: (e: an... Remove this comment to see the full error message
                 onBlur={handleInputOnBlur}
               />
             </div>
@@ -267,6 +268,7 @@ function ConfigImpl({
   );
 }
 
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'propTypes' does not exist on type '(prop... Remove this comment to see the full error message
 Config.propTypes = {
   configs: PropTypes.object,
 };

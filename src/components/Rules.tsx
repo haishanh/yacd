@@ -43,6 +43,7 @@ function getItemSizeFactory({ provider }) {
   };
 }
 
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'index' does not exist on type '{ childre... Remove this comment to see the full error message
 const Row = memo(({ index, style, data }) => {
   const { rules, provider, apiConfig } = data;
   const providerQty = provider.names.length;
@@ -110,6 +111,7 @@ function Rules({ apiConfig }) {
   const { rules, provider } = useRuleAndProvider(apiConfig);
   const invalidateQueries = useInvalidateQueries();
 
+  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ rules: RuleItem[]; provider: {... Remove this comment to see the full error message
   const getItemSize = getItemSizeFactory({ rules, provider });
 
   return (
@@ -118,8 +120,10 @@ function Rules({ apiConfig }) {
         <ContentHeader title="Rules" />
         <TextFilter />
       </div>
+      {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'number | MutableRefObject<any>' is not assig... Remove this comment to see the full error message */}
       <div ref={refRulesContainer} style={{ paddingBottom }}>
         <VariableSizeList
+          // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
           height={containerHeight - paddingBottom}
           width="100%"
           itemCount={rules.length + provider.names.length}

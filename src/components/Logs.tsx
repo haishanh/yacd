@@ -1,5 +1,4 @@
 import cx from 'clsx';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { areEqual, FixedSizeList as List } from 'react-window';
 
@@ -26,7 +25,14 @@ const colors = {
   error: '#c11c1c',
 };
 
-function LogLine({ time, even, payload, type }) {
+type LogLineProps = {
+    time?: string;
+    even?: boolean;
+    payload?: string;
+    type?: string;
+};
+
+function LogLine({ time, even, payload, type }: LogLineProps) {
   const className = cx({ even }, s0.log);
   return (
     <div className={className}>
@@ -41,18 +47,12 @@ function LogLine({ time, even, payload, type }) {
   );
 }
 
-LogLine.propTypes = {
-  time: PropTypes.string,
-  even: PropTypes.bool,
-  payload: PropTypes.string,
-  type: PropTypes.string,
-};
-
 function itemKey(index, data) {
   const item = data[index];
   return item.id;
 }
 
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'index' does not exist on type '{ childre... Remove this comment to see the full error message
 const Row = memo(({ index, style, data }) => {
   const r = data[index];
   return (
@@ -78,10 +78,12 @@ function Logs({ dispatch, logLevel, apiConfig, logs }) {
     <div>
       <ContentHeader title="Logs" />
       <LogSearch />
+      {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'number | MutableRefObject<any>' is not assig... Remove this comment to see the full error message */}
       <div ref={refLogsContainer} style={{ paddingBottom }}>
         {logs.length === 0 ? (
           <div
             className={s0.logPlaceholder}
+            // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
             style={{ height: containerHeight - paddingBottom }}
           >
             <div className={s0.logPlaceholderIcon}>
@@ -92,6 +94,7 @@ function Logs({ dispatch, logLevel, apiConfig, logs }) {
         ) : (
           <div className={s0.logsWrapper}>
             <List
+              // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
               height={containerHeight - paddingBottom}
               width="100%"
               itemCount={logs.length}

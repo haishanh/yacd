@@ -3,6 +3,8 @@ import './Connections.css';
 import React from 'react';
 import { Pause, Play, X as IconClose } from 'react-feather';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { ConnectionItem } from 'src/api/connections';
+import { State } from 'src/store/types';
 
 import * as connAPI from '../api/connections';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
@@ -19,7 +21,7 @@ const { useEffect, useState, useRef, useCallback } = React;
 
 const paddingBottom = 30;
 
-function arrayToIdKv(items) {
+function arrayToIdKv<T extends { id: string }>(items: T[]) {
   const o = {};
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
@@ -28,9 +30,30 @@ function arrayToIdKv(items) {
   return o;
 }
 
-function filterConns(conns, keyword) {
-  const hasSubstring = (s, pat) => s.toLowerCase().includes(pat.toLowerCase());
+type FormattedConn = {
+  id: string;
+  upload: number;
+  download: number;
+  start: number;
+  chains: string;
+  rule: string;
+  destinationPort: string;
+  destinationIP: string;
+  sourceIP: string;
+  sourcePort: string;
+  source: string;
+  host: string;
+  type: string;
+  network: string;
+  downloadSpeedCurr?: number;
+  uploadSpeedCurr?: number;
+};
 
+function hasSubstring(s: string, pat: string) {
+  return s.toLowerCase().includes(pat.toLowerCase());
+}
+
+function filterConns(conns: FormattedConn[], keyword: string) {
   return !keyword
     ? conns
     : conns.filter((conn) =>
@@ -47,10 +70,13 @@ function filterConns(conns, keyword) {
       );
 }
 
-function formatConnectionDataItem(i, prevKv, now) {
+function formatConnectionDataItem(
+  i: ConnectionItem,
+  prevKv: Record<string, { upload: number; download: number }>,
+  now: number
+): FormattedConn {
   const { id, metadata, upload, download, start, chains, rule } = i;
-  // eslint-disable-next-line prefer-const
-  let {
+  const {
     host,
     destinationPort,
     destinationIP,
@@ -60,27 +86,27 @@ function formatConnectionDataItem(i, prevKv, now) {
     sourcePort,
   } = metadata;
   // host could be an empty string if it's direct IP connection
-  if (host === '') host = destinationIP;
-
+  let host2 = host;
+  if (host2 === '') host2 = destinationIP;
+  const prev = prevKv[id];
   const ret = {
     id,
     upload,
     download,
-    start: now - new Date(start),
+    start: now - new Date(start).valueOf(),
     chains: chains.reverse().join(' / '),
     rule,
     ...metadata,
-    host: `${host}:${destinationPort}`,
+    host: `${host2}:${destinationPort}`,
     type: `${type}(${network})`,
     source: `${sourceIP}:${sourcePort}`,
+    downloadSpeedCurr: download - (prev ? prev.download : 0),
+    uploadSpeedCurr: upload - (prev ? prev.upload : 0),
   };
-  const prev = prevKv[id];
-  ret.downloadSpeedCurr = download - (prev ? prev.download : 0);
-  ret.uploadSpeedCurr = upload - (prev ? prev.upload : 0);
   return ret;
 }
 
-function renderTableOrPlaceholder(conns) {
+function renderTableOrPlaceholder(conns: FormattedConn[]) {
   return conns.length > 0 ? (
     <ConnectionTable data={conns} />
   ) : (
@@ -119,13 +145,13 @@ function Conn({ apiConfig }) {
   const read = useCallback(
     ({ connections }) => {
       const prevConnsKv = arrayToIdKv(prevConnsRef.current);
-      const now = new Date();
-      const x = connections.map((c) =>
+      const now = Date.now();
+      const x = connections.map((c: ConnectionItem) =>
         formatConnectionDataItem(c, prevConnsKv, now)
       );
       const closed = [];
       for (const c of prevConnsRef.current) {
-        const idx = x.findIndex((conn) => conn.id === c.id);
+        const idx = x.findIndex((conn: ConnectionItem) => conn.id === c.id);
         if (idx < 0) closed.push(c);
       }
       setClosedConns((prev) => {
@@ -165,12 +191,14 @@ function Conn({ apiConfig }) {
             <Tab>
               <span>Active</span>
               <span className={s.connQty}>
+                {/* @ts-expect-error ts-migrate(2786) FIXME: 'ConnQty' cannot be used as a JSX component. */}
                 <ConnQty qty={filteredConns.length} />
               </span>
             </Tab>
             <Tab>
               <span>Closed</span>
               <span className={s.connQty}>
+                {/* @ts-expect-error ts-migrate(2786) FIXME: 'ConnQty' cannot be used as a JSX component. */}
                 <ConnQty qty={filteredClosedConns.length} />
               </span>
             </Tab>
@@ -187,11 +215,13 @@ function Conn({ apiConfig }) {
           </div>
         </div>
         <div
+          // @ts-expect-error ts-migrate(2322) FIXME: Type 'number | MutableRefObject<any>' is not assig... Remove this comment to see the full error message
           ref={refContainer}
           style={{ padding: 30, paddingBottom, paddingTop: 0 }}
         >
           <div
             style={{
+              // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
               height: containerHeight - paddingBottom,
               overflow: 'auto',
             }}
@@ -234,7 +264,7 @@ function Conn({ apiConfig }) {
   );
 }
 
-const mapState = (s) => ({
+const mapState = (s: State) => ({
   apiConfig: getClashAPIConfig(s),
 });
 

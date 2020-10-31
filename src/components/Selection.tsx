@@ -1,15 +1,16 @@
 import cx from 'clsx';
-import { array, func, number } from 'prop-types';
 import React from 'react';
 
 import s from './Selection.module.css';
 
-export default function Selection({
-  OptionComponent,
-  optionPropsList,
-  selectedIndex,
-  onChange,
-}) {
+type SelectionProps = {
+    OptionComponent?: (...args: any[]) => any;
+    optionPropsList?: any[];
+    selectedIndex?: number;
+    onChange?: (...args: any[]) => any;
+};
+
+export default function Selection({ OptionComponent, optionPropsList, selectedIndex, onChange, }: SelectionProps) {
   return (
     <div className={s.root}>
       {optionPropsList.map((props, idx) => {
@@ -35,14 +36,8 @@ export default function Selection({
   );
 }
 
-Selection.propTypes = {
-  OptionComponent: func,
-  optionPropsList: array,
-  selectedIndex: number,
-  onChange: func,
-};
-
 // for test
+// @ts-expect-error ts-migrate(7030) FIXME: Not all code paths return a value.
 export function Option({ title }) {
   // eslint-disable-next-line no-undef
   if (__DEV__) {

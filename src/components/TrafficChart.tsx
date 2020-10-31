@@ -50,6 +50,7 @@ function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
   useLineChart(Chart, 'trafficChart', data, traffic);
 
   return (
+    // @ts-expect-error ts-migrate(2322) FIXME: Type '{ position: string; maxWidth: number; }' is ... Remove this comment to see the full error message
     <div style={chartWrapperStyle}>
       <canvas id="trafficChart" />
     </div>

@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { useRecoilState } from 'recoil';
+import { DelayMapping, ProxiesMapping, ProxyItem } from 'src/store/types';
 
 import {
   // types
-  DelayMapping,
   NonProxyTypes,
-  ProxiesMapping,
   // atom
   proxyFilterText,
-  ProxyItem,
 } from '../../store/proxies';
 
 const { useMemo } = React;

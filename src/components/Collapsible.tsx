@@ -50,10 +50,12 @@ const variantsCollpapsibleChildContainer = {
   },
 };
 
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'isOpen' does not exist on type '{ childr... Remove this comment to see the full error message
 const Collapsible = memo(({ children, isOpen }) => {
   const module = framerMotionResouce.read();
   const motion = module.motion;
   const previous = usePrevious(isOpen);
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'height' does not exist on type 'MutableR... Remove this comment to see the full error message
   const [refToMeature, { height }] = useMeasure();
   return (
     <div>

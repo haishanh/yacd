@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import s0 from './ErrorBoundaryFallback.module.css';
@@ -6,7 +5,12 @@ import SvgGithub from './SvgGithub';
 import SvgYacd from './SvgYacd';
 const yacdRepoIssueUrl = 'https://github.com/haishanh/yacd/issues';
 
-function ErrorBoundaryFallback({ message, detail }) {
+type Props = {
+  message?: string;
+  detail?: string;
+};
+
+function ErrorBoundaryFallback({ message, detail }: Props) {
   return (
     <div className={s0.root}>
       <div className={s0.yacd}>
@@ -23,9 +27,5 @@ function ErrorBoundaryFallback({ message, detail }) {
     </div>
   );
 }
-
-ErrorBoundaryFallback.propTypes = {
-  message: PropTypes.string,
-};
 
 export default ErrorBoundaryFallback;

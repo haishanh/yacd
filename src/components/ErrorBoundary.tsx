@@ -1,18 +1,21 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 
 // import { getSentry } from '../misc/sentry';
-import { deriveMessageFromError } from '../misc/errors';
+import { deriveMessageFromError,Err } from '../misc/errors';
 import ErrorBoundaryFallback from './ErrorBoundaryFallback';
 
-class ErrorBoundary extends Component {
-  static propTypes = {
-    children: PropTypes.node,
-  };
+type Props = {
+  children: React.ReactNode;
+};
 
+type State = {
+  error?: Err;
+};
+
+class ErrorBoundary extends React.Component<Props, State> {
   state = { error: null };
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Err) {
     return { error };
   }
 

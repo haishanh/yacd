@@ -1,15 +1,23 @@
-import PropTypes from 'prop-types';
+
 import React, { useCallback, useMemo } from 'react';
 
 import s0 from './ToggleSwitch.module.css';
 
-function ToggleSwitch({ options, value, name, onChange }) {
+type Props = {
+    options?: any[];
+    value?: string;
+    name?: string;
+    onChange?: (...args: any[]) => any;
+};
+
+function ToggleSwitch({ options, value, name, onChange }: Props) {
   const idxSelected = useMemo(
     () => options.map((o) => o.value).indexOf(value),
     [options, value]
   );
 
   const getPortionPercentage = useCallback(
+    // @ts-expect-error ts-migrate(7030) FIXME: Not all code paths return a value.
     (idx) => {
       const w = Math.floor(100 / options.length);
       if (idx === options.length - 1) {
@@ -58,12 +66,5 @@ function ToggleSwitch({ options, value, name, onChange }) {
     </div>
   );
 }
-
-ToggleSwitch.propTypes = {
-  options: PropTypes.array,
-  value: PropTypes.string,
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-};
 
 export default React.memo(ToggleSwitch);

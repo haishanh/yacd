@@ -13,6 +13,7 @@ export default function useLineChart(
   extraChartOptions = {}
 ) {
   useEffect(() => {
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'getContext' does not exist on type 'HTML... Remove this comment to see the full error message
     const ctx = document.getElementById(elementId).getContext('2d');
     const c = new Chart(ctx, {
       type: 'line',

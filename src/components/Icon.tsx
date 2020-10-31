@@ -1,8 +1,14 @@
 import cx from 'clsx';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-const Icon = ({ id, width = 20, height = 20, className, ...props }) => {
+type Props = {
+    id: string;
+    width?: number;
+    height?: number;
+    className?: string;
+};
+
+const Icon = ({ id, width = 20, height = 20, className, ...props }: Props) => {
   const c = cx('icon', id, className);
   const href = '#' + id;
   return (
@@ -10,13 +16,6 @@ const Icon = ({ id, width = 20, height = 20, className, ...props }) => {
       <use xlinkHref={href} />
     </svg>
   );
-};
-
-Icon.propTypes = {
-  id: PropTypes.string.isRequired,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  className: PropTypes.string,
 };
 
 export default React.memo(Icon);

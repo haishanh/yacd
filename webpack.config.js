@@ -93,7 +93,7 @@ module.exports = {
   // https://webpack.js.org/configuration/devtool/
   devtool: isDev ? 'eval-source-map' : 'source-map',
   entry: {
-    app: { import: ['./src/app.js'], dependOn: 'libs' },
+    app: { import: ['./src/app.tsx'], dependOn: 'libs' },
     libs: { import: ['react-query', 'react-modal'], dependOn: 'vendor' },
     vendor: { import: ['react', 'react-dom'], dependOn: 'corejs' },
     corejs: { import: 'core-js' },

@@ -1,6 +1,7 @@
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
 import { RotateCw, Zap } from 'react-feather';
+import { DelayMapping } from 'src/store/types';
 
 import { framerMotionResouce } from '../../misc/motion';
 import {
@@ -10,7 +11,6 @@ import {
   getProxySortBy,
 } from '../../store/app';
 import {
-  DelayMapping,
   getDelay,
   healthcheckProviderByName,
   updateProviderByName,
@@ -89,6 +89,7 @@ function ProxyProviderImpl({
       <div className={s.updatedAt}>
         <small>Updated {timeAgo} ago</small>
       </div>
+      {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ children: Element[]; isOpen: boolean; }' i... Remove this comment to see the full error message */}
       <Collapsible isOpen={isOpen}>
         <ProxyList all={proxies} />
         <div className={s.actionFooter}>
@@ -101,6 +102,7 @@ function ProxyProviderImpl({
           />
         </div>
       </Collapsible>
+      {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ children: Element; isOpen: boolean; }' is ... Remove this comment to see the full error message */}
       <Collapsible isOpen={!isOpen}>
         <ProxyListSummaryView all={proxies} />
       </Collapsible>

@@ -1,11 +1,19 @@
-import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import s0 from './Input.module.css';
 
 const { useState, useRef, useEffect, useCallback } = React;
 
-export default function Input(props) {
+type InputProps = {
+    value?: string | number;
+    type?: string;
+    onChange?: (...args: any[]) => any;
+    name?: string;
+    placeholder?: string;
+};
+
+export default function Input(props: InputProps) {
   return <input className={s0.input} {...props} />;
 }
 
@@ -32,11 +40,3 @@ export function SelfControlledInput({ value, ...restProps }) {
     />
   );
 }
-
-Input.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  type: PropTypes.string,
-  onChange: PropTypes.func,
-  name: PropTypes.string,
-  placeholder: PropTypes.string,
-};

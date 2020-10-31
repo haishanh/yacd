@@ -1,18 +1,18 @@
 import cx from 'clsx';
-import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from 'react-modal';
 
 import s0 from './Modal.module.css';
 
-function ModalAPIConfig({
-  isOpen,
-  onRequestClose,
-  className,
-  overlayClassName,
-  children,
-  ...otherProps
-}) {
+type Props = {
+    isOpen: boolean;
+    onRequestClose: (...args: any[]) => any;
+    children: React.ReactNode;
+    className?: string;
+    overlayClassName?: string;
+};
+
+function ModalAPIConfig({ isOpen, onRequestClose, className, overlayClassName, children, ...otherProps }: Props) {
   const contentCls = cx(className, s0.content);
   const overlayCls = cx(overlayClassName, s0.overlay);
   return (
@@ -27,13 +27,5 @@ function ModalAPIConfig({
     </Modal>
   );
 }
-
-ModalAPIConfig.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  overlayClassName: PropTypes.string,
-};
 
 export default React.memo(ModalAPIConfig);

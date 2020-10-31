@@ -1,13 +1,23 @@
+import {
+  ClashGeneralConfig,
+  DispatchFn,
+  GetStateFn,
+  State,
+  StateConfigs,
+} from 'src/store/types';
+import { ClashAPIConfig } from 'src/types';
+
 import * as configsAPI from '../api/configs';
 import * as trafficAPI from '../api/traffic';
 import { openModal } from './modals';
 
-export const getConfigs = (s) => s.configs.configs;
-export const getLogLevel = (s) => s.configs.configs['log-level'];
+export const getConfigs = (s: State) => s.configs.configs;
+export const getHaveFetched = (s: State) => s.configs.haveFetchedConfig;
+export const getLogLevel = (s: State) => s.configs.configs['log-level'];
 
-export function fetchConfigs(apiConfig) {
-  return async (dispatch, getState) => {
-    let res;
+export function fetchConfigs(apiConfig: ClashAPIConfig) {
+  return async (dispatch: DispatchFn, getState: GetStateFn) => {
+    let res: Response;
     try {
       res = await configsAPI.fetchConfigs(apiConfig);
     } catch (err) {
@@ -28,9 +38,9 @@ export function fetchConfigs(apiConfig) {
       s.configs.configs = payload;
     });
 
-    const configsCurr = getConfigs(getState());
+    const haveFetchedConfig = getHaveFetched(getState());
 
-    if (configsCurr.haveFetchedConfig) {
+    if (haveFetchedConfig) {
       // normally user will land on the "traffic chart" page first
       // calling this here will let the data start streaming
       // the traffic chart should already subscribed to the streaming
@@ -42,15 +52,18 @@ export function fetchConfigs(apiConfig) {
 }
 
 function markHaveFetchedConfig() {
-  return (dispatch) => {
-    dispatch('store/configs#markHaveFetchedConfig', (s) => {
+  return (dispatch: DispatchFn) => {
+    dispatch('store/configs#markHaveFetchedConfig', (s: State) => {
       s.configs.haveFetchedConfig = true;
     });
   };
 }
 
-export function updateConfigs(apiConfig, partialConfg) {
-  return async (dispatch) => {
+export function updateConfigs(
+  apiConfig: ClashAPIConfig,
+  partialConfg: Partial<ClashGeneralConfig>
+) {
+  return async (dispatch: DispatchFn) => {
     configsAPI
       .updateConfigs(apiConfig, partialConfg)
       .then(
@@ -76,7 +89,7 @@ export function updateConfigs(apiConfig, partialConfg) {
   };
 }
 
-export const initialState = {
+export const initialState: StateConfigs = {
   configs: {
     port: 7890,
     'socks-port': 7891,

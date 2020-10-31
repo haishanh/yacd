@@ -80,6 +80,7 @@ function APIConfig({ dispatch }) {
         <div className={s0.hostnamePort}>
           <Field
             id="baseURL"
+            // @ts-expect-error ts-migrate(2322) FIXME: Type '{ id: string; name: string; label: string; t... Remove this comment to see the full error message
             name="baseURL"
             label="API Base URL"
             type="text"
@@ -88,6 +89,7 @@ function APIConfig({ dispatch }) {
           />
           <Field
             id="secret"
+            // @ts-expect-error ts-migrate(2322) FIXME: Type '{ id: string; name: string; label: string; v... Remove this comment to see the full error message
             name="secret"
             label="Secret(optional)"
             value={secret}

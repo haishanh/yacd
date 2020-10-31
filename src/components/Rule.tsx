@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import s0 from './Rule.module.css';
@@ -17,7 +17,14 @@ function getStyleFor({ proxy }) {
   return { color };
 }
 
-function Rule({ type, payload, proxy, id }) {
+type Props = {
+    id?: number;
+    type?: string;
+    payload?: string;
+    proxy?: string;
+};
+
+function Rule({ type, payload, proxy, id }: Props) {
   const styleProxy = getStyleFor({ proxy });
   return (
     <div className={s0.rule}>
@@ -32,12 +39,5 @@ function Rule({ type, payload, proxy, id }) {
     </div>
   );
 }
-
-Rule.propTypes = {
-  id: PropTypes.number,
-  type: PropTypes.string,
-  payload: PropTypes.string,
-  proxy: PropTypes.string,
-};
 
 export default Rule;

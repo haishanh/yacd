@@ -15,6 +15,7 @@ function APIDiscovery({ dispatch, apiConfig, modals }) {
   if (!window.fetch) {
     const { detail } = errors[DOES_NOT_SUPPORT_FETCH];
     const err = new Error(detail);
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'code' does not exist on type 'Error'.
     err.code = DOES_NOT_SUPPORT_FETCH;
     throw err;
   }
@@ -31,6 +32,7 @@ function APIDiscovery({ dispatch, apiConfig, modals }) {
       isOpen={modals.apiConfig}
       className={s0.content}
       overlayClassName={s0.overlay}
+      // @ts-expect-error ts-migrate(2322) FIXME: Type '{ children: Element; isOpen: any; className:... Remove this comment to see the full error message
       shouldCloseOnOverlayClick={false}
       shouldCloseOnEsc={false}
       onRequestClose={closeApiConfigModal}

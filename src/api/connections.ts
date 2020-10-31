@@ -9,11 +9,13 @@ const subscribers = [];
 
 // see also https://github.com/Dreamacro/clash/blob/dev/constant/metadata.go#L41
 type UUID = string;
-type ConnectionItem = {
+type ConnNetwork = 'tcp' | 'udp';
+type ConnType = 'HTTP' | 'HTTP Connect' | 'Socks5' | 'Redir' | 'Unknown';
+export type ConnectionItem = {
   id: UUID;
   metadata: {
-    network: 'tcp' | 'udp';
-    type: 'HTTP' | 'HTTP Connect' | 'Socks5' | 'Redir' | 'Unknown';
+    network: ConnNetwork;
+    type: ConnType;
     sourceIP: string;
     destinationIP: string;
     sourcePort: string;
@@ -24,7 +26,7 @@ type ConnectionItem = {
   download: number;
   // e.g. "2019-11-30T22:48:13.416668+08:00",
   start: string;
-  chains: Array<string>;
+  chains: string[];
   // e.g. 'Match', 'DomainKeyword'
   rule: string;
 };

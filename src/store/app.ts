@@ -1,26 +1,31 @@
+import { DispatchFn, GetStateFn, State, StateApp } from 'src/store/types';
+
 import { loadState, saveState } from '../misc/storage';
 import { debounce, trimTrailingSlash } from '../misc/utils';
 import { fetchConfigs } from './configs';
 import { closeModal } from './modals';
 
-export const getClashAPIConfig = (s) => {
+export const getClashAPIConfig = (s: State) => {
   const idx = s.app.selectedClashAPIConfigIndex;
   return s.app.clashAPIConfigs[idx];
 };
-export const getSelectedClashAPIConfigIndex = (s) =>
+export const getSelectedClashAPIConfigIndex = (s: State) =>
   s.app.selectedClashAPIConfigIndex;
-export const getClashAPIConfigs = (s) => s.app.clashAPIConfigs;
-export const getTheme = (s) => s.app.theme;
-export const getSelectedChartStyleIndex = (s) => s.app.selectedChartStyleIndex;
-export const getLatencyTestUrl = (s) => s.app.latencyTestUrl;
-export const getCollapsibleIsOpen = (s) => s.app.collapsibleIsOpen;
-export const getProxySortBy = (s) => s.app.proxySortBy;
-export const getHideUnavailableProxies = (s) => s.app.hideUnavailableProxies;
-export const getAutoCloseOldConns = (s) => s.app.autoCloseOldConns;
+export const getClashAPIConfigs = (s: State) => s.app.clashAPIConfigs;
+export const getTheme = (s: State) => s.app.theme;
+export const getSelectedChartStyleIndex = (s: State) =>
+  s.app.selectedChartStyleIndex;
+export const getLatencyTestUrl = (s: State) => s.app.latencyTestUrl;
+export const getCollapsibleIsOpen = (s: State) => s.app.collapsibleIsOpen;
+export const getProxySortBy = (s: State) => s.app.proxySortBy;
+export const getHideUnavailableProxies = (s: State) =>
+  s.app.hideUnavailableProxies;
+export const getAutoCloseOldConns = (s: State) => s.app.autoCloseOldConns;
 
 const saveStateDebounced = debounce(saveState, 600);
 
-function findClashAPIConfigIndex(getState, { baseURL, secret }) {
+// @ts-expect-error ts-migrate(7030) FIXME: Not all code paths return a value.
+function findClashAPIConfigIndex(getState: GetStateFn, { baseURL, secret }) {
   const arr = getClashAPIConfigs(getState());
   for (let i = 0; i < arr.length; i++) {
     const x = arr[i];
@@ -29,7 +34,7 @@ function findClashAPIConfigIndex(getState, { baseURL, secret }) {
 }
 
 export function addClashAPIConfig({ baseURL, secret }) {
-  return async (dispatch, getState) => {
+  return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const idx = findClashAPIConfigIndex(getState, { baseURL, secret });
     // already exists
     if (idx) return;
@@ -44,7 +49,7 @@ export function addClashAPIConfig({ baseURL, secret }) {
 }
 
 export function removeClashAPIConfig({ baseURL, secret }) {
-  return async (dispatch, getState) => {
+  return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const idx = findClashAPIConfigIndex(getState, { baseURL, secret });
     dispatch('removeClashAPIConfig', (s) => {
       s.app.clashAPIConfigs = [
@@ -58,7 +63,7 @@ export function removeClashAPIConfig({ baseURL, secret }) {
 }
 
 export function selectClashAPIConfig({ baseURL, secret }) {
-  return async (dispatch, getState) => {
+  return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const idx = findClashAPIConfigIndex(getState, { baseURL, secret });
     const curr = getSelectedClashAPIConfigIndex(getState());
     if (curr !== idx) {
@@ -81,7 +86,7 @@ export function selectClashAPIConfig({ baseURL, secret }) {
 
 // unused
 export function updateClashAPIConfig({ baseURL, secret }) {
-  return async (dispatch, getState) => {
+  return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const clashAPIConfig = { baseURL, secret };
     dispatch('appUpdateClashAPIConfig', (s) => {
       s.app.clashAPIConfigs[0] = clashAPIConfig;
@@ -105,7 +110,7 @@ function setTheme(theme = 'dark') {
 }
 
 export function switchTheme() {
-  return (dispatch, getState) => {
+  return (dispatch: DispatchFn, getState: GetStateFn) => {
     const currentTheme = getTheme(getState());
     const theme = currentTheme === 'light' ? 'dark' : 'light';
     // side effect
@@ -118,8 +123,8 @@ export function switchTheme() {
   };
 }
 
-export function selectChartStyleIndex(selectedChartStyleIndex) {
-  return (dispatch, getState) => {
+export function selectChartStyleIndex(selectedChartStyleIndex: number) {
+  return (dispatch: DispatchFn, getState: GetStateFn) => {
     dispatch('appSelectChartStyleIndex', (s) => {
       s.app.selectedChartStyleIndex = selectedChartStyleIndex;
     });
@@ -128,8 +133,8 @@ export function selectChartStyleIndex(selectedChartStyleIndex) {
   };
 }
 
-export function updateAppConfig(name, value) {
-  return (dispatch, getState) => {
+export function updateAppConfig(name: string, value: unknown) {
+  return (dispatch: DispatchFn, getState: GetStateFn) => {
     dispatch('appUpdateAppConfig', (s) => {
       s.app[name] = value;
     });
@@ -138,9 +143,13 @@ export function updateAppConfig(name, value) {
   };
 }
 
-export function updateCollapsibleIsOpen(prefix, name, v) {
-  return (dispatch, getState) => {
-    dispatch('updateCollapsibleIsOpen', (s) => {
+export function updateCollapsibleIsOpen(
+  prefix: string,
+  name: string,
+  v: boolean
+) {
+  return (dispatch: DispatchFn, getState: GetStateFn) => {
+    dispatch('updateCollapsibleIsOpen', (s: State) => {
       s.app.collapsibleIsOpen[`${prefix}:${name}`] = v;
     });
     // side effect
@@ -154,7 +163,7 @@ const defaultClashAPIConfig = {
   addedAt: 0,
 };
 // type Theme = 'light' | 'dark';
-const defaultState = {
+const defaultState: StateApp = {
   selectedClashAPIConfigIndex: 0,
   clashAPIConfigs: [defaultClashAPIConfig],
 
@@ -172,7 +181,7 @@ const defaultState = {
 
 function parseConfigQueryString() {
   const { search } = window.location;
-  const collector = {};
+  const collector: Record<string, string> = {};
   if (typeof search !== 'string' || search === '') return collector;
   const qs = search.replace(/^\?/, '').split('&');
   for (let i = 0; i < qs.length; i++) {

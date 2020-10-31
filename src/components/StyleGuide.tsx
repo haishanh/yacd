@@ -51,12 +51,15 @@ class StyleGuide extends PureComponent {
   render() {
     return (
       <div>
+        {/* @ts-expect-error ts-migrate(2741) FIXME: Property 'style' is missing in type '{ children: E... Remove this comment to see the full error message */}
         <Pane>
           <SwitchExample />
         </Pane>
+        {/* @ts-expect-error ts-migrate(2741) FIXME: Property 'style' is missing in type '{ children: E... Remove this comment to see the full error message */}
         <Pane>
           <Input />
         </Pane>
+        {/* @ts-expect-error ts-migrate(2741) FIXME: Property 'style' is missing in type '{ children: E... Remove this comment to see the full error message */}
         <Pane>
           <ToggleSwitch
             name="test"
@@ -65,6 +68,7 @@ class StyleGuide extends PureComponent {
             onChange={noop}
           />
         </Pane>
+        {/* @ts-expect-error ts-migrate(2741) FIXME: Property 'style' is missing in type '{ children: E... Remove this comment to see the full error message */}
         <Pane>
           <Button text="Test Lxatency" start={<Zap size={16} />} />
           <Button text="Test Lxatency" start={<Zap size={16} />} isLoading />

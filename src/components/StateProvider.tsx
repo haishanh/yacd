@@ -42,6 +42,7 @@ export default function Provider({ initialState, actions = {}, children }) {
   const getState = useCallback(() => stateRef.current, []);
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'getState2' does not exist on type 'Windo... Remove this comment to see the full error message
       window.getState2 = getState;
     }
   }, [getState]);
@@ -94,6 +95,7 @@ export function connect(mapStateToProps) {
 // steal from https://github.com/reduxjs/redux/blob/master/src/bindActionCreators.ts
 function bindAction(action, dispatch) {
   return function (...args) {
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     return dispatch(action.apply(this, args));
   };
 }

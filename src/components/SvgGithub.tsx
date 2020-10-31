@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types';
+
 import React from 'react';
 
-export default function SvgGithub({ width = 24, height = 24 } = {}) {
+type Props = {
+    width?: number;
+    height?: number;
+};
+
+export default function SvgGithub({ width = 24, height = 24 }: Props = {}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,8 +23,3 @@ export default function SvgGithub({ width = 24, height = 24 } = {}) {
     </svg>
   );
 }
-
-SvgGithub.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
-};
