@@ -65,7 +65,12 @@
     "react-window": "^1.8.5",
     "recoil": "^0.0.13",
     "regenerator-runtime": "^0.13.7",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "workbox-core": "^5.1.4",
+    "workbox-expiration": "^5.1.4",
+    "workbox-precaching": "^5.1.4",
+    "workbox-routing": "^5.1.4",
+    "workbox-strategies": "^5.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
@@ -84,6 +89,7 @@
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.8",
     "@types/react-helmet": "^6.1.0",
+    "@types/react-modal": "^3.10.6",
     "@types/react-tabs": "^2.3.2",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
@@ -132,6 +138,7 @@
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^4.2.0",
     "webpack-dev-middleware": "^3.7.2",
-    "webpack-hot-middleware": "^2.22.2"
+    "webpack-hot-middleware": "^2.22.2",
+    "workbox-webpack-plugin": "^5.1.4"
   }
 }

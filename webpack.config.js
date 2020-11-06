@@ -10,23 +10,20 @@ const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-web
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
 
 const pkg = require('./package.json');
 
 process.env.BABEL_ENV = process.env.NODE_ENV;
 const isDev = process.env.NODE_ENV !== 'production';
 
+const publicPath = '';
+
 const html = new HTMLPlugin({
   title: 'yacd - Yet Another Clash Dashboard',
   template: 'src/index.template.ejs',
   scriptLoading: 'defer',
   filename: 'index.html',
-});
-
-const definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(isDev),
-  __VERSION__: JSON.stringify(pkg.version),
-  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
 });
 
 const postcssPlugins = () =>
@@ -64,7 +61,12 @@ const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
 
 const plugins = [
   html,
-  definePlugin,
+  new webpack.DefinePlugin({
+    __DEV__: JSON.stringify(isDev),
+    __VERSION__: JSON.stringify(pkg.version),
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    'process.env.PUBLIC_URL': JSON.stringify(publicPath),
+  }),
   new ForkTsCheckerWebpackPlugin(),
   new ForkTsCheckerNotifierWebpackPlugin({
     title: 'TypeScript',
@@ -75,6 +77,19 @@ const plugins = [
   // chart.js requires moment
   // and we don't need locale stuff in moment
   new webpack.IgnorePlugin({ resourceRegExp: /(^\.\/locale$)|(moment$)/ }),
+  isDev
+    ? false
+    : new InjectManifest({
+        swSrc: './src/sw.ts',
+        dontCacheBustURLsMatching: /\.[0-9a-f]{20}\./,
+        exclude: [
+          /\.map$/,
+          /asset-manifest\.json$/,
+          /LICENSE/,
+          'CNAME',
+          '_headers',
+        ],
+      }),
   // https://github.com/pmmmwh/react-refresh-webpack-plugin
   isDev
     ? new ReactRefreshWebpackPlugin({
@@ -102,7 +117,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: isDev ? '[name].js' : '[name].[contenthash].js',
-    publicPath: '',
+    publicPath,
   },
   mode: isDev ? 'development' : 'production',
   resolve: {
