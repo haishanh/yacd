@@ -42,8 +42,9 @@
 .proxyType {
   font-family: var(--font-mono);
   font-size: 0.6em;
+  margin-right: 3px;
   @media (--breakpoint-not-small) {
-    font-size: 1em;
+    font-size: 0.85em;
   }
 }
 

@@ -110,6 +110,11 @@ function ProxySmallImpl({
   );
 }
 
+function formatProxyType(t: string) {
+  if (t === 'Shadowsocks') return 'SS';
+  return t;
+}
+
 function ProxyImpl({
   now,
   name,
@@ -149,7 +154,7 @@ function ProxyImpl({
       <div className={s0.proxyName}>{name}</div>
       <div className={s0.row}>
         <span className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
-          {proxy.type}
+          {formatProxyType(proxy.type)}
         </span>
         {latency && latency.number ? (
           <ProxyLatency number={latency.number} color={color} />
