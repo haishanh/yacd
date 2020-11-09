@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.11](https://github.com/haishanh/yacd/compare/v0.2.10...v0.2.11) (2020-11-09)
+
+Changed:
+
+- Display proxy type "Shadowsocks" as "SS" to make proxy item tile more compact
+
 ## [0.2.10](https://github.com/haishanh/yacd/compare/v0.2.9...v0.2.10) (2020-11-06)
 
 Added:
