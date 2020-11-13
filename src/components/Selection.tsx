@@ -4,13 +4,18 @@ import React from 'react';
 import s from './Selection.module.css';
 
 type SelectionProps = {
-    OptionComponent?: (...args: any[]) => any;
-    optionPropsList?: any[];
-    selectedIndex?: number;
-    onChange?: (...args: any[]) => any;
+  OptionComponent?: (...args: any[]) => any;
+  optionPropsList?: any[];
+  selectedIndex?: number;
+  onChange?: (...args: any[]) => any;
 };
 
-export default function Selection({ OptionComponent, optionPropsList, selectedIndex, onChange, }: SelectionProps) {
+export default function Selection({
+  OptionComponent,
+  optionPropsList,
+  selectedIndex,
+  onChange,
+}: SelectionProps) {
   return (
     <div className={s.root}>
       {optionPropsList.map((props, idx) => {

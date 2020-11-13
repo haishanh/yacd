@@ -26,7 +26,7 @@ export async function requestToSwitchProxy(apiConfig, name1, name2) {
   return await fetch(fullURL, {
     ...init,
     method: 'PUT',
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
 }
 

@@ -1,13 +1,12 @@
-
 import React, { useCallback, useMemo } from 'react';
 
 import s0 from './ToggleSwitch.module.css';
 
 type Props = {
-    options?: any[];
-    value?: string;
-    name?: string;
-    onChange?: (...args: any[]) => any;
+  options?: any[];
+  value?: string;
+  name?: string;
+  onChange?: (...args: any[]) => any;
 };
 
 function ToggleSwitch({ options, value, name, onChange }: Props) {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // import { getSentry } from '../misc/sentry';
-import { deriveMessageFromError,Err } from '../misc/errors';
+import { deriveMessageFromError, Err } from '../misc/errors';
 import ErrorBoundaryFallback from './ErrorBoundaryFallback';
 
 type Props = {

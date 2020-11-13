@@ -6,11 +6,11 @@ import s from './Field.module.css';
 const { useCallback } = React;
 
 type Props = {
-    value?: string | number;
-    type?: 'text' | 'number';
-    onChange?: (...args: any[]) => any;
-    id?: string;
-    label?: string;
+  value?: string | number;
+  type?: 'text' | 'number';
+  onChange?: (...args: any[]) => any;
+  id?: string;
+  label?: string;
 };
 
 export default function Field({ id, label, value, onChange, ...props }: Props) {

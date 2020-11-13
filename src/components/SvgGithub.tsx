@@ -1,9 +1,8 @@
-
 import React from 'react';
 
 type Props = {
-    width?: number;
-    height?: number;
+  width?: number;
+  height?: number;
 };
 
 export default function SvgGithub({ width = 24, height = 24 }: Props = {}) {

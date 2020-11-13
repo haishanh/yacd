@@ -1,2 +1,1 @@
-
-// const ProxySortingOptions = 
+// const ProxySortingOptions =

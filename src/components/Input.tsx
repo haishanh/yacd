@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import s0 from './Input.module.css';
@@ -6,11 +5,11 @@ import s0 from './Input.module.css';
 const { useState, useRef, useEffect, useCallback } = React;
 
 type InputProps = {
-    value?: string | number;
-    type?: string;
-    onChange?: (...args: any[]) => any;
-    name?: string;
-    placeholder?: string;
+  value?: string | number;
+  type?: string;
+  onChange?: (...args: any[]) => any;
+  name?: string;
+  placeholder?: string;
 };
 
 export default function Input(props: InputProps) {

@@ -1,10 +1,9 @@
-
 import React from 'react';
 
 import s0 from './Loading.module.css';
 
 type Props = {
-    height?: string;
+  height?: string;
 };
 
 const Loading = ({ height }: Props) => {

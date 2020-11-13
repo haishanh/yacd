@@ -1,10 +1,9 @@
-
 import React from 'react';
 
 import s0 from './ContentHeader.module.css';
 
 type Props = {
-    title: string;
+  title: string;
 };
 
 function ContentHeader({ title }: Props) {

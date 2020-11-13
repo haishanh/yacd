@@ -26,10 +26,10 @@ const colors = {
 };
 
 type LogLineProps = {
-    time?: string;
-    even?: boolean;
-    payload?: string;
-    type?: string;
+  time?: string;
+  even?: boolean;
+  payload?: string;
+  type?: string;
 };
 
 function LogLine({ time, even, payload, type }: LogLineProps) {

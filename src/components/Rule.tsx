@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import s0 from './Rule.module.css';
@@ -18,10 +17,10 @@ function getStyleFor({ proxy }) {
 }
 
 type Props = {
-    id?: number;
-    type?: string;
-    payload?: string;
-    proxy?: string;
+  id?: number;
+  type?: string;
+  payload?: string;
+  proxy?: string;
 };
 
 function Rule({ type, payload, proxy, id }: Props) {
