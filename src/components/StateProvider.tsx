@@ -42,8 +42,7 @@ export default function Provider({ initialState, actions = {}, children }) {
   const getState = useCallback(() => stateRef.current, []);
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'getState2' does not exist on type 'Windo... Remove this comment to see the full error message
-      window.getState2 = getState;
+      (window as any).getState2 = getState;
     }
   }, [getState]);
   const dispatch = useCallback(
