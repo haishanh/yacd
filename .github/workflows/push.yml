@@ -64,40 +64,43 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v2
+
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: haishanh/yacd
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-        with:
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
         with:
           version: latest
+
       - name: Builder instance name
         run: echo ${{ steps.buildx.outputs.name }}
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
-      - name: Log in to Docker Hub
-        env:
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-        run: |
-          echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
-      - name: Build and push Docker image
-        env:
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_IMAGE_PLATFORM: linux/amd64,linux/arm/v7,linux/arm64
-          REPOSITORY_NAME: ${{ github.repository }}
-        run: |
-          IFS='/' read -ra repository_name_array <<<"$REPOSITORY_NAME"
-          DOCKER_IMAGE_NAME=$(echo $DOCKER_USERNAME/${repository_name_array[1]} | tr '[:upper:]' '[:lower:]')
-          DOCKER_IMAGE_VERSION=${GITHUB_REF#refs/*/}
-          docker buildx build \
-            --platform "$DOCKER_IMAGE_PLATFORM" \
-            --output "type=image,push=true" \
-            --tag "$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION" \
-            --tag "$DOCKER_IMAGE_NAME":latest \
-            --file ./Dockerfile .
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
       - name: Send Notification
         uses: haishanh/actions-telegram-notification@v1
         if: ${{ always() }}
