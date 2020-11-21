@@ -106,6 +106,7 @@ body {
 body,
 body.dark {
   --color-background: #202020;
+  --color-background2: rgba(32, 32, 32, 0.3);
   --color-text: #ddd;
   --color-text-secondary: #ccc;
   --color-text-highlight: #fff;
@@ -129,6 +130,7 @@ body.dark {
 
 body.light {
   --color-background: #fbfbfb;
+  --color-background2: rgba(251, 251, 251, 0.3);
   --color-text: #222;
   --color-text-secondary: #646464;
   --color-text-highlight: #040404;

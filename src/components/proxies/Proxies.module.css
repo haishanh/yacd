@@ -7,8 +7,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   z-index: 1;
-  background: var(--color-background);
-  background: linear-gradient(var(--color-background) 70%, transparent);
+  background-color: var(--color-background2);
+  backdrop-filter: blur(36px);
 }
 
 .topBarRight {
