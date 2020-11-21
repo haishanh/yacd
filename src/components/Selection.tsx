@@ -10,34 +10,37 @@ type SelectionProps = {
   onChange?: (...args: any[]) => any;
 };
 
-export default function Selection({
+export function Selection2({
   OptionComponent,
   optionPropsList,
   selectedIndex,
   onChange,
 }: SelectionProps) {
+  const inputCx = cx('visually-hidden', s.input);
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
   return (
-    <div className={s.root}>
+    <fieldset className={s.fieldset}>
       {optionPropsList.map((props, idx) => {
-        const className = cx(s.item, { [s.itemActive]: idx === selectedIndex });
-        const doSelect = (ev) => {
-          ev.preventDefault();
-          if (idx !== selectedIndex) onChange(idx);
-        };
         return (
-          <div
-            key={idx}
-            className={className}
-            tabIndex={0}
-            role="menuitem"
-            onKeyDown={doSelect}
-            onClick={doSelect}
-          >
-            <OptionComponent {...props} />
-          </div>
+          <label key={idx}>
+            <input
+              type="radio"
+              checked={selectedIndex === idx}
+              name="selection"
+              value={idx}
+              aria-labelledby={'traffic chart type ' + idx}
+              onChange={onInputChange}
+              className={inputCx}
+            />
+            <div className={s.cnt}>
+              <OptionComponent {...props} />
+            </div>
+          </label>
         );
       })}
-    </div>
+    </fieldset>
   );
 }
 

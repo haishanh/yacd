@@ -123,10 +123,12 @@ export function switchTheme() {
   };
 }
 
-export function selectChartStyleIndex(selectedChartStyleIndex: number) {
+export function selectChartStyleIndex(
+  selectedChartStyleIndex: number | string
+) {
   return (dispatch: DispatchFn, getState: GetStateFn) => {
     dispatch('appSelectChartStyleIndex', (s) => {
-      s.app.selectedChartStyleIndex = selectedChartStyleIndex;
+      s.app.selectedChartStyleIndex = Number(selectedChartStyleIndex);
     });
     // side effect
     saveState(getState().app);

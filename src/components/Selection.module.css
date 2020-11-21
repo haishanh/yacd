@@ -1,16 +1,23 @@
-.root {
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
   display: flex;
   flex-wrap: wrap;
 }
 
-.item {
-  flex-grow: 0;
-  margin-right: 10px;
-  margin-bottom: 10px;
+.input + .cnt {
+  border: 1px solid transparent;
+  border-radius: 8px;
   cursor: pointer;
-  border: 2px solid transparent;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
-.itemActive {
+.input:focus + .cnt {
+  border-color: #387cec;
+}
+
+.input:checked + .cnt {
   border-color: #387cec;
 }

@@ -12,7 +12,7 @@ import Button from './Button';
 import s0 from './Config.module.css';
 import ContentHeader from './ContentHeader';
 import Input, { SelfControlledInput } from './Input';
-import Selection from './Selection';
+import { Selection2 } from './Selection';
 import { connect, useStoreActions } from './StateProvider';
 import Switch from './SwitchThemed';
 import ToggleSwitch from './ToggleSwitch';
@@ -243,7 +243,7 @@ function ConfigImpl({
       <div className={s0.section}>
         <div>
           <div className={s0.label}>Chart Style</div>
-          <Selection
+          <Selection2
             OptionComponent={TrafficChartSample}
             optionPropsList={propsList}
             selectedIndex={selectedChartStyleIndex}

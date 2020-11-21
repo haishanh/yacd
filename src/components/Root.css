@@ -156,10 +156,20 @@ body.light {
   justify-content: center;
 }
 
-/* TODO remove fabgrp in component css files */
 .fabgrp {
   position: fixed;
   z-index: 3;
   right: 20px;
   bottom: 20px;
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
 }
