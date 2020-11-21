@@ -41,7 +41,7 @@ rules:
   react-hooks/exhaustive-deps:
     - warn
     - additionalHooks: useRecoilCallback
-  simple-import-sort/sort: error
+  simple-import-sort/imports: error
 #   quotes: ["error", "single"]
 #   strict: ["error", "never"]
 #   no-console: "warn"
