@@ -23,6 +23,7 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
+    "@reach/tooltip": "^0.11.2",
     "@sentry/browser": "^5.27.4",
     "chart.js": "^2.9.2",
     "clsx": "^1.1.0",

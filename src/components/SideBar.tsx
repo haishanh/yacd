@@ -1,6 +1,8 @@
+import '@reach/tooltip/styles.css';
+
+import Tooltip from '@reach/tooltip';
 import cx from 'clsx';
-import PropTypes from 'prop-types';
-import React from 'react';
+import * as React from 'react';
 import { Info } from 'react-feather';
 import {
   FcAreaChart,
@@ -19,17 +21,6 @@ import { connect } from './StateProvider';
 
 const { useCallback } = React;
 
-// testing color icons
-
-// const icons = {
-//   activity: Activity,
-//   globe: Globe,
-//   command: Command,
-//   file: File,
-//   settings: Settings,
-//   link: Link2
-// };
-
 const icons = {
   activity: FcAreaChart,
   globe: FcGlobe,
@@ -40,15 +31,11 @@ const icons = {
 };
 
 const SideBarRow = React.memo(function SideBarRow({
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'isActive' does not exist on type '{ chil... Remove this comment to see the full error message
   isActive,
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'to' does not exist on type '{ children?:... Remove this comment to see the full error message
   to,
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'iconId' does not exist on type '{ childr... Remove this comment to see the full error message
   iconId,
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'labelText' does not exist on type '{ chi... Remove this comment to see the full error message
   labelText,
-}) {
+}: SideBarRowProps) {
   const Comp = icons[iconId];
   const className = cx(s.row, isActive ? s.rowActive : null);
   return (
@@ -59,13 +46,12 @@ const SideBarRow = React.memo(function SideBarRow({
   );
 });
 
-// @ts-expect-error ts-migrate(2339) FIXME: Property 'propTypes' does not exist on type 'Named... Remove this comment to see the full error message
-SideBarRow.propTypes = {
-  isActive: PropTypes.bool.isRequired,
-  to: PropTypes.string.isRequired,
-  iconId: PropTypes.string,
-  labelText: PropTypes.string,
-};
+interface SideBarRowProps {
+  isActive: boolean;
+  to: string;
+  iconId?: string;
+  labelText?: string;
+}
 
 const pages = [
   {
@@ -112,7 +98,6 @@ function SideBar({ dispatch, theme }) {
         {pages.map(({ to, iconId, labelText }) => (
           <SideBarRow
             key={to}
-            // @ts-expect-error ts-migrate(2322) FIXME: Type '{ key: string; to: string; isActive: boolean... Remove this comment to see the full error message
             to={to}
             isActive={location.pathname === to}
             iconId={iconId}
@@ -121,15 +106,24 @@ function SideBar({ dispatch, theme }) {
         ))}
       </div>
       <div className={s.footer}>
-        <button
-          className={cx(s.iconWrapper, s.themeSwitchContainer)}
-          onClick={switchThemeHooked}
+        <Tooltip
+          label="theme"
+          aria-label={
+            'switch to ' + (theme === 'light' ? 'dark' : 'light') + ' theme'
+          }
         >
-          {theme === 'light' ? <MoonA /> : <Sun />}
-        </button>
-        <Link to="/about" className={s.iconWrapper}>
-          <Info size={20} />
-        </Link>
+          <button
+            className={cx(s.iconWrapper, s.themeSwitchContainer)}
+            onClick={switchThemeHooked}
+          >
+            {theme === 'light' ? <MoonA /> : <Sun />}
+          </button>
+        </Tooltip>
+        <Tooltip label="about">
+          <Link to="/about" className={s.iconWrapper}>
+            <Info size={20} />
+          </Link>
+        </Tooltip>
       </div>
     </div>
   );
