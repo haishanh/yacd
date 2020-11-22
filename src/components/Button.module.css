@@ -3,6 +3,7 @@
   outline: none;
   user-select: none;
   position: relative;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,3 @@
-/* import memoizeOne from 'memoize-one'; */
 import * as React from 'react';
 import { Zap } from 'react-feather';
 
@@ -85,6 +84,7 @@ function ProxyGroupImpl({
           isOpen={isOpen}
         />
         <Button
+          title="Test latency"
           kind="minimal"
           onClick={testLatency}
           isLoading={isTestingLatency}

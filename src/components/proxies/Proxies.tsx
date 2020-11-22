@@ -1,3 +1,4 @@
+import Tooltip from '@reach/tooltip';
 import * as React from 'react';
 import { Zap } from 'react-feather';
 
@@ -93,9 +94,11 @@ function Proxies({
           <div className={s0.textFilterContainer}>
             <TextFilter />
           </div>
-          <Button kind="minimal" onClick={() => setIsSettingsModalOpen(true)}>
-            <Equalizer size={16} />
-          </Button>
+          <Tooltip label="settings">
+            <Button kind="minimal" onClick={() => setIsSettingsModalOpen(true)}>
+              <Equalizer size={16} />
+            </Button>
+          </Tooltip>
         </div>
       </div>
       <div>

@@ -4,7 +4,7 @@ import * as React from 'react';
 import s0 from './Button.module.css';
 import { LoadingDot } from './shared/Basic';
 
-const { memo, forwardRef, useCallback } = React;
+const { forwardRef, useCallback } = React;
 
 type ButtonInternalProps = {
   children?: React.ReactNode;
@@ -19,6 +19,7 @@ type ButtonProps = {
   disabled?: boolean;
   kind?: 'primary' | 'minimal';
   className?: string;
+  title?: string;
 } & ButtonInternalProps;
 
 function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
@@ -28,8 +29,13 @@ function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
     isLoading,
     kind = 'primary',
     className,
+    children,
+    label,
+    text,
+    start,
     ...restProps
   } = props;
+  const internalProps = { children, label, text, start };
   const internalOnClick = useCallback(
     (e) => {
       if (isLoading) return;
@@ -39,9 +45,7 @@ function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
   );
   const btnClassName = cx(
     s0.btn,
-    {
-      [s0.minimal]: kind === 'minimal',
-    },
+    { [s0.minimal]: kind === 'minimal' },
     className
   );
   return (
@@ -50,23 +54,19 @@ function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
       ref={ref}
       onClick={internalOnClick}
       disabled={disabled}
+      {...restProps}
     >
       {isLoading ? (
         <>
-          <span
-            style={{
-              display: 'inline-flex',
-              opacity: 0,
-            }}
-          >
-            <ButtonInternal {...restProps} />
+          <span style={{ display: 'inline-flex', opacity: 0 }}>
+            <ButtonInternal {...internalProps} />
           </span>
           <span className={s0.loadingContainer}>
             <LoadingDot />
           </span>
         </>
       ) : (
-        <ButtonInternal {...restProps} />
+        <ButtonInternal {...internalProps} />
       )}
     </button>
   );
@@ -85,4 +85,4 @@ function ButtonInternal({ children, label, text, start }: ButtonInternalProps) {
   );
 }
 
-export default memo(forwardRef(Button));
+export default forwardRef(Button);

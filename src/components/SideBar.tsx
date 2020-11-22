@@ -1,5 +1,3 @@
-import '@reach/tooltip/styles.css';
-
 import Tooltip from '@reach/tooltip';
 import cx from 'clsx';
 import * as React from 'react';

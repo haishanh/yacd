@@ -39,7 +39,12 @@ export default function Header({ name, type, toggle, isOpen, qty }: Props) {
 
       {typeof qty === 'number' ? <span className={s.qty}>{qty}</span> : null}
 
-      <Button kind="minimal" onClick={toggle} className={s.btn}>
+      <Button
+        kind="minimal"
+        onClick={toggle}
+        className={s.btn}
+        title="Toggle collapsible section"
+      >
         <span className={cx(s.arrow, { [s.isOpen]: isOpen })}>
           <ChevronDown size={20} />
         </span>
