@@ -46,7 +46,7 @@ jobs:
           prerelease: false
       - name: Create Tar Ball
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
-        run: tar cJv yacd.tar.xz public
+        run: tar cJf yacd.tar.xz public
       - name: Upload Release Asset
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
         id: upload-release-asset
