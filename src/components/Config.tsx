@@ -39,23 +39,23 @@ const optionsRule = [
 
 const optionsLogLevel = [
   {
-    label: 'info',
-    value: 'info',
-  },
-  {
-    label: 'warning',
-    value: 'warning',
-  },
-  {
-    label: 'error',
-    value: 'error',
-  },
-  {
-    label: 'debug',
+    label: 'Debug',
     value: 'debug',
   },
   {
-    label: 'silent',
+    label: 'Warning',
+    value: 'warning',
+  },
+  {
+    label: 'Info',
+    value: 'info',
+  },
+  {
+    label: 'Error',
+    value: 'error',
+  },
+  {
+    label: 'Silent',
     value: 'silent',
   },
 ];
