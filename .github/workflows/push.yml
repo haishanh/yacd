@@ -33,7 +33,32 @@ jobs:
       - name: Build
         run: yarn build
 
-      ##### gh-pages
+      - name: Create Release
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: true
+          prerelease: false
+      - name: Create Tar Ball
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
+        run: tar cJv yacd.tar.xz public
+      - name: Upload Release Asset
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./yacd.tar.xz
+          asset_name: yacd.tar.xz
+          asset_content_type: application/x-gzip
+
       - name: Push to gh-pages
         if: github.event_name == 'push' && (startsWith(github.event.ref, 'refs/tags/') || github.event.ref == 'refs/heads/publish')
         env:

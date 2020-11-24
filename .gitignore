@@ -1,5 +1,9 @@
 *.
 !.eslintrc.yml
+*.tar.gz
+*.tar.xz
+*.log
+!.github
 
 node_modules/
 public/
@@ -7,5 +11,3 @@ experimental/
 deploy_ghpages.sh
 tags
 .eslintcache
-*.log
-!.github
