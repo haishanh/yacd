@@ -1,4 +1,5 @@
 *.
+.*
 !.eslintrc.yml
 *.tar.gz
 *.tar.xz
