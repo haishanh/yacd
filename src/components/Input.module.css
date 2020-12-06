@@ -11,11 +11,10 @@
   height: 40px;
   outline: none;
   padding: 0 15px;
-  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
-  &:focus {
-    border-color: var(--color-focus-blue);
-  }
+}
+.input:focus {
+  box-shadow: rgba(66, 153, 225, 0.6) 0px 0px 0px 3px;
 }
 
 input::-webkit-outer-spin-button,
