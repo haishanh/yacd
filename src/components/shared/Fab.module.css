@@ -1,0 +1,33 @@
+.spining {
+  position: relative;
+  border-radius: 50%;
+  background: linear-gradient(60deg, #e66465, #9198e5);
+
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spining:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spining_keyframes 1s linear infinite;
+}
+
+@keyframes spining_keyframes {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

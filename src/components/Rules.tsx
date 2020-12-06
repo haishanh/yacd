@@ -9,6 +9,8 @@ import { fetchRules } from 'src/api/rules';
 import { RuleProviderItem } from 'src/components/rules/RuleProviderItem';
 import { TextFilter } from 'src/components/rules/TextFilter';
 import { ruleFilterText } from 'src/store/rules';
+import { State } from 'src/store/types';
+import type { ClashAPIConfig } from 'src/types';
 
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';
@@ -22,7 +24,7 @@ const { memo, useMemo, useCallback } = React;
 
 const paddingBottom = 30;
 
-function itemKey(index, { rules, provider }) {
+function itemKey(index: number, { rules, provider }) {
   const providerQty = provider.names.length;
 
   if (index < providerQty) {
@@ -33,7 +35,7 @@ function itemKey(index, { rules, provider }) {
 }
 
 function getItemSizeFactory({ provider }) {
-  return function getItemSize(idx) {
+  return function getItemSize(idx: number) {
     const providerQty = provider.names.length;
     if (idx < providerQty) {
       // provider
@@ -67,16 +69,20 @@ const Row = memo(({ index, style, data }) => {
   );
 }, areEqual);
 
-const mapState = (s) => ({
+const mapState = (s: State) => ({
   apiConfig: getClashAPIConfig(s),
 });
 
 export default connect(mapState)(Rules);
 
-function useRuleAndProvider(apiConfig) {
-  const { data: rules } = useQuery(['/rules', apiConfig], fetchRules, {
-    suspense: true,
-  });
+function useRuleAndProvider(apiConfig: ClashAPIConfig) {
+  const { data: rules, isFetching } = useQuery(
+    ['/rules', apiConfig],
+    fetchRules,
+    {
+      suspense: true,
+    }
+  );
   const { data: provider } = useQuery(
     ['/providers/rules', apiConfig],
     fetchRuleProviders,
@@ -85,11 +91,12 @@ function useRuleAndProvider(apiConfig) {
 
   const [filterText] = useRecoilState(ruleFilterText);
   if (filterText === '') {
-    return { rules, provider };
+    return { rules, provider, isFetching };
   } else {
     const f = filterText.toLowerCase();
     return {
       rules: rules.filter((r) => r.payload.toLowerCase().indexOf(f) >= 0),
+      isFetching,
       provider: {
         byName: provider.byName,
         names: provider.names.filter((t) => t.toLowerCase().indexOf(f) >= 0),
@@ -141,7 +148,7 @@ function Rules({ apiConfig }) {
       <Fab
         icon={refreshIcon}
         text="Refresh"
-        position={fabPosition}
+        style={fabPosition}
         onClick={invalidateQueries}
       />
     </div>

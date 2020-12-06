@@ -24,7 +24,7 @@ const columns = [
   { Header: 'Type', accessor: 'type' },
 ];
 
-function renderCell(cell) {
+function renderCell(cell: { column: { id: string }; value: number }) {
   switch (cell.column.id) {
     case 'start':
       return formatDistance(cell.value, 0);

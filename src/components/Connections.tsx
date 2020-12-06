@@ -243,7 +243,7 @@ function Conn({ apiConfig }) {
                       }
                     : {}
                 }
-                position={fabPosition}
+                style={fabPosition}
                 text={isRefreshPaused ? 'Resume Refresh' : 'Pause Refresh'}
                 onClick={toggleIsRefreshPaused}
               >

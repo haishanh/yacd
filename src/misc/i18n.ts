@@ -32,6 +32,7 @@ i18next
 
         switch (url) {
           case '/__zh/translation.json':
+          case '/__zh-CN/translation.json':
             p = allLocales.zh;
             break;
           case '/__en/translation.json':
@@ -47,7 +48,7 @@ i18next
         }
       },
     },
-    supportedLngs: ['en', 'zh'],
+    supportedLngs: ['en', 'zh-CN'],
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,

@@ -89,6 +89,7 @@
     Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
     'PingFang SC', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   --color-focus-blue: #1a73e8;
+  --btn-bg: #387cec;
 }
 
 body {

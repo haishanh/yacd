@@ -5,7 +5,7 @@ const presets = [
       modules: false,
       // see also zloirock/core-js https://bit.ly/2JLnrgw
       useBuiltIns: 'usage',
-      corejs: '3.7',
+      corejs: '3.8.1',
       // new in babel 7.9.0 https://babeljs.io/blog/2020/03/16/7.9.0
       bugfixes: true,
     },

@@ -15,7 +15,7 @@ import {
 import Button from '../Button';
 import ContentHeader from '../ContentHeader';
 import BaseModal from '../shared/BaseModal';
-import { Fab, position as fabPosition } from '../shared/Fab';
+import { Fab, IsFetching, position as fabPosition } from '../shared/Fab';
 import { connect, useStoreActions } from '../StateProvider';
 import Equalizer from '../svg/Equalizer';
 import { ClosePrevConns } from './ClosePrevConns';
@@ -121,10 +121,18 @@ function Proxies({
       <ProxyProviderList items={proxyProviders} />
       <div style={{ height: 60 }} />
       <Fab
-        icon={isTestingLatency ? <ColorZap /> : <Zap width={16} height={16} />}
+        icon={
+          isTestingLatency ? (
+            <IsFetching>
+              <Zap width={16} height={16} />
+            </IsFetching>
+          ) : (
+            <Zap width={16} height={16} />
+          )
+        }
         onClick={requestDelayAllFn}
         text={t('Test Latency')}
-        position={fabPosition}
+        style={fabPosition}
       />
       <BaseModal
         isOpen={showModalClosePrevConns}
@@ -136,23 +144,6 @@ function Proxies({
         />
       </BaseModal>
     </>
-  );
-}
-
-function ColorZap() {
-  return (
-    <div
-      className={s0.spining}
-      style={{
-        width: 48,
-        height: 48,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Zap width={16} height={16} />
-    </div>
   );
 }
 
