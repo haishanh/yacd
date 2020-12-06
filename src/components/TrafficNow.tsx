@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import * as connAPI from '../api/connections';
 import { fetchData } from '../api/traffic';
@@ -15,28 +16,29 @@ const mapState = (s) => ({
 export default connect(mapState)(TrafficNow);
 
 function TrafficNow({ apiConfig }) {
+  const { t } = useTranslation();
   const { upStr, downStr } = useSpeed(apiConfig);
   const { upTotal, dlTotal, connNumber } = useConnection(apiConfig);
   return (
     <div className={s0.TrafficNow}>
       <div className="sec">
-        <div>Upload</div>
+        <div>{t('Upload')}</div>
         <div>{upStr}</div>
       </div>
       <div className="sec">
-        <div>Download</div>
+        <div>{t('Download')}</div>
         <div>{downStr}</div>
       </div>
       <div className="sec">
-        <div>Upload Total</div>
+        <div>{t('Upload Total')}</div>
         <div>{upTotal}</div>
       </div>
       <div className="sec">
-        <div>Download Total</div>
+        <div>{t('Download Total')}</div>
         <div>{dlTotal}</div>
       </div>
       <div className="sec">
-        <div>Active Connections</div>
+        <div>{t('Active Connections')}</div>
         <div>{connNumber}</div>
       </div>
     </div>

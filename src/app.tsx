@@ -1,4 +1,5 @@
 import 'modern-normalize/modern-normalize.css';
+import './misc/i18n';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

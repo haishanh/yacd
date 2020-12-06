@@ -2,6 +2,7 @@ import Tooltip from '@reach/tooltip';
 import cx from 'clsx';
 import * as React from 'react';
 import { Info } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 import {
   FcAreaChart,
   FcDocument,
@@ -85,6 +86,7 @@ const pages = [
 ];
 
 function SideBar({ dispatch, theme }) {
+  const { t } = useTranslation();
   const location = useLocation();
   const switchThemeHooked = useCallback(() => {
     dispatch(switchTheme());
@@ -99,13 +101,13 @@ function SideBar({ dispatch, theme }) {
             to={to}
             isActive={location.pathname === to}
             iconId={iconId}
-            labelText={labelText}
+            labelText={t(labelText)}
           />
         ))}
       </div>
       <div className={s.footer}>
         <Tooltip
-          label="theme"
+          label={t('theme')}
           aria-label={
             'switch to ' + (theme === 'light' ? 'dark' : 'light') + ' theme'
           }
@@ -117,7 +119,7 @@ function SideBar({ dispatch, theme }) {
             {theme === 'light' ? <MoonA /> : <Sun />}
           </button>
         </Tooltip>
-        <Tooltip label="about">
+        <Tooltip label={t('about')}>
           <Link to="/about" className={s.iconWrapper}>
             <Info size={20} />
           </Link>

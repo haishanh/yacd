@@ -1,6 +1,7 @@
 import Tooltip from '@reach/tooltip';
 import * as React from 'react';
 import { Zap } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 
 import { getClashAPIConfig } from '../../store/app';
 import {
@@ -80,6 +81,8 @@ function Proxies({
     proxies: { closeModalClosePrevConns, closePrevConnsAndTheModal },
   } = useStoreActions();
 
+  const { t } = useTranslation();
+
   return (
     <>
       <BaseModal
@@ -89,12 +92,12 @@ function Proxies({
         <Settings />
       </BaseModal>
       <div className={s0.topBar}>
-        <ContentHeader title="Proxies" />
+        <ContentHeader title={t('Proxies')} />
         <div className={s0.topBarRight}>
           <div className={s0.textFilterContainer}>
             <TextFilter />
           </div>
-          <Tooltip label="settings">
+          <Tooltip label={t('settings')}>
             <Button kind="minimal" onClick={() => setIsSettingsModalOpen(true)}>
               <Equalizer size={16} />
             </Button>
@@ -120,7 +123,7 @@ function Proxies({
       <Fab
         icon={isTestingLatency ? <ColorZap /> : <Zap width={16} height={16} />}
         onClick={requestDelayAllFn}
-        text="Test Latency"
+        text={t('Test Latency')}
         position={fabPosition}
       />
       <BaseModal

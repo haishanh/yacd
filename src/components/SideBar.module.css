@@ -1,5 +1,6 @@
 .root {
   background: var(--color-bg-sidebar);
+  min-width: 150px;
   position: relative;
 }
 

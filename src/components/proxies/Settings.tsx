@@ -1,21 +1,22 @@
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
+import Select from 'src/components/shared/Select';
 
 import {
   getAutoCloseOldConns,
   getHideUnavailableProxies,
   getProxySortBy,
 } from '../../store/app';
-import Select from '../shared/Select';
 import { connect, useStoreActions } from '../StateProvider';
 import Switch from '../SwitchThemed';
 import s from './Settings.module.css';
 
 const options = [
-  ['Natural', 'Original order in config file'],
-  ['LatencyAsc', 'By latency from small to big'],
-  ['LatencyDesc', 'By latency from big to small'],
-  ['NameAsc', 'By name alphabetically (A-Z)'],
-  ['NameDesc', 'By name alphabetically (Z-A)'],
+  ['Natural', 'order_natural'],
+  ['LatencyAsc', 'order_latency_asc'],
+  ['LatencyDesc', 'order_latency_desc'],
+  ['NameAsc', 'order_name_asc'],
+  ['NameDesc', 'order_name_desc'],
 ];
 
 const { useCallback } = React;
@@ -38,13 +39,16 @@ function Settings({ appConfig }) {
     },
     [updateAppConfig]
   );
+  const { t } = useTranslation();
   return (
     <>
       <div className={s.labeledInput}>
-        <span>Sorting in group</span>
+        <span>{t('sort_in_grp')}</span>
         <div>
           <Select
-            options={options}
+            options={options.map((o) => {
+              return [o[0], t(o[1])];
+            })}
             selected={appConfig.proxySortBy}
             onChange={handleProxySortByOnChange}
           />
@@ -52,7 +56,7 @@ function Settings({ appConfig }) {
       </div>
       <hr />
       <div className={s.labeledInput}>
-        <span>Hide unavailable proxies</span>
+        <span>{t('hide_unavail_proxies')}</span>
         <div>
           <Switch
             name="hideUnavailableProxies"
@@ -62,7 +66,7 @@ function Settings({ appConfig }) {
         </div>
       </div>
       <div className={s.labeledInput}>
-        <span>Automatically close old connections</span>
+        <span>{t('auto_close_conns')}</span>
         <div>
           <Switch
             name="autoCloseOldConns"

@@ -1,5 +1,6 @@
 import React from 'react';
 import { RotateCw } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 import { queryCache, useQuery } from 'react-query';
 import { areEqual, VariableSizeList } from 'react-window';
 import { useRecoilState } from 'recoil';
@@ -114,10 +115,12 @@ function Rules({ apiConfig }) {
   // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ rules: RuleItem[]; provider: {... Remove this comment to see the full error message
   const getItemSize = getItemSizeFactory({ rules, provider });
 
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className={s.header}>
-        <ContentHeader title="Rules" />
+        <ContentHeader title={t('Rules')} />
         <TextFilter />
       </div>
       {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'number | MutableRefObject<any>' is not assig... Remove this comment to see the full error message */}

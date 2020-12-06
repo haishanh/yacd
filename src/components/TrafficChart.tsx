@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { fetchData } from '../api/traffic';
 import useLineChart from '../hooks/useLineChart';
@@ -9,6 +10,8 @@ import {
 } from '../misc/chart';
 import { getClashAPIConfig, getSelectedChartStyleIndex } from '../store/app';
 import { connect } from './StateProvider';
+
+const { useMemo } = React;
 
 const chartWrapperStyle = {
   // make chartjs chart responsive
@@ -26,6 +29,7 @@ export default connect(mapState)(TrafficChart);
 function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
   const Chart = chartJSResource.read();
   const traffic = fetchData(apiConfig);
+  const { t } = useTranslation();
   const data = useMemo(
     () => ({
       labels: traffic.labels,
@@ -33,18 +37,18 @@ function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
         {
           ...commonDataSetProps,
           ...chartStyles[selectedChartStyleIndex].up,
-          label: 'Up',
+          label: t('Up'),
           data: traffic.up,
         },
         {
           ...commonDataSetProps,
           ...chartStyles[selectedChartStyleIndex].down,
-          label: 'Down',
+          label: t('Down'),
           data: traffic.down,
         },
       ],
     }),
-    [traffic, selectedChartStyleIndex]
+    [traffic, selectedChartStyleIndex, t]
   );
 
   useLineChart(Chart, 'trafficChart', data, traffic);

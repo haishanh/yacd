@@ -132,9 +132,7 @@ module.exports = {
       // https://github.com/webpack/webpack/issues/11467
       {
         test: /\.m?js/,
-        resolve: {
-          fullySpecified: false,
-        },
+        resolve: { fullySpecified: false },
       },
       {
         test: /\.[tj]sx?$/,

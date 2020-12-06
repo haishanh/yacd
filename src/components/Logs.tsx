@@ -1,5 +1,6 @@
 import cx from 'clsx';
-import React from 'react';
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { areEqual, FixedSizeList as List } from 'react-window';
 
 import { fetchLogs } from '../api/logs';
@@ -73,10 +74,11 @@ function Logs({ dispatch, logLevel, apiConfig, logs }) {
     fetchLogs({ ...apiConfig, logLevel }, appendLogInternal);
   }, [apiConfig, logLevel, appendLogInternal]);
   const [refLogsContainer, containerHeight] = useRemainingViewPortHeight();
+  const { t } = useTranslation();
 
   return (
     <div>
-      <ContentHeader title="Logs" />
+      <ContentHeader title={t('Logs')} />
       <LogSearch />
       {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'number | MutableRefObject<any>' is not assig... Remove this comment to see the full error message */}
       <div ref={refLogsContainer} style={{ paddingBottom }}>
@@ -89,7 +91,7 @@ function Logs({ dispatch, logLevel, apiConfig, logs }) {
             <div className={s0.logPlaceholderIcon}>
               <SvgYacd width={200} height={200} />
             </div>
-            <div>No logs yet, hang tight...</div>
+            <div>{t('no_logs')}</div>
           </div>
         ) : (
           <div className={s0.logsWrapper}>

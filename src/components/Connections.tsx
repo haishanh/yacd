@@ -2,6 +2,7 @@ import './Connections.css';
 
 import React from 'react';
 import { Pause, Play, X as IconClose } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ConnectionItem } from 'src/api/connections';
 import { State } from 'src/store/types';
@@ -176,9 +177,12 @@ function Conn({ apiConfig }) {
   useEffect(() => {
     return connAPI.fetchData(apiConfig, read);
   }, [apiConfig, read]);
+
+  const { t } = useTranslation();
+
   return (
     <div>
-      <ContentHeader title="Connections" />
+      <ContentHeader title={t('Connections')} />
       <Tabs>
         <div
           style={{
@@ -189,14 +193,14 @@ function Conn({ apiConfig }) {
         >
           <TabList>
             <Tab>
-              <span>Active</span>
+              <span>{t('Active')}</span>
               <span className={s.connQty}>
                 {/* @ts-expect-error ts-migrate(2786) FIXME: 'ConnQty' cannot be used as a JSX component. */}
                 <ConnQty qty={filteredConns.length} />
               </span>
             </Tab>
             <Tab>
-              <span>Closed</span>
+              <span>{t('Closed')}</span>
               <span className={s.connQty}>
                 {/* @ts-expect-error ts-migrate(2786) FIXME: 'ConnQty' cannot be used as a JSX component. */}
                 <ConnQty qty={filteredClosedConns.length} />

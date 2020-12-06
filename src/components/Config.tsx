@@ -1,5 +1,8 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
+import Select from 'src/components/shared/Select';
+import { ClashGeneralConfig, DispatchFn, State } from 'src/store/types';
+import { ClashAPIConfig } from 'src/types';
 
 import {
   getClashAPIConfig,
@@ -67,12 +70,17 @@ const portFields = [
   { key: 'redir-port', label: 'Redir Port' },
 ];
 
-const mapState = (s) => ({
+const langOptions = [
+  ['zh', '中文'],
+  ['en', 'English'],
+];
+
+const mapState = (s: State) => ({
   configs: getConfigs(s),
   apiConfig: getClashAPIConfig(s),
 });
 
-const mapState2 = (s) => ({
+const mapState2 = (s: State) => ({
   selectedChartStyleIndex: getSelectedChartStyleIndex(s),
   latencyTestUrl: getLatencyTestUrl(s),
   apiConfig: getClashAPIConfig(s),
@@ -88,13 +96,21 @@ function ConfigContainer({ dispatch, configs, apiConfig }) {
   return <Config configs={configs} />;
 }
 
+type ConfigImplProps = {
+  dispatch: DispatchFn;
+  configs: ClashGeneralConfig;
+  selectedChartStyleIndex: number;
+  latencyTestUrl: string;
+  apiConfig: ClashAPIConfig;
+};
+
 function ConfigImpl({
   dispatch,
   configs,
   selectedChartStyleIndex,
   latencyTestUrl,
   apiConfig,
-}) {
+}: ConfigImplProps) {
   const [configState, setConfigStateInternal] = useState(configs);
   const refConfigs = useRef(configs);
   useEffect(() => {
@@ -188,9 +204,11 @@ function ConfigImpl({
     return typeof m === 'string' && m[0].toUpperCase() + m.slice(1);
   }, [configState.mode]);
 
+  const { t, i18n } = useTranslation();
+
   return (
     <div>
-      <ContentHeader title="Config" />
+      <ContentHeader title={t('Config')} />
       <div className={s0.root}>
         {portFields.map((f) =>
           configState[f.key] !== undefined ? (
@@ -242,7 +260,7 @@ function ConfigImpl({
 
       <div className={s0.section}>
         <div>
-          <div className={s0.label}>Chart Style</div>
+          <div className={s0.label}>{t('chart_style')}</div>
           <Selection2
             OptionComponent={TrafficChartSample}
             optionPropsList={propsList}
@@ -250,8 +268,8 @@ function ConfigImpl({
             onChange={selectChartStyleIndex}
           />
         </div>
-        <div style={{ maxWidth: 360 }}>
-          <div className={s0.label}>Latency Test URL</div>
+        <div className={s0.narrow}>
+          <div className={s0.label}>{t('latency_test_url')}</div>
           <SelfControlledInput
             name="latencyTestUrl"
             type="text"
@@ -263,12 +281,17 @@ function ConfigImpl({
           <div className={s0.label}>Action</div>
           <Button label="Switch backend" onClick={openAPIConfigModal} />
         </div>
+        <div>
+          <div className={s0.label}>{t('lang')}</div>
+          <div className={s0.narrow}>
+            <Select
+              options={langOptions}
+              selected={i18n.language}
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-// @ts-expect-error ts-migrate(2339) FIXME: Property 'propTypes' does not exist on type '(prop... Remove this comment to see the full error message
-Config.propTypes = {
-  configs: PropTypes.object,
-};

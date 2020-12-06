@@ -7,6 +7,10 @@ declare module '*.module.css' {
   export default classes;
 }
 
+interface Window {
+  i18n: any;
+}
+
 // webpack definePlugin replacing variables
 declare const __VERSION__: string;
 declare const __DEV__: string;
