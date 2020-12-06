@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.13](https://github.com/haishanh/yacd/compare/v0.2.12...v0.2.13) (2020-12-06)
+
+Added:
+
+- Initial Chinese UI language support
+
+Fixed:
+
+- Fix weird scroll behavior on config page
+
 ## [0.2.12](https://github.com/haishanh/yacd/compare/v0.2.11...v0.2.12) (2020-11-24)
 
 Changed:
