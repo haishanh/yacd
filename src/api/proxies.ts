@@ -37,7 +37,7 @@ export async function requestDelayForProxy(
 ) {
   const { url, init } = getURLAndInit(apiConfig);
   const qs = `timeout=5000&url=${latencyTestUrl}`;
-  const fullURL = `${url}${endpoint}/${name}/delay?${qs}`;
+  const fullURL = `${url}${endpoint}/${encodeURIComponent(name)}/delay?${qs}`;
   return await fetch(fullURL, init);
 }
 
