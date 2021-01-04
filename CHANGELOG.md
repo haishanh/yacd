@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.14](https://github.com/haishanh/yacd/compare/v0.2.13...v0.2.14) (2021-01-04)
+
+Added:
+
+- support set default Clash API baseURL with data attribute in HTML template (see [details](https://github.com/haishanh/yacd/pull/550))
+- add apple-touch-icon*.png
+
+Fixed:
+
+- encode URI for latency test url
+
 ## [0.2.13](https://github.com/haishanh/yacd/compare/v0.2.12...v0.2.13) (2020-12-06)
 
 Added:
