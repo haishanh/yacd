@@ -43,12 +43,8 @@ function Version({
 }
 
 function AboutImpl(props: Props) {
-  const { data: version } = useQuery(
-    ['/version', props.apiConfig],
-    fetchVersion,
-    {
-      suspense: true,
-    }
+  const { data: version } = useQuery(['/version', props.apiConfig], () =>
+    fetchVersion('/version', props.apiConfig)
   );
   return (
     <>

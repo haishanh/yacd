@@ -1,11 +1,13 @@
 import './Root.css';
 
 import React, { lazy, Suspense } from 'react';
+import { QueryClientProvider } from 'react-query';
 import { PartialRouteObject } from 'react-router';
 import { HashRouter as Router, useRoutes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { About } from 'src/components/about/About';
 import { Head } from 'src/components/shared/Head';
+import { queryClient } from 'src/misc/query';
 
 import { actions, initialState } from '../store';
 import APIConfig from './APIConfig';
@@ -99,14 +101,16 @@ const Root = () => (
   <ErrorBoundary>
     <RecoilRoot>
       <StateProvider initialState={initialState} actions={actions}>
-        <Router>
-          <div className={s0.app}>
-            <Head />
-            <Suspense fallback={<Loading2 />}>
-              <App />
-            </Suspense>
-          </div>
-        </Router>
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <div className={s0.app}>
+              <Head />
+              <Suspense fallback={<Loading2 />}>
+                <App />
+              </Suspense>
+            </div>
+          </Router>
+        </QueryClientProvider>
       </StateProvider>
     </RecoilRoot>
   </ErrorBoundary>

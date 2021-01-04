@@ -72,7 +72,7 @@ const plugins = [
     title: 'TypeScript',
     excludeWarnings: false,
   }),
-  new CopyPlugin({ patterns: [{ from: 'assets/*', flatten: true }] }),
+  new CopyPlugin({ patterns: [{ from: 'assets' }] }),
   new CleanWebpackPlugin(),
   // chart.js requires moment
   // and we don't need locale stuff in moment

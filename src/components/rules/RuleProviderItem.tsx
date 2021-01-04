@@ -2,7 +2,7 @@ import cx from 'clsx';
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
 import { RotateCw } from 'react-feather';
-import { queryCache, useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { refreshRuleProviderByName } from 'src/api/rule-provider';
 import Button from 'src/components/Button';
 import { SectionNameType } from 'src/components/shared/Basic';
@@ -14,9 +14,10 @@ function useRefresh(
   name: string,
   apiConfig: ClashAPIConfig
 ): [(ev: React.MouseEvent<HTMLButtonElement>) => unknown, boolean] {
-  const [mutate, { isLoading }] = useMutation(refreshRuleProviderByName, {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation(refreshRuleProviderByName, {
     onSuccess: () => {
-      queryCache.invalidateQueries('/providers/rules');
+      queryClient.invalidateQueries('/providers/rules');
     },
   });
 

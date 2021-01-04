@@ -1,7 +1,7 @@
 import React from 'react';
 import { RotateCw } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import { queryCache, useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { areEqual, VariableSizeList } from 'react-window';
 import { useRecoilState } from 'recoil';
 import { fetchRuleProviders } from 'src/api/rule-provider';
@@ -76,17 +76,11 @@ const mapState = (s: State) => ({
 export default connect(mapState)(Rules);
 
 function useRuleAndProvider(apiConfig: ClashAPIConfig) {
-  const { data: rules, isFetching } = useQuery(
-    ['/rules', apiConfig],
-    fetchRules,
-    {
-      suspense: true,
-    }
+  const { data: rules, isFetching } = useQuery(['/rules', apiConfig], () =>
+    fetchRules('/rules', apiConfig)
   );
-  const { data: provider } = useQuery(
-    ['/providers/rules', apiConfig],
-    fetchRuleProviders,
-    { suspense: true }
+  const { data: provider } = useQuery(['/providers/rules', apiConfig], () =>
+    fetchRuleProviders('/providers/rules', apiConfig)
   );
 
   const [filterText] = useRecoilState(ruleFilterText);
@@ -106,10 +100,11 @@ function useRuleAndProvider(apiConfig: ClashAPIConfig) {
 }
 
 function useInvalidateQueries() {
+  const queryClient = useQueryClient();
   return useCallback(() => {
-    queryCache.invalidateQueries('/rules');
-    queryCache.invalidateQueries('/providers/rules');
-  }, []);
+    queryClient.invalidateQueries('/rules');
+    queryClient.invalidateQueries('/providers/rules');
+  }, [queryClient]);
 }
 
 function Rules({ apiConfig }) {
