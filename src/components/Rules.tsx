@@ -1,26 +1,21 @@
 import React from 'react';
-import { RotateCw } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import { useQuery, useQueryClient } from 'react-query';
 import { areEqual, VariableSizeList } from 'react-window';
-import { useRecoilState } from 'recoil';
-import { fetchRuleProviders } from 'src/api/rule-provider';
-import { fetchRules } from 'src/api/rules';
 import { RuleProviderItem } from 'src/components/rules/RuleProviderItem';
+import { useRuleAndProvider } from 'src/components/rules/rules.hooks';
+import { RulesPageFab } from 'src/components/rules/RulesPageFab';
 import { TextFilter } from 'src/components/rules/TextFilter';
-import { ruleFilterText } from 'src/store/rules';
 import { State } from 'src/store/types';
-import type { ClashAPIConfig } from 'src/types';
+import { ClashAPIConfig } from 'src/types';
 
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';
 import ContentHeader from './ContentHeader';
 import Rule from './Rule';
 import s from './Rules.module.css';
-import { Fab, position as fabPosition } from './shared/Fab';
 import { connect } from './StateProvider';
 
-const { memo, useMemo, useCallback } = React;
+const { memo } = React;
 
 const paddingBottom = 30;
 
@@ -75,47 +70,14 @@ const mapState = (s: State) => ({
 
 export default connect(mapState)(Rules);
 
-function useRuleAndProvider(apiConfig: ClashAPIConfig) {
-  const { data: rules, isFetching } = useQuery(['/rules', apiConfig], () =>
-    fetchRules('/rules', apiConfig)
-  );
-  const { data: provider } = useQuery(['/providers/rules', apiConfig], () =>
-    fetchRuleProviders('/providers/rules', apiConfig)
-  );
+type RulesProps = {
+  apiConfig: ClashAPIConfig;
+};
 
-  const [filterText] = useRecoilState(ruleFilterText);
-  if (filterText === '') {
-    return { rules, provider, isFetching };
-  } else {
-    const f = filterText.toLowerCase();
-    return {
-      rules: rules.filter((r) => r.payload.toLowerCase().indexOf(f) >= 0),
-      isFetching,
-      provider: {
-        byName: provider.byName,
-        names: provider.names.filter((t) => t.toLowerCase().indexOf(f) >= 0),
-      },
-    };
-  }
-}
-
-function useInvalidateQueries() {
-  const queryClient = useQueryClient();
-  return useCallback(() => {
-    queryClient.invalidateQueries('/rules');
-    queryClient.invalidateQueries('/providers/rules');
-  }, [queryClient]);
-}
-
-function Rules({ apiConfig }) {
+function Rules({ apiConfig }: RulesProps) {
   const [refRulesContainer, containerHeight] = useRemainingViewPortHeight();
-  const refreshIcon = useMemo(() => <RotateCw width={16} />, []);
-
   const { rules, provider } = useRuleAndProvider(apiConfig);
-  const invalidateQueries = useInvalidateQueries();
-
-  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ rules: RuleItem[]; provider: {... Remove this comment to see the full error message
-  const getItemSize = getItemSizeFactory({ rules, provider });
+  const getItemSize = getItemSizeFactory({ provider });
 
   const { t } = useTranslation();
 
@@ -139,13 +101,9 @@ function Rules({ apiConfig }) {
           {Row}
         </VariableSizeList>
       </div>
-
-      <Fab
-        icon={refreshIcon}
-        text="Refresh"
-        style={fabPosition}
-        onClick={invalidateQueries}
-      />
+      {provider && provider.names && provider.names.length > 0 ? (
+        <RulesPageFab apiConfig={apiConfig} />
+      ) : null}
     </div>
   );
 }

@@ -72,3 +72,16 @@ export async function refreshRuleProviderByName({
     return false;
   }
 }
+
+export async function updateRuleProviders({
+  names,
+  apiConfig,
+}: {
+  names: string[];
+  apiConfig: ClashAPIConfig;
+}) {
+  for (let i = 0; i < names.length; i++) {
+    // run in sequence
+    await refreshRuleProviderByName({ name: names[i], apiConfig });
+  }
+}

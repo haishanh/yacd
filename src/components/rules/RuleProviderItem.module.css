@@ -24,21 +24,10 @@
 .refreshButtonWrapper {
   display: grid;
   place-items: center;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-.rotate {
-  display: inline-flex;
-}
-.isRotating {
-  animation: rotating 3s infinite linear;
-  animation-fill-mode: forwards;
-}
-
-@keyframes rotating {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.RuleProviderItem:hover .refreshButtonWrapper {
+  opacity: 1;
 }
