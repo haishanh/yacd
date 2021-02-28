@@ -52,10 +52,7 @@ export function removeClashAPIConfig({ baseURL, secret }) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const idx = findClashAPIConfigIndex(getState, { baseURL, secret });
     dispatch('removeClashAPIConfig', (s) => {
-      s.app.clashAPIConfigs = [
-        ...s.app.clashAPIConfigs.slice(0, idx),
-        ...s.app.clashAPIConfigs.slice(idx + 1),
-      ];
+      s.app.clashAPIConfigs.splice(idx, 1);
     });
     // side effect
     saveState(getState().app);
@@ -160,7 +157,9 @@ export function updateCollapsibleIsOpen(
 }
 
 const defaultClashAPIConfig = {
-  baseURL: document.getElementById('app')?.getAttribute('data-base-url') ?? 'http://127.0.0.1:9090',
+  baseURL:
+    document.getElementById('app')?.getAttribute('data-base-url') ??
+    'http://127.0.0.1:9090',
   secret: '',
   addedAt: 0,
 };
