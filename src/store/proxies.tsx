@@ -106,6 +106,21 @@ export function updateProviderByName(apiConfig: ClashAPIConfig, name: string) {
   };
 }
 
+export function updateProviders(apiConfig: ClashAPIConfig, names: string[]) {
+  return async (dispatch: DispatchFn) => {
+    for (let i = 0; i < names.length; i++) {
+      try {
+        await proxiesAPI.updateProviderByName(apiConfig, names[i]);
+      } catch (x) {
+        // ignore
+      }
+    }
+    // should be optimized
+    // but ¯\_(ツ)_/¯
+    dispatch(fetchProxies(apiConfig));
+  };
+}
+
 async function healthcheckProviderByNameInternal(
   apiConfig: ClashAPIConfig,
   name: string

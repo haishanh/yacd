@@ -1,24 +1,21 @@
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
 import { RotateCw, Zap } from 'react-feather';
-import { DelayMapping } from 'src/store/types';
-
-import { framerMotionResouce } from '../../misc/motion';
+import Button from 'src/components/Button';
+import Collapsible from 'src/components/Collapsible';
+import CollapsibleSectionHeader from 'src/components/CollapsibleSectionHeader';
+import { useUpdateProviderItem } from 'src/components/proxies/proxies.hooks';
+import { connect, useStoreActions } from 'src/components/StateProvider';
+import { framerMotionResouce } from 'src/misc/motion';
 import {
   getClashAPIConfig,
   getCollapsibleIsOpen,
   getHideUnavailableProxies,
   getProxySortBy,
-} from '../../store/app';
-import {
-  getDelay,
-  healthcheckProviderByName,
-  updateProviderByName,
-} from '../../store/proxies';
-import Button from '../Button';
-import Collapsible from '../Collapsible';
-import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
-import { connect, useStoreActions } from '../StateProvider';
+} from 'src/store/app';
+import { getDelay, healthcheckProviderByName } from 'src/store/proxies';
+import { DelayMapping } from 'src/store/types';
+
 import { useFilteredAndSorted } from './hooks';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
 import s from './ProxyProvider.module.css';
@@ -58,10 +55,9 @@ function ProxyProviderImpl({
     proxySortBy
   );
   const [isHealthcheckLoading, setIsHealthcheckLoading] = useState(false);
-  const updateProvider = useCallback(
-    () => dispatch(updateProviderByName(apiConfig, name)),
-    [apiConfig, dispatch, name]
-  );
+
+  const updateProvider = useUpdateProviderItem({ dispatch, apiConfig, name });
+
   const healthcheckProvider = useCallback(async () => {
     setIsHealthcheckLoading(true);
     await dispatch(healthcheckProviderByName(apiConfig, name));

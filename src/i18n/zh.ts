@@ -32,4 +32,5 @@ export const data = {
   latency_test_url: '延迟测速 URL',
   lang: '语言',
   update_all_rule_provider: '更新所有 rule provider',
+  update_all_proxy_provider: '更新所有 proxy providers',
 };

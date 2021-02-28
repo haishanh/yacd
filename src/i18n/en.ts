@@ -32,4 +32,5 @@ export const data = {
   latency_test_url: 'Latency Test URL',
   lang: 'Language',
   update_all_rule_provider: 'Update all rule providers',
+  update_all_proxy_provider: 'Update all proxy providers',
 };

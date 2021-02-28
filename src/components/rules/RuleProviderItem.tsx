@@ -1,9 +1,9 @@
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
 import Button from 'src/components/Button';
-import { RotateIcon } from 'src/components/rules/RotateIcon';
 import { useUpdateRuleProviderItem } from 'src/components/rules/rules.hooks';
 import { SectionNameType } from 'src/components/shared/Basic';
+import { RotateIcon } from 'src/components/shared/RotateIcon';
 
 import s from './RuleProviderItem.module.css';
 

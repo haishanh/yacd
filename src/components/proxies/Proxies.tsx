@@ -1,29 +1,28 @@
 import Tooltip from '@reach/tooltip';
 import * as React from 'react';
-import { Zap } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-
-import { getClashAPIConfig } from '../../store/app';
+import Button from 'src/components/Button';
+import ContentHeader from 'src/components/ContentHeader';
+import { ClosePrevConns } from 'src/components/proxies/ClosePrevConns';
+import { ProxyGroup } from 'src/components/proxies/ProxyGroup';
+import { ProxyPageFab } from 'src/components/proxies/ProxyPageFab';
+import { ProxyProviderList } from 'src/components/proxies/ProxyProviderList';
+import Settings from 'src/components/proxies/Settings';
+import { TextFilter } from 'src/components/proxies/TextFilter';
+import BaseModal from 'src/components/shared/BaseModal';
+import { connect, useStoreActions } from 'src/components/StateProvider';
+import Equalizer from 'src/components/svg/Equalizer';
+import { getClashAPIConfig } from 'src/store/app';
 import {
   fetchProxies,
   getDelay,
   getProxyGroupNames,
   getProxyProviders,
   getShowModalClosePrevConns,
-  requestDelayAll,
-} from '../../store/proxies';
-import Button from '../Button';
-import ContentHeader from '../ContentHeader';
-import BaseModal from '../shared/BaseModal';
-import { Fab, IsFetching, position as fabPosition } from '../shared/Fab';
-import { connect, useStoreActions } from '../StateProvider';
-import Equalizer from '../svg/Equalizer';
-import { ClosePrevConns } from './ClosePrevConns';
+} from 'src/store/proxies';
+import type { State } from 'src/store/types';
+
 import s0 from './Proxies.module.css';
-import { ProxyGroup } from './ProxyGroup';
-import { ProxyProviderList } from './ProxyProviderList';
-import Settings from './Settings';
-import { TextFilter } from './TextFilter';
 
 const { useState, useEffect, useCallback, useRef } = React;
 
@@ -38,16 +37,6 @@ function Proxies({
   const refFetchedTimestamp = useRef<{ startAt?: number; completeAt?: number }>(
     {}
   );
-  const [isTestingLatency, setIsTestingLatency] = useState(false);
-  const requestDelayAllFn = useCallback(() => {
-    if (isTestingLatency) return;
-
-    setIsTestingLatency(true);
-    dispatch(requestDelayAll(apiConfig)).then(
-      () => setIsTestingLatency(false),
-      () => setIsTestingLatency(false)
-    );
-  }, [apiConfig, dispatch, isTestingLatency]);
 
   const fetchProxiesHooked = useCallback(() => {
     refFetchedTimestamp.current.startAt = Date.now();
@@ -120,19 +109,10 @@ function Proxies({
       </div>
       <ProxyProviderList items={proxyProviders} />
       <div style={{ height: 60 }} />
-      <Fab
-        icon={
-          isTestingLatency ? (
-            <IsFetching>
-              <Zap width={16} height={16} />
-            </IsFetching>
-          ) : (
-            <Zap width={16} height={16} />
-          )
-        }
-        onClick={requestDelayAllFn}
-        text={t('Test Latency')}
-        style={fabPosition}
+      <ProxyPageFab
+        dispatch={dispatch}
+        apiConfig={apiConfig}
+        proxyProviders={proxyProviders}
       />
       <BaseModal
         isOpen={showModalClosePrevConns}
@@ -147,7 +127,7 @@ function Proxies({
   );
 }
 
-const mapState = (s) => ({
+const mapState = (s: State) => ({
   apiConfig: getClashAPIConfig(s),
   groupNames: getProxyGroupNames(s),
   proxyProviders: getProxyProviders(s),

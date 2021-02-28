@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { RotateIcon } from 'src/components/rules/RotateIcon';
 import { useUpdateAllRuleProviderItems } from 'src/components/rules/rules.hooks';
 import { Fab, position as fabPosition } from 'src/components/shared/Fab';
+import { RotateIcon } from 'src/components/shared/RotateIcon';
 import { ClashAPIConfig } from 'src/types';
 
 type RulesPageFabProps = {
