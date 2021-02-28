@@ -1,11 +1,22 @@
 # Changelog
 
+## [0.2.15](https://github.com/haishanh/yacd/compare/v0.2.14...v0.2.15) (2021-02-28)
+
+Changed:
+
+- Display API backend info in title only when there are multiple backends
+- Changed the function of floating action button from refresh to update all providers on rules page
+
+Added:
+
+- Action button to update all proxies providers on proxies page
+
 ## [0.2.14](https://github.com/haishanh/yacd/compare/v0.2.13...v0.2.14) (2021-01-04)
 
 Added:
 
 - support set default Clash API baseURL with data attribute in HTML template (see [details](https://github.com/haishanh/yacd/pull/550))
-- add apple-touch-icon*.png
+- add apple-touch-icon\*.png
 
 Fixed:
 
