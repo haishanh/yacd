@@ -96,7 +96,7 @@ export const initialState: StateConfigs = {
     'redir-port': 0,
     'allow-lan': false,
     mode: 'Rule',
-    'log-level': 'info',
+    'log-level': 'uninit',
   },
   haveFetchedConfig: false,
 };

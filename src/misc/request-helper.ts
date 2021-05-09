@@ -1,5 +1,6 @@
 import { trimTrailingSlash } from 'src/misc/utils';
 import { ClashAPIConfig } from 'src/types';
+import { LogsAPIConfig } from 'src/types';
 
 const headersCommon = { 'Content-Type': 'application/json' };
 
@@ -9,6 +10,12 @@ function genCommonHeaders({ secret }: { secret?: string }) {
     h['Authorization'] = `Bearer ${secret}`;
   }
   return h;
+}
+function buildWebSocketURLBase(baseURL: string, params: URLSearchParams, endpoint: string) {
+  let qs = '?' + params.toString()
+  const url = new URL(baseURL);
+  url.protocol === 'https:' ? (url.protocol = 'wss:') : (url.protocol = 'ws:');
+  return `${trimTrailingSlash(url.href)}${endpoint}${qs}`;
 }
 
 export function getURLAndInit({ baseURL, secret }: ClashAPIConfig) {
@@ -21,11 +28,19 @@ export function getURLAndInit({ baseURL, secret }: ClashAPIConfig) {
 
 export function buildWebSocketURL(apiConfig: ClashAPIConfig, endpoint: string) {
   const { baseURL, secret } = apiConfig;
-  let qs = '';
-  if (typeof secret === 'string' && secret !== '') {
-    qs += '?token=' + encodeURIComponent(secret);
-  }
-  const url = new URL(baseURL);
-  url.protocol === 'https:' ? (url.protocol = 'wss:') : (url.protocol = 'ws:');
-  return `${trimTrailingSlash(url.href)}${endpoint}${qs}`;
+  const params = new URLSearchParams({
+    token: secret,
+  });
+
+  return buildWebSocketURLBase(baseURL, params, endpoint)
+}
+
+export function buildLogsWebSocketURL(apiConfig: LogsAPIConfig, endpoint: string) {
+  const { baseURL, secret, logLevel } = apiConfig;
+  const params = new URLSearchParams({
+    token: secret,
+    level: logLevel,
+  });
+
+  return buildWebSocketURLBase(baseURL, params, endpoint)
 }

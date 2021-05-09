@@ -1,8 +1,7 @@
-import { ClashAPIConfig } from 'src/types';
+import { LogsAPIConfig } from 'src/types';
 
-import { buildWebSocketURL, getURLAndInit } from '../misc/request-helper';
+import { buildLogsWebSocketURL, getURLAndInit } from '../misc/request-helper';
 
-type LogsAPIConfig = ClashAPIConfig & { logLevel: string };
 type LogEntry = {
   time?: string;
   id?: string;
@@ -77,9 +76,10 @@ let controller: AbortController;
 // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
 let wsState: number;
 export function fetchLogs(apiConfig: LogsAPIConfig, appendLog: AppendLogFn) {
+  if (apiConfig.logLevel === 'uninit') return;
   if (fetched || wsState === 1) return;
   wsState = 1;
-  const url = buildWebSocketURL(apiConfig, endpoint);
+  const url = buildLogsWebSocketURL(apiConfig, endpoint);
   const ws = new WebSocket(url);
   ws.addEventListener('error', () => (wsState = 3));
   ws.addEventListener('close', function (_ev) {
@@ -105,6 +105,7 @@ function fetchLogsWithFetch(apiConfig: LogsAPIConfig, appendLog: AppendLogFn) {
 
   fetched = true;
   apiConfigSnapshot = { ...apiConfig };
+  console.log(apiConfigSnapshot)
 
   controller = new AbortController();
   const signal = controller.signal;
