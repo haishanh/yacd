@@ -13,7 +13,6 @@ interface Window {
 
 // webpack definePlugin replacing variables
 declare const __VERSION__: string;
-declare const __DEV__: string;
 declare const process = {
   env: {
     NODE_ENV: string,

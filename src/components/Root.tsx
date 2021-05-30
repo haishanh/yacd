@@ -69,7 +69,9 @@ const routes = [
   { path: '/proxies', element: <Proxies /> },
   { path: '/rules', element: <Rules /> },
   { path: '/about', element: <About /> },
-  __DEV__ ? { path: '/style', element: <StyleGuide /> } : false,
+  process.env.NODE_ENV === 'development'
+    ? { path: '/style', element: <StyleGuide /> }
+    : false,
 ].filter(Boolean) as PartialRouteObject[];
 
 function RouteInnerApp() {

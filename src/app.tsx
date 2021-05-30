@@ -12,8 +12,12 @@ const rootEl = document.getElementById('app');
 
 Modal.setAppElement(rootEl);
 
-const root = ReactDOM.unstable_createRoot(rootEl);
-root.render(<Root />);
+ReactDOM.render(
+  <React.StrictMode>
+    <Root />
+  </React.StrictMode>,
+  rootEl
+);
 
 swRegistration.register();
 
