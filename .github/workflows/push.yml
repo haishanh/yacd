@@ -8,7 +8,7 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2.1.5
@@ -18,7 +18,7 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v2.1.4
+      - uses: actions/cache@v2.1.6
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -88,16 +88,16 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
 
       - name: Docker meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: crazy-max/ghaction-docker-meta@v3.3.0
         with:
           images: haishanh/yacd
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v1.1.0
 
       - name: Set up Docker Buildx
         id: buildx
@@ -111,7 +111,7 @@ jobs:
         run: echo ${{ steps.buildx.outputs.platforms }}
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v1.9.0
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
