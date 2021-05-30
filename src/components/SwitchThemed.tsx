@@ -1,8 +1,11 @@
 import React from 'react';
-import Switch from 'react-switch';
+import S from 'react-switch';
 
 import { getTheme } from '../store/app';
 import { connect } from './StateProvider';
+
+// workaround https://github.com/vitejs/vite/issues/2139#issuecomment-802981228
+const Switch = S.default ? S.default : S;
 
 function SwitchThemed({ checked = false, onChange, theme, name }) {
   const offColor = theme === 'dark' ? '#393939' : '#e9e9e9';

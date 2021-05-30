@@ -43,22 +43,3 @@ export function Selection2({
     </fieldset>
   );
 }
-
-// for test
-// @ts-expect-error ts-migrate(7030) FIXME: Not all code paths return a value.
-export function Option({ title }) {
-  // eslint-disable-next-line no-undef
-  if (__DEV__) {
-    return (
-      <div
-        style={{
-          width: 100,
-          height: 60,
-          backgroundColor: '#eee',
-        }}
-      >
-        {title}
-      </div>
-    );
-  }
-}
