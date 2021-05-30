@@ -6,7 +6,7 @@ import { fetchData } from '../api/traffic';
 import prettyBytes from '../misc/pretty-bytes';
 import { getClashAPIConfig } from '../store/app';
 import { connect } from './StateProvider';
-import s0 from './TrafficNow.module.css';
+import s0 from './TrafficNow.module.scss';
 
 const { useState, useEffect, useCallback } = React;
 
@@ -21,23 +21,23 @@ function TrafficNow({ apiConfig }) {
   const { upTotal, dlTotal, connNumber } = useConnection(apiConfig);
   return (
     <div className={s0.TrafficNow}>
-      <div className="sec">
+      <div className={s0.sec}>
         <div>{t('Upload')}</div>
         <div>{upStr}</div>
       </div>
-      <div className="sec">
+      <div className={s0.sec}>
         <div>{t('Download')}</div>
         <div>{downStr}</div>
       </div>
-      <div className="sec">
+      <div className={s0.sec}>
         <div>{t('Upload Total')}</div>
         <div>{upTotal}</div>
       </div>
-      <div className="sec">
+      <div className={s0.sec}>
         <div>{t('Download Total')}</div>
         <div>{dlTotal}</div>
       </div>
-      <div className="sec">
+      <div className={s0.sec}>
         <div>{t('Active Connections')}</div>
         <div>{connNumber}</div>
       </div>
