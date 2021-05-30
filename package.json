@@ -27,7 +27,7 @@
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
     "@reach/tooltip": "0.15.0",
     "@sentry/browser": "6.4.1",
-    "chart.js": "2.9.2",
+    "chart.js": "2.9.4",
     "clsx": "^1.1.0",
     "core-js": "3.13.1",
     "date-fns": "2.22.1",
