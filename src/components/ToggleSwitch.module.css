@@ -1,5 +1,6 @@
 .ToggleSwitch {
   user-select: none;
+  border-radius: 4px;
   border: 1px solid #525252;
   color: var(--color-text);
   background: var(--color-toggle-bg);

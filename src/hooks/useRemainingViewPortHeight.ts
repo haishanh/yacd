@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 const { useState, useRef, useCallback, useLayoutEffect } = React;
 
@@ -9,8 +9,10 @@ const { useState, useRef, useCallback, useLayoutEffect } = React;
  * to the bottom of the view port
  *
  */
-export default function useRemainingViewPortHeight() {
-  const ref = useRef(null);
+export default function useRemainingViewPortHeight<
+  ElementType extends HTMLDivElement
+>(): [React.MutableRefObject<ElementType>, number] {
+  const ref = useRef<ElementType>(null);
   const [containerHeight, setContainerHeight] = useState(200);
   const updateContainerHeight = useCallback(() => {
     const { top } = ref.current.getBoundingClientRect();

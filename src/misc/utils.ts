@@ -31,3 +31,11 @@ export function debounce<T extends any[]>(
 export function trimTrailingSlash(s: string) {
   return s.replace(/\/$/, '');
 }
+
+export function pad0(number: number | string, len: number): string {
+  let output = String(number);
+  while (output.length < len) {
+    output = '0' + output;
+  }
+  return output;
+}

@@ -12,7 +12,7 @@ function genCommonHeaders({ secret }: { secret?: string }) {
   return h;
 }
 function buildWebSocketURLBase(baseURL: string, params: URLSearchParams, endpoint: string) {
-  let qs = '?' + params.toString()
+  const qs = '?' + params.toString()
   const url = new URL(baseURL);
   url.protocol === 'https:' ? (url.protocol = 'wss:') : (url.protocol = 'ws:');
   return `${trimTrailingSlash(url.href)}${endpoint}${qs}`;

@@ -3,7 +3,6 @@
   align-items: center;
   flex-wrap: wrap;
   font-size: 0.9em;
-  padding: 10px;
 }
 
 .logType {
@@ -11,8 +10,7 @@
   flex-shrink: 0;
   text-align: center;
   width: 66px;
-  background: green;
-  border-radius: 5px;
+  border-radius: 100px;
   padding: 3px 5px;
   margin: 0 8px;
 }

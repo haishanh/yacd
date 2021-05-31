@@ -65,6 +65,22 @@ export type StateProxies = {
   switchProxyCtx?: SwitchProxyCtx;
 };
 
+///// store.logs
+
+export type Log = {
+  time: string;
+  even: boolean;
+  payload: string;
+  type: string;
+  id: string;
+};
+
+export type StateLogs = {
+  searchText: string;
+  logs: Log[];
+  tail: number;
+};
+
 ///// store.configs
 
 export type StateConfigs = {
@@ -78,7 +94,9 @@ export type State = {
   app: StateApp;
   configs: StateConfigs;
   proxies: StateProxies;
+  logs: StateLogs;
 };
+
 export type GetStateFn = () => State;
 export interface DispatchFn {
   (msg: string, change: (s: State) => void): void;

@@ -124,6 +124,7 @@ body.dark {
   --color-btn-fg: #bebebe;
   --color-bg-proxy: #303030;
   --color-row-odd: #282828;
+  --bg-log-info-tag: #454545;
   --bg-modal: #1f1f20;
   --bg-near-transparent: rgba(255, 255, 255, 0.1);
   --bg-tooltip: #111;
@@ -151,6 +152,7 @@ body.light {
   --color-btn-fg: #101010;
   --color-bg-proxy: #fafafa;
   --color-row-odd: #f5f5f5;
+  --bg-log-info-tag: #888;
   --bg-modal: #fbfbfb;
   --bg-near-transparent: rgba(0, 0, 0, 0.1);
   --bg-tooltip: #f0f0f0;

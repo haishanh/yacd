@@ -1,10 +1,12 @@
 import { createSelector } from 'reselect';
 
+import { DispatchFn, GetStateFn, Log, State } from './types';
+
 const LogSize = 300;
 
-const getLogs = (s) => s.logs.logs;
-const getTail = (s) => s.logs.tail;
-export const getSearchText = (s) => s.logs.searchText;
+const getLogs = (s: State) => s.logs.logs;
+const getTail = (s: State) => s.logs.tail;
+export const getSearchText = (s: State) => s.logs.searchText;
 export const getLogsForDisplay = createSelector(
   getLogs,
   getTail,
@@ -25,16 +27,16 @@ export const getLogsForDisplay = createSelector(
   }
 );
 
-export function updateSearchText(text) {
-  return (dispatch) => {
+export function updateSearchText(text: string) {
+  return (dispatch: DispatchFn) => {
     dispatch('logsUpdateSearchText', (s) => {
       s.logs.searchText = text.toLowerCase();
     });
   };
 }
 
-export function appendLog(log) {
-  return (dispatch, getState) => {
+export function appendLog(log: Log) {
+  return (dispatch: DispatchFn, getState: GetStateFn) => {
     const s = getState();
     const logs = getLogs(s);
     const tailCurr = getTail(s);
@@ -42,9 +44,7 @@ export function appendLog(log) {
     // mutate intentionally for performance
     logs[tail] = log;
 
-    dispatch('logsAppendLog', (s) => {
-      s.logs.tail = tail;
-    });
+    dispatch('logsAppendLog', (s: State) => (s.logs.tail = tail));
   };
 }
 

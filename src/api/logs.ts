@@ -1,14 +1,9 @@
-import { LogsAPIConfig } from 'src/types';
+import { pad0 } from 'src/misc/utils';
+import { Log, LogsAPIConfig } from 'src/types';
 
 import { buildLogsWebSocketURL, getURLAndInit } from '../misc/request-helper';
 
-type LogEntry = {
-  time?: string;
-  id?: string;
-  even?: boolean;
-  // and some other props
-};
-type AppendLogFn = (x: LogEntry) => void;
+type AppendLogFn = (x: Log) => void;
 
 const endpoint = '/logs';
 const textDecoder = new TextDecoder('utf-8');
@@ -22,7 +17,7 @@ let fetched = false;
 let decoded = '';
 
 function appendData(s: string, callback: AppendLogFn) {
-  let o: LogEntry;
+  let o: Partial<Log>;
   try {
     o = JSON.parse(s);
   } catch (err) {
@@ -31,12 +26,23 @@ function appendData(s: string, callback: AppendLogFn) {
   }
 
   const now = new Date();
-  const time = now.toLocaleString('zh-Hans');
+  const time = formatDate(now);
   // mutate input param in place intentionally
   o.time = time;
   o.id = +now - 0 + getRandomStr();
   o.even = even = !even;
   callback(o);
+}
+
+function formatDate(d: Date) {
+  // 19-03-09 12:45
+  const YY = d.getFullYear() % 100;
+  const MM = pad0(d.getMonth() + 1, 2);
+  const dd = pad0(d.getDate(), 2);
+  const HH = pad0(d.getHours(), 2);
+  const mm = pad0(d.getMinutes(), 2);
+  const ss = pad0(d.getSeconds(), 2);
+  return `${YY}-${MM}-${dd} ${HH}:${mm}:${ss}`;
 }
 
 function pump(reader: ReadableStreamDefaultReader, appendLog: AppendLogFn) {
