@@ -105,7 +105,6 @@ function fetchLogsWithFetch(apiConfig: LogsAPIConfig, appendLog: AppendLogFn) {
 
   fetched = true;
   apiConfigSnapshot = { ...apiConfig };
-  console.log(apiConfigSnapshot)
 
   controller = new AbortController();
   const signal = controller.signal;
