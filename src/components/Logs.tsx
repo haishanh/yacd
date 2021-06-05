@@ -15,7 +15,7 @@ import useRemainingViewPortHeight from 'src/hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from 'src/store/app';
 import { getLogLevel } from 'src/store/configs';
 import { appendLog, getLogsForDisplay } from 'src/store/logs';
-import { Log,State } from 'src/store/types';
+import { Log, State } from 'src/store/types';
 
 import s from './Logs.module.css';
 
@@ -23,8 +23,7 @@ const { useCallback, memo, useEffect } = React;
 
 const paddingBottom = 30;
 const colors = {
-  debug: 'none',
-  // debug: '#8a8a8a',
+  debug: '#28792c',
   info: 'var(--bg-log-info-tag)',
   warning: '#b99105',
   error: '#c11c1c',
@@ -66,9 +65,7 @@ const Row = memo(
 
 function Logs({ dispatch, logLevel, apiConfig, logs }) {
   const appendLogInternal = useCallback(
-    (log) => {
-      dispatch(appendLog(log));
-    },
+    (log) => dispatch(appendLog(log)),
     [dispatch]
   );
   useEffect(() => {

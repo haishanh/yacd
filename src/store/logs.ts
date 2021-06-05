@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
-
-import { DispatchFn, GetStateFn, Log, State } from './types';
+import { DispatchFn, GetStateFn, Log, State } from 'src/store/types';
 
 const LogSize = 300;
 
@@ -44,7 +43,9 @@ export function appendLog(log: Log) {
     // mutate intentionally for performance
     logs[tail] = log;
 
-    dispatch('logsAppendLog', (s: State) => (s.logs.tail = tail));
+    dispatch('logsAppendLog', (s: State) => {
+      s.logs.tail = tail;
+    });
   };
 }
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { LogOut } from 'react-feather';
 import { useTranslation } from 'react-i18next';
+import * as logsApi from 'src/api/logs';
 import Select from 'src/components/shared/Select';
 import { ClashGeneralConfig, DispatchFn, State } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
@@ -103,10 +104,7 @@ function ConfigImpl({
 
   const setConfigState = useCallback(
     (name, val) => {
-      setConfigStateInternal({
-        ...configState,
-        [name]: val,
-      });
+      setConfigStateInternal({ ...configState, [name]: val });
     },
     [configState]
   );
@@ -128,6 +126,9 @@ function ConfigImpl({
         case 'log-level':
           setConfigState(name, value);
           dispatch(updateConfigs(apiConfig, { [name]: value }));
+          if (name === 'log-level') {
+            logsApi.reconnect({ ...apiConfig, logLevel: value });
+          }
           break;
         case 'redir-port':
         case 'socks-port':

@@ -4,7 +4,6 @@ import Loading from 'src/components/Loading';
 
 import Button from './Button';
 import Input from './Input';
-import { LoadingDot } from './shared/Basic';
 import SwitchThemed from './SwitchThemed';
 import ToggleSwitch from './ToggleSwitch';
 
@@ -17,18 +16,9 @@ const paneStyle = {
 };
 
 const optionsRule = [
-  {
-    label: 'Global',
-    value: 'Global',
-  },
-  {
-    label: 'Rule',
-    value: 'Rule',
-  },
-  {
-    label: 'Direct',
-    value: 'Direct',
-  },
+  { label: 'Global', value: 'Global' },
+  { label: 'Rule', value: 'Rule' },
+  { label: 'Direct', value: 'Direct' },
 ];
 
 const Pane = ({ children, style }) => (
