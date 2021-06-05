@@ -47,12 +47,7 @@ export default function TrafficChart({ id }) {
   useLineChart(Chart, eleId, data, null, extraChartOptions);
 
   return (
-    <div
-      style={{
-        width: 130,
-        padding: 5,
-      }}
-    >
+    <div style={{ width: 100, padding: 5 }}>
       <canvas id={eleId} />
     </div>
   );

@@ -26,9 +26,10 @@ export function SelfControlledInput({ value, ...restProps }) {
     }
     refValue.current = value;
   }, [value]);
-  const onChange = useCallback((e) => setInternalValue(e.target.value), [
-    setInternalValue,
-  ]);
+  const onChange = useCallback(
+    (e) => setInternalValue(e.target.value),
+    [setInternalValue]
+  );
 
   return (
     <input

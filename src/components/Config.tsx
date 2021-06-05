@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { LogOut } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import Select from 'src/components/shared/Select';
 import { ClashGeneralConfig, DispatchFn, State } from 'src/store/types';
@@ -12,55 +13,25 @@ import {
 import { fetchConfigs, getConfigs, updateConfigs } from '../store/configs';
 import { openModal } from '../store/modals';
 import Button from './Button';
-import s0 from './Config.module.css';
+import s0 from './Config.module.scss';
 import ContentHeader from './ContentHeader';
 import Input, { SelfControlledInput } from './Input';
 import { Selection2 } from './Selection';
 import { connect, useStoreActions } from './StateProvider';
 import Switch from './SwitchThemed';
-import ToggleSwitch from './ToggleSwitch';
 import TrafficChartSample from './TrafficChartSample';
+// import ToggleSwitch from './ToggleSwitch';
 
 const { useEffect, useState, useCallback, useRef, useMemo } = React;
 
 const propsList = [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }];
 
-const optionsRule = [
-  {
-    label: 'Global',
-    value: 'Global',
-  },
-  {
-    label: 'Rule',
-    value: 'Rule',
-  },
-  {
-    label: 'Direct',
-    value: 'Direct',
-  },
-];
-
-const optionsLogLevel = [
-  {
-    label: 'Debug',
-    value: 'debug',
-  },
-  {
-    label: 'Warning',
-    value: 'warning',
-  },
-  {
-    label: 'Info',
-    value: 'info',
-  },
-  {
-    label: 'Error',
-    value: 'error',
-  },
-  {
-    label: 'Silent',
-    value: 'silent',
-  },
+const logLeveOptions = [
+  ['debug', 'Debug'],
+  ['warning', 'Warning'],
+  ['info', 'Info'],
+  ['error', 'Error'],
+  ['silent', 'Silent'],
 ];
 
 const portFields = [
@@ -73,6 +44,12 @@ const portFields = [
 const langOptions = [
   ['zh', '中文'],
   ['en', 'English'],
+];
+
+const modeOptions = [
+  ['Global', 'Global'],
+  ['Rule', 'Rule'],
+  ['Direct', 'Direct'],
 ];
 
 const mapState = (s: State) => ({
@@ -144,12 +121,9 @@ function ConfigImpl({
     [apiConfig, dispatch, setConfigState]
   );
 
-  const handleInputOnChange = useCallback(
-    (e) => {
-      const target = e.target;
-      const { name } = target;
-      const { value } = target;
-      switch (target.name) {
+  const handleChangeValue = useCallback(
+    ({ name, value }) => {
+      switch (name) {
         case 'mode':
         case 'log-level':
           setConfigState(name, value);
@@ -159,8 +133,8 @@ function ConfigImpl({
         case 'socks-port':
         case 'mixed-port':
         case 'port':
-          if (target.value !== '') {
-            const num = parseInt(target.value, 10);
+          if (value !== '') {
+            const num = parseInt(value, 10);
             if (num < 0 || num > 65535) return;
           }
           setConfigState(name, value);
@@ -170,6 +144,11 @@ function ConfigImpl({
       }
     },
     [apiConfig, dispatch, setConfigState]
+  );
+
+  const handleInputOnChange = useCallback(
+    (e) => handleChangeValue(e.target),
+    [handleChangeValue]
   );
 
   const { selectChartStyleIndex, updateAppConfig } = useStoreActions();
@@ -224,33 +203,38 @@ function ConfigImpl({
             </div>
           ) : null
         )}
-        <div>
-          <div className={s0.label}>Allow LAN</div>
-          <Switch
-            name="allow-lan"
-            checked={configState['allow-lan']}
-            onChange={handleSwitchOnChange}
-          />
-        </div>
 
         <div>
           <div className={s0.label}>Mode</div>
-          <ToggleSwitch
-            options={optionsRule}
-            name="mode"
-            value={mode}
-            onChange={handleInputOnChange}
+          <Select
+            options={modeOptions}
+            selected={mode}
+            onChange={(e) =>
+              handleChangeValue({ name: 'mode', value: e.target.value })
+            }
           />
         </div>
 
         <div>
           <div className={s0.label}>Log Level</div>
-          <ToggleSwitch
-            options={optionsLogLevel}
-            name="log-level"
-            value={configState['log-level']}
-            onChange={handleInputOnChange}
+          <Select
+            options={logLeveOptions}
+            selected={configState['log-level']}
+            onChange={(e) =>
+              handleChangeValue({ name: 'log-level', value: e.target.value })
+            }
           />
+        </div>
+
+        <div>
+          <div className={s0.label}>Allow LAN</div>
+          <div className={s0.wrapSwitch}>
+            <Switch
+              name="allow-lan"
+              checked={configState['allow-lan']}
+              onChange={handleSwitchOnChange}
+            />
+          </div>
         </div>
       </div>
 
@@ -260,15 +244,6 @@ function ConfigImpl({
 
       <div className={s0.section}>
         <div>
-          <div className={s0.label}>{t('chart_style')}</div>
-          <Selection2
-            OptionComponent={TrafficChartSample}
-            optionPropsList={propsList}
-            selectedIndex={selectedChartStyleIndex}
-            onChange={selectChartStyleIndex}
-          />
-        </div>
-        <div className={s0.narrow}>
           <div className={s0.label}>{t('latency_test_url')}</div>
           <SelfControlledInput
             name="latencyTestUrl"
@@ -278,18 +253,33 @@ function ConfigImpl({
           />
         </div>
         <div>
-          <div className={s0.label}>Action</div>
-          <Button label="Switch backend" onClick={openAPIConfigModal} />
-        </div>
-        <div>
           <div className={s0.label}>{t('lang')}</div>
-          <div className={s0.narrow}>
+          <div>
             <Select
               options={langOptions}
               selected={i18n.language}
               onChange={(e) => i18n.changeLanguage(e.target.value)}
             />
           </div>
+        </div>
+
+        <div>
+          <div className={s0.label}>{t('chart_style')}</div>
+          <Selection2
+            OptionComponent={TrafficChartSample}
+            optionPropsList={propsList}
+            selectedIndex={selectedChartStyleIndex}
+            onChange={selectChartStyleIndex}
+          />
+        </div>
+
+        <div>
+          <div className={s0.label}>Action</div>
+          <Button
+            start={<LogOut size={16} />}
+            label="Switch backend"
+            onClick={openAPIConfigModal}
+          />
         </div>
       </div>
     </div>

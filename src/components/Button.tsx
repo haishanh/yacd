@@ -10,7 +10,7 @@ type ButtonInternalProps = {
   children?: React.ReactNode;
   label?: string;
   text?: string;
-  start?: React.ReactElement | (() => React.ReactElement);
+  start?: React.ReactNode | (() => React.ReactNode);
 };
 
 type ButtonProps = {
