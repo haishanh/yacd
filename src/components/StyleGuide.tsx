@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Zap } from 'react-feather';
+import Loading from 'src/components/Loading';
 
 import Button from './Button';
 import Input from './Input';
@@ -76,7 +77,7 @@ class StyleGuide extends PureComponent {
           <Button label="Button Plain" kind="minimal" />
         </Pane>
         <Pane style={{ paddingLeft: 20 }}>
-          <LoadingDot />
+          <Loading />
         </Pane>
       </div>
     );

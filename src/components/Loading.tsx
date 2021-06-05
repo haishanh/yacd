@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s0 from './Loading.module.css';
+import s from './Loading.module.css';
 
 type Props = {
   height?: string;
@@ -9,8 +9,8 @@ type Props = {
 const Loading = ({ height }: Props) => {
   const style = height ? { height } : {};
   return (
-    <div className={s0.loading} style={style}>
-      <div className={s0.pulse} />
+    <div className={s.loading} style={style}>
+      <div className={s.spinner} />
     </div>
   );
 };
