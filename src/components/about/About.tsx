@@ -7,7 +7,7 @@ import { connect } from 'src/components/StateProvider';
 import { getClashAPIConfig } from 'src/store/app';
 import { ClashAPIConfig } from 'src/types';
 
-import s from './About.module.css';
+import s from './About.module.scss';
 
 type Props = { apiConfig: ClashAPIConfig };
 

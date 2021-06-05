@@ -1,7 +1,7 @@
 import cx from 'clsx';
 import React from 'react';
 
-import s from './Field.module.css';
+import s from './Field.module.scss';
 
 const { useCallback } = React;
 

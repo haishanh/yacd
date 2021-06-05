@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import s from './Select.module.css';
+import s from './Select.module.scss';
 
 type Props = {
   options: Array<string[]>;

@@ -9,7 +9,7 @@ import {
 } from '../../store/app';
 import { connect, useStoreActions } from '../StateProvider';
 import Switch from '../SwitchThemed';
-import s from './Settings.module.css';
+import s from './Settings.module.scss';
 
 const options = [
   ['Natural', 'order_natural'],

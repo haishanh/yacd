@@ -4,7 +4,7 @@ import { keyCodes } from 'src/misc/keycode';
 
 import { getDelay, getProxies, NonProxyTypes } from '../../store/proxies';
 import { connect } from '../StateProvider';
-import s0 from './Proxy.module.css';
+import s0 from './Proxy.module.scss';
 import { ProxyLatency } from './ProxyLatency';
 
 const { useMemo } = React;

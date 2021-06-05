@@ -8,11 +8,12 @@ import { ProxyGroup } from 'src/components/proxies/ProxyGroup';
 import { ProxyPageFab } from 'src/components/proxies/ProxyPageFab';
 import { ProxyProviderList } from 'src/components/proxies/ProxyProviderList';
 import Settings from 'src/components/proxies/Settings';
-import { TextFilter } from 'src/components/proxies/TextFilter';
 import BaseModal from 'src/components/shared/BaseModal';
+import { TextFilter } from 'src/components/shared/TextFitler';
 import { connect, useStoreActions } from 'src/components/StateProvider';
 import Equalizer from 'src/components/svg/Equalizer';
 import { getClashAPIConfig } from 'src/store/app';
+import { proxyFilterText } from 'src/store/proxies';
 import {
   fetchProxies,
   getDelay,
@@ -22,7 +23,7 @@ import {
 } from 'src/store/proxies';
 import type { State } from 'src/store/types';
 
-import s0 from './Proxies.module.css';
+import s0 from './Proxies.module.scss';
 
 const { useState, useEffect, useCallback, useRef } = React;
 
@@ -84,7 +85,7 @@ function Proxies({
         <ContentHeader title={t('Proxies')} />
         <div className={s0.topBarRight}>
           <div className={s0.textFilterContainer}>
-            <TextFilter />
+            <TextFilter textAtom={proxyFilterText} />
           </div>
           <Tooltip label={t('settings')}>
             <Button kind="minimal" onClick={() => setIsSettingsModalOpen(true)}>

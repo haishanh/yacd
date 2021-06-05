@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import s0 from './ProxyLatency.module.css';
+import s0 from './ProxyLatency.module.scss';
 
 type ProxyLatencyProps = {
   number: number;

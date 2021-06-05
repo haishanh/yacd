@@ -3,8 +3,8 @@ import React from 'react';
 import Modal from 'react-modal';
 
 import Button from './Button';
-import modalStyle from './Modal.module.css';
-import s from './ModalCloseAllConnections.module.css';
+import modalStyle from './Modal.module.scss';
+import s from './ModalCloseAllConnections.module.scss';
 
 const { useRef, useCallback, useMemo } = React;
 

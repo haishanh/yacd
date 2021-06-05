@@ -2,7 +2,7 @@ import cx from 'clsx';
 import React from 'react';
 import Modal from 'react-modal';
 
-import s0 from './Modal.module.css';
+import s0 from './Modal.module.scss';
 
 type Props = {
   isOpen: boolean;

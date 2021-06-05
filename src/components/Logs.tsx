@@ -17,7 +17,7 @@ import { getLogLevel } from 'src/store/configs';
 import { appendLog, getLogsForDisplay } from 'src/store/logs';
 import { Log, State } from 'src/store/types';
 
-import s from './Logs.module.css';
+import s from './Logs.module.scss';
 
 const { useCallback, memo, useEffect } = React;
 

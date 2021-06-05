@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ChevronDown } from 'react-feather';
 
 import Button from './Button';
-import s from './CollapsibleSectionHeader.module.css';
+import s from './CollapsibleSectionHeader.module.scss';
 import { SectionNameType } from './shared/Basic';
 
 type Props = {

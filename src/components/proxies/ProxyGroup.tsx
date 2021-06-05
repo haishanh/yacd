@@ -11,7 +11,7 @@ import Button from '../Button';
 import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
 import { connect, useStoreActions } from '../StateProvider';
 import { useFilteredAndSorted } from './hooks';
-import s0 from './ProxyGroup.module.css';
+import s0 from './ProxyGroup.module.scss';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
 
 const { createElement, useCallback, useMemo, useState } = React;

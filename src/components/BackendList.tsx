@@ -8,7 +8,7 @@ import {
 } from 'src/store/app';
 import { ClashAPIConfig } from 'src/types';
 
-import s from './BackendList.module.css';
+import s from './BackendList.module.scss';
 import { connect, useStoreActions } from './StateProvider';
 
 type Config = ClashAPIConfig & { addedAt: number };

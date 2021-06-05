@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s0 from './Rule.module.css';
+import s0 from './Rule.module.scss';
 
 const colorMap = {
   _default: '#59caf9',

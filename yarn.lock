@@ -2044,7 +2044,7 @@ caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001230:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001230.tgz#8135c57459854b2240b57a4a6786044bdc5a9f71"
   integrity sha512-5yBd5nWCBS+jWKTcHOzXwo5xzcj4ePE/yjtkZyUV1BTUmrBaA9MRGC+e7mxnqXSA90CmCA8L3eKLaSUkt099IQ==
 
-chalk@^2.0.0, chalk@^2.4.2:
+chalk@^2.0.0:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -4079,15 +4079,6 @@ postcss-discard-overridden@^5.0.1:
   resolved "https://registry.yarnpkg.com/postcss-discard-overridden/-/postcss-discard-overridden-5.0.1.tgz#454b41f707300b98109a75005ca4ab0ff2743ac6"
   integrity sha512-Y28H7y93L2BpJhrdUR2SR2fnSsT+3TVx1NmVQLbcnZWwIUpJ7mfcTC6Za9M2PG6w8j7UQRfzxqn8jU2VwFxo3Q==
 
-postcss-extend-rule@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-extend-rule/-/postcss-extend-rule-3.0.0.tgz#d6ee2fb24ab2b3d9b50acce1d055c1c137ab5f44"
-  integrity sha512-gMlRmW52Y86Lct+KTr+gMjxk0aUSuTyjtvelIH3a7UdaXONaKH6qSmj8KAXCW4+nhTlAsOw5JdkRjCdZ/Kjb3Q==
-  dependencies:
-    postcss "^7.0.17"
-    postcss-nesting "^7.0.1"
-    postcss-tape "^5.0.2"
-
 postcss-import@14.0.2:
   version "14.0.2"
   resolved "https://registry.yarnpkg.com/postcss-import/-/postcss-import-14.0.2.tgz#60eff77e6be92e7b67fe469ec797d9424cae1aa1"
@@ -4151,20 +4142,6 @@ postcss-minify-selectors@^5.1.0:
   dependencies:
     alphanum-sort "^1.0.2"
     postcss-selector-parser "^6.0.5"
-
-postcss-nested@5.0.5:
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-5.0.5.tgz#f0a107d33a9fab11d7637205f5321e27223e3603"
-  integrity sha512-GSRXYz5bccobpTzLQZXOnSOfKl6TwVr5CyAQJUPub4nuRJSOECK5AqurxVgmtxP48p0Kc/ndY/YyS1yqldX0Ew==
-  dependencies:
-    postcss-selector-parser "^6.0.4"
-
-postcss-nesting@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/postcss-nesting/-/postcss-nesting-7.0.1.tgz#b50ad7b7f0173e5b5e3880c3501344703e04c052"
-  integrity sha512-FrorPb0H3nuVq0Sff7W2rnc3SmIcruVC6YwpcS+k687VxyxO33iE1amna7wHuRVzM8vfiYofXSBHNAZ3QhLvYg==
-  dependencies:
-    postcss "^7.0.2"
 
 postcss-normalize-charset@^5.0.1:
   version "5.0.1"
@@ -4288,11 +4265,6 @@ postcss-svgo@^5.0.2:
     postcss-value-parser "^4.1.0"
     svgo "^2.3.0"
 
-postcss-tape@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/postcss-tape/-/postcss-tape-5.0.2.tgz#7ae011050954fdc10b17d1f1551c9d9bf14e4bdf"
-  integrity sha512-e4770WnsUzczQp/pAIsz0s0MDLAQ7luyh1/hs8QBcdfXOMrz0siEqYNHAKJIoCvGtLoi2QUjWASvTbPfyTfIWg==
-
 postcss-unique-selectors@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/postcss-unique-selectors/-/postcss-unique-selectors-5.0.1.tgz#3be5c1d7363352eff838bd62b0b07a0abad43bfc"
@@ -4315,15 +4287,6 @@ postcss@8.3.0, postcss@^8.2.10:
     colorette "^1.2.2"
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
-
-postcss@^7.0.17, postcss@^7.0.2:
-  version "7.0.23"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.23.tgz#9f9759fad661b15964f3cfc3140f66f1e05eadc1"
-  integrity sha512-hOlMf3ouRIFXD+j2VJecwssTwbvsPGJVMzupptg+85WA+i7MwyrydmQAgY3R+m0Bc0exunhbJmijy8u8+vufuQ==
-  dependencies:
-    chalk "^2.4.2"
-    source-map "^0.6.1"
-    supports-color "^6.1.0"
 
 prelude-ls@^1.2.1:
   version "1.2.1"
@@ -4997,13 +4960,6 @@ supports-color@^5.3.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
   integrity sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
-  dependencies:
-    has-flag "^3.0.0"
-
-supports-color@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-6.1.0.tgz#0764abc69c63d5ac842dd4867e8d025e880df8f3"
-  integrity sha512-qe1jfm1Mg7Nq/NSh6XE24gPXROEVsWHxC1LIx//XNlD9iw7YZQGjZNjYN7xGaEG6iKdA8EtNFW6R0gjnVXp+wQ==
   dependencies:
     has-flag "^3.0.0"
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 
-import s0 from './ToggleSwitch.module.css';
+import s0 from './ToggleSwitch.module.scss';
 
 type Props = {
   options?: any[];

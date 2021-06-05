@@ -10,7 +10,7 @@ import { State } from 'src/store/types';
 import * as connAPI from '../api/connections';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';
-import s from './Connections.module.css';
+import s from './Connections.module.scss';
 import ConnectionTable from './ConnectionTable';
 import ContentHeader from './ContentHeader';
 import ModalCloseAllConnections from './ModalCloseAllConnections';

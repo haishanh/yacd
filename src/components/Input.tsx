@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s0 from './Input.module.css';
+import s0 from './Input.module.scss';
 
 const { useState, useRef, useEffect, useCallback } = React;
 

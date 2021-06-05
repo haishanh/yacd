@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s from './Loading.module.css';
+import s from './Loading.module.scss';
 
 type Props = {
   height?: string;

@@ -3,7 +3,7 @@ import './rtf.css';
 import * as React from 'react';
 import { Action, Fab } from 'react-tiny-fab/dist';
 
-import s from './Fab.module.css';
+import s from './Fab.module.scss';
 
 export function IsFetching({ children }: { children: React.ReactNode }) {
   return <span className={s.spining}>{children}</span>;

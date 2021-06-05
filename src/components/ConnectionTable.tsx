@@ -5,7 +5,7 @@ import { ChevronDown } from 'react-feather';
 import { useSortBy, useTable } from 'react-table';
 
 import prettyBytes from '../misc/pretty-bytes';
-import s from './ConnectionTable.module.css';
+import s from './ConnectionTable.module.scss';
 
 const sortDescFirst = true;
 

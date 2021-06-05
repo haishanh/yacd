@@ -2,7 +2,7 @@ import debounce from 'lodash-es/debounce';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Search as SearchIcon } from 'react-feather';
 
-import s0 from './Search.module.css';
+import s0 from './Search.module.scss';
 
 function RuleSearch({ dispatch, searchText, updateSearchText }) {
   const [text, setText] = useState(searchText);

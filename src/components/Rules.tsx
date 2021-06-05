@@ -4,7 +4,8 @@ import { areEqual, VariableSizeList } from 'react-window';
 import { RuleProviderItem } from 'src/components/rules/RuleProviderItem';
 import { useRuleAndProvider } from 'src/components/rules/rules.hooks';
 import { RulesPageFab } from 'src/components/rules/RulesPageFab';
-import { TextFilter } from 'src/components/rules/TextFilter';
+import { TextFilter } from 'src/components/shared/TextFitler';
+import { ruleFilterText } from 'src/store/rules';
 import { State } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
 
@@ -12,7 +13,7 @@ import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';
 import ContentHeader from './ContentHeader';
 import Rule from './Rule';
-import s from './Rules.module.css';
+import s from './Rules.module.scss';
 import { connect } from './StateProvider';
 
 const { memo } = React;
@@ -85,7 +86,7 @@ function Rules({ apiConfig }: RulesProps) {
     <div>
       <div className={s.header}>
         <ContentHeader title={t('Rules')} />
-        <TextFilter />
+        <TextFilter placeholder="Filter" textAtom={ruleFilterText} />
       </div>
       {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'number | MutableRefObject<any>' is not assig... Remove this comment to see the full error message */}
       <div ref={refRulesContainer} style={{ paddingBottom }}>

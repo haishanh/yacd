@@ -4,7 +4,7 @@ import { BackendList } from 'src/components/BackendList';
 import { ClashAPIConfig } from 'src/types';
 
 import { addClashAPIConfig, getClashAPIConfig } from '../store/app';
-import s0 from './APIConfig.module.css';
+import s0 from './APIConfig.module.scss';
 import Button from './Button';
 import Field from './Field';
 import { connect } from './StateProvider';

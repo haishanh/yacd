@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s0 from './ContentHeader.module.css';
+import s0 from './ContentHeader.module.scss';
 
 type Props = {
   title: string;

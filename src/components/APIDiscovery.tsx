@@ -5,7 +5,7 @@ import { getClashAPIConfig } from '../store/app';
 import { fetchConfigs } from '../store/configs';
 import { closeModal } from '../store/modals';
 import APIConfig from './APIConfig';
-import s0 from './APIDiscovery.module.css';
+import s0 from './APIDiscovery.module.scss';
 import Modal from './Modal';
 import { connect } from './StateProvider';
 

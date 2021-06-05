@@ -5,7 +5,7 @@ import { useUpdateRuleProviderItem } from 'src/components/rules/rules.hooks';
 import { SectionNameType } from 'src/components/shared/Basic';
 import { RotateIcon } from 'src/components/shared/RotateIcon';
 
-import s from './RuleProviderItem.module.css';
+import s from './RuleProviderItem.module.scss';
 
 export function RuleProviderItem({
   idx,

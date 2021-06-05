@@ -15,7 +15,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { framerMotionResouce } from '../misc/motion';
 import { getTheme, switchTheme } from '../store/app';
-import s from './SideBar.module.css';
+import s from './SideBar.module.scss';
 import { connect } from './StateProvider';
 
 const { useCallback } = React;

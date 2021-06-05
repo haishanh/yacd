@@ -16,8 +16,6 @@ module.exports = {
         },
       ],
     }),
-    require('postcss-nested')(),
     require('autoprefixer')(),
-    require('postcss-extend-rule')(),
   ],
 };

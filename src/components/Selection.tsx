@@ -1,7 +1,7 @@
 import cx from 'clsx';
 import React from 'react';
 
-import s from './Selection.module.css';
+import s from './Selection.module.scss';
 
 type SelectionProps = {
   OptionComponent?: (...args: any[]) => any;

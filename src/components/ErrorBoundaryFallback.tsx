@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s0 from './ErrorBoundaryFallback.module.css';
+import s0 from './ErrorBoundaryFallback.module.scss';
 import SvgGithub from './SvgGithub';
 import SvgYacd from './SvgYacd';
 const yacdRepoIssueUrl = 'https://github.com/haishanh/yacd/issues';

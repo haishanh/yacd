@@ -1,7 +1,7 @@
 import cx from 'clsx';
 import React from 'react';
 
-import s from './SvgYacd.module.css';
+import s from './SvgYacd.module.scss';
 
 type Props = {
   width?: number;

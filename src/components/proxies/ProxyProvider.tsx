@@ -18,7 +18,7 @@ import { DelayMapping } from 'src/store/types';
 
 import { useFilteredAndSorted } from './hooks';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
-import s from './ProxyProvider.module.css';
+import s from './ProxyProvider.module.scss';
 
 const { useState, useCallback } = React;
 

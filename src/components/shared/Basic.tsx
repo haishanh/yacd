@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s from './Basic.module.css';
+import s from './Basic.module.scss';
 
 export function SectionNameType({ name, type }) {
   return (

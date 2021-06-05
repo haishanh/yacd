@@ -1,4 +1,4 @@
-import './Root.css';
+import './Root.scss';
 import '@fontsource/roboto-mono/latin-400.css';
 import '@fontsource/open-sans/latin-400.css';
 import '@fontsource/open-sans/latin-700.css';
@@ -19,7 +19,7 @@ import APIDiscovery from './APIDiscovery';
 import ErrorBoundary from './ErrorBoundary';
 import Home from './Home';
 import Loading2 from './Loading2';
-import s0 from './Root.module.css';
+import s0 from './Root.module.scss';
 import SideBar from './SideBar';
 import StateProvider from './StateProvider';
 import StyleGuide from './StyleGuide';

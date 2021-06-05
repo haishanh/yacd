@@ -2,7 +2,7 @@ import cx from 'clsx';
 import * as React from 'react';
 import { RotateCw } from 'react-feather';
 
-import s from './RotateIcon.module.css';
+import s from './RotateIcon.module.scss';
 
 export function RotateIcon({ isRotating }: { isRotating: boolean }) {
   const cls = cx(s.rotate, {
