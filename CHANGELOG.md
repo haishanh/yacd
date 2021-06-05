@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0](https://github.com/haishanh/yacd/compare/v0.2.15...v0.3.0) (2021-06-05)
+
+Changed:
+
+- Switch the build system to use Vite. This should not change much about user experience.
+- Style tweaks.
+  - The light theme now use a light gray background instead of a pure white
+  - Statistic blocks on Overview are now styled more like a card
+  - Log type badge is now ellipse shaped
+  - Config fields are more compact now
+
+Added:
+
+- Request logs with configured log level
+- Reconnect logs web socket on log level config change
+
 ## [0.2.15](https://github.com/haishanh/yacd/compare/v0.2.14...v0.2.15) (2021-02-28)
 
 Changed:
