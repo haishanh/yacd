@@ -86,18 +86,18 @@ jobs:
   docker:
     needs: install
     runs-on: ubuntu-20.04
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
+    if: github.event_name == 'push' && (startsWith(github.event.ref, 'refs/tags/') || startsWith(github.event.ref, 'refs/heads/v0.'))
     steps:
       - uses: actions/checkout@v2.3.4
 
       - name: Docker meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v3.3.0
+        uses: docker/metadata-action@v3.3.0
         with:
           images: haishanh/yacd
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1.1.0
+        uses: docker/setup-qemu-action@v1.2.0
 
       - name: Set up Docker Buildx
         id: buildx

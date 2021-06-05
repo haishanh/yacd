@@ -7,7 +7,7 @@ RUN yarn config set network-timeout 300000 \
   && yarn \
   && yarn build \
   # remove source maps - people like small image
-  && rm public/*.map
+  && rm public/*.map || true
 
 FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
