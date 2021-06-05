@@ -1,4 +1,7 @@
 import './Root.css';
+import '@fontsource/roboto-mono/latin-400.css';
+import '@fontsource/open-sans/latin-400.css';
+import '@fontsource/open-sans/latin-700.css';
 
 import React, { lazy, Suspense } from 'react';
 import { QueryClientProvider } from 'react-query';
