@@ -1,14 +1,20 @@
 # Changelog
 
+## [0.3.1](https://github.com/haishanh/yacd/compare/v0.3.0...v0.3.1) (2021-06-06)
+
+Fixed:
+
+- Fixed floating action button style
+
 ## [0.3.0](https://github.com/haishanh/yacd/compare/v0.2.15...v0.3.0) (2021-06-05)
 
 Changed:
 
 - Switch the build system to use Vite. This should not change much about user experience.
-- Style tweaks.
+- Style tweaks:
   - The light theme now use a light gray background instead of a pure white
   - Statistic blocks on Overview are now styled more like a card
-  - Log type badge is now ellipse shaped
+  - Log type badges are now ellipse shaped
   - Config fields are more compact now
 
 Added:
