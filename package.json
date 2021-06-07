@@ -7,7 +7,6 @@
     "dev": "vite",
     "start": "vite",
     "build": "vite build",
-    "postbuild": "cp assets/* public",
     "serve": "vite preview",
     "pretty": "prettier --single-quote --write 'src/**/*.{js,scss,ts,tsx,md}'"
   },

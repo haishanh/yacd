@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
     'process.env.NODE_ENV': JSON.stringify(mode),
     'process.env.PUBLIC_URL': JSON.stringify('./'),
   },
+  base: './',
   publicDir: 'assets',
   build: {
     // the default value is 'dist'
@@ -25,6 +26,7 @@ export default defineConfig(({ mode }) => ({
       outDir: 'public',
       filename: 'sw.ts',
       strategies: 'injectManifest',
+      base: './',
     }),
   ],
   resolve: {
