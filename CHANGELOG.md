@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.2](https://github.com/haishanh/yacd/compare/v0.3.1...v0.3.2) (2021-06-07)
+
+Changed:
+
+- Change web base to './'
+
 ## [0.3.1](https://github.com/haishanh/yacd/compare/v0.3.0...v0.3.1) (2021-06-06)
 
 Fixed:
