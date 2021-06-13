@@ -10,11 +10,12 @@
   align-items: center;
 
   .icon {
-    color: #2d2d30;
-    opacity: 0.4;
+    --stroke: #f3f3f3;
+    color: #20497e;
+    opacity: 0.7;
     transition: opacity 400ms;
     &:hover {
-      opacity: 0.7;
+      opacity: 1;
     }
   }
 }

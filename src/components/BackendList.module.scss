@@ -19,6 +19,7 @@
   grid-template-rows: 30px;
   grid-template-areas: 'close url .';
   column-gap: 10px;
+  border: 1px solid var(--bg-near-transparent);
 }
 
 .li:hover {
@@ -29,6 +30,7 @@
   opacity: 0;
   grid-area: close;
   place-self: center;
+  cursor: pointer;
 }
 
 .li:hover .close,
@@ -83,6 +85,7 @@
 }
 .btn:hover:enabled {
   background-color: var(--color-focus-blue);
+  color: white;
 }
 .btn:active:enabled {
   transform: scale(0.97);

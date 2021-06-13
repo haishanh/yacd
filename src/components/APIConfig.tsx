@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { fetchConfigs } from 'src/api/configs';
 import { BackendList } from 'src/components/BackendList';
+import { addClashAPIConfig, getClashAPIConfig } from 'src/store/app';
+import { State } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
 
-import { addClashAPIConfig, getClashAPIConfig } from '../store/app';
 import s0 from './APIConfig.module.scss';
 import Button from './Button';
 import Field from './Field';
@@ -13,7 +14,7 @@ import SvgYacd from './SvgYacd';
 const { useState, useRef, useCallback } = React;
 const Ok = 0;
 
-const mapState = (s) => ({
+const mapState = (s: State) => ({
   apiConfig: getClashAPIConfig(s),
 });
 
@@ -73,23 +74,22 @@ function APIConfig({ dispatch }) {
     <div className={s0.root} ref={contentEl} onKeyDown={handleContentOnKeyDown}>
       <div className={s0.header}>
         <div className={s0.icon}>
-          <SvgYacd width={160} height={160} />
+          <SvgYacd width={160} height={160} stroke="var(--stroke)" />
         </div>
       </div>
       <div className={s0.body}>
         <div className={s0.hostnamePort}>
           <Field
             id="baseURL"
-            // @ts-expect-error ts-migrate(2322) FIXME: Type '{ id: string; name: string; label: string; t... Remove this comment to see the full error message
             name="baseURL"
             label="API Base URL"
             type="text"
+            placeholder="http://127.0.0.1:9090"
             value={baseURL}
             onChange={handleInputOnChange}
           />
           <Field
             id="secret"
-            // @ts-expect-error ts-migrate(2322) FIXME: Type '{ id: string; name: string; label: string; v... Remove this comment to see the full error message
             name="secret"
             label="Secret(optional)"
             value={secret}

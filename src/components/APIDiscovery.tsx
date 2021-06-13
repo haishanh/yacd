@@ -1,9 +1,11 @@
-import React from 'react';
+import * as React from 'react';
+import { ThemeSwitcher } from 'src/components/shared/ThemeSwitcher';
+import { DOES_NOT_SUPPORT_FETCH, errors } from 'src/misc/errors';
+import { getClashAPIConfig } from 'src/store/app';
+import { fetchConfigs } from 'src/store/configs';
+import { closeModal } from 'src/store/modals';
+import { State } from 'src/store/types';
 
-import { DOES_NOT_SUPPORT_FETCH, errors } from '../misc/errors';
-import { getClashAPIConfig } from '../store/app';
-import { fetchConfigs } from '../store/configs';
-import { closeModal } from '../store/modals';
 import APIConfig from './APIConfig';
 import s0 from './APIDiscovery.module.scss';
 import Modal from './Modal';
@@ -32,7 +34,6 @@ function APIDiscovery({ dispatch, apiConfig, modals }) {
       isOpen={modals.apiConfig}
       className={s0.content}
       overlayClassName={s0.overlay}
-      // @ts-expect-error ts-migrate(2322) FIXME: Type '{ children: Element; isOpen: any; className:... Remove this comment to see the full error message
       shouldCloseOnOverlayClick={false}
       shouldCloseOnEsc={false}
       onRequestClose={closeApiConfigModal}
@@ -40,11 +41,15 @@ function APIDiscovery({ dispatch, apiConfig, modals }) {
       <div className={s0.container}>
         <APIConfig />
       </div>
+
+      <div className={s0.fixed}>
+        <ThemeSwitcher />
+      </div>
     </Modal>
   );
 }
 
-const mapState = (s) => ({
+const mapState = (s: State) => ({
   modals: s.modals,
   apiConfig: getClashAPIConfig(s),
 });

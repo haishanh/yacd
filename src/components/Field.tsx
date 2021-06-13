@@ -1,27 +1,25 @@
-import cx from 'clsx';
-import React from 'react';
+import * as React from 'react';
 
 import s from './Field.module.scss';
 
 const { useCallback } = React;
 
 type Props = {
+  name: string;
   value?: string | number;
   type?: 'text' | 'number';
   onChange?: (...args: any[]) => any;
   id?: string;
   label?: string;
+  placeholder?: string;
 };
 
 export default function Field({ id, label, value, onChange, ...props }: Props) {
   const valueOnChange = useCallback((e) => onChange(e), [onChange]);
-  const labelClassName = cx({
-    [s.floatAbove]: typeof value === 'string' && value !== '',
-  });
   return (
     <div className={s.root}>
       <input id={id} value={value} onChange={valueOnChange} {...props} />
-      <label htmlFor={id} className={labelClassName}>
+      <label htmlFor={id} className={s.floatAbove}>
         {label}
       </label>
     </div>

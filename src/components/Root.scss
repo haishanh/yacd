@@ -68,12 +68,12 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
 }
 
-body,
-body.dark {
+@mixin dark {
   --color-background: #202020;
   --color-background2: rgba(32, 32, 32, 0.3);
   --color-bg-card: #2d2d2d;
@@ -100,8 +100,7 @@ body.dark {
   --select-border-color: #040404;
   --select-bg-hover: url(data:image/svg+xml,%0A%20%20%20%20%3Csvg%20width%3D%228%22%20height%3D%2224%22%20viewBox%3D%220%200%208%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M4%207L7%2011H1L4%207Z%22%20fill%3D%22%23ffffff%22%20%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M4%2017L1%2013L7%2013L4%2017Z%22%20fill%3D%22%23ffffff%22%20%2F%3E%0A%20%20%20%20%3C%2Fsvg%3E%0A%20%20);
 }
-
-body.light {
+@mixin light {
   --color-background: #eee;
   --color-background2: rgba(240, 240, 240, 0.3);
   --color-bg-card: #fafafa;
@@ -127,6 +126,19 @@ body.light {
   --bc-tooltip: #ccc;
   --select-border-color: #999999;
   --select-bg-hover: url(data:image/svg+xml,%0A%20%20%20%20%3Csvg%20width%3D%228%22%20height%3D%2224%22%20viewBox%3D%220%200%208%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M4%207L7%2011H1L4%207Z%22%20fill%3D%22%23222222%22%20%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M4%2017L1%2013L7%2013L4%2017Z%22%20fill%3D%22%23222222%22%20%2F%3E%0A%20%20%20%20%3C%2Fsvg%3E%0A%20%20);
+}
+
+// we don't have a "system" or "auto" mode now
+// it's just not make sense to have these yet
+// @media (prefers-color-scheme: dark) {}
+// @media (prefers-color-scheme: light) {}
+
+:root[data-theme='dark'] {
+  @include dark;
+}
+
+:root[data-theme='light'] {
+  @include light;
 }
 
 .flexCenter {

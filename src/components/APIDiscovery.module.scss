@@ -22,5 +22,12 @@
 }
 
 .overlay.overlay {
-  background: #222;
+  background-color: var(--color-background);
+}
+
+.fixed {
+  position: fixed;
+  padding: 16px;
+  bottom: 0;
+  right: 0;
 }

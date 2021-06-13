@@ -95,14 +95,15 @@ export function updateClashAPIConfig({ baseURL, secret }) {
   };
 }
 
-const bodyElement = document.body;
+const rootEl = document.querySelector('html');
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 function setTheme(theme = 'dark') {
   if (theme === 'dark') {
-    bodyElement.classList.remove('light');
-    bodyElement.classList.add('dark');
+    rootEl.setAttribute('data-theme', 'dark');
+    themeColorMeta.setAttribute('content', '#202020');
   } else {
-    bodyElement.classList.remove('dark');
-    bodyElement.classList.add('light');
+    rootEl.setAttribute('data-theme', 'light');
+    themeColorMeta.setAttribute('content', '#eeeeee');
   }
 }
 

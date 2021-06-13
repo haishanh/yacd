@@ -1,10 +1,10 @@
 import cx from 'clsx';
-import React from 'react';
-import Modal from 'react-modal';
+import * as React from 'react';
+import Modal, { Props as ReactModalProps } from 'react-modal';
 
 import s0 from './Modal.module.scss';
 
-type Props = {
+type Props = ReactModalProps & {
   isOpen: boolean;
   onRequestClose: (...args: any[]) => any;
   children: React.ReactNode;
