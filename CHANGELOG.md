@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/haishanh/yacd/compare/v0.3.2...v0.3.3) (2021-07-19)
+
+Added:
+
+- Support switch theme on backend config page
+- If / is api server, use it as default
+
 ## [0.3.2](https://github.com/haishanh/yacd/compare/v0.3.1...v0.3.2) (2021-06-07)
 
 Changed:
