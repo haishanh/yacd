@@ -11,7 +11,7 @@ import Field from './Field';
 import { connect } from './StateProvider';
 import SvgYacd from './SvgYacd';
 
-const { useState, useRef, useCallback } = React;
+const { useState, useRef, useCallback, useEffect } = React;
 const Ok = 0;
 
 const mapState = (s: State) => ({
@@ -68,6 +68,20 @@ function APIConfig({ dispatch }) {
     },
     [onConfirm]
   );
+
+  const detectApiServer = async () => {
+    // if there is already a clash API server at `/`, just use it as default value
+    const res = await fetch('/');
+    res.json().then(data => {
+      if (data['hello'] === 'clash') {
+        setBaseURL(window.location.origin)
+      }
+    });
+  };
+  useEffect(() => {
+    detectApiServer();
+  }, []);
+
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
