@@ -90,6 +90,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2.4.0
 
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Docker meta
         id: docker_meta
         uses: docker/metadata-action@v3.6.0
@@ -117,6 +125,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push
+        id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -125,6 +134,11 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
 
       - name: Send Notification
         uses: haishanh/actions-telegram-notification@v1
