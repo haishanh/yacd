@@ -37,7 +37,7 @@
     "i18next": "20.3.3",
     "i18next-browser-languagedetector": "6.1.2",
     "i18next-http-backend": "1.2.6",
-    "immer": "9.0.5",
+    "immer": "9.0.6",
     "invariant": "^2.2.4",
     "lodash-es": "^4.17.21",
     "memoize-one": "5.2.1",
