@@ -219,13 +219,11 @@ function Conn({ apiConfig }) {
           </div>
         </div>
         <div
-          // @ts-expect-error ts-migrate(2322) FIXME: Type 'number | MutableRefObject<any>' is not assig... Remove this comment to see the full error message
           ref={refContainer}
           style={{ padding: 30, paddingBottom, paddingTop: 0 }}
         >
           <div
             style={{
-              // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
               height: containerHeight - paddingBottom,
               overflow: 'auto',
             }}
