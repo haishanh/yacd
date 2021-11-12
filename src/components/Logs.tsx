@@ -1,12 +1,8 @@
 import cx from 'clsx';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  areEqual,
-  FixedSizeList as List,
-  ListChildComponentProps,
-} from 'react-window';
-import { fetchLogs } from 'src/api/logs';
+import { areEqual, FixedSizeList as List, ListChildComponentProps } from 'react-window';
+import { fetchLogs, stop as stopLogs, reconnect as reconnectLogs } from 'src/api/logs';
 import ContentHeader from 'src/components/ContentHeader';
 import LogSearch from 'src/components/LogSearch';
 import { connect } from 'src/components/StateProvider';
@@ -16,10 +12,12 @@ import { getClashAPIConfig } from 'src/store/app';
 import { getLogLevel } from 'src/store/configs';
 import { appendLog, getLogsForDisplay } from 'src/store/logs';
 import { Log, State } from 'src/store/types';
+import { Pause, Play } from 'react-feather';
+import { Fab, position as fabPosition } from './shared/Fab';
 
 import s from './Logs.module.scss';
 
-const { useCallback, memo, useEffect } = React;
+const { useState, useCallback, memo, useEffect } = React;
 
 const paddingBottom = 30;
 const colors = {
@@ -51,23 +49,22 @@ function itemKey(index: number, data: LogLineProps[]) {
   return item.id;
 }
 
-const Row = memo(
-  ({ index, style, data }: ListChildComponentProps<LogLineProps>) => {
-    const r = data[index];
-    return (
-      <div style={style}>
-        <LogLine {...r} />
-      </div>
-    );
-  },
-  areEqual
-);
+const Row = memo(({ index, style, data }: ListChildComponentProps<LogLineProps>) => {
+  const r = data[index];
+  return (
+    <div style={style}>
+      <LogLine {...r} />
+    </div>
+  );
+}, areEqual);
 
 function Logs({ dispatch, logLevel, apiConfig, logs }) {
-  const appendLogInternal = useCallback(
-    (log) => dispatch(appendLog(log)),
-    [dispatch]
-  );
+  const [isRefreshPaused, setIsRefreshPaused] = useState(false);
+  const toggleIsRefreshPaused = useCallback(() => {
+    isRefreshPaused ? reconnectLogs({ ...apiConfig, logLevel }) : stopLogs();
+    setIsRefreshPaused((x) => !x);
+  }, [isRefreshPaused, apiConfig, logLevel]);
+  const appendLogInternal = useCallback((log) => dispatch(appendLog(log)), [dispatch]);
   useEffect(() => {
     fetchLogs({ ...apiConfig, logLevel }, appendLogInternal);
   }, [apiConfig, logLevel, appendLogInternal]);
@@ -80,10 +77,7 @@ function Logs({ dispatch, logLevel, apiConfig, logs }) {
       <LogSearch />
       <div ref={refLogsContainer} style={{ paddingBottom }}>
         {logs.length === 0 ? (
-          <div
-            className={s.logPlaceholder}
-            style={{ height: containerHeight - paddingBottom }}
-          >
+          <div className={s.logPlaceholder} style={{ height: containerHeight - paddingBottom }}>
             <div className={s.logPlaceholderIcon}>
               <SvgYacd width={200} height={200} />
             </div>
@@ -101,6 +95,14 @@ function Logs({ dispatch, logLevel, apiConfig, logs }) {
             >
               {Row}
             </List>
+
+            <Fab
+              icon={isRefreshPaused ? <Play size={16} /> : <Pause size={16} />}
+              mainButtonStyles={isRefreshPaused ? { background: '#e74c3c' } : {}}
+              style={fabPosition}
+              text={isRefreshPaused ? 'Resume Refresh' : 'Pause Refresh'}
+              onClick={toggleIsRefreshPaused}
+            ></Fab>
           </div>
         )}
       </div>

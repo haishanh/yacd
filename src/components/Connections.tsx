@@ -235,11 +235,7 @@ function Conn({ apiConfig }) {
                   isRefreshPaused ? <Play size={16} /> : <Pause size={16} />
                 }
                 mainButtonStyles={
-                  isRefreshPaused
-                    ? {
-                        background: '#e74c3c',
-                      }
-                    : {}
+                  isRefreshPaused ? { background: '#e74c3c' } : {}
                 }
                 style={fabPosition}
                 text={isRefreshPaused ? 'Resume Refresh' : 'Pause Refresh'}

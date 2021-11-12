@@ -5,6 +5,12 @@ import { LogsAPIConfig } from 'src/types';
 import { buildLogsWebSocketURL, getURLAndInit } from '../misc/request-helper';
 
 type AppendLogFn = (x: Log) => void;
+enum WebSocketReadyState {
+  Connecting = 0,
+  Open = 1,
+  Closing = 2,
+  Closed = 3,
+}
 
 const endpoint = '/logs';
 const textDecoder = new TextDecoder('utf-8');
@@ -86,20 +92,13 @@ function makeConnStr(c: LogsAPIConfig) {
 let prevConnStr: string;
 let controller: AbortController;
 
-// 1 OPEN
-// other value CLOSED
-// similar to ws readyState but not the same
-// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
-let wsState: number;
 export function fetchLogs(apiConfig: LogsAPIConfig, appendLog: AppendLogFn) {
   if (apiConfig.logLevel === 'uninit') return;
-  if (fetched || wsState === 1) return;
+  if (fetched || (ws && ws.readyState === WebSocketReadyState.Open)) return;
   prevAppendLogFn = appendLog;
-  wsState = 1;
   const url = buildLogsWebSocketURL(apiConfig, endpoint);
   ws = new WebSocket(url);
   ws.addEventListener('error', () => {
-    wsState = 3;
     fetchLogsWithFetch(apiConfig, appendLog);
   });
   ws.addEventListener('message', function (event) {
@@ -107,10 +106,14 @@ export function fetchLogs(apiConfig: LogsAPIConfig, appendLog: AppendLogFn) {
   });
 }
 
+export function stop() {
+  ws.close();
+  if (controller) controller.abort();
+}
+
 export function reconnect(apiConfig: LogsAPIConfig) {
   if (!prevAppendLogFn || !ws) return;
   ws.close();
-  wsState = 3;
   fetched = false;
   fetchLogs(apiConfig, prevAppendLogFn);
 }
