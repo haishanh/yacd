@@ -1,23 +1,23 @@
 import cx from 'clsx';
 import * as React from 'react';
+import { Pause, Play } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { areEqual, FixedSizeList as List, ListChildComponentProps } from 'react-window';
-import { fetchLogs, stop as stopLogs, reconnect as reconnectLogs } from 'src/api/logs';
+import { fetchLogs, reconnect as reconnectLogs,stop as stopLogs } from 'src/api/logs';
 import ContentHeader from 'src/components/ContentHeader';
 import LogSearch from 'src/components/LogSearch';
-import { connect } from 'src/components/StateProvider';
+import { connect, useStoreActions } from 'src/components/StateProvider';
 import SvgYacd from 'src/components/SvgYacd';
 import useRemainingViewPortHeight from 'src/hooks/useRemainingViewPortHeight';
-import { getClashAPIConfig } from 'src/store/app';
+import { getClashAPIConfig, getLogStreamingPaused } from 'src/store/app';
 import { getLogLevel } from 'src/store/configs';
 import { appendLog, getLogsForDisplay } from 'src/store/logs';
 import { Log, State } from 'src/store/types';
-import { Pause, Play } from 'react-feather';
-import { Fab, position as fabPosition } from './shared/Fab';
 
 import s from './Logs.module.scss';
+import { Fab, position as fabPosition } from './shared/Fab';
 
-const { useState, useCallback, memo, useEffect } = React;
+const { useCallback, memo, useEffect } = React;
 
 const paddingBottom = 30;
 const colors = {
@@ -30,7 +30,7 @@ const colors = {
 type LogLineProps = Partial<Log>;
 
 function LogLine({ time, even, payload, type }: LogLineProps) {
-  const className = cx({ even }, s.log);
+  const className = cx({ even }, 'log');
   return (
     <div className={className}>
       <div className={s.logMeta}>
@@ -58,12 +58,14 @@ const Row = memo(({ index, style, data }: ListChildComponentProps<LogLineProps>)
   );
 }, areEqual);
 
-function Logs({ dispatch, logLevel, apiConfig, logs }) {
-  const [isRefreshPaused, setIsRefreshPaused] = useState(false);
+function Logs({ dispatch, logLevel, apiConfig, logs, logStreamingPaused }) {
+  const actions = useStoreActions();
   const toggleIsRefreshPaused = useCallback(() => {
-    isRefreshPaused ? reconnectLogs({ ...apiConfig, logLevel }) : stopLogs();
-    setIsRefreshPaused((x) => !x);
-  }, [isRefreshPaused, apiConfig, logLevel]);
+    logStreamingPaused ? reconnectLogs({ ...apiConfig, logLevel }) : stopLogs();
+    // being lazy here
+    // ideally we should check the result of previous operation before updating this
+    actions.app.updateAppConfig('logStreamingPaused', !logStreamingPaused);
+  }, [apiConfig, logLevel, logStreamingPaused, actions.app]);
   const appendLogInternal = useCallback((log) => dispatch(appendLog(log)), [dispatch]);
   useEffect(() => {
     fetchLogs({ ...apiConfig, logLevel }, appendLogInternal);
@@ -97,10 +99,10 @@ function Logs({ dispatch, logLevel, apiConfig, logs }) {
             </List>
 
             <Fab
-              icon={isRefreshPaused ? <Play size={16} /> : <Pause size={16} />}
-              mainButtonStyles={isRefreshPaused ? { background: '#e74c3c' } : {}}
+              icon={logStreamingPaused ? <Play size={16} /> : <Pause size={16} />}
+              mainButtonStyles={logStreamingPaused ? { background: '#e74c3c' } : {}}
               style={fabPosition}
-              text={isRefreshPaused ? 'Resume Refresh' : 'Pause Refresh'}
+              text={logStreamingPaused ? t('Resume Refresh') : t('Pause Refresh')}
               onClick={toggleIsRefreshPaused}
             ></Fab>
           </div>
@@ -114,6 +116,7 @@ const mapState = (s: State) => ({
   logs: getLogsForDisplay(s),
   logLevel: getLogLevel(s),
   apiConfig: getClashAPIConfig(s),
+  logStreamingPaused: getLogStreamingPaused(s),
 });
 
 export default connect(mapState)(Logs);

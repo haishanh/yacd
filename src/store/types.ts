@@ -13,6 +13,7 @@ export type StateApp = {
   proxySortBy: string;
   hideUnavailableProxies: boolean;
   autoCloseOldConns: boolean;
+  logStreamingPaused: boolean;
 };
 
 export type ClashGeneralConfig = {

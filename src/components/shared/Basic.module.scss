@@ -36,32 +36,30 @@ h2.sectionNameType {
  *
  */
 
-:global {
-  body.light {
-    /*
+:root[data-theme='light'] {
+  /*
      * --loading-dot-{dot-index}-{dot-keyframe-phase}
      */
-    --loading-dot-1-1: rgba(0, 0, 0, 0.1);
-    --loading-dot-1-2: rgba(0, 0, 0, 0.5);
-    --loading-dot-1-3: rgba(0, 0, 0, 0.3);
-    --loading-dot-2-1: rgba(0, 0, 0, 0.3);
-    --loading-dot-2-2: rgba(0, 0, 0, 0.1);
-    --loading-dot-2-3: rgba(0, 0, 0, 0.5);
-    --loading-dot-3-1: rgba(0, 0, 0, 0.5);
-    --loading-dot-3-2: rgba(0, 0, 0, 0.3);
-    --loading-dot-3-3: rgba(0, 0, 0, 0.1);
-  }
-  body.dark {
-    --loading-dot-1-1: rgba(255, 255, 255, 0.5);
-    --loading-dot-1-2: rgba(255, 255, 255, 0.1);
-    --loading-dot-1-3: rgba(255, 255, 255, 0.3);
-    --loading-dot-2-1: rgba(255, 255, 255, 0.3);
-    --loading-dot-2-2: rgba(255, 255, 255, 0.5);
-    --loading-dot-2-3: rgba(255, 255, 255, 0.1);
-    --loading-dot-3-1: rgba(255, 255, 255, 0.1);
-    --loading-dot-3-2: rgba(255, 255, 255, 0.3);
-    --loading-dot-3-3: rgba(255, 255, 255, 0.5);
-  }
+  --loading-dot-1-1: rgba(0, 0, 0, 0.1);
+  --loading-dot-1-2: rgba(0, 0, 0, 0.5);
+  --loading-dot-1-3: rgba(0, 0, 0, 0.3);
+  --loading-dot-2-1: rgba(0, 0, 0, 0.3);
+  --loading-dot-2-2: rgba(0, 0, 0, 0.1);
+  --loading-dot-2-3: rgba(0, 0, 0, 0.5);
+  --loading-dot-3-1: rgba(0, 0, 0, 0.5);
+  --loading-dot-3-2: rgba(0, 0, 0, 0.3);
+  --loading-dot-3-3: rgba(0, 0, 0, 0.1);
+}
+:root[data-theme='dark'] {
+  --loading-dot-1-1: rgba(255, 255, 255, 0.5);
+  --loading-dot-1-2: rgba(255, 255, 255, 0.1);
+  --loading-dot-1-3: rgba(255, 255, 255, 0.3);
+  --loading-dot-2-1: rgba(255, 255, 255, 0.3);
+  --loading-dot-2-2: rgba(255, 255, 255, 0.5);
+  --loading-dot-2-3: rgba(255, 255, 255, 0.1);
+  --loading-dot-3-1: rgba(255, 255, 255, 0.1);
+  --loading-dot-3-2: rgba(255, 255, 255, 0.3);
+  --loading-dot-3-3: rgba(255, 255, 255, 0.5);
 }
 
 .loadingDot,

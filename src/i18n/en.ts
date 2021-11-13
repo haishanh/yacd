@@ -10,6 +10,8 @@ export const data = {
   'Upload Total': 'Upload Total',
   'Download Total': 'Download Total',
   'Active Connections': 'Active Connections',
+  'Pause Refresh': 'Pause Refresh',
+  'Resume Refresh': 'Resume Refresh',
   Up: 'Up',
   Down: 'Down',
   'Test Latency': 'Test Latency',

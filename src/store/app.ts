@@ -9,18 +9,16 @@ export const getClashAPIConfig = (s: State) => {
   const idx = s.app.selectedClashAPIConfigIndex;
   return s.app.clashAPIConfigs[idx];
 };
-export const getSelectedClashAPIConfigIndex = (s: State) =>
-  s.app.selectedClashAPIConfigIndex;
+export const getSelectedClashAPIConfigIndex = (s: State) => s.app.selectedClashAPIConfigIndex;
 export const getClashAPIConfigs = (s: State) => s.app.clashAPIConfigs;
 export const getTheme = (s: State) => s.app.theme;
-export const getSelectedChartStyleIndex = (s: State) =>
-  s.app.selectedChartStyleIndex;
+export const getSelectedChartStyleIndex = (s: State) => s.app.selectedChartStyleIndex;
 export const getLatencyTestUrl = (s: State) => s.app.latencyTestUrl;
 export const getCollapsibleIsOpen = (s: State) => s.app.collapsibleIsOpen;
 export const getProxySortBy = (s: State) => s.app.proxySortBy;
-export const getHideUnavailableProxies = (s: State) =>
-  s.app.hideUnavailableProxies;
+export const getHideUnavailableProxies = (s: State) => s.app.hideUnavailableProxies;
 export const getAutoCloseOldConns = (s: State) => s.app.autoCloseOldConns;
+export const getLogStreamingPaused = (s: State) => s.app.logStreamingPaused;
 
 const saveStateDebounced = debounce(saveState, 600);
 
@@ -103,7 +101,7 @@ function setTheme(theme = 'dark') {
     themeColorMeta.setAttribute('content', '#202020');
   } else {
     rootEl.setAttribute('data-theme', 'light');
-    themeColorMeta.setAttribute('content', '#eeeeee');
+    themeColorMeta.setAttribute('content', '#f7f7f7');
   }
 }
 
@@ -121,9 +119,7 @@ export function switchTheme() {
   };
 }
 
-export function selectChartStyleIndex(
-  selectedChartStyleIndex: number | string
-) {
+export function selectChartStyleIndex(selectedChartStyleIndex: number | string) {
   return (dispatch: DispatchFn, getState: GetStateFn) => {
     dispatch('appSelectChartStyleIndex', (s) => {
       s.app.selectedChartStyleIndex = Number(selectedChartStyleIndex);
@@ -143,11 +139,7 @@ export function updateAppConfig(name: string, value: unknown) {
   };
 }
 
-export function updateCollapsibleIsOpen(
-  prefix: string,
-  name: string,
-  v: boolean
-) {
+export function updateCollapsibleIsOpen(prefix: string, name: string, v: boolean) {
   return (dispatch: DispatchFn, getState: GetStateFn) => {
     dispatch('updateCollapsibleIsOpen', (s: State) => {
       s.app.collapsibleIsOpen[`${prefix}:${name}`] = v;
@@ -158,9 +150,7 @@ export function updateCollapsibleIsOpen(
 }
 
 const defaultClashAPIConfig = {
-  baseURL:
-    document.getElementById('app')?.getAttribute('data-base-url') ??
-    'http://127.0.0.1:9090',
+  baseURL: document.getElementById('app')?.getAttribute('data-base-url') ?? 'http://127.0.0.1:9090',
   secret: '',
   addedAt: 0,
 };
@@ -179,6 +169,7 @@ const defaultState: StateApp = {
   proxySortBy: 'Natural',
   hideUnavailableProxies: false,
   autoCloseOldConns: false,
+  logStreamingPaused: false,
 };
 
 function parseConfigQueryString() {

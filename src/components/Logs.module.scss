@@ -41,17 +41,14 @@
   color: var(--color-text);
 
   :global {
-    li {
+    .log {
+      padding: 10px 40px;
       background: var(--color-background);
     }
-    li.even {
+    .log.even {
       background: var(--color-background);
     }
   }
-}
-
-.log {
-  padding: 10px 40px;
 }
 
 /*******************/

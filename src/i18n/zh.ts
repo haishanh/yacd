@@ -10,6 +10,8 @@ export const data = {
   'Upload Total': '上传总量',
   'Download Total': '下载总量',
   'Active Connections': '活动连接',
+  'Pause Refresh': '暂停刷新',
+  'Resume Refresh': '继续刷新',
   Up: '上传',
   Down: '下载',
   'Test Latency': '延迟测速',
