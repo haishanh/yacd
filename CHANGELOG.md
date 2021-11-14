@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.4](https://github.com/haishanh/yacd/compare/v0.3.3...v0.3.4) (2021-11-14)
+
+Added:
+
+- Add float action button to pause/start log streaming
+
 ## [0.3.3](https://github.com/haishanh/yacd/compare/v0.3.2...v0.3.3) (2021-07-19)
 
 Added:
