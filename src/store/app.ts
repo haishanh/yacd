@@ -94,25 +94,37 @@ export function updateClashAPIConfig({ baseURL, secret }) {
 }
 
 const rootEl = document.querySelector('html');
-const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-function setTheme(theme = 'dark') {
-  if (theme === 'dark') {
+type ThemeType = 'dark' | 'light' | 'auto';
+function setTheme(theme: ThemeType = 'dark') {
+  if (theme === 'auto') {
+    rootEl.setAttribute('data-theme', 'auto');
+  } else if (theme === 'dark') {
     rootEl.setAttribute('data-theme', 'dark');
-    themeColorMeta.setAttribute('content', '#202020');
   } else {
     rootEl.setAttribute('data-theme', 'light');
-    themeColorMeta.setAttribute('content', '#f7f7f7');
   }
 }
 
 export function switchTheme() {
   return (dispatch: DispatchFn, getState: GetStateFn) => {
     const currentTheme = getTheme(getState());
-    const theme = currentTheme === 'light' ? 'dark' : 'light';
+    let nextTheme: ThemeType = 'auto';
+    switch (currentTheme) {
+      case 'light':
+        nextTheme = 'dark';
+        break;
+      case 'dark':
+        nextTheme = 'auto';
+        break;
+      case 'auto':
+        nextTheme = 'light';
+        break;
+    }
+
     // side effect
-    setTheme(theme);
+    setTheme(nextTheme);
     dispatch('storeSwitchTheme', (s) => {
-      s.app.theme = theme;
+      s.app.theme = nextTheme;
     });
     // side effect
     saveState(getState().app);

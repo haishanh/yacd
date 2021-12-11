@@ -16,18 +16,38 @@ export function ThemeSwitcherImpl({ theme, dispatch }) {
     dispatch(switchTheme());
   }, [dispatch]);
 
+  const nextThemeName = React.useMemo(() => {
+    switch (theme) {
+      case 'light':
+        return 'dark';
+      case 'dark':
+        return 'auto';
+      case 'auto':
+        return 'light';
+      default:
+        console.assert(false, 'Unknown theme');
+        return 'unknown';
+    }
+  }, [theme]);
+
+  const themeIcon = React.useMemo(() => {
+    switch (theme) {
+      case 'light':
+        return <MoonA />;
+      case 'dark':
+        return <Auto />;
+      case 'auto':
+        return <Sun />;
+      default:
+        console.assert(false, 'Unknown theme');
+        return <MoonA />;
+    }
+  }, [theme]);
+
   return (
-    <Tooltip
-      label={t('theme')}
-      aria-label={
-        'switch to ' + (theme === 'light' ? 'dark' : 'light') + ' theme'
-      }
-    >
-      <button
-        className={cx(s.iconWrapper, s.themeSwitchContainer)}
-        onClick={switchThemeHooked}
-      >
-        {theme === 'light' ? <MoonA /> : <Sun />}
+    <Tooltip label={t('theme')} aria-label={'switch to ' + nextThemeName + ' theme'}>
+      <button className={cx(s.iconWrapper, s.themeSwitchContainer)} onClick={switchThemeHooked}>
+        {themeIcon}
       </button>
     </Tooltip>
   );
@@ -75,11 +95,7 @@ function Sun() {
       strokeLinejoin="round"
     >
       <circle cx="12" cy="12" r="5"></circle>
-      <motion.g
-        initial={{ scale: 0.8 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.7 }}
-      >
+      <motion.g initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ duration: 0.7 }}>
         <line x1="12" y1="1" x2="12" y2="3"></line>
         <line x1="12" y1="21" x2="12" y2="23"></line>
         <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
@@ -89,6 +105,39 @@ function Sun() {
         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
       </motion.g>
+    </svg>
+  );
+}
+
+function Auto() {
+  const module = framerMotionResouce.read();
+  const motion = module.motion;
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="11" />
+      <clipPath id="cut-off-bottom">
+        <motion.rect
+          x="12"
+          y="0"
+          width="12"
+          height="24"
+          initial={{ rotate: -30 }}
+          animate={{ rotate: 0 }}
+          transition={{ duration: 0.7 }}
+        />
+      </clipPath>
+      <circle cx="12" cy="12" r="6" clip-path="url(#cut-off-bottom)" fill="currentColor" />
     </svg>
   );
 }
