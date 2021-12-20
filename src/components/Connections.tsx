@@ -76,7 +76,7 @@ function formatConnectionDataItem(
   prevKv: Record<string, { upload: number; download: number }>,
   now: number
 ): FormattedConn {
-  const { id, metadata, upload, download, start, chains, rule } = i;
+  const { id, metadata, upload, download, start, chains, rule, rulePayload } = i;
   const { host, destinationPort, destinationIP, network, type, sourceIP, sourcePort } = metadata;
   // host could be an empty string if it's direct IP connection
   let host2 = host;
@@ -88,7 +88,7 @@ function formatConnectionDataItem(
     download,
     start: now - new Date(start).valueOf(),
     chains: chains.reverse().join(' / '),
-    rule,
+    rule: (rulePayload == null | rulePayload === '') ? rule : (`${rule}(${rulePayload})`),
     ...metadata,
     host: `${host2}:${destinationPort}`,
     type: `${type}(${network})`,
