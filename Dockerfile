@@ -12,4 +12,6 @@ RUN yarn config set network-timeout 300000 \
 FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /app/public /usr/share/nginx/html
-CMD ["nginx", "-g", "daemon off;"]
+ENV YACD_DEFAULT_BACKEND "http://127.0.0.1:9090"
+ADD docker-entrypoint.sh /
+CMD ["/docker-entrypoint.sh"]
