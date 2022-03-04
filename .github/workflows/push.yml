@@ -86,7 +86,7 @@ jobs:
   docker:
     needs: install
     runs-on: ubuntu-20.04
-    if: github.event_name == 'push' && (startsWith(github.event.ref, 'refs/tags/') || startsWith(github.event.ref, 'refs/heads/v0.'))
+    if: github.event_name == 'push' && (startsWith(github.event.ref, 'refs/tags/') || startsWith(github.event.ref, 'refs/heads/v0.') || github.event.ref == 'refs/heads/master')
     steps:
       - uses: actions/checkout@v2.4.0
 
