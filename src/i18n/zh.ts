@@ -27,6 +27,7 @@ export const data = {
   Connections: '连接',
   Active: '活动',
   Closed: '已断开',
+  switch_theme: '切换主题',
   theme: '主题',
   about: '关于',
   no_logs: '暂无日志...',

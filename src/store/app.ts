@@ -105,24 +105,12 @@ function setTheme(theme: ThemeType = 'dark') {
   }
 }
 
-export function switchTheme() {
+export function switchTheme(nextTheme = 'auto') {
   return (dispatch: DispatchFn, getState: GetStateFn) => {
     const currentTheme = getTheme(getState());
-    let nextTheme: ThemeType = 'auto';
-    switch (currentTheme) {
-      case 'light':
-        nextTheme = 'dark';
-        break;
-      case 'dark':
-        nextTheme = 'auto';
-        break;
-      case 'auto':
-        nextTheme = 'light';
-        break;
-    }
-
+    if (currentTheme === nextTheme) return;
     // side effect
-    setTheme(nextTheme);
+    setTheme(nextTheme as ThemeType);
     dispatch('storeSwitchTheme', (s) => {
       s.app.theme = nextTheme;
     });

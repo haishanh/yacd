@@ -1,5 +1,4 @@
 import Tooltip from '@reach/tooltip';
-import cx from 'clsx';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'src/components/StateProvider';
@@ -7,36 +6,18 @@ import { framerMotionResouce } from 'src/misc/motion';
 import { getTheme, switchTheme } from 'src/store/app';
 import { State } from 'src/store/types';
 
-import s from './ThemeSwitcher.module.css';
+import s from './ThemeSwitcher.module.scss';
 
 export function ThemeSwitcherImpl({ theme, dispatch }) {
   const { t } = useTranslation();
 
-  const switchThemeHooked = React.useCallback(() => {
-    dispatch(switchTheme());
-  }, [dispatch]);
-
-  const nextThemeName = React.useMemo(() => {
-    switch (theme) {
-      case 'light':
-        return 'dark';
-      case 'dark':
-        return 'auto';
-      case 'auto':
-        return 'light';
-      default:
-        console.assert(false, 'Unknown theme');
-        return 'unknown';
-    }
-  }, [theme]);
-
   const themeIcon = React.useMemo(() => {
     switch (theme) {
-      case 'light':
-        return <MoonA />;
       case 'dark':
-        return <Auto />;
+        return <MoonA />;
       case 'auto':
+        return <Auto />;
+      case 'light':
         return <Sun />;
       default:
         console.assert(false, 'Unknown theme');
@@ -44,11 +25,21 @@ export function ThemeSwitcherImpl({ theme, dispatch }) {
     }
   }, [theme]);
 
+  const onChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => dispatch(switchTheme(e.target.value)),
+    [dispatch]
+  );
+
   return (
-    <Tooltip label={t('theme')} aria-label={'switch to ' + nextThemeName + ' theme'}>
-      <button className={cx(s.iconWrapper, s.themeSwitchContainer)} onClick={switchThemeHooked}>
-        {themeIcon}
-      </button>
+    <Tooltip label={t('switch_theme')} aria-label={'switch theme'}>
+      <div className={s.themeSwitchContainer}>
+        <span className={s.iconWrapper}>{themeIcon}</span>
+        <select onChange={onChange}>
+          <option value="auto">Auto</option>
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+        </select>
+      </div>
     </Tooltip>
   );
 }
@@ -95,7 +86,7 @@ function Sun() {
       strokeLinejoin="round"
     >
       <circle cx="12" cy="12" r="5"></circle>
-      <motion.g initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ duration: 0.7 }}>
+      <motion.g initial={{ scale: 0.7 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
         <line x1="12" y1="1" x2="12" y2="3"></line>
         <line x1="12" y1="21" x2="12" y2="23"></line>
         <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
@@ -137,7 +128,7 @@ function Auto() {
           transition={{ duration: 0.7 }}
         />
       </clipPath>
-      <circle cx="12" cy="12" r="6" clip-path="url(#cut-off-bottom)" fill="currentColor" />
+      <circle cx="12" cy="12" r="6" clipPath="url(#cut-off-bottom)" fill="currentColor" />
     </svg>
   );
 }

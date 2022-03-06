@@ -1,0 +1,58 @@
+.iconWrapper {
+  --sz: 40px;
+
+  width: var(--sz);
+  height: var(--sz);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  outline: none;
+  padding: 5px;
+  color: var(--color-text);
+  border-radius: 100%;
+  border: 1px solid transparent;
+}
+.iconWrapper:hover {
+  opacity: 0.6;
+}
+.iconWrapper:focus {
+  border-color: var(--color-focus-blue);
+}
+
+.themeSwitchContainer {
+  --sz: 40px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--sz);
+  select {
+    cursor: pointer;
+    padding-left: var(--sz);
+    width: var(--sz);
+    height: var(--sz);
+    appearance: none;
+    outline: none;
+    border-radius: 100%;
+    border: 1px solid transparent;
+    background: var(--color-bg-sidebar);
+    &:focus {
+      border-color: var(--color-focus-blue);
+    }
+    option {
+      // this has effect in Firefox
+      // Chrome and Safari use the native menu
+      background: var(--color-bg-sidebar);
+    }
+  }
+  .iconWrapper {
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
