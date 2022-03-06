@@ -27,6 +27,7 @@ export const data = {
   Connections: 'Connections',
   Active: 'Active',
   Closed: 'Closed',
+  switch_theme: 'Switch theme',
   theme: 'theme',
   about: 'about',
   no_logs: 'No logs yet, hang tight...',
