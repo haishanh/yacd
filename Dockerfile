@@ -1,11 +1,11 @@
 FROM --platform=$BUILDPLATFORM node:alpine AS builder
 WORKDIR /app
+
+COPY yarn.lock package.json .
+RUN yarn config set network-timeout 300000 && yarn
+
 COPY . .
-# Using yarn to install dependencies in CI will cause network timeout
-# Refer to https://github.com/date-fns/date-fns/issues/1004
-RUN yarn config set network-timeout 300000 \
-  && yarn \
-  && yarn build \
+RUN yarn build \
   # remove source maps - people like small image
   && rm public/*.map || true
 

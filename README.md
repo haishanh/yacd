@@ -6,7 +6,10 @@
 
 The site [http://yacd.haishan.me](http://yacd.haishan.me) is served with HTTP not HTTPS is because many browsers block requests to HTTP resources from a HTTPS website. If you think it's not safe, you could just download the [zip of the gh-pages](https://github.com/haishanh/yacd/archive/gh-pages.zip), unzip and open or serve `index.html` directly.
 
-[Docker image](https://hub.docker.com/r/haishanh/yacd) is also available as `haishanh/yacd`.
+Docker image
+
+- Docker Hub [`haishanh/yacd`](https://hub.docker.com/r/haishanh/yacd)
+- GitHub Container Registry [`ghcr.io/haishanh/yacd`](https://github.com/haishanh/yacd/pkgs/container/yacd)
 
 ## Development
 
