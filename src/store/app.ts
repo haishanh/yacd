@@ -95,6 +95,7 @@ export function updateClashAPIConfig({ baseURL, secret }) {
 
 const rootEl = document.querySelector('html');
 type ThemeType = 'dark' | 'light' | 'auto';
+
 function setTheme(theme: ThemeType = 'dark') {
   if (theme === 'auto') {
     rootEl.setAttribute('data-theme', 'auto');
@@ -152,7 +153,7 @@ export function updateCollapsibleIsOpen(prefix: string, name: string, v: boolean
 const defaultClashAPIConfig = {
   baseURL: document.getElementById('app')?.getAttribute('data-base-url') ?? 'http://127.0.0.1:9090',
   secret: '',
-  addedAt: 0,
+  addedAt: 0
 };
 // type Theme = 'light' | 'dark';
 const defaultState: StateApp = {
@@ -169,7 +170,7 @@ const defaultState: StateApp = {
   proxySortBy: 'Natural',
   hideUnavailableProxies: false,
   autoCloseOldConns: false,
-  logStreamingPaused: false,
+  logStreamingPaused: false
 };
 
 function parseConfigQueryString() {
@@ -193,7 +194,11 @@ export function initialState() {
   if (conf) {
     const url = new URL(conf.baseURL);
     if (query.hostname) {
-      url.hostname = query.hostname;
+      if (query.hostname.indexOf('http') === 0) {
+        url.href = decodeURIComponent(query.hostname);
+      } else {
+        url.hostname = query.hostname;
+      }
     }
     if (query.port) {
       url.port = query.port;
