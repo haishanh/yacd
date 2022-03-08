@@ -10,6 +10,38 @@ Docker image
 
 - Docker Hub [`haishanh/yacd`](https://hub.docker.com/r/haishanh/yacd)
 - GitHub Container Registry [`ghcr.io/haishanh/yacd`](https://github.com/haishanh/yacd/pkgs/container/yacd)
+## Usage
+URL can pass parameters
+
+| param    | explain                                                                              |
+|----------|--------------------------------------------------------------------------------------|
+| hostname | Specify the server crash server address through the address bar [***don't encodeUrl] |
+| port     | Specify the port of the crash server panel                                           |
+| secret       | Specify the key of the crash server panel                                            |
+| theme       | Specify the crash panel theme. use: dark, light, auto                                |
+
+```
+hostname eg:
+http://127.0.0.1/?hostname=https://www.google.com or http://127.0.0.1/?hostname=127.0.0.1
+```
+```
+port eg:
+http://127.0.0.1/?port=9000
+```
+```
+secret eg:
+http://127.0.0.1/?secret=clash
+```
+```
+theme eg:
+http://127.0.0.1/?theme=auto
+```
+```html
+all params eg:
+http://127.0.0.1/?hostname=http://127.0.0.1&port=9000&secret=clash&theme=auto
+or
+http://127.0.0.1/?hostname=127.0.0.1&port=9000&secret=clash&theme=light
+```
 
 ## Development
 
