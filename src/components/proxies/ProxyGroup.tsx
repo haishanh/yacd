@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Zap } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 
 import {
   getCollapsibleIsOpen,
@@ -37,6 +38,8 @@ function ProxyGroupImpl({
   apiConfig,
   dispatch,
 }) {
+  const { t } = useTranslation();
+
   const all = useFilteredAndSorted(
     allItems,
     delay,
@@ -84,7 +87,7 @@ function ProxyGroupImpl({
           isOpen={isOpen}
         />
         <Button
-          title="Test latency"
+          title={t('Test Latency')}
           kind="minimal"
           onClick={testLatency}
           isLoading={isTestingLatency}

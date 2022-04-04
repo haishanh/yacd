@@ -34,6 +34,10 @@ export const data = {
   chart_style: '流量图样式',
   latency_test_url: '延迟测速 URL',
   lang: '语言',
-  update_all_rule_provider: '更新所有 rule provider',
-  update_all_proxy_provider: '更新所有 proxy providers',
+  expand_collapse_proxy_group: '显示或收起代理分组',
+  proxy_provider: '机场',
+  update_proxy_provider: '更新',
+  health_check: '健康检测',
+  update_all_rule_provider: '更新所有规则集',
+  update_all_proxy_provider: '更新所有机场',
 };

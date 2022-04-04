@@ -5,6 +5,7 @@ import { ChevronDown } from 'react-feather';
 import Button from './Button';
 import s from './CollapsibleSectionHeader.module.scss';
 import { SectionNameType } from './shared/Basic';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   name: string;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export default function Header({ name, type, toggle, isOpen, qty }: Props) {
+  const { t } = useTranslation();
   const handleKeyDown = React.useCallback(
     (e: React.KeyboardEvent) => {
       e.preventDefault();
@@ -43,7 +45,7 @@ export default function Header({ name, type, toggle, isOpen, qty }: Props) {
         kind="minimal"
         onClick={toggle}
         className={s.btn}
-        title="Toggle collapsible section"
+        title={t('expand_collapse_proxy_group')}
       >
         <span className={cx(s.arrow, { [s.isOpen]: isOpen })}>
           <ChevronDown size={20} />

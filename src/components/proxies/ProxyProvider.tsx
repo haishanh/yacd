@@ -19,6 +19,7 @@ import { DelayMapping } from 'src/store/types';
 import { useFilteredAndSorted } from './hooks';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
 import s from './ProxyProvider.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const { useState, useCallback } = React;
 
@@ -48,6 +49,8 @@ function ProxyProviderImpl({
   dispatch,
   apiConfig,
 }: Props) {
+  const { t } = useTranslation();
+
   const proxies = useFilteredAndSorted(
     all,
     delay,
@@ -89,9 +92,9 @@ function ProxyProviderImpl({
       <Collapsible isOpen={isOpen}>
         <ProxyList all={proxies} />
         <div className={s.actionFooter}>
-          <Button text="Update" start={<Refresh />} onClick={updateProvider} />
+          <Button text={t('update_proxy_provider')} start={<Refresh />} onClick={updateProvider} />
           <Button
-            text="Health Check"
+            text={t('health_check')}
             start={<Zap size={16} />}
             onClick={healthcheckProvider}
             isLoading={isHealthcheckLoading}
