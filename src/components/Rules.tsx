@@ -20,7 +20,13 @@ const { memo } = React;
 
 const paddingBottom = 30;
 
-function itemKey(index: number, { rules, provider }) {
+type ItemData = {
+  rules: any[];
+  provider: any;
+  apiConfig: ClashAPIConfig;
+};
+
+function itemKey(index: number, { rules, provider }: ItemData) {
   const providerQty = provider.names.length;
 
   if (index < providerQty) {
@@ -88,10 +94,8 @@ function Rules({ apiConfig }: RulesProps) {
         <ContentHeader title={t('Rules')} />
         <TextFilter placeholder="Filter" textAtom={ruleFilterText} />
       </div>
-      {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'number | MutableRefObject<any>' is not assig... Remove this comment to see the full error message */}
       <div ref={refRulesContainer} style={{ paddingBottom }}>
         <VariableSizeList
-          // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
           height={containerHeight - paddingBottom}
           width="100%"
           itemCount={rules.length + provider.names.length}

@@ -1,71 +1,36 @@
 import { unstable_createResource as createResource } from '@hsjs/react-cache';
 
 import prettyBytes from './pretty-bytes';
-
 export const chartJSResource = createResource(() => {
-  return import(
-    /* webpackChunkName: "chartjs" */
-    /* webpackPrefetch: true */
-    /* webpackPreload: true */
-    'chart.js/dist/Chart.min.js'
-  ).then((c) => c.default);
+  return import('$src/misc/chart-lib');
 });
 
-export const commonDataSetProps = {
-  borderWidth: 1,
-  lineTension: 0,
-  pointRadius: 0,
-};
+export const commonDataSetProps = { borderWidth: 1, pointRadius: 0, tension: 0.2, fill: true };
 
-export const commonChartOptions = {
+export const commonChartOptions: import('chart.js').ChartOptions<'line'> = {
   responsive: true,
   maintainAspectRatio: true,
-  title: {
-    display: false,
-  },
-  legend: {
-    display: true,
-    position: 'top',
-    labels: {
-      fontColor: '#ccc',
-      boxWidth: 20,
-    },
-  },
-  tooltips: {
-    enabled: false,
-    mode: 'index',
-    intersect: false,
-    animationDuration: 100,
-  },
-  hover: {
-    mode: 'nearest',
-    intersect: true,
+  plugins: {
+    legend: { labels: { boxWidth: 20 } }
   },
   scales: {
-    xAxes: [
-      {
-        display: false,
-        gridLines: {
-          display: false,
-        },
-      },
-    ],
-    yAxes: [
-      {
+    x: { display: false, type: 'category' },
+    y: {
+      type: 'linear',
+      display: true,
+      grid: {
         display: true,
-        gridLines: {
-          display: true,
-          color: '#555',
-          borderDash: [3, 6],
-          drawBorder: false,
-        },
-        ticks: {
-          callback(value) {
-            return prettyBytes(value) + '/s ';
-          },
+        color: '#555',
+        drawTicks: false,
+        borderDash: [3, 6],
+        drawBorder: false,
+      },
+      ticks: {
+        callback(value: number) {
+          return prettyBytes(value) + '/s ';
         },
       },
-    ],
+    },
   },
 };
 

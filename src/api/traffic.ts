@@ -1,31 +1,33 @@
+import { ClashAPIConfig } from '$src/types';
+
 import { buildWebSocketURL, getURLAndInit } from '../misc/request-helper';
+
 const endpoint = '/traffic';
 const textDecoder = new TextDecoder('utf-8');
 
 const Size = 150;
 
 const traffic = {
-  labels: Array(Size),
-  // labels: [],
+  labels: Array(Size).fill(0),
   up: Array(Size),
   down: Array(Size),
 
   size: Size,
   subscribers: [],
-  appendData(o) {
+  appendData(o: { up: number; down: number }) {
+    this.up.shift();
+    this.down.shift();
+    this.labels.shift();
+
+    const l = Date.now();
     this.up.push(o.up);
     this.down.push(o.down);
-    const t = new Date();
-    const l = '' + t.getMinutes() + t.getSeconds();
     this.labels.push(l);
-    if (this.up.length > this.size) this.up.shift();
-    if (this.down.length > this.size) this.down.shift();
-    if (this.labels.length > this.size) this.labels.shift();
 
     this.subscribers.forEach((f) => f(o));
   },
 
-  subscribe(listener) {
+  subscribe(listener: (x:any) => void) {
     this.subscribers.push(listener);
     return () => {
       const idx = this.subscribers.indexOf(listener);
@@ -37,11 +39,11 @@ const traffic = {
 let fetched = false;
 let decoded = '';
 
-function parseAndAppend(x) {
+function parseAndAppend(x: string) {
   traffic.appendData(JSON.parse(x));
 }
 
-function pump(reader) {
+function pump(reader: ReadableStreamDefaultReader) {
   return reader.read().then(({ done, value }) => {
     const str = textDecoder.decode(value, { stream: !done });
     decoded += str;
@@ -73,8 +75,8 @@ function pump(reader) {
 // other value CLOSED
 // similar to ws readyState but not the same
 // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
-let wsState;
-function fetchData(apiConfig) {
+let wsState: number;
+function fetchData(apiConfig: ClashAPIConfig) {
   if (fetched || wsState === 1) return traffic;
   wsState = 1;
   const url = buildWebSocketURL(apiConfig, endpoint);
@@ -92,7 +94,7 @@ function fetchData(apiConfig) {
   return traffic;
 }
 
-function fetchDataWithFetch(apiConfig) {
+function fetchDataWithFetch(apiConfig: ClashAPIConfig) {
   if (fetched) return traffic;
   fetched = true;
   const { url, init } = getURLAndInit(apiConfig);

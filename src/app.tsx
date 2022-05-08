@@ -1,22 +1,22 @@
 import 'modern-normalize/modern-normalize.css';
 import './misc/i18n';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import { createRoot } from 'react-dom/client';
 import Modal from 'react-modal';
 
 import Root from './components/Root';
 import * as swRegistration from './swRegistration';
 
 const rootEl = document.getElementById('app');
+const root = createRoot(rootEl);
 
 Modal.setAppElement(rootEl);
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
     <Root />
-  </React.StrictMode>,
-  rootEl
+  </React.StrictMode>
 );
 
 swRegistration.register();

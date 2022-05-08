@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { State  } from '$src/store/types';
+
 import { fetchData } from '../api/traffic';
 import useLineChart from '../hooks/useLineChart';
 import {
@@ -19,7 +21,7 @@ const chartWrapperStyle = {
   maxWidth: 1000,
 };
 
-const mapState = (s) => ({
+const mapState = (s: State) => ({
   apiConfig: getClashAPIConfig(s),
   selectedChartStyleIndex: getSelectedChartStyleIndex(s),
 });
@@ -27,7 +29,7 @@ const mapState = (s) => ({
 export default connect(mapState)(TrafficChart);
 
 function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
-  const Chart = chartJSResource.read();
+  const ChartMod = chartJSResource.read();
   const traffic = fetchData(apiConfig);
   const { t } = useTranslation();
   const data = useMemo(
@@ -48,10 +50,10 @@ function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
         },
       ],
     }),
-    [traffic, selectedChartStyleIndex, t]
+    [ traffic, selectedChartStyleIndex, t]
   );
 
-  useLineChart(Chart, 'trafficChart', data, traffic);
+  useLineChart(ChartMod.Chart, 'trafficChart', data, traffic);
 
   return (
     // @ts-expect-error ts-migrate(2322) FIXME: Type '{ position: string; maxWidth: number; }' is ... Remove this comment to see the full error message

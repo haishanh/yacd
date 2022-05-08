@@ -1,11 +1,14 @@
-import React from 'react';
-import S from 'react-switch';
+import * as React from 'react';
+import ReactSwitch from 'react-switch';
+
+import { State } from '$src/store/types';
 
 import { getTheme } from '../store/app';
 import { connect } from './StateProvider';
 
 // workaround https://github.com/vitejs/vite/issues/2139#issuecomment-802981228
-const Switch = S.default ? S.default : S;
+// @ts-ignore
+const Switch = ReactSwitch.default ? ReactSwitch.default : ReactSwitch;
 
 function SwitchThemed({ checked = false, onChange, theme, name }) {
   const offColor = theme === 'dark' ? '#393939' : '#e9e9e9';
@@ -29,6 +32,4 @@ function SwitchThemed({ checked = false, onChange, theme, name }) {
   );
 }
 
-export default connect((s) => ({
-  theme: getTheme(s),
-}))(SwitchThemed);
+export default connect((s: State) => ({ theme: getTheme(s) }))(SwitchThemed);

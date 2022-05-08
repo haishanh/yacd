@@ -22,7 +22,6 @@ export const getLogStreamingPaused = (s: State) => s.app.logStreamingPaused;
 
 const saveStateDebounced = debounce(saveState, 600);
 
-// @ts-expect-error ts-migrate(7030) FIXME: Not all code paths return a value.
 function findClashAPIConfigIndex(getState: GetStateFn, { baseURL, secret }) {
   const arr = getClashAPIConfigs(getState());
   for (let i = 0; i < arr.length; i++) {

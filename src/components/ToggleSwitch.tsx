@@ -16,8 +16,7 @@ function ToggleSwitch({ options, value, name, onChange }: Props) {
   );
 
   const getPortionPercentage = useCallback(
-    // @ts-expect-error ts-migrate(7030) FIXME: Not all code paths return a value.
-    (idx) => {
+    (idx: number) => {
       const w = Math.floor(100 / options.length);
       if (idx === options.length - 1) {
         return 100 - options.length * w + w;

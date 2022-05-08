@@ -88,7 +88,7 @@ function formatConnectionDataItem(
     download,
     start: now - new Date(start).valueOf(),
     chains: chains.reverse().join(' / '),
-    rule: (rulePayload == null | rulePayload === '') ? rule : (`${rule}(${rulePayload})`),
+    rule: !rulePayload ? rule : `${rule}(${rulePayload})`,
     ...metadata,
     host: `${host2}:${destinationPort}`,
     type: `${type}(${network})`,

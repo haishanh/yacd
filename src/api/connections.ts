@@ -29,6 +29,7 @@ export type ConnectionItem = {
   chains: string[];
   // e.g. 'Match', 'DomainKeyword'
   rule: string;
+  rulePayload?: string;
 };
 type ConnectionsData = {
   downloadTotal: number;

@@ -2,6 +2,10 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
+    "paths": {
+      "$src": ["src"],
+      "$src/*": ["src/*"]
+    },
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext", "WebWorker"],
     "skipLibCheck": true,
@@ -14,20 +18,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
-    "downlevelIteration": true,
-    "importHelpers": true,
-    "sourceMap": true,
-    "checkJs": false,
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "types": ["jest"]
+    "jsx": "react"
   },
   "include": ["./src"]
 }

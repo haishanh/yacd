@@ -6,16 +6,8 @@ import React from 'react';
 // this is just workaround
 immer.setAutoFreeze(false);
 
-const {
-  createContext,
-  memo,
-  useMemo,
-  useRef,
-  useEffect,
-  useCallback,
-  useContext,
-  useState,
-} = React;
+const { createContext, memo, useMemo, useRef, useEffect, useCallback, useContext, useState } =
+  React;
 
 export { immer };
 
@@ -46,7 +38,7 @@ export default function Provider({ initialState, actions = {}, children }) {
     }
   }, [getState]);
   const dispatch = useCallback(
-    (actionId, fn) => {
+    (actionId: string | ((a: any, b: any) => any), fn: (s: any) => void) => {
       if (typeof actionId === 'function') return actionId(dispatch, getState);
 
       const stateNext = produce(getState(), fn);
@@ -61,26 +53,21 @@ export default function Provider({ initialState, actions = {}, children }) {
     },
     [getState]
   );
-  const boundActions = useMemo(() => bindActions(actions, dispatch), [
-    actions,
-    dispatch,
-  ]);
+  const boundActions = useMemo(() => bindActions(actions, dispatch), [actions, dispatch]);
 
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
-        <ActionsContext.Provider value={boundActions}>
-          {children}
-        </ActionsContext.Provider>
+        <ActionsContext.Provider value={boundActions}>{children}</ActionsContext.Provider>
       </DispatchContext.Provider>
     </StateContext.Provider>
   );
 }
 
-export function connect(mapStateToProps) {
-  return (Component) => {
+export function connect(mapStateToProps: any) {
+  return (Component: any) => {
     const MemoComponent = memo(Component);
-    function Connected(props) {
+    function Connected(props: any) {
       const state = useContext(StateContext);
       const dispatch = useContext(DispatchContext);
       const mapped = mapStateToProps(state, props);
@@ -92,14 +79,13 @@ export function connect(mapStateToProps) {
 }
 
 // steal from https://github.com/reduxjs/redux/blob/master/src/bindActionCreators.ts
-function bindAction(action, dispatch) {
-  return function (...args) {
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+function bindAction(action: any, dispatch: any) {
+  return function (...args: any[]) {
     return dispatch(action.apply(this, args));
   };
 }
 
-function bindActions(actions, dispatch) {
+function bindActions(actions: any, dispatch: any) {
   const boundActions = {};
   for (const key in actions) {
     const action = actions[key];
