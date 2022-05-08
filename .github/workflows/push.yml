@@ -1,5 +1,8 @@
 on: [push]
 name: Deploy workflow
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   install:
     runs-on: ubuntu-20.04

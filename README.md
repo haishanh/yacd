@@ -13,6 +13,12 @@ The site [http://yacd.haishan.me](http://yacd.haishan.me) is served with HTTP no
 - Docker Hub [`haishanh/yacd`](https://hub.docker.com/r/haishanh/yacd)
 - GitHub Container Registry [`ghcr.io/haishanh/yacd`](https://github.com/haishanh/yacd/pkgs/container/yacd)
 
+```sh
+docker run -p 1234:80 -d --name yacd --rm ghcr.io/haishanh/yacd:master
+
+# and then open http://localhost:1234 in your browser
+```
+
 **Supported URL query params**
 
 | Param    | Description                                                                        |

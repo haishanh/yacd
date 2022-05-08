@@ -12,3 +12,4 @@ experimental/
 deploy_ghpages.sh
 tags
 .eslintcache
+__test_*.sh

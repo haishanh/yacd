@@ -37,6 +37,7 @@ rules:
   # disable this temporarily since we have a lot of JS files
   # and typescript-eslint runs against JS files too
   '@typescript-eslint/explicit-module-boundary-types': off
+  '@typescript-eslint/ban-ts-comment': 'off'
   '@typescript-eslint/ban-ts-ignore': 'off'
   react-hooks/rules-of-hooks: error
   react-hooks/exhaustive-deps:
