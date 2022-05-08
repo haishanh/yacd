@@ -26,14 +26,15 @@ The site [http://yacd.haishan.me](http://yacd.haishan.me) is served with HTTP no
 
 ```sh
 # install dependencies
-yarn
+# you may install pnpm with `npm i -g pnpm`
+pnpm i
 
 # start the dev server
 # then go to http://127.0.0.1:3000
-yarn start
+pnpm start
 
 
 # build optimized assets
 # ready to deploy assets will be in the directory `public`
-yarn build
+pnpm build
 ```
