@@ -1,7 +1,7 @@
-import { unstable_createResource as createResource } from '@hsjs/react-cache';
+import { createAsset } from "use-asset"
 
 import prettyBytes from './pretty-bytes';
-export const chartJSResource = createResource(() => {
+export const chartJSResource = createAsset(() => {
   return import('$src/misc/chart-lib');
 });
 
@@ -76,6 +76,3 @@ export const chartStyles = [
     },
   },
 ];
-
-// TODO to remove
-export const colorCombo = chartStyles;

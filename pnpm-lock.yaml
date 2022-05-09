@@ -4,7 +4,6 @@ specifiers:
   '@babel/runtime': 7.17.9
   '@fontsource/inter': 4.5.10
   '@fontsource/roboto-mono': 4.5.7
-  '@hsjs/react-cache': 0.0.0-alpha.aa94237
   '@reach/tooltip': 0.17.0
   '@reach/visually-hidden': 0.17.0
   '@types/invariant': 2.2.35
@@ -71,6 +70,7 @@ specifiers:
   sass: 1.51.0
   tslib: 2.4.0
   typescript: 4.6.4
+  use-asset: 1.0.4
   vite: 2.9.8
   vite-plugin-pwa: 0.12.0
   workbox-core: 6.5.3
@@ -82,7 +82,6 @@ specifiers:
 dependencies:
   '@babel/runtime': 7.17.9
   '@fontsource/roboto-mono': 4.5.7
-  '@hsjs/react-cache': 0.0.0-alpha.aa94237_react@18.1.0
   '@reach/tooltip': 0.17.0_ef5jwxihqo6n7gxfmzogljlgcm
   '@reach/visually-hidden': 0.17.0_ef5jwxihqo6n7gxfmzogljlgcm
   chart.js: 3.7.1
@@ -118,6 +117,7 @@ dependencies:
   regenerator-runtime: 0.13.9
   reselect: 4.1.5
   tslib: 2.4.0
+  use-asset: 1.0.4_react@18.1.0
   workbox-core: 6.5.3
   workbox-expiration: 6.5.3
   workbox-precaching: 6.5.3
@@ -1549,14 +1549,6 @@ packages:
 
   /@fontsource/roboto-mono/4.5.7:
     resolution: {integrity: sha512-1uBjM95BEz7zJlmmnpNAM5afMvIxx0wqr86eA76vRqZw8OF5wmsRqYfF3caHuVarBH9/AGN7t9h+3UXK8fjq/Q==}
-    dev: false
-
-  /@hsjs/react-cache/0.0.0-alpha.aa94237_react@18.1.0:
-    resolution: {integrity: sha512-hJkh29ZK1m1pcrI3D42NZqsPlTTvGc22Joyw9PB+SmH36zsFdKHFgz+ptcJsBzEEO7zGIMBn4IWzM+mjnNrPqw==}
-    peerDependencies:
-      react: ^16.3.0-alpha.1
-    dependencies:
-      react: 18.1.0
     dev: false
 
   /@humanwhocodes/config-array/0.9.5:
@@ -3360,7 +3352,6 @@ packages:
 
   /fast-deep-equal/3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
-    dev: true
 
   /fast-glob/3.2.11:
     resolution: {integrity: sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==}
@@ -5445,6 +5436,15 @@ packages:
     dependencies:
       punycode: 2.1.1
     dev: true
+
+  /use-asset/1.0.4_react@18.1.0:
+    resolution: {integrity: sha512-7/hqDrWa0iMnCoET9W1T07EmD4Eg/Wmoj/X8TGBc++ECRK4m5yTsjP4O6s0yagbxfqIOuUkIxe2/sA+VR2GxZA==}
+    peerDependencies:
+      react: '>=17.0'
+    dependencies:
+      fast-deep-equal: 3.1.3
+      react: 18.1.0
+    dev: false
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
