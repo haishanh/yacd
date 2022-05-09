@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@babel/runtime': 7.17.9
-  '@fontsource/open-sans': 4.5.8
+  '@fontsource/inter': 4.5.10
   '@fontsource/roboto-mono': 4.5.7
   '@hsjs/react-cache': 0.0.0-alpha.aa94237
   '@reach/tooltip': 0.17.0
@@ -81,7 +81,6 @@ specifiers:
 
 dependencies:
   '@babel/runtime': 7.17.9
-  '@fontsource/open-sans': 4.5.8
   '@fontsource/roboto-mono': 4.5.7
   '@hsjs/react-cache': 0.0.0-alpha.aa94237_react@18.1.0
   '@reach/tooltip': 0.17.0_ef5jwxihqo6n7gxfmzogljlgcm
@@ -126,6 +125,7 @@ dependencies:
   workbox-strategies: 6.5.3
 
 devDependencies:
+  '@fontsource/inter': 4.5.10
   '@types/invariant': 2.2.35
   '@types/jest': 27.5.0
   '@types/lodash-es': 4.17.6
@@ -1543,9 +1543,9 @@ packages:
       - supports-color
     dev: true
 
-  /@fontsource/open-sans/4.5.8:
-    resolution: {integrity: sha512-3b94XDdRLqL7OlE7OjWg/4pgG825Juw8PLVEDm6h5pio0gMU89ICxfatGxHsBxMGfqad+wnvdmUweZWlELDFpQ==}
-    dev: false
+  /@fontsource/inter/4.5.10:
+    resolution: {integrity: sha512-YOt2/K8yo25MVBjrTImHxVimmyZEt0GcrWp2w7O29sdFX9SJqbGlOqjFJ1wI5yBbP6AmTeimyPE0UC/jjFRoIA==}
+    dev: true
 
   /@fontsource/roboto-mono/4.5.7:
     resolution: {integrity: sha512-1uBjM95BEz7zJlmmnpNAM5afMvIxx0wqr86eA76vRqZw8OF5wmsRqYfF3caHuVarBH9/AGN7t9h+3UXK8fjq/Q==}

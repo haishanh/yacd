@@ -28,7 +28,6 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "7.17.9",
-    "@fontsource/open-sans": "4.5.8",
     "@fontsource/roboto-mono": "4.5.7",
     "@hsjs/react-cache": "0.0.0-alpha.aa94237",
     "@reach/tooltip": "0.17.0",
@@ -73,6 +72,7 @@
     "workbox-strategies": "6.5.3"
   },
   "devDependencies": {
+    "@fontsource/inter": "4.5.10",
     "@types/invariant": "2.2.35",
     "@types/jest": "27.5.0",
     "@types/lodash-es": "4.17.6",
