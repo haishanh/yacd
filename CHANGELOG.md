@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.5](https://github.com/haishanh/yacd/compare/v0.3.4...v0.3.5) (2022-05-14)
+
+Added:
+
+- Added "Auto" theme option for theme to follow system theme preference
+- Display rule payload if possible in rule column of connections table
+- Allow override default backend url use environment variable with docker container
+- Gzip and cache static assets in docker container
+- Docker image is now published to ghcr too
+
+Changed:
+
+- Use Inter as app wide font
+
 ## [0.3.4](https://github.com/haishanh/yacd/compare/v0.3.3...v0.3.4) (2021-11-14)
 
 Added:
