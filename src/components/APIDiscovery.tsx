@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ThemeSwitcher } from 'src/components/shared/ThemeSwitcher';
-import { DOES_NOT_SUPPORT_FETCH, errors } from 'src/misc/errors';
+import { DOES_NOT_SUPPORT_FETCH, errors, YacdError } from 'src/misc/errors';
 import { getClashAPIConfig } from 'src/store/app';
 import { fetchConfigs } from 'src/store/configs';
 import { closeModal } from 'src/store/modals';
@@ -16,9 +16,7 @@ const { useCallback, useEffect } = React;
 function APIDiscovery({ dispatch, apiConfig, modals }) {
   if (!window.fetch) {
     const { detail } = errors[DOES_NOT_SUPPORT_FETCH];
-    const err = new Error(detail);
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'code' does not exist on type 'Error'.
-    err.code = DOES_NOT_SUPPORT_FETCH;
+    const err = new YacdError(detail, DOES_NOT_SUPPORT_FETCH);
     throw err;
   }
 

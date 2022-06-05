@@ -29,7 +29,8 @@
   height: var(--sz);
   select {
     cursor: pointer;
-    padding-left: var(--sz);
+    padding-left: calc(var(--sz) - 2px);
+    font-size: 0;
     width: var(--sz);
     height: var(--sz);
     appearance: none;
