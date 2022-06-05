@@ -74,7 +74,6 @@
   "devDependencies": {
     "@fontsource/inter": "4.5.11",
     "@types/invariant": "2.2.35",
-    "@types/jest": "27.5.0",
     "@types/lodash-es": "4.17.6",
     "@types/react": "18.0.11",
     "@types/react-dom": "18.0.5",
@@ -91,7 +90,6 @@
     "eslint-config-react-app": "7.0.1",
     "eslint-plugin-flowtype": "8.0.3",
     "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jest": "26.5.1",
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.30.0",
     "eslint-plugin-react-hooks": "4.5.0",
