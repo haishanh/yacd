@@ -17,7 +17,7 @@ type ButtonProps = {
   isLoading?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => unknown;
   disabled?: boolean;
-  kind?: 'primary' | 'minimal';
+  kind?: 'primary' | 'minimal' | 'circular';
   className?: string;
   title?: string;
 } & ButtonInternalProps;
@@ -36,7 +36,7 @@ function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
     ...restProps
   } = props;
   const internalProps = { children, label, text, start };
-  const internalOnClick = useCallback(
+  const internalOnClick = useCallback<React.MouseEventHandler<HTMLButtonElement>>(
     (e) => {
       if (isLoading) return;
       onClick && onClick(e);
@@ -45,7 +45,7 @@ function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
   );
   const btnClassName = cx(
     s0.btn,
-    { [s0.minimal]: kind === 'minimal' },
+    { [s0.minimal]: kind === 'minimal', [s0.circular]: kind === 'circular' },
     className
   );
   return (
@@ -76,9 +76,7 @@ function ButtonInternal({ children, label, text, start }: ButtonInternalProps) {
   return (
     <>
       {start ? (
-        <span className={s0.btnStart}>
-          {typeof start === 'function' ? start() : start}
-        </span>
+        <span className={s0.btnStart}>{typeof start === 'function' ? start() : start}</span>
       ) : null}
       {children || label || text}
     </>

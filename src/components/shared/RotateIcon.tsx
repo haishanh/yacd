@@ -10,7 +10,7 @@ export function RotateIcon({ isRotating }: { isRotating: boolean }) {
   });
   return (
     <span className={cls}>
-      <RotateCw width={16} />
+      <RotateCw size={16} />
     </span>
   );
 }
