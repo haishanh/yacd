@@ -51,10 +51,7 @@ function appendData(s: string) {
 type UnsubscribeFn = () => void;
 
 let wsState: number;
-export function fetchData(
-  apiConfig: ClashAPIConfig,
-  listener: unknown
-): UnsubscribeFn | void {
+export function fetchData(apiConfig: ClashAPIConfig, listener: unknown): UnsubscribeFn | void {
   if (fetched || wsState === 1) {
     if (listener) return subscribe(listener);
   }

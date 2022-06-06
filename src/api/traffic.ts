@@ -27,7 +27,7 @@ const traffic = {
     this.subscribers.forEach((f) => f(o));
   },
 
-  subscribe(listener: (x:any) => void) {
+  subscribe(listener: (x: any) => void) {
     this.subscribers.push(listener);
     return () => {
       const idx = this.subscribers.indexOf(listener);

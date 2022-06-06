@@ -28,8 +28,7 @@ const AB: React.FC<ABProps> = ({ children, ...p }) => (
   </button>
 );
 
-interface MBProps
-  extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'tabIndex'> {
+interface MBProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'tabIndex'> {
   tabIndex?: number;
 }
 
@@ -77,10 +76,7 @@ const Fab: React.FC<FabProps> = ({
     return event === 'click' ? (isOpen ? close() : open()) : null;
   };
 
-  const actionOnClick = (
-    e: React.FormEvent,
-    userFunc: (e: React.FormEvent) => void
-  ) => {
+  const actionOnClick = (e: React.FormEvent, userFunc: (e: React.FormEvent) => void) => {
     e.persist();
     setIsOpen(false);
     setTimeout(() => {
@@ -141,9 +137,7 @@ const Fab: React.FC<FabProps> = ({
         </MB>
         {text && (
           <span
-            className={`${'right' in style ? 'right' : ''} ${
-              alwaysShowTitle ? 'always-show' : ''
-            }`}
+            className={`${'right' in style ? 'right' : ''} ${alwaysShowTitle ? 'always-show' : ''}`}
             aria-hidden={ariaHidden}
           >
             {text}

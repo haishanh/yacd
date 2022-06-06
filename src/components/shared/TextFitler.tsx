@@ -4,10 +4,7 @@ import { useTextInut } from 'src/hooks/useTextInput';
 
 import s from './TextFitler.module.scss';
 
-export function TextFilter(props: {
-  textAtom: RecoilState<string>;
-  placeholder?: string;
-}) {
+export function TextFilter(props: { textAtom: RecoilState<string>; placeholder?: string }) {
   const [onChange, text] = useTextInut(props.textAtom);
   return (
     <input

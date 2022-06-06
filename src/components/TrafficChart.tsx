@@ -1,15 +1,11 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { State  } from '$src/store/types';
+import { State } from '$src/store/types';
 
 import { fetchData } from '../api/traffic';
 import useLineChart from '../hooks/useLineChart';
-import {
-  chartJSResource,
-  chartStyles,
-  commonDataSetProps,
-} from '../misc/chart';
+import { chartJSResource, chartStyles, commonDataSetProps } from '../misc/chart';
 import { getClashAPIConfig, getSelectedChartStyleIndex } from '../store/app';
 import { connect } from './StateProvider';
 
@@ -50,7 +46,7 @@ function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
         },
       ],
     }),
-    [ traffic, selectedChartStyleIndex, t]
+    [traffic, selectedChartStyleIndex, t]
   );
 
   useLineChart(ChartMod.Chart, 'trafficChart', data, traffic);

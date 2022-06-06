@@ -12,9 +12,7 @@ type RuleAPIItem = {
   proxy: string;
 };
 
-function normalizeAPIResponse(json: {
-  rules: Array<RuleAPIItem>;
-}): Array<RuleItem> {
+function normalizeAPIResponse(json: { rules: Array<RuleAPIItem> }): Array<RuleItem> {
   invariant(
     json.rules && json.rules.length >= 0,
     'there is no valid rules list in the rules API response'

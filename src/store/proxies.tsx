@@ -48,8 +48,7 @@ export const getDelay = (s: State) => s.proxies.delay;
 export const getProxyGroupNames = (s: State) => s.proxies.groupNames;
 export const getProxyProviders = (s: State) => s.proxies.proxyProviders || [];
 export const getDangleProxyNames = (s: State) => s.proxies.dangleProxyNames;
-export const getShowModalClosePrevConns = (s: State) =>
-  s.proxies.showModalClosePrevConns;
+export const getShowModalClosePrevConns = (s: State) => s.proxies.showModalClosePrevConns;
 
 export function fetchProxies(apiConfig: ClashAPIConfig) {
   return async (dispatch: any, getState: any) => {
@@ -58,10 +57,9 @@ export function fetchProxies(apiConfig: ClashAPIConfig) {
       proxiesAPI.fetchProviderProxies(apiConfig),
     ]);
 
-    const {
-      providers: proxyProviders,
-      proxies: providerProxies,
-    } = formatProxyProviders(providersData.providers);
+    const { providers: proxyProviders, proxies: providerProxies } = formatProxyProviders(
+      providersData.providers
+    );
     const proxies = { ...providerProxies, ...proxiesData.proxies };
     const [groupNames, proxyNames] = retrieveGroupNamesFrom(proxies);
 
@@ -121,10 +119,7 @@ export function updateProviders(apiConfig: ClashAPIConfig, names: string[]) {
   };
 }
 
-async function healthcheckProviderByNameInternal(
-  apiConfig: ClashAPIConfig,
-  name: string
-) {
+async function healthcheckProviderByNameInternal(apiConfig: ClashAPIConfig, name: string) {
   try {
     await proxiesAPI.healthcheckProviderByName(apiConfig, name);
   } catch (x) {
@@ -132,10 +127,7 @@ async function healthcheckProviderByNameInternal(
   }
 }
 
-export function healthcheckProviderByName(
-  apiConfig: ClashAPIConfig,
-  name: string
-) {
+export function healthcheckProviderByName(apiConfig: ClashAPIConfig, name: string) {
   return async (dispatch: DispatchFn) => {
     await healthcheckProviderByNameInternal(apiConfig, name);
     // should be optimized
@@ -168,16 +160,10 @@ async function closeGroupConns(
     }
   }
 
-  await Promise.all(
-    idsToClose.map((id) => connAPI.closeConnById(apiConfig, id).catch(noop))
-  );
+  await Promise.all(idsToClose.map((id) => connAPI.closeConnById(apiConfig, id).catch(noop)));
 }
 
-function resolveChain(
-  proxies: ProxiesMapping,
-  groupName: string,
-  itemName: string
-) {
+function resolveChain(proxies: ProxiesMapping, groupName: string, itemName: string) {
   const chain = [itemName, groupName];
 
   let child: ProxyItem;
@@ -197,11 +183,7 @@ async function switchProxyImpl(
   itemName: string
 ) {
   try {
-    const res = await proxiesAPI.requestToSwitchProxy(
-      apiConfig,
-      groupName,
-      itemName
-    );
+    const res = await proxiesAPI.requestToSwitchProxy(apiConfig, groupName, itemName);
     if (res.ok === false) {
       throw new Error(`failed to switch proxy: res.statusText`);
     }
@@ -267,16 +249,10 @@ function closePrevConnsAndTheModal(apiConfig: ClashAPIConfig) {
   };
 }
 
-export function switchProxy(
-  apiConfig: ClashAPIConfig,
-  groupName: string,
-  itemName: string
-) {
+export function switchProxy(apiConfig: ClashAPIConfig, groupName: string, itemName: string) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     // switch proxy asynchronously
-    switchProxyImpl(dispatch, getState, apiConfig, groupName, itemName).catch(
-      noop
-    );
+    switchProxyImpl(dispatch, getState, apiConfig, groupName, itemName).catch(noop);
 
     // optimistic UI update
     dispatch('store/proxies#switchProxy', (s) => {
@@ -291,11 +267,7 @@ export function switchProxy(
 function requestDelayForProxyOnce(apiConfig: ClashAPIConfig, name: string) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const latencyTestUrl = getLatencyTestUrl(getState());
-    const res = await proxiesAPI.requestDelayForProxy(
-      apiConfig,
-      name,
-      latencyTestUrl
-    );
+    const res = await proxiesAPI.requestDelayForProxy(apiConfig, name, latencyTestUrl);
     let error = '';
     if (res.ok === false) {
       error = res.statusText;
@@ -323,10 +295,7 @@ export function requestDelayForProxy(apiConfig: ClashAPIConfig, name: string) {
   };
 }
 
-export function requestDelayForProxies(
-  apiConfig: ClashAPIConfig,
-  names: string[]
-) {
+export function requestDelayForProxies(apiConfig: ClashAPIConfig, names: string[]) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const proxyNames = getDangleProxyNames(getState());
 
@@ -342,9 +311,7 @@ export function requestDelayForProxies(
 export function requestDelayAll(apiConfig: ClashAPIConfig) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const proxyNames = getDangleProxyNames(getState());
-    await Promise.all(
-      proxyNames.map((p) => dispatch(requestDelayForProxy(apiConfig, p)))
-    );
+    await Promise.all(proxyNames.map((p) => dispatch(requestDelayForProxy(apiConfig, p))));
     const proxyProviders = getProxyProviders(getState());
     // one by one
     for (const p of proxyProviders) {
@@ -385,9 +352,7 @@ type ProvidersRaw = {
   [key: string]: ProxyProvider;
 };
 
-function formatProxyProviders(
-  providersInput: ProvidersRaw
-): {
+function formatProxyProviders(providersInput: ProvidersRaw): {
   providers: Array<FormattedProxyProvider>;
   proxies: { [key: string]: ProxyItem };
 } {

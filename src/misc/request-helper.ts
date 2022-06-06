@@ -12,7 +12,7 @@ function genCommonHeaders({ secret }: { secret?: string }) {
   return h;
 }
 function buildWebSocketURLBase(baseURL: string, params: URLSearchParams, endpoint: string) {
-  const qs = '?' + params.toString()
+  const qs = '?' + params.toString();
   const url = new URL(baseURL);
   url.protocol === 'https:' ? (url.protocol = 'wss:') : (url.protocol = 'ws:');
   return `${trimTrailingSlash(url.href)}${endpoint}${qs}`;
@@ -32,7 +32,7 @@ export function buildWebSocketURL(apiConfig: ClashAPIConfig, endpoint: string) {
     token: secret,
   });
 
-  return buildWebSocketURLBase(baseURL, params, endpoint)
+  return buildWebSocketURLBase(baseURL, params, endpoint);
 }
 
 export function buildLogsWebSocketURL(apiConfig: LogsAPIConfig, endpoint: string) {
@@ -42,5 +42,5 @@ export function buildLogsWebSocketURL(apiConfig: LogsAPIConfig, endpoint: string
     level: logLevel,
   });
 
-  return buildWebSocketURLBase(baseURL, params, endpoint)
+  return buildWebSocketURLBase(baseURL, params, endpoint);
 }

@@ -59,8 +59,5 @@ export async function updateProviderByName(config, name) {
 export async function healthcheckProviderByName(config, name) {
   const { url, init } = getURLAndInit(config);
   const options = { ...init, method: 'GET' };
-  return await fetch(
-    url + '/providers/proxies/' + name + '/healthcheck',
-    options
-  );
+  return await fetch(url + '/providers/proxies/' + name + '/healthcheck', options);
 }

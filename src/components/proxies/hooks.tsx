@@ -45,22 +45,14 @@ const getSortDelay = (
 
 const ProxySortingFns = {
   Natural: (proxies: string[]) => proxies,
-  LatencyAsc: (
-    proxies: string[],
-    delay: DelayMapping,
-    proxyMapping?: ProxiesMapping
-  ) => {
+  LatencyAsc: (proxies: string[], delay: DelayMapping, proxyMapping?: ProxiesMapping) => {
     return proxies.sort((a, b) => {
       const d1 = getSortDelay(delay[a], proxyMapping && proxyMapping[a]);
       const d2 = getSortDelay(delay[b], proxyMapping && proxyMapping[b]);
       return d1 - d2;
     });
   },
-  LatencyDesc: (
-    proxies: string[],
-    delay: DelayMapping,
-    proxyMapping?: ProxiesMapping
-  ) => {
+  LatencyDesc: (proxies: string[], delay: DelayMapping, proxyMapping?: ProxiesMapping) => {
     return proxies.sort((a, b) => {
       const d1 = getSortDelay(delay[a], proxyMapping && proxyMapping[a]);
       const d2 = getSortDelay(delay[b], proxyMapping && proxyMapping[b]);

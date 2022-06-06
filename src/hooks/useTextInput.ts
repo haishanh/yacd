@@ -9,9 +9,7 @@ export function useTextInut(
 ): [(e: React.ChangeEvent<HTMLInputElement>) => void, string] {
   const [, setTextGlobal] = useRecoilState(x);
   const [text, setText] = useState('');
-  const setTextDebounced = useMemo(() => debounce(setTextGlobal, 300), [
-    setTextGlobal,
-  ]);
+  const setTextDebounced = useMemo(() => debounce(setTextGlobal, 300), [setTextGlobal]);
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setText(e.target.value);

@@ -48,12 +48,7 @@ function ProxyProviderImpl({
   dispatch,
   apiConfig,
 }: Props) {
-  const proxies = useFilteredAndSorted(
-    all,
-    delay,
-    hideUnavailableProxies,
-    proxySortBy
-  );
+  const proxies = useFilteredAndSorted(all, delay, hideUnavailableProxies, proxySortBy);
   const [isHealthcheckLoading, setIsHealthcheckLoading] = useState(false);
 
   const updateProvider = useUpdateProviderItem({ dispatch, apiConfig, name });

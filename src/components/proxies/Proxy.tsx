@@ -58,18 +58,8 @@ type ProxyProps = {
   onClick?: (proxyName: string) => unknown;
 };
 
-function ProxySmallImpl({
-  now,
-  name,
-  proxy,
-  latency,
-  isSelectable,
-  onClick,
-}: ProxyProps) {
-  const color = useMemo(() => getProxyDotBackgroundColor(latency, proxy.type), [
-    latency,
-    proxy,
-  ]);
+function ProxySmallImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyProps) {
+  const color = useMemo(() => getProxyDotBackgroundColor(latency, proxy.type), [latency, proxy]);
   const title = useMemo(() => {
     let ret = name;
     if (latency && typeof latency.number === 'number') {
@@ -115,14 +105,7 @@ function formatProxyType(t: string) {
   return t;
 }
 
-function ProxyImpl({
-  now,
-  name,
-  proxy,
-  latency,
-  isSelectable,
-  onClick,
-}: ProxyProps) {
+function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyProps) {
   const color = useMemo(() => getLabelColor(latency), [latency]);
   const doSelect = React.useCallback(() => {
     isSelectable && onClick && onClick(name);
@@ -156,9 +139,7 @@ function ProxyImpl({
         <span className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
           {formatProxyType(proxy.type)}
         </span>
-        {latency && latency.number ? (
-          <ProxyLatency number={latency.number} color={color} />
-        ) : null}
+        {latency && latency.number ? <ProxyLatency number={latency.number} color={color} /> : null}
       </div>
     </div>
   );

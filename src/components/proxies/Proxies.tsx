@@ -35,9 +35,7 @@ function Proxies({
   apiConfig,
   showModalClosePrevConns,
 }) {
-  const refFetchedTimestamp = useRef<{ startAt?: number; completeAt?: number }>(
-    {}
-  );
+  const refFetchedTimestamp = useRef<{ startAt?: number; completeAt?: number }>({});
 
   const fetchProxiesHooked = useCallback(() => {
     refFetchedTimestamp.current.startAt = Date.now();
@@ -75,10 +73,7 @@ function Proxies({
 
   return (
     <>
-      <BaseModal
-        isOpen={isSettingsModalOpen}
-        onRequestClose={closeSettingsModal}
-      >
+      <BaseModal isOpen={isSettingsModalOpen} onRequestClose={closeSettingsModal}>
         <Settings />
       </BaseModal>
       <div className={s0.topBar}>
@@ -110,15 +105,8 @@ function Proxies({
       </div>
       <ProxyProviderList items={proxyProviders} />
       <div style={{ height: 60 }} />
-      <ProxyPageFab
-        dispatch={dispatch}
-        apiConfig={apiConfig}
-        proxyProviders={proxyProviders}
-      />
-      <BaseModal
-        isOpen={showModalClosePrevConns}
-        onRequestClose={closeModalClosePrevConns}
-      >
+      <ProxyPageFab dispatch={dispatch} apiConfig={apiConfig} proxyProviders={proxyProviders} />
+      <BaseModal isOpen={showModalClosePrevConns} onRequestClose={closeModalClosePrevConns}>
         <ClosePrevConns
           onClickPrimaryButton={() => closePrevConnsAndTheModal(apiConfig)}
           onClickSecondaryButton={closeModalClosePrevConns}

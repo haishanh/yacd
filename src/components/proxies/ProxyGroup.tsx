@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { Zap } from 'react-feather';
 
-import {
-  getCollapsibleIsOpen,
-  getHideUnavailableProxies,
-  getProxySortBy,
-} from '../../store/app';
+import { State } from '$src/store/types';
+
+import { getCollapsibleIsOpen, getHideUnavailableProxies, getProxySortBy } from '../../store/app';
 import { getProxies, switchProxy } from '../../store/proxies';
 import Button from '../Button';
 import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
@@ -37,13 +35,7 @@ function ProxyGroupImpl({
   apiConfig,
   dispatch,
 }) {
-  const all = useFilteredAndSorted(
-    allItems,
-    delay,
-    hideUnavailableProxies,
-    proxySortBy,
-    proxies
-  );
+  const all = useFilteredAndSorted(allItems, delay, hideUnavailableProxies, proxySortBy, proxies);
 
   const isSelectable = useMemo(() => type === 'Selector', [type]);
 
@@ -57,7 +49,7 @@ function ProxyGroupImpl({
   }, [isOpen, updateCollapsibleIsOpen, name]);
 
   const itemOnTapCallback = useCallback(
-    (proxyName) => {
+    (proxyName: string) => {
       if (!isSelectable) return;
       dispatch(switchProxy(apiConfig, name, proxyName));
     },
@@ -75,7 +67,7 @@ function ProxyGroupImpl({
 
   return (
     <div className={s0.group}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className={s0.groupHead}>
         <CollapsibleSectionHeader
           name={name}
           type={type}
@@ -84,6 +76,7 @@ function ProxyGroupImpl({
           isOpen={isOpen}
         />
         <Button
+          className={s0.latencyButton}
           title="Test latency"
           kind="minimal"
           onClick={testLatency}
@@ -102,7 +95,7 @@ function ProxyGroupImpl({
   );
 }
 
-export const ProxyGroup = connect((s, { name, delay }) => {
+export const ProxyGroup = connect((s: State, { name, delay }) => {
   const proxies = getProxies(s);
   const collapsibleIsOpen = getCollapsibleIsOpen(s);
   const proxySortBy = getProxySortBy(s);

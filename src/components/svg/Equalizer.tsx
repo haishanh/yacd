@@ -5,10 +5,7 @@ type Props = {
   color?: string;
 };
 
-export default function Equalizer({
-  color = 'currentColor',
-  size = 24,
-}: Props) {
+export default function Equalizer({ color = 'currentColor', size = 24 }: Props) {
   return (
     <svg
       fill="none"

@@ -22,10 +22,7 @@ function configsPatchWorkaround(o: ClashConfigPartial) {
   return o;
 }
 
-export async function updateConfigs(
-  apiConfig: ClashAPIConfig,
-  o: ClashConfigPartial
-) {
+export async function updateConfigs(apiConfig: ClashAPIConfig, o: ClashConfigPartial) {
   const { url, init } = getURLAndInit(apiConfig);
   const body = JSON.stringify(configsPatchWorkaround(o));
   return await fetch(url + endpoint, { ...init, body, method: 'PATCH' });

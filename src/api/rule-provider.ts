@@ -31,10 +31,7 @@ function normalizeAPIResponse(data: RuleProviderAPIData) {
   return { byName, names };
 }
 
-export async function fetchRuleProviders(
-  endpoint: string,
-  apiConfig: ClashAPIConfig
-) {
+export async function fetchRuleProviders(endpoint: string, apiConfig: ClashAPIConfig) {
   const { url, init } = getURLAndInit(apiConfig);
 
   let data = { providers: {} };

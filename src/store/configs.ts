@@ -1,10 +1,4 @@
-import {
-  ClashGeneralConfig,
-  DispatchFn,
-  GetStateFn,
-  State,
-  StateConfigs,
-} from 'src/store/types';
+import { ClashGeneralConfig, DispatchFn, GetStateFn, State, StateConfigs } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
 
 import * as configsAPI from '../api/configs';

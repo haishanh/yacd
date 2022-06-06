@@ -2,12 +2,7 @@ import * as React from 'react';
 import { Zap } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { useUpdateProviderItems } from 'src/components/proxies/proxies.hooks';
-import {
-  Action,
-  Fab,
-  IsFetching,
-  position as fabPosition,
-} from 'src/components/shared/Fab';
+import { Action, Fab, IsFetching, position as fabPosition } from 'src/components/shared/Fab';
 import { RotateIcon } from 'src/components/shared/RotateIcon';
 import { requestDelayAll } from 'src/store/proxies';
 import { DispatchFn, FormattedProxyProvider } from 'src/store/types';

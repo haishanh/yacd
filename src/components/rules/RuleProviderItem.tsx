@@ -24,14 +24,14 @@ export function RuleProviderItem({
       <div className={s.middle}>
         <SectionNameType name={name} type={`${vehicleType} / ${behavior}`} />
         <div className={s.gray}>{ruleCount < 2 ? `${ruleCount} rule` : `${ruleCount} rules`}</div>
-        <small className={s.gray}>Updated {timeAgo} ago</small>
+        <div className={s.action}>
+          <Button onClick={onClickRefreshButton} disabled={isRefreshing} className={s.refreshBtn}>
+            <RotateIcon isRotating={isRefreshing} size={13} />
+            <span className="visually-hidden">Refresh</span>
+          </Button>
+          <small className={s.gray}>Updated {timeAgo} ago</small>
+        </div>
       </div>
-      <span className={s.refreshButtonWrapper}>
-        <Button onClick={onClickRefreshButton} disabled={isRefreshing} kind="circular">
-          <RotateIcon isRotating={isRefreshing} />
-          <span className="visually-hidden">Refresh</span>
-        </Button>
-      </span>
     </div>
   );
 }

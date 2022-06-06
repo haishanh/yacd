@@ -72,16 +72,15 @@ function APIConfig({ dispatch }) {
   const detectApiServer = async () => {
     // if there is already a clash API server at `/`, just use it as default value
     const res = await fetch('/');
-    res.json().then(data => {
+    res.json().then((data) => {
       if (data['hello'] === 'clash') {
-        setBaseURL(window.location.origin)
+        setBaseURL(window.location.origin);
       }
     });
   };
   useEffect(() => {
     detectApiServer();
   }, []);
-
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions

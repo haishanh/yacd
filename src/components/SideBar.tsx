@@ -3,14 +3,7 @@ import cx from 'clsx';
 import * as React from 'react';
 import { Info } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import {
-  FcAreaChart,
-  FcDocument,
-  FcGlobe,
-  FcLink,
-  FcRuler,
-  FcSettings,
-} from 'react-icons/fc';
+import { FcAreaChart, FcDocument, FcGlobe, FcLink, FcRuler, FcSettings } from 'react-icons/fc';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeSwitcher } from 'src/components/shared/ThemeSwitcher';
 

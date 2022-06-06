@@ -14,11 +14,10 @@ export function useUpdateProviderItem({
   apiConfig: ClashAPIConfig;
   name: string;
 }) {
-  return useCallback(() => dispatch(updateProviderByName(apiConfig, name)), [
-    apiConfig,
-    dispatch,
-    name,
-  ]);
+  return useCallback(
+    () => dispatch(updateProviderByName(apiConfig, name)),
+    [apiConfig, dispatch, name]
+  );
 }
 
 export function useUpdateProviderItems({

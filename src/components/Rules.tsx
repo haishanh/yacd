@@ -41,7 +41,7 @@ function getItemSizeFactory({ provider }) {
     const providerQty = provider.names.length;
     if (idx < providerQty) {
       // provider
-      return 90;
+      return 110;
     }
     // rule
     return 80;

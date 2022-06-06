@@ -2,6 +2,15 @@
   margin-bottom: 12px;
 }
 
+.groupHead {
+  display: flex;
+  align-items: center;
+}
+
+.latencyButton {
+  margin-left: 5px;
+}
+
 .zapWrapper {
   width: 20px;
   height: 20px;

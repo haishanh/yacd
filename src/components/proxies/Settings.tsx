@@ -2,11 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'src/components/shared/Select';
 
-import {
-  getAutoCloseOldConns,
-  getHideUnavailableProxies,
-  getProxySortBy,
-} from '../../store/app';
+import { getAutoCloseOldConns, getHideUnavailableProxies, getProxySortBy } from '../../store/app';
 import { connect, useStoreActions } from '../StateProvider';
 import Switch from '../SwitchThemed';
 import s from './Settings.module.scss';

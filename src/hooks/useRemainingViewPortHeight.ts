@@ -9,9 +9,10 @@ const { useState, useRef, useCallback, useLayoutEffect } = React;
  * to the bottom of the view port
  *
  */
-export default function useRemainingViewPortHeight<
-  ElementType extends HTMLDivElement
->(): [React.MutableRefObject<ElementType>, number] {
+export default function useRemainingViewPortHeight<ElementType extends HTMLDivElement>(): [
+  React.MutableRefObject<ElementType>,
+  number
+] {
   const ref = useRef<ElementType>(null);
   const [containerHeight, setContainerHeight] = useState(200);
   const updateContainerHeight = useCallback(() => {

@@ -10,10 +10,7 @@ type Props = {
 };
 
 function ToggleSwitch({ options, value, name, onChange }: Props) {
-  const idxSelected = useMemo(
-    () => options.map((o) => o.value).indexOf(value),
-    [options, value]
-  );
+  const idxSelected = useMemo(() => options.map((o) => o.value).indexOf(value), [options, value]);
 
   const getPortionPercentage = useCallback(
     (idx: number) => {
