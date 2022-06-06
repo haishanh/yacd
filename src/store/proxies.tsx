@@ -363,7 +363,7 @@ function retrieveGroupNamesFrom(proxies: Record<string, ProxyItem>) {
     if (p.all && Array.isArray(p.all)) {
       groupNames.push(prop);
       if (prop === 'GLOBAL') {
-        globalAll = p.all;
+        globalAll = Array.from(p.all);
       }
     } else if (NonProxyTypes.indexOf(p.type) < 0) {
       proxyNames.push(prop);
