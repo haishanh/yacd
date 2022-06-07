@@ -1,3 +1,4 @@
+import { TooltipPopup, useTooltip } from '@reach/tooltip';
 import cx from 'clsx';
 import * as React from 'react';
 import { keyCodes } from 'src/misc/keycode';
@@ -107,6 +108,28 @@ function formatProxyType(t: string) {
   return t;
 }
 
+const positionProxyNameTooltip = (triggerRect: { left: number; top: number }) => {
+  return {
+    left: triggerRect.left + window.scrollX - 5,
+    top: triggerRect.top + window.scrollY - 38,
+  };
+};
+
+function ProxyNameTooltip({ children, label, 'aria-label': ariaLabel }) {
+  const [trigger, tooltip] = useTooltip();
+  return (
+    <>
+      {React.cloneElement(children, trigger)}
+      <TooltipPopup
+        {...tooltip}
+        label={label}
+        aria-label={ariaLabel}
+        position={positionProxyNameTooltip}
+      />
+    </>
+  );
+}
+
 function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyProps) {
   const color = useMemo(() => getLabelColor(latency), [latency]);
   const doSelect = React.useCallback(() => {
@@ -134,7 +157,11 @@ function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyPr
       onKeyDown={handleKeyDown}
       role={isSelectable ? 'menuitem' : ''}
     >
-      <div className={s0.proxyName}>{name}</div>
+      <div className={s0.proxyName}>
+        <ProxyNameTooltip label={name} aria-label={'proxy name: ' + name}>
+          <span>{name}</span>
+        </ProxyNameTooltip>
+      </div>
       <div className={s0.row}>
         <span className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
           {formatProxyType(proxy.type)}
