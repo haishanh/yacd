@@ -2,6 +2,8 @@ import cx from 'clsx';
 import * as React from 'react';
 import { keyCodes } from 'src/misc/keycode';
 
+import { State } from '$src/store/types';
+
 import { getDelay, getProxies, NonProxyTypes } from '../../store/proxies';
 import { connect } from '../StateProvider';
 import s0 from './Proxy.module.scss';
@@ -112,9 +114,7 @@ function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyPr
   }, [name, onClick, isSelectable]);
   const handleKeyDown = React.useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.keyCode === keyCodes.Enter) {
-        doSelect();
-      }
+      if (e.key === 'Enter') doSelect();
     },
     [doSelect]
   );
@@ -139,13 +139,13 @@ function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyPr
         <span className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
           {formatProxyType(proxy.type)}
         </span>
-        {latency && latency.number ? <ProxyLatency number={latency.number} color={color} /> : null}
+        <ProxyLatency number={latency?.number} color={color} />
       </div>
     </div>
   );
 }
 
-const mapState = (s: any, { name }) => {
+const mapState = (s: State, { name }) => {
   const proxies = getProxies(s);
   const delay = getDelay(s);
   return {

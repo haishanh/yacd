@@ -12,7 +12,8 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "pretty": "prettier --single-quote --write 'src/**/*.{js,scss,ts,tsx,md}'"
+    "pretty": "prettier --single-quote --write 'src/**/*.{js,scss,ts,tsx,md}'",
+    "fmt": "pnpm lint && pnpm pretty"
   },
   "browserslist": [
     ">0.25%",
