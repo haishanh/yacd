@@ -25,8 +25,8 @@ const propsList = [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }];
 
 const logLeveOptions = [
   ['debug', 'Debug'],
-  ['warning', 'Warning'],
   ['info', 'Info'],
+  ['warning', 'Warning'],
   ['error', 'Error'],
   ['silent', 'Silent'],
 ];
