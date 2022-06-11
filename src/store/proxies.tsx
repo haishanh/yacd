@@ -1,5 +1,4 @@
 import { atom } from 'recoil';
-/* import { ProxyItem, ProxiesMapping, DelayMapping } from 'src/store/types'; */
 import {
   DispatchFn,
   FormattedProxyProvider,
@@ -35,9 +34,10 @@ const noop = () => null;
 
 export const NonProxyTypes = [
   'Direct',
-  'Fallback',
   'Reject',
+  'Relay',
   'Selector',
+  'Fallback',
   'URLTest',
   'LoadBalance',
   'Unknown',
@@ -60,7 +60,7 @@ export function fetchProxies(apiConfig: ClashAPIConfig) {
     const { providers: proxyProviders, proxies: providerProxies } = formatProxyProviders(
       providersData.providers
     );
-    const proxies = { ...providerProxies, ...proxiesData.proxies };
+    const proxies = { ...proxiesData.proxies, ...providerProxies };
     const [groupNames, proxyNames] = retrieveGroupNamesFrom(proxies);
 
     const delayPrev = getDelay(getState());
