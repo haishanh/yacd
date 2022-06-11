@@ -11,7 +11,7 @@ import { connect } from './StateProvider';
 
 const { useMemo } = React;
 
-const chartWrapperStyle = {
+const chartWrapperStyle: React.CSSProperties = {
   // make chartjs chart responsive
   position: 'relative',
   maxWidth: 1000,
@@ -52,7 +52,6 @@ function TrafficChart({ apiConfig, selectedChartStyleIndex }) {
   useLineChart(ChartMod.Chart, 'trafficChart', data, traffic);
 
   return (
-    // @ts-expect-error ts-migrate(2322) FIXME: Type '{ position: string; maxWidth: number; }' is ... Remove this comment to see the full error message
     <div style={chartWrapperStyle}>
       <canvas id="trafficChart" />
     </div>

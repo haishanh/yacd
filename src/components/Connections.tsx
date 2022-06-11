@@ -109,7 +109,7 @@ function renderTableOrPlaceholder(conns: FormattedConn[]) {
   );
 }
 
-function ConnQty({ qty }) {
+function connQty({ qty }) {
   return qty < 100 ? '' + qty : '99+';
 }
 
@@ -179,17 +179,11 @@ function Conn({ apiConfig }) {
           <TabList>
             <Tab>
               <span>{t('Active')}</span>
-              <span className={s.connQty}>
-                {/* @ts-expect-error ts-migrate(2786) FIXME: 'ConnQty' cannot be used as a JSX component. */}
-                <ConnQty qty={filteredConns.length} />
-              </span>
+              <span className={s.connQty}>{connQty({ qty: filteredConns.length })}</span>
             </Tab>
             <Tab>
               <span>{t('Closed')}</span>
-              <span className={s.connQty}>
-                {/* @ts-expect-error ts-migrate(2786) FIXME: 'ConnQty' cannot be used as a JSX component. */}
-                <ConnQty qty={filteredClosedConns.length} />
-              </span>
+              <span className={s.connQty}>{connQty({ qty: filteredClosedConns.length })}</span>
             </Tab>
           </TabList>
           <div className={s.inputWrapper}>

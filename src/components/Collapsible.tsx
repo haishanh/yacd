@@ -1,17 +1,18 @@
-import React from 'react';
+import type { MutableRefObject } from 'react';
+import * as React from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import { framerMotionResouce } from '../misc/motion';
 
 const { memo, useState, useRef, useEffect } = React;
 
-function usePrevious(value) {
+function usePrevious(value: any) {
   const ref = useRef();
   useEffect(() => void (ref.current = value), [value]);
   return ref.current;
 }
 
-function useMeasure() {
+function useMeasure(): [MutableRefObject<HTMLElement>, { height: number }] {
   const ref = useRef();
   const [bounds, set] = useState({ height: 0 });
   useEffect(() => {
@@ -27,7 +28,7 @@ const variantsCollpapsibleWrap = {
     height: 'auto',
     transition: { duration: 0 },
   },
-  open: (height) => ({
+  open: (height: number) => ({
     height,
     opacity: 1,
     visibility: 'visible',
@@ -50,12 +51,12 @@ const variantsCollpapsibleChildContainer = {
   },
 };
 
-// @ts-expect-error ts-migrate(2339) FIXME: Property 'isOpen' does not exist on type '{ childr... Remove this comment to see the full error message
-const Collapsible = memo(({ children, isOpen }) => {
+type CollapsibleProps = { children: React.ReactNode; isOpen?: boolean };
+
+const Collapsible = memo(({ children, isOpen }: CollapsibleProps) => {
   const module = framerMotionResouce.read();
   const motion = module.motion;
   const previous = usePrevious(isOpen);
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'height' does not exist on type 'MutableR... Remove this comment to see the full error message
   const [refToMeature, { height }] = useMeasure();
   return (
     <div>

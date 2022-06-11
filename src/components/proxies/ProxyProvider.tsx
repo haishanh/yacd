@@ -14,7 +14,7 @@ import {
   getProxySortBy,
 } from 'src/store/app';
 import { getDelay, healthcheckProviderByName } from 'src/store/proxies';
-import { DelayMapping } from 'src/store/types';
+import { DelayMapping, State } from 'src/store/types';
 
 import { useFilteredAndSorted } from './hooks';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
@@ -24,7 +24,7 @@ const { useState, useCallback } = React;
 
 type Props = {
   name: string;
-  proxies: Array<string>;
+  proxies: string[];
   delay: DelayMapping;
   hideUnavailableProxies: boolean;
   proxySortBy: string;
@@ -77,10 +77,7 @@ function ProxyProviderImpl({
         isOpen={isOpen}
         qty={proxies.length}
       />
-      <div className={s.updatedAt}>
-        <small>Updated {timeAgo} ago</small>
-      </div>
-      {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ children: Element[]; isOpen: boolean; }' i... Remove this comment to see the full error message */}
+      <div className={s.updatedAt}><small>Updated {timeAgo} ago</small></div>
       <Collapsible isOpen={isOpen}>
         <ProxyList all={proxies} />
         <div className={s.actionFooter}>
@@ -93,7 +90,6 @@ function ProxyProviderImpl({
           />
         </div>
       </Collapsible>
-      {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ children: Element; isOpen: boolean; }' is ... Remove this comment to see the full error message */}
       <Collapsible isOpen={!isOpen}>
         <ProxyListSummaryView all={proxies} />
       </Collapsible>
@@ -127,7 +123,7 @@ function Refresh() {
   );
 }
 
-const mapState = (s, { proxies, name }) => {
+const mapState = (s: State, { proxies, name }) => {
   const hideUnavailableProxies = getHideUnavailableProxies(s);
   const delay = getDelay(s);
   const collapsibleIsOpen = getCollapsibleIsOpen(s);

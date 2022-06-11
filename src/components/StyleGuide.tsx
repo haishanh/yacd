@@ -21,7 +21,9 @@ const optionsRule = [
   { label: 'Direct', value: 'Direct' },
 ];
 
-const Pane = ({ children, style }) => <div style={{ ...paneStyle, ...style }}>{children}</div>;
+const Pane = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
+  <div style={{ ...paneStyle, ...style }}>{children}</div>
+);
 
 function useToggle(initialState = false) {
   const [onoff, setonoff] = React.useState(initialState);
@@ -40,19 +42,15 @@ class StyleGuide extends PureComponent {
   render() {
     return (
       <div>
-        {/* @ts-expect-error ts-migrate(2741) FIXME: Property 'style' is missing in type '{ children: E... Remove this comment to see the full error message */}
         <Pane>
           <SwitchExample />
         </Pane>
-        {/* @ts-expect-error ts-migrate(2741) FIXME: Property 'style' is missing in type '{ children: E... Remove this comment to see the full error message */}
         <Pane>
           <Input />
         </Pane>
-        {/* @ts-expect-error ts-migrate(2741) FIXME: Property 'style' is missing in type '{ children: E... Remove this comment to see the full error message */}
         <Pane>
           <ToggleSwitch name="test" options={optionsRule} value="Rule" onChange={noop} />
         </Pane>
-        {/* @ts-expect-error ts-migrate(2741) FIXME: Property 'style' is missing in type '{ children: E... Remove this comment to see the full error message */}
         <Pane>
           <Button text="Test Lxatency" start={<Zap size={16} />} />
           <Button text="Test Lxatency" start={<Zap size={16} />} isLoading />
