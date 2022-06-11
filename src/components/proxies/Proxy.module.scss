@@ -64,13 +64,31 @@
 }
 
 .proxySmall {
-  width: 13px;
-  height: 13px;
+  --size: 13px;
+  width: var(--size);
+  height: var(--size);
   border-radius: 50%;
-  border: 1px solid var(--color-background);
+  position: relative;
 
   &.now {
-    border-color: var(--color-text-secondary);
+    --size: 15px;
+    &:before {
+      --size-dot: 7px;
+      content: '';
+      position: absolute;
+      width: var(--size-dot);
+      height: var(--size-dot);
+      background-color: #fff;
+      // For non-primitive proxy type like "Selector", "LoadBalance", "DIRECT", etc. we are using a transparent
+      // background, and this selected indicator has a white background. In "light" them mode, the constrast
+      // between the bg of the indicator and the "background" is too small. In that case we want to add a
+      // border around this indicator so it's more distinguishable.
+      border: 1px solid var(--color-proxy-dot-selected-ind-bo);
+      border-radius: 4px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 
   &.selectable {

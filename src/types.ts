@@ -5,4 +5,4 @@ export type ClashAPIConfig = {
 
 export type LogsAPIConfig = ClashAPIConfig & { logLevel: string };
 
-export type RuleType = { id?: number; type?: string; payload?: string; proxy?: string; }
+export type RuleType = { id?: number; type?: string; payload?: string; proxy?: string };

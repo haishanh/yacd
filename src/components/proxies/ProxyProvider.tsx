@@ -16,11 +16,13 @@ import {
 import { getDelay, healthcheckProviderByName } from 'src/store/proxies';
 import { DelayMapping, State } from 'src/store/types';
 
+import { useState2 } from '$src/hooks/basic';
+
 import { useFilteredAndSorted } from './hooks';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
 import s from './ProxyProvider.module.scss';
 
-const { useState, useCallback } = React;
+const { useCallback } = React;
 
 type Props = {
   name: string;
@@ -49,15 +51,15 @@ function ProxyProviderImpl({
   apiConfig,
 }: Props) {
   const proxies = useFilteredAndSorted(all, delay, hideUnavailableProxies, proxySortBy);
-  const [isHealthcheckLoading, setIsHealthcheckLoading] = useState(false);
+  const checkingHealth = useState2(false);
 
   const updateProvider = useUpdateProviderItem({ dispatch, apiConfig, name });
 
-  const healthcheckProvider = useCallback(async () => {
-    setIsHealthcheckLoading(true);
-    await dispatch(healthcheckProviderByName(apiConfig, name));
-    setIsHealthcheckLoading(false);
-  }, [apiConfig, dispatch, name, setIsHealthcheckLoading]);
+  const healthcheckProvider = useCallback(() => {
+    checkingHealth.set(true);
+    const stop = () => checkingHealth.set(false);
+    dispatch(healthcheckProviderByName(apiConfig, name)).then(stop, stop);
+  }, [apiConfig, dispatch, name, checkingHealth]);
 
   const {
     app: { updateCollapsibleIsOpen },
@@ -77,7 +79,9 @@ function ProxyProviderImpl({
         isOpen={isOpen}
         qty={proxies.length}
       />
-      <div className={s.updatedAt}><small>Updated {timeAgo} ago</small></div>
+      <div className={s.updatedAt}>
+        <small>Updated {timeAgo} ago</small>
+      </div>
       <Collapsible isOpen={isOpen}>
         <ProxyList all={proxies} />
         <div className={s.actionFooter}>
@@ -86,7 +90,7 @@ function ProxyProviderImpl({
             text="Health Check"
             start={<Zap size={16} />}
             onClick={healthcheckProvider}
-            isLoading={isHealthcheckLoading}
+            isLoading={checkingHealth.value}
           />
         </div>
       </Collapsible>
