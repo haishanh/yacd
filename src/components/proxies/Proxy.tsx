@@ -22,11 +22,7 @@ const colorMap = {
   na: '#909399',
 };
 
-function getLabelColor({
-  number,
-}: {
-  number?: number;
-} = {}) {
+function getLabelColor({ number }: { number?: number } = {}) {
   if (number === 0) {
     return colorMap.na;
   } else if (number < 200) {
@@ -39,12 +35,7 @@ function getLabelColor({
   return colorMap.na;
 }
 
-function getProxyDotStyle(
-  latency: {
-    number?: number;
-  },
-  proxyType: string
-) {
+function getProxyDotStyle(latency: { number?: number }, proxyType: string) {
   if (NonProxyTypes.indexOf(proxyType) > -1) {
     return { border: '1px dotted #777' };
   }
@@ -76,10 +67,7 @@ function ProxySmallImpl({ now, name, proxy, latency, isSelectable, onClick }: Pr
   }, [name, onClick, isSelectable]);
 
   const className = useMemo(() => {
-    return cx(s0.proxySmall, {
-      [s0.now]: now,
-      [s0.selectable]: isSelectable,
-    });
+    return cx(s0.proxySmall, { [s0.now]: now, [s0.selectable]: isSelectable });
   }, [isSelectable, now]);
 
   const handleKeyDown = React.useCallback(
