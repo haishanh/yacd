@@ -5,21 +5,25 @@
   }
 }
 
-.body {
+.main {
   padding: 10px 15px;
   @media (--breakpoint-not-small) {
     padding: 10px 40px;
   }
 }
 
-.actionFooter {
+.head {
   display: flex;
-  button {
-    margin: 0 5px;
-    &:first-child {
-      margin-left: 0;
-    }
-  }
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.action {
+  margin: 0 5px;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
+  place-items: center;
 }
 
 .refresh {

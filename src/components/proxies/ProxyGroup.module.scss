@@ -4,17 +4,10 @@
 
 .groupHead {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
-.latencyButton {
-  margin-left: 5px;
-}
-
-.zapWrapper {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.action {
+  margin: 0 5px;
 }

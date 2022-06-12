@@ -1,8 +1,8 @@
+import Tooltip from '@reach/tooltip';
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
-import { RotateCw, Zap } from 'react-feather';
+import { RotateCw } from 'react-feather';
 import Button from 'src/components/Button';
-import Collapsible from 'src/components/Collapsible';
 import CollapsibleSectionHeader from 'src/components/CollapsibleSectionHeader';
 import { useUpdateProviderItem } from 'src/components/proxies/proxies.hooks';
 import { connect, useStoreActions } from 'src/components/StateProvider';
@@ -18,6 +18,7 @@ import { DelayMapping, State } from 'src/store/types';
 
 import { useState2 } from '$src/hooks/basic';
 
+import { ZapAnimated } from '../shared/ZapAnimated';
 import { useFilteredAndSorted } from './hooks';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
 import s from './ProxyProvider.module.scss';
@@ -56,6 +57,7 @@ function ProxyProviderImpl({
   const updateProvider = useUpdateProviderItem({ dispatch, apiConfig, name });
 
   const healthcheckProvider = useCallback(() => {
+    if (checkingHealth.value) return;
     checkingHealth.set(true);
     const stop = () => checkingHealth.set(false);
     dispatch(healthcheckProviderByName(apiConfig, name)).then(stop, stop);
@@ -71,32 +73,33 @@ function ProxyProviderImpl({
 
   const timeAgo = formatDistance(new Date(updatedAt), new Date());
   return (
-    <div className={s.body}>
-      <CollapsibleSectionHeader
-        name={name}
-        toggle={toggle}
-        type={vehicleType}
-        isOpen={isOpen}
-        qty={proxies.length}
-      />
+    <div className={s.main}>
+      <div className={s.head}>
+        <CollapsibleSectionHeader
+          name={name}
+          toggle={toggle}
+          type={vehicleType}
+          isOpen={isOpen}
+          qty={proxies.length}
+        />
+
+        <div className={s.action}>
+          <Tooltip label={'Update'}>
+            <Button kind="circular" onClick={updateProvider}>
+              <Refresh />
+            </Button>
+          </Tooltip>
+          <Tooltip label={'Health Check'}>
+            <Button kind="circular" onClick={healthcheckProvider}>
+              <ZapAnimated animate={checkingHealth.value} size={16} />
+            </Button>
+          </Tooltip>
+        </div>
+      </div>
       <div className={s.updatedAt}>
         <small>Updated {timeAgo} ago</small>
       </div>
-      <Collapsible isOpen={isOpen}>
-        <ProxyList all={proxies} />
-        <div className={s.actionFooter}>
-          <Button text="Update" start={<Refresh />} onClick={updateProvider} />
-          <Button
-            text="Health Check"
-            start={<Zap size={16} />}
-            onClick={healthcheckProvider}
-            isLoading={checkingHealth.value}
-          />
-        </div>
-      </Collapsible>
-      <Collapsible isOpen={!isOpen}>
-        <ProxyListSummaryView all={proxies} />
-      </Collapsible>
+      {isOpen ? <ProxyList all={proxies} /> : <ProxyListSummaryView all={proxies} />}
     </div>
   );
 }

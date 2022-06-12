@@ -1,0 +1,12 @@
+.animate {
+  --saturation: 70%;
+  stroke: hsl(46deg var(--saturation) 45%);
+  animation: zap-pulse 0.7s 0s ease-in-out none normal infinite;
+}
+
+// prettier-ignore
+@keyframes zap-pulse {
+  0% { stroke: hsl(46deg var(--saturation) 45%); }
+  50% { stroke: hsl(46deg var(--saturation) 95%); }
+  100% { stroke: hsl(46deg var(--saturation) 45%); }
+}

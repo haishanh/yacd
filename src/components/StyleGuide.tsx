@@ -4,6 +4,7 @@ import Loading from 'src/components/Loading';
 
 import Button from './Button';
 import Input from './Input';
+import { ZapAnimated } from './shared/ZapAnimated';
 import SwitchThemed from './SwitchThemed';
 import ToggleSwitch from './ToggleSwitch';
 
@@ -42,6 +43,9 @@ class StyleGuide extends PureComponent {
   render() {
     return (
       <div>
+        <Pane>
+          <ZapAnimated />
+        </Pane>
         <Pane>
           <SwitchExample />
         </Pane>

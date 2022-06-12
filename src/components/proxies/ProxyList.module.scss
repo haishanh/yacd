@@ -6,9 +6,10 @@
 }
 
 .listSummaryView {
-  margin: 8px 0;
+  margin: 14px 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, 13px);
   grid-gap: 10px;
   place-items: center;
+  max-width: 900px;
 }

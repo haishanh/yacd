@@ -1,26 +1,20 @@
+import Tooltip from '@reach/tooltip';
 import * as React from 'react';
-import { Zap } from 'react-feather';
 
+import { useState2 } from '$src/hooks/basic';
 import { State } from '$src/store/types';
 
 import { getCollapsibleIsOpen, getHideUnavailableProxies, getProxySortBy } from '../../store/app';
 import { getProxies, switchProxy } from '../../store/proxies';
 import Button from '../Button';
 import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
+import { ZapAnimated } from '../shared/ZapAnimated';
 import { connect, useStoreActions } from '../StateProvider';
 import { useFilteredAndSorted } from './hooks';
 import s0 from './ProxyGroup.module.scss';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
 
-const { createElement, useCallback, useMemo, useState } = React;
-
-function ZapWrapper() {
-  return (
-    <div className={s0.zapWrapper}>
-      <Zap size={16} />
-    </div>
-  );
-}
+const { createElement, useCallback, useMemo } = React;
 
 function ProxyGroupImpl({
   name,
@@ -56,14 +50,15 @@ function ProxyGroupImpl({
     [apiConfig, dispatch, name, isSelectable]
   );
 
-  const [isTestingLatency, setIsTestingLatency] = useState(false);
+  const testingLatency = useState2(false);
   const testLatency = useCallback(async () => {
-    setIsTestingLatency(true);
+    if (testingLatency.value) return;
+    testingLatency.set(true);
     try {
       await requestDelayForProxies(apiConfig, all);
     } catch (err) {}
-    setIsTestingLatency(false);
-  }, [all, apiConfig, requestDelayForProxies]);
+    testingLatency.set(false);
+  }, [all, apiConfig, requestDelayForProxies, testingLatency]);
 
   return (
     <div className={s0.group}>
@@ -75,15 +70,13 @@ function ProxyGroupImpl({
           qty={all.length}
           isOpen={isOpen}
         />
-        <Button
-          className={s0.latencyButton}
-          title="Test latency"
-          kind="minimal"
-          onClick={testLatency}
-          isLoading={isTestingLatency}
-        >
-          <ZapWrapper />
-        </Button>
+        <div className={s0.action}>
+          <Tooltip label={'Test latency'}>
+            <Button kind="circular" onClick={testLatency}>
+              <ZapAnimated animate={testingLatency.value} size={16} />
+            </Button>
+          </Tooltip>
+        </div>
       </div>
       {createElement(isOpen ? ProxyList : ProxyListSummaryView, {
         all,
