@@ -27,39 +27,45 @@ export type ClashGeneralConfig = {
 
 ///// store.proxies
 
-type LatencyHistory = Array<{ time: string; delay: number }>;
-type PrimitiveProxyType = 'Shadowsocks' | 'Snell' | 'Socks5' | 'Http' | 'Vmess';
+type LatencyHistoryItem = { time: string; delay: number };
+export type LatencyHistory = LatencyHistoryItem[];
+
 export type ProxyItem = {
   name: string;
-  type: PrimitiveProxyType;
+  type: string;
   history: LatencyHistory;
   all?: string[];
   now?: string;
+
+  __provider?: string;
 };
+
+export type ProxyDelayItem = {
+  number?: number;
+};
+
 export type ProxiesMapping = Record<string, ProxyItem>;
-export type DelayMapping = Record<string, { number?: number }>;
+export type DelayMapping = Record<string, ProxyDelayItem>;
 
 export type ProxyProvider = {
   name: string;
   type: 'Proxy';
   updatedAt: string;
   vehicleType: 'HTTP' | 'File' | 'Compatible';
-  proxies: Array<ProxyItem>;
+  proxies: ProxyItem[];
 };
 
-export type FormattedProxyProvider = Omit<ProxyProvider, 'proxies'> & {
-  proxies: string[];
-};
+export type FormattedProxyProvider = Omit<ProxyProvider, 'proxies'> & { proxies: string[] };
 
 export type SwitchProxyCtxItem = { groupName: string; itemName: string };
-type SwitchProxyCtx = {
-  to: SwitchProxyCtxItem;
-};
+type SwitchProxyCtx = { to: SwitchProxyCtxItem };
+
 export type StateProxies = {
-  proxies: ProxiesMapping;
-  delay: DelayMapping;
   groupNames: string[];
   proxyProviders?: FormattedProxyProvider[];
+
+  proxies: ProxiesMapping;
+  delay: DelayMapping;
   dangleProxyNames?: string[];
 
   showModalClosePrevConns: boolean;

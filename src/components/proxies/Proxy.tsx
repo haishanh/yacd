@@ -47,7 +47,7 @@ type ProxyProps = {
   name: string;
   now?: boolean;
   proxy: any;
-  latency: any;
+  latency?: { number?: number };
   isSelectable?: boolean;
   onClick?: (proxyName: string) => unknown;
 };
@@ -130,10 +130,10 @@ function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyPr
   const className = useMemo(() => {
     return cx(s0.proxy, {
       [s0.now]: now,
-      [s0.error]: latency && latency.error,
+      // [s0.error]: latency && latency.error,
       [s0.selectable]: isSelectable,
     });
-  }, [isSelectable, now, latency]);
+  }, [isSelectable, now]);
 
   return (
     <div
@@ -161,10 +161,8 @@ function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyPr
 const mapState = (s: State, { name }) => {
   const proxies = getProxies(s);
   const delay = getDelay(s);
-  return {
-    proxy: proxies[name],
-    latency: delay[name],
-  };
+  const proxy = proxies[name] || { name, type: 'Unknown', history: [] };
+  return { proxy, latency: delay[name] };
 };
 
 export const Proxy = connect(mapState)(ProxyImpl);
