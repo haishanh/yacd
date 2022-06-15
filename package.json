@@ -30,6 +30,7 @@
   "dependencies": {
     "@babel/runtime": "7.18.3",
     "@fontsource/roboto-mono": "4.5.7",
+    "@reach/menu-button": "0.17.0",
     "@reach/tooltip": "0.17.0",
     "@reach/visually-hidden": "0.17.0",
     "chart.js": "3.8.0",

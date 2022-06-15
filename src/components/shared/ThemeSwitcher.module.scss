@@ -1,59 +1,58 @@
-.iconWrapper {
+[data-reach-menu-button] {
   --sz: 40px;
 
   width: var(--sz);
   height: var(--sz);
-  display: flex;
+
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
 
+  -webkit-appearance: none;
   outline: none;
-  padding: 5px;
-  color: var(--color-text);
-  border-radius: 100%;
+  user-select: none;
+  cursor: pointer;
+  color: var(--color-btn-fg);
+  background: none;
   border: 1px solid transparent;
-}
-.iconWrapper:hover {
-  opacity: 0.6;
-}
-.iconWrapper:focus {
-  border-color: var(--color-focus-blue);
+  border-radius: 20px;
+
+  &:hover {
+    opacity: 0.6;
+  }
+
+  &:focus {
+    border-color: var(--color-focus-blue);
+  }
 }
 
-.themeSwitchContainer {
-  --sz: 40px;
+[data-reach-menu-list] {
+  background: var(--bg-tooltip);
+  color: var(--color-text);
+  border: 1px solid #555;
+  padding: 4px;
+  border-radius: 8px;
+}
 
-  position: relative;
+[data-reach-menu-item] {
+  padding: 5px 16px 5px 6px;
+  border-radius: 7px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  height: var(--sz);
-  select {
-    cursor: pointer;
-    padding-left: calc(var(--sz) - 2px);
-    font-size: 0;
-    width: var(--sz);
-    height: var(--sz);
-    appearance: none;
-    outline: none;
-    border-radius: 100%;
-    border: 1px solid transparent;
-    background: var(--color-bg-sidebar);
-    &:focus {
-      border-color: var(--color-focus-blue);
-    }
-    option {
-      // this has effect in Firefox
-      // Chrome and Safari use the native menu
-      background: var(--color-bg-sidebar);
-    }
-  }
-  .iconWrapper {
-    pointer-events: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 0;
-    top: 0;
+}
+
+[data-reach-menu-item][data-selected] {
+  background: var(--color-focus-blue);
+  color: #f7f7f7;
+}
+
+.checkWrapper {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 2px;
+  visibility: hidden;
+  &.active {
+    visibility: visible;
   }
 }

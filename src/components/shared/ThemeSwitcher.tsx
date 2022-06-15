@@ -1,5 +1,8 @@
+import { Menu, MenuButton, MenuItem, MenuList } from '@reach/menu-button';
 import Tooltip from '@reach/tooltip';
+import cx from 'clsx';
 import * as React from 'react';
+import { Check } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'src/components/StateProvider';
 import { framerMotionResouce } from 'src/misc/motion';
@@ -8,7 +11,7 @@ import { State } from 'src/store/types';
 
 import s from './ThemeSwitcher.module.scss';
 
-export function ThemeSwitcherImpl({ theme, dispatch }) {
+function ThemeSwitcherImpl({ theme, dispatch }) {
   const { t } = useTranslation();
 
   const themeIcon = React.useMemo(() => {
@@ -25,22 +28,36 @@ export function ThemeSwitcherImpl({ theme, dispatch }) {
     }
   }, [theme]);
 
-  const onChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => dispatch(switchTheme(e.target.value)),
-    [dispatch]
-  );
+  const onSelect = React.useCallback((v: string) => dispatch(switchTheme(v)), [dispatch]);
 
   return (
-    <Tooltip label={t('switch_theme')} aria-label={'switch theme'}>
-      <div className={s.themeSwitchContainer}>
-        <span className={s.iconWrapper}>{themeIcon}</span>
-        <select onChange={onChange}>
-          <option value="auto">Auto</option>
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
-        </select>
-      </div>
-    </Tooltip>
+    <Menu>
+      <Tooltip label={t('switch_theme')} aria-label={'switch theme'}>
+        <MenuButton>{themeIcon}</MenuButton>
+      </Tooltip>
+      <MenuList>
+        <ThemeMenuItem value="auto" label="Auto" active={theme === 'auto'} onSelect={onSelect} />
+        <ThemeMenuItem value="dark" label="Dark" active={theme === 'dark'} onSelect={onSelect} />
+        <ThemeMenuItem value="light" label="Light" active={theme === 'light'} onSelect={onSelect} />
+      </MenuList>
+    </Menu>
+  );
+}
+
+function ThemeMenuItem(props: {
+  value: string;
+  label: string;
+  active: boolean;
+  onSelect: (s: string) => void;
+}) {
+  const cls = cx(s.checkWrapper, { [s.active]: props.active });
+  return (
+    <MenuItem onSelect={() => props.onSelect(props.value)}>
+      <span className={cls}>
+        <Check size={14} />
+      </span>
+      <span>{props.label}</span>
+    </MenuItem>
   );
 }
 
