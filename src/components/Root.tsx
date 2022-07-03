@@ -3,8 +3,8 @@ import '@fontsource/roboto-mono/latin-400.css';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-800.css';
 
+import { QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
-import { QueryClientProvider } from 'react-query';
 import { RouteObject } from 'react-router';
 import { HashRouter as Router, useRoutes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';

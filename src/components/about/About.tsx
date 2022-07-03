@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
 import * as React from 'react';
 import { GitHub } from 'react-feather';
-import { useQuery } from 'react-query';
 import { fetchVersion } from 'src/api/version';
 import ContentHeader from 'src/components/ContentHeader';
 import { connect } from 'src/components/StateProvider';
