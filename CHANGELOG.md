@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.6](https://github.com/haishanh/yacd/compare/v0.3.5...v0.3.6) (2022-07-23)
+
+Changed:
+
+- Make proxy item card same width
+- Always show update and health check buttons for providers
+
+Fixed:
+
+- Encode latency test url
+- Encode proxy or group name when they are parts of API url
+
 ## [0.3.5](https://github.com/haishanh/yacd/compare/v0.3.4...v0.3.5) (2022-05-14)
 
 Added:
