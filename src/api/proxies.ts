@@ -61,11 +61,11 @@ export async function fetchProviderProxies(config: ClashAPIConfig) {
 export async function updateProviderByName(config: ClashAPIConfig, name: string) {
   const { url, init } = getURLAndInit(config);
   const options = { ...init, method: 'PUT' };
-  return await fetch(url + '/providers/proxies/' + name, options);
+  return await fetch(url + '/providers/proxies/' + encodeURIComponent(name), options);
 }
 
 export async function healthcheckProviderByName(config: ClashAPIConfig, name: string) {
   const { url, init } = getURLAndInit(config);
   const options = { ...init, method: 'GET' };
-  return await fetch(url + '/providers/proxies/' + name + '/healthcheck', options);
+  return await fetch(url + '/providers/proxies/' + encodeURIComponent(name) + '/healthcheck', options);
 }
