@@ -36,7 +36,7 @@ docker run -p 1234:80 -d --name yacd --rm ghcr.io/haishanh/yacd:master
 pnpm i
 
 # start the dev server
-# then go to http://127.0.0.1:3000
+# then go to the url printed on the screen
 pnpm start
 
 
