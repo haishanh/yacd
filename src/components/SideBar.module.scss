@@ -1,7 +1,10 @@
 .root {
-  background: var(--color-bg-sidebar);
-  min-width: 150px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 }
 
 .logoPlaceholder {
@@ -12,6 +15,7 @@
 }
 
 .rows {
+  flex: 1;
   @media (max-width: 768px) {
     display: flex;
     justify-content: space-between;
@@ -23,12 +27,17 @@
 .row {
   color: var(--color-text);
   text-decoration: none;
+  border-radius: 1000px;
 
   display: flex;
   align-items: center;
   padding: 6px 16px;
   @media (--breakpoint-not-small) {
     padding: 8px 20px;
+  }
+
+  @media (max-width: 768px) {
+    border-radius: 0;
   }
 
   @media (max-width: 768px) {
@@ -48,11 +57,13 @@
 }
 
 .rowActive {
-  background: var(--color-sb-active-row-bg);
+  --bg: hsla(217deg, 83%, 57%, 0.2);
+  --fg: hsl(217deg 83% 57%);
+  color: var(--fg);
+  background: var(--bg);
 
   @media (max-width: 768px) {
     background: none;
-    border-bottom: 2px solid #387cec;
   }
 }
 
@@ -70,10 +81,9 @@
 }
 
 .footer {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media (max-width: 768px) {
