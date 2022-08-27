@@ -5,7 +5,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   install:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
@@ -88,7 +88,7 @@ jobs:
 
   docker:
     needs: install
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.event_name == 'push' && (startsWith(github.event.ref, 'refs/tags/') || startsWith(github.event.ref, 'refs/heads/v0.') || github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/test')
     steps:
       - uses: actions/checkout@v3
