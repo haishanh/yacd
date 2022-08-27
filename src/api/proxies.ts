@@ -67,5 +67,8 @@ export async function updateProviderByName(config: ClashAPIConfig, name: string)
 export async function healthcheckProviderByName(config: ClashAPIConfig, name: string) {
   const { url, init } = getURLAndInit(config);
   const options = { ...init, method: 'GET' };
-  return await fetch(url + '/providers/proxies/' + encodeURIComponent(name) + '/healthcheck', options);
+  return await fetch(
+    url + '/providers/proxies/' + encodeURIComponent(name) + '/healthcheck',
+    options
+  );
 }

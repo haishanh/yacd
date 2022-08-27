@@ -1,7 +1,4 @@
 import './Root.scss';
-import '@fontsource/roboto-mono/latin-400.css';
-import '@fontsource/inter/latin-400.css';
-import '@fontsource/inter/latin-800.css';
 
 import { QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
