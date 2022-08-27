@@ -95,6 +95,45 @@ export function updateClashAPIConfig({ baseURL, secret }) {
 const rootEl = document.querySelector('html');
 type ThemeType = 'dark' | 'light' | 'auto';
 
+function insertThemeColorMeta(color: string, media?: string) {
+  const meta0 = document.createElement('meta');
+  meta0.setAttribute('name', 'theme-color');
+  meta0.setAttribute('content', color);
+  if (media) meta0.setAttribute('media', media);
+  document.head.appendChild(meta0);
+}
+
+function updateMetaThemeColor(theme: ThemeType) {
+  const metas = Array.from(
+    document.querySelectorAll('meta[name=theme-color]')
+  ) as HTMLMetaElement[];
+  let meta0: HTMLMetaElement;
+  for (const m of metas) {
+    if (!m.getAttribute('media')) {
+      meta0 = m;
+    } else {
+      document.head.removeChild(m);
+    }
+  }
+
+  if (theme === 'auto') {
+    insertThemeColorMeta('#eeeeee', '(prefers-color-scheme: light)');
+    insertThemeColorMeta('#202020', '(prefers-color-scheme: dark)');
+    if (meta0) {
+      document.head.removeChild(meta0);
+    } else {
+      return;
+    }
+  } else {
+    const color = theme === 'light' ? '#eeeeee' : '#202020';
+    if (!meta0) {
+      insertThemeColorMeta(color);
+    } else {
+      meta0.setAttribute('content', color);
+    }
+  }
+}
+
 function setTheme(theme: ThemeType = 'dark') {
   if (theme === 'auto') {
     rootEl.setAttribute('data-theme', 'auto');
@@ -103,6 +142,7 @@ function setTheme(theme: ThemeType = 'dark') {
   } else {
     rootEl.setAttribute('data-theme', 'light');
   }
+  updateMetaThemeColor(theme);
 }
 
 export function switchTheme(nextTheme = 'auto') {
