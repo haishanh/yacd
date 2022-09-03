@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import s0 from './Input.module.scss';
 
@@ -27,7 +27,10 @@ export function SelfControlledInput({ value, ...restProps }) {
     }
     refValue.current = value;
   }, [value]);
-  const onChange = useCallback((e) => setInternalValue(e.target.value), [setInternalValue]);
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setInternalValue(e.target.value),
+    [setInternalValue]
+  );
 
   return <input className={s0.input} value={internalValue} onChange={onChange} {...restProps} />;
 }
