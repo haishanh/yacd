@@ -5,12 +5,14 @@ import { useToggle } from 'src/hooks/basic';
 import { getClashAPIConfigs, getSelectedClashAPIConfigIndex } from 'src/store/app';
 import { ClashAPIConfig } from 'src/types';
 
+import { State } from '$src/store/types';
+
 import s from './BackendList.module.scss';
 import { connect, useStoreActions } from './StateProvider';
 
 type Config = ClashAPIConfig & { addedAt: number };
 
-const mapState = (s) => ({
+const mapState = (s: State) => ({
   apiConfigs: getClashAPIConfigs(s),
   selectedClashAPIConfigIndex: getSelectedClashAPIConfigIndex(s),
 });
@@ -47,16 +49,12 @@ function BackendListImpl({
         {apiConfigs.map((item, idx) => {
           return (
             <li
-              className={cx(s.li, {
-                [s.hasSecret]: item.secret,
-                [s.isSelected]: idx === selectedClashAPIConfigIndex,
-              })}
-              key={item.baseURL + item.secret}
+              className={cx(s.li, { [s.isSelected]: idx === selectedClashAPIConfigIndex })}
+              key={item.baseURL + item.secret + item.metaLabel}
             >
               <Item
                 disableRemove={idx === selectedClashAPIConfigIndex}
-                baseURL={item.baseURL}
-                secret={item.secret}
+                conf={item}
                 onRemove={onRemove}
                 onSelect={onSelect}
               />
@@ -69,14 +67,12 @@ function BackendListImpl({
 }
 
 function Item({
-  baseURL,
-  secret,
+  conf,
   disableRemove,
   onRemove,
   onSelect,
 }: {
-  baseURL: string;
-  secret: string;
+  conf: ClashAPIConfig;
   disableRemove: boolean;
   onRemove: (x: ClashAPIConfig) => void;
   onSelect: (x: ClashAPIConfig) => void;
@@ -90,31 +86,44 @@ function Item({
 
   return (
     <>
-      <Button
-        disabled={disableRemove}
-        onClick={() => onRemove({ baseURL, secret })}
-        className={s.close}
-      >
+      <Button disabled={disableRemove} onClick={() => onRemove(conf)} className={s.close}>
         <Close size={20} />
       </Button>
-      <span
-        className={s.url}
-        tabIndex={0}
-        role="button"
-        onClick={() => onSelect({ baseURL, secret })}
-        onKeyUp={handleTap}
-      >
-        {baseURL}
-      </span>
-      <span />
-      {secret ? (
-        <>
-          <span className={s.secret}>{show ? secret : '***'}</span>
-          <Button onClick={toggle} className={s.eye}>
-            <Icon size={20} />
-          </Button>
-        </>
-      ) : null}
+
+      <div className={s.right}>
+        {conf.metaLabel ? (
+          <>
+            <span
+              className={s.metaLabel}
+              tabIndex={0}
+              role="button"
+              onClick={() => onSelect(conf)}
+              onKeyUp={handleTap}
+            >
+              {conf.metaLabel}
+            </span>
+            <span />
+          </>
+        ) : null}
+        <span
+          className={s.url}
+          tabIndex={0}
+          role="button"
+          onClick={() => onSelect(conf)}
+          onKeyUp={handleTap}
+        >
+          {conf.baseURL}
+        </span>
+        <span />
+        {conf.secret ? (
+          <>
+            <span className={s.secret}>{show ? conf.secret : '***'}</span>
+            <Button onClick={toggle} className={s.eye}>
+              <Icon size={16} />
+            </Button>
+          </>
+        ) : null}
+      </div>
     </>
   );
 }

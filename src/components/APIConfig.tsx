@@ -14,6 +14,9 @@ import SvgYacd from './SvgYacd';
 const { useState, useRef, useCallback, useEffect } = React;
 const Ok = 0;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
+
 const mapState = (s: State) => ({
   apiConfig: getClashAPIConfig(s),
 });
@@ -21,12 +24,13 @@ const mapState = (s: State) => ({
 function APIConfig({ dispatch }) {
   const [baseURL, setBaseURL] = useState('');
   const [secret, setSecret] = useState('');
+  const [metaLabel, setMetaLabel] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
   const userTouchedFlagRef = useRef(false);
   const contentEl = useRef(null);
 
-  const handleInputOnChange = useCallback((e) => {
+  const handleInputOnChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((e) => {
     userTouchedFlagRef.current = true;
     setErrMsg('');
     const target = e.target;
@@ -39,6 +43,9 @@ function APIConfig({ dispatch }) {
       case 'secret':
         setSecret(value);
         break;
+      case 'metaLabel':
+        setMetaLabel(value);
+        break;
       default:
         throw new Error(`unknown input name ${name}`);
     }
@@ -49,10 +56,10 @@ function APIConfig({ dispatch }) {
       if (ret[0] !== Ok) {
         setErrMsg(ret[1]);
       } else {
-        dispatch(addClashAPIConfig({ baseURL, secret }));
+        dispatch(addClashAPIConfig({ baseURL, secret, metaLabel }));
       }
     });
-  }, [baseURL, secret, dispatch]);
+  }, [baseURL, secret, metaLabel, dispatch]);
 
   const handleContentOnKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -76,7 +83,7 @@ function APIConfig({ dispatch }) {
       if (data['hello'] === 'clash') {
         setBaseURL(window.location.origin);
       }
-    });
+    }, noop);
   };
   useEffect(() => {
     detectApiServer();
@@ -110,8 +117,19 @@ function APIConfig({ dispatch }) {
             onChange={handleInputOnChange}
           />
         </div>
+        {errMsg ? <div className={s0.error}>{errMsg}</div> : null}
+        <div className={s0.label}>
+          <Field
+            id="metaLabel"
+            name="metaLabel"
+            label="Label(optional)"
+            type="text"
+            placeholder=""
+            value={metaLabel}
+            onChange={handleInputOnChange}
+          />
+        </div>
       </div>
-      <div className={s0.error}>{errMsg ? errMsg : null}</div>
       <div className={s0.footer}>
         <Button label="Add" onClick={onConfirm} />
       </div>

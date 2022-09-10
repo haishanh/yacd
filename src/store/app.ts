@@ -1,5 +1,7 @@
 import { DispatchFn, GetStateFn, State, StateApp } from 'src/store/types';
 
+import { ClashAPIConfig } from '$src/types';
+
 import { loadState, saveState } from '../misc/storage';
 import { debounce, trimTrailingSlash } from '../misc/utils';
 import { fetchConfigs } from './configs';
@@ -22,21 +24,24 @@ export const getLogStreamingPaused = (s: State) => s.app.logStreamingPaused;
 
 const saveStateDebounced = debounce(saveState, 600);
 
-function findClashAPIConfigIndex(getState: GetStateFn, { baseURL, secret }) {
+function findClashAPIConfigIndex(
+  getState: GetStateFn,
+  { baseURL, secret, metaLabel }: ClashAPIConfig
+) {
   const arr = getClashAPIConfigs(getState());
   for (let i = 0; i < arr.length; i++) {
     const x = arr[i];
-    if (x.baseURL === baseURL && x.secret === secret) return i;
+    if (x.baseURL === baseURL && x.secret === secret && x.metaLabel === metaLabel) return i;
   }
 }
 
-export function addClashAPIConfig({ baseURL, secret }) {
+export function addClashAPIConfig(conf: ClashAPIConfig) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const idx = findClashAPIConfigIndex(getState, { baseURL, secret });
+    const idx = findClashAPIConfigIndex(getState, conf);
     // already exists
     if (idx) return;
 
-    const clashAPIConfig = { baseURL, secret, addedAt: Date.now() };
+    const clashAPIConfig = { ...conf, addedAt: Date.now() };
     dispatch('addClashAPIConfig', (s) => {
       s.app.clashAPIConfigs.push(clashAPIConfig);
     });
@@ -45,9 +50,9 @@ export function addClashAPIConfig({ baseURL, secret }) {
   };
 }
 
-export function removeClashAPIConfig({ baseURL, secret }) {
+export function removeClashAPIConfig(conf: ClashAPIConfig) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const idx = findClashAPIConfigIndex(getState, { baseURL, secret });
+    const idx = findClashAPIConfigIndex(getState, conf);
     dispatch('removeClashAPIConfig', (s) => {
       s.app.clashAPIConfigs.splice(idx, 1);
     });
@@ -56,9 +61,9 @@ export function removeClashAPIConfig({ baseURL, secret }) {
   };
 }
 
-export function selectClashAPIConfig({ baseURL, secret }) {
+export function selectClashAPIConfig(conf: ClashAPIConfig) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const idx = findClashAPIConfigIndex(getState, { baseURL, secret });
+    const idx = findClashAPIConfigIndex(getState, conf);
     const curr = getSelectedClashAPIConfigIndex(getState());
     if (curr !== idx) {
       dispatch('selectClashAPIConfig', (s) => {
@@ -79,9 +84,9 @@ export function selectClashAPIConfig({ baseURL, secret }) {
 }
 
 // unused
-export function updateClashAPIConfig({ baseURL, secret }) {
+export function updateClashAPIConfig(conf: ClashAPIConfig) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const clashAPIConfig = { baseURL, secret };
+    const clashAPIConfig = conf;
     dispatch('appUpdateClashAPIConfig', (s) => {
       s.app.clashAPIConfigs[0] = clashAPIConfig;
     });

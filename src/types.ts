@@ -1,6 +1,9 @@
 export type ClashAPIConfig = {
   baseURL: string;
   secret?: string;
+
+  // metadata
+  metaLabel?: string;
 };
 
 export type LogsAPIConfig = ClashAPIConfig & { logLevel: string };
