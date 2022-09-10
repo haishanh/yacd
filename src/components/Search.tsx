@@ -7,7 +7,7 @@ import s0 from './Search.module.scss';
 function RuleSearch({ dispatch, searchText, updateSearchText }) {
   const [text, setText] = useState(searchText);
   const updateSearchTextInternal = useCallback(
-    (v) => {
+    (v: string) => {
       dispatch(updateSearchText(v));
     },
     [dispatch, updateSearchText]
@@ -16,7 +16,7 @@ function RuleSearch({ dispatch, searchText, updateSearchText }) {
     () => debounce(updateSearchTextInternal, 300),
     [updateSearchTextInternal]
   );
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
     updateSearchTextDebounced(e.target.value);
   };
