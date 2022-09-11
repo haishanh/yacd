@@ -47,7 +47,6 @@ specifiers:
   postcss-import: 15.0.0
   postcss-simple-vars: ^7.0.0
   prettier: 2.7.1
-  prop-types: 15.8.1
   react: 18.2.0
   react-dom: 18.2.0
   react-feather: ^2.0.10
@@ -98,7 +97,6 @@ dependencies:
   lodash-es: 4.17.21
   memoize-one: 6.0.0
   modern-normalize: 1.1.0
-  prop-types: 15.8.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-feather: 2.0.10_react@18.2.0
