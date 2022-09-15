@@ -74,6 +74,7 @@ jobs:
           git init
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@noreply.github.com"
+          touch .nojekyll
           git add .
           git status
           git commit -m "Push to gh-pages"
