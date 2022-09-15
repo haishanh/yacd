@@ -70,6 +70,7 @@
 .label {
   padding-left: 14px;
   font-size: 0.75em;
+  white-space: nowrap;
   @media (max-width: 768px) {
     padding-left: 0;
     padding-top: 5px;
