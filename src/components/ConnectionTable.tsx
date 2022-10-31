@@ -12,6 +12,7 @@ const sortDescFirst = true;
 const columns = [
   { accessor: 'id', show: false },
   { Header: 'Host', accessor: 'host' },
+  { Header: 'Process', accessor: 'process' },
   { Header: 'DL', accessor: 'download', sortDescFirst },
   { Header: 'UL', accessor: 'upload', sortDescFirst },
   { Header: 'DL Speed', accessor: 'downloadSpeedCurr', sortDescFirst },
@@ -85,7 +86,7 @@ function Table({ data }) {
                     className={cx(
                       s.td,
                       i % 2 === 0 ? s.odd : false,
-                      j >= 1 && j <= 4 ? s.du : false
+                      j >= 2 && j <= 5 ? s.du : false
                     )}
                   >
                     {renderCell(cell)}

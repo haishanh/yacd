@@ -31,6 +31,10 @@ function arrayToIdKv<T extends { id: string }>(items: T[]) {
   return o;
 }
 
+function basePath (path: string) {
+  return path.replace(/.*[/\\]/, '')
+}
+
 type FormattedConn = {
   id: string;
   upload: number;
@@ -46,6 +50,7 @@ type FormattedConn = {
   host: string;
   type: string;
   network: string;
+  processPath: string;
   downloadSpeedCurr?: number;
   uploadSpeedCurr?: number;
 };
@@ -67,6 +72,7 @@ function filterConns(conns: FormattedConn[], keyword: string) {
           conn.rule,
           conn.type,
           conn.network,
+          conn.processPath,
         ].some((field) => hasSubstring(field, keyword))
       );
 }
@@ -77,7 +83,7 @@ function formatConnectionDataItem(
   now: number
 ): FormattedConn {
   const { id, metadata, upload, download, start, chains, rule, rulePayload } = i;
-  const { host, destinationPort, destinationIP, network, type, sourceIP, sourcePort } = metadata;
+  const { host, destinationPort, destinationIP, network, type, sourceIP, sourcePort, processPath } = metadata;
   // host could be an empty string if it's direct IP connection
   let host2 = host;
   if (host2 === '') host2 = destinationIP;
@@ -95,6 +101,7 @@ function formatConnectionDataItem(
     source: `${sourceIP}:${sourcePort}`,
     downloadSpeedCurr: download - (prev ? prev.download : 0),
     uploadSpeedCurr: upload - (prev ? prev.upload : 0),
+    process: basePath(processPath),
   };
   return ret;
 }
