@@ -21,6 +21,7 @@ export type ConnectionItem = {
     sourcePort: string;
     destinationPort: string;
     host: string;
+    processPath: string;
   };
   upload: number;
   download: number;
