@@ -1,4 +1,4 @@
-import Tooltip from '@reach/tooltip';
+import { Tooltip } from '@reach/tooltip';
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
 import { RotateCw } from 'react-feather';

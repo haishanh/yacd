@@ -1,4 +1,4 @@
-import Tooltip from '@reach/tooltip';
+import { Tooltip } from '@reach/tooltip';
 import * as React from 'react';
 
 import { useState2 } from '$src/hooks/basic';

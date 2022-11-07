@@ -1,4 +1,4 @@
-import Tooltip from '@reach/tooltip';
+import { Tooltip } from '@reach/tooltip';
 import cx from 'clsx';
 import * as React from 'react';
 import { Info } from 'react-feather';

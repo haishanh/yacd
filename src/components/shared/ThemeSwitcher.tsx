@@ -1,5 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuList } from '@reach/menu-button';
-import Tooltip from '@reach/tooltip';
+import { Tooltip } from '@reach/tooltip';
 import cx from 'clsx';
 import * as React from 'react';
 import { Check } from 'react-feather';

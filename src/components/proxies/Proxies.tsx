@@ -1,4 +1,4 @@
-import Tooltip from '@reach/tooltip';
+import { Tooltip } from '@reach/tooltip';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'src/components/Button';
