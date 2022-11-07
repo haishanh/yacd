@@ -1,6 +1,6 @@
 {
   "name": "yacd",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Yet another Clash dashboard",
   "prettier": {
     "printWidth": 100,
