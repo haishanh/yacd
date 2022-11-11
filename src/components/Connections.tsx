@@ -32,7 +32,7 @@ function arrayToIdKv<T extends { id: string }>(items: T[]) {
 }
 
 function basePath (path: string) {
-  return path.replace(/.*[/\\]/, '')
+  return path ? path.replace(/.*[/\\]/, '') : path;
 }
 
 type FormattedConn = {
