@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.8](https://github.com/haishanh/yacd/compare/v0.3.7...v0.3.8) (2022-11-11)
+
+Fixed:
+
+- Compatible with backend that doesn't support processPath
+
 ## [0.3.7](https://github.com/haishanh/yacd/compare/v0.3.6...v0.3.7) (2022-11-07)
 
 Added:
