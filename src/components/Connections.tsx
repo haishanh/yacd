@@ -63,18 +63,18 @@ function filterConns(conns: FormattedConn[], keyword: string) {
   return !keyword
     ? conns
     : conns.filter((conn) =>
-      [
-        conn.host,
-        conn.sourceIP,
-        conn.sourcePort,
-        conn.destinationIP,
-        conn.chains,
-        conn.rule,
-        conn.type,
-        conn.network,
-        conn.processPath,
-      ].some((field) => hasSubstring(field, keyword))
-    );
+        [
+          conn.host,
+          conn.sourceIP,
+          conn.sourcePort,
+          conn.destinationIP,
+          conn.chains,
+          conn.rule,
+          conn.type,
+          conn.network,
+          conn.processPath,
+        ].some((field) => hasSubstring(field, keyword))
+      );
 }
 
 function formatConnectionDataItem(
@@ -83,7 +83,8 @@ function formatConnectionDataItem(
   now: number
 ): FormattedConn {
   const { id, metadata, upload, download, start, chains, rule, rulePayload } = i;
-  const { host, destinationPort, destinationIP, network, type, sourceIP, sourcePort, processPath } = metadata;
+  const { host, destinationPort, destinationIP, network, type, sourceIP, sourcePort, processPath } =
+    metadata;
   // host could be an empty string if it's direct IP connection
   let host2 = host;
   if (host2 === '') host2 = destinationIP;
