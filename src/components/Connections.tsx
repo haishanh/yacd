@@ -17,6 +17,7 @@ import ModalCloseAllConnections from './ModalCloseAllConnections';
 import { Action, Fab, position as fabPosition } from './shared/Fab';
 import { connect } from './StateProvider';
 import SvgYacd from './SvgYacd';
+import { MutableConnRefCtx } from './conns/ConnCtx';
 
 const { useEffect, useState, useRef, useCallback } = React;
 
@@ -31,8 +32,8 @@ function arrayToIdKv<T extends { id: string }>(items: T[]) {
   return o;
 }
 
-function basePath (path: string) {
-  return path.replace(/.*[/\\]/, '')
+function basePath(path: string) {
+  return path?.replace(/.*[/\\]/, '');
 }
 
 type FormattedConn = {
@@ -50,7 +51,7 @@ type FormattedConn = {
   host: string;
   type: string;
   network: string;
-  processPath: string;
+  processPath?: string;
   downloadSpeedCurr?: number;
   uploadSpeedCurr?: number;
 };
@@ -80,10 +81,16 @@ function filterConns(conns: FormattedConn[], keyword: string) {
 function formatConnectionDataItem(
   i: ConnectionItem,
   prevKv: Record<string, { upload: number; download: number }>,
-  now: number
+  now: number,
+  mutConnCtxRef: { hasProcessPath: boolean }
 ): FormattedConn {
   const { id, metadata, upload, download, start, chains, rule, rulePayload } = i;
-  const { host, destinationPort, destinationIP, network, type, sourceIP, sourcePort, processPath } = metadata;
+  const { host, destinationPort, destinationIP, network, type, sourceIP, sourcePort } = metadata;
+  const processPath = metadata.processPath;
+  if (mutConnCtxRef.hasProcessPath === false && typeof processPath !== 'undefined') {
+    mutConnCtxRef.hasProcessPath = true;
+  }
+
   // host could be an empty string if it's direct IP connection
   let host2 = host;
   if (host2 === '') host2 = destinationIP;
@@ -139,12 +146,13 @@ function Conn({ apiConfig }) {
     closeCloseAllModal();
   }, [apiConfig, closeCloseAllModal]);
   const prevConnsRef = useRef(conns);
+  const connCtx = React.useContext(MutableConnRefCtx);
   const read = useCallback(
     ({ connections }) => {
       const prevConnsKv = arrayToIdKv(prevConnsRef.current);
       const now = Date.now();
       const x = connections.map((c: ConnectionItem) =>
-        formatConnectionDataItem(c, prevConnsKv, now)
+        formatConnectionDataItem(c, prevConnsKv, now, connCtx)
       );
       const closed = [];
       for (const c of prevConnsRef.current) {

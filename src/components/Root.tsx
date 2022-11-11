@@ -13,6 +13,7 @@ import { queryClient } from 'src/misc/query';
 import { actions, initialState } from '../store';
 import APIConfig from './APIConfig';
 import APIDiscovery from './APIDiscovery';
+import { MutableConnRefCtx } from './conns/ConnCtx';
 import ErrorBoundary from './ErrorBoundary';
 import Home from './Home';
 import Loading2 from './Loading2';
@@ -31,7 +32,14 @@ const Rules = lazy(() => import('./Rules'));
 
 const routes = [
   { path: '/', element: <Home /> },
-  { path: '/connections', element: <Connections /> },
+  {
+    path: '/connections',
+    element: (
+      <MutableConnRefCtx.Provider value={{ hasProcessPath: false }}>
+        <Connections />
+      </MutableConnRefCtx.Provider>
+    ),
+  },
   { path: '/configs', element: <Config /> },
   { path: '/logs', element: <Logs /> },
   { path: '/proxies', element: <Proxies /> },
