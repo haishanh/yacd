@@ -27,7 +27,7 @@ export const data = {
   Connections: 'Connections',
   current_backend: 'Current Backend',
   Active: 'Active',
-  switch_backend: 'Switch backend"',
+  switch_backend: 'Switch backend',
   Closed: 'Closed',
   switch_theme: 'Switch theme',
   theme: 'theme',

@@ -266,13 +266,14 @@ function ConfigImpl({
         </div>
 
         <div>
-          <div className={s0.label}>{t('current_backend')}
+          <div className={s0.label}>
+            {t('current_backend')}
             <p>{apiConfig.baseURL}</p>
           </div>
           <div className={s0.label}>Action</div>
           <Button
             start={<LogOut size={16} />}
-            label={t("switch_backend")}
+            label={t('switch_backend')}
             onClick={openAPIConfigModal}
           />
         </div>

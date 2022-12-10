@@ -12,12 +12,12 @@ import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';
 import s from './Connections.module.scss';
 import ConnectionTable from './ConnectionTable';
+import { MutableConnRefCtx } from './conns/ConnCtx';
 import ContentHeader from './ContentHeader';
 import ModalCloseAllConnections from './ModalCloseAllConnections';
 import { Action, Fab, position as fabPosition } from './shared/Fab';
 import { connect } from './StateProvider';
 import SvgYacd from './SvgYacd';
-import { MutableConnRefCtx } from './conns/ConnCtx';
 
 const { useEffect, useState, useRef, useCallback } = React;
 
@@ -138,9 +138,7 @@ function Conn({ apiConfig }) {
   const openCloseAllModal = useCallback(() => setIsCloseAllModalOpen(true), []);
   const closeCloseAllModal = useCallback(() => setIsCloseAllModalOpen(false), []);
   const [isRefreshPaused, setIsRefreshPaused] = useState(false);
-  const toggleIsRefreshPaused = useCallback(() => {
-    setIsRefreshPaused((x) => !x);
-  }, []);
+  const toggleIsRefreshPaused = useCallback(() => setIsRefreshPaused((x) => !x), []);
   const closeAllConnections = useCallback(() => {
     connAPI.closeAllConnections(apiConfig);
     closeCloseAllModal();
@@ -172,7 +170,7 @@ function Conn({ apiConfig }) {
         prevConnsRef.current = x;
       }
     },
-    [setConns, isRefreshPaused]
+    [setConns, isRefreshPaused, connCtx]
   );
   useEffect(() => {
     return connAPI.fetchData(apiConfig, read);
