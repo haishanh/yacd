@@ -1,7 +1,7 @@
 h2.sectionNameType {
   margin: 0;
   font-size: 1.3em;
-  @media (--breakpoint-not-small) {
+  @media screen and (min-width: 30em) {
     font-size: 1.5em;
   }
 

@@ -8,14 +8,14 @@
    * we need to apply some right padding to this container then
    */
   padding-right: 15px;
-  @media (--breakpoint-not-small) {
+  @media screen and (min-width: 30em) {
     padding-right: 40px;
   }
 }
 
 .RuleProviderItemWrapper {
   padding: 6px 15px;
-  @media (--breakpoint-not-small) {
+  @media screen and (min-width: 30em) {
     padding: 10px 40px;
   }
 }

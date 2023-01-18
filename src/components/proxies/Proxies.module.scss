@@ -30,7 +30,7 @@
 
 .group {
   padding: 10px 15px;
-  @media (--breakpoint-not-small) {
+  @media screen and (min-width: 30em) {
     padding: 10px 40px;
   }
 }

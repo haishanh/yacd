@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   padding: 6px 15px;
-  @media (--breakpoint-not-small) {
+  @media screen and (min-width: 30em) {
     padding: 10px 40px;
   }
 }
@@ -25,7 +25,7 @@
   padding: 10px 0;
   font-family: 'Roboto Mono', Menlo, monospace;
   font-size: 16px;
-  @media (--breakpoint-not-small) {
+  @media screen and (min-width: 30em) {
     font-size: 19px;
   }
 }

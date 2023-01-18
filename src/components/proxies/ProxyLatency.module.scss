@@ -2,7 +2,7 @@
   border-radius: 20px;
   color: #eee;
   font-size: 0.6em;
-  @media (--breakpoint-not-small) {
+  @media screen and (min-width: 30em) {
     font-size: 0.85em;
   }
 }
