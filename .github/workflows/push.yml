@@ -33,6 +33,10 @@ jobs:
 
       - name: Lint
         run: pnpm lint
+      - name: Set git commit sha
+        id: revparse
+        run: |
+          echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       - name: Build
         run: pnpm build
 
@@ -93,6 +97,10 @@ jobs:
     if: github.event_name == 'push' && (startsWith(github.event.ref, 'refs/tags/') || startsWith(github.event.ref, 'refs/heads/v0.') || github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/test')
     steps:
       - uses: actions/checkout@v3
+      - name: Set git commit sha
+        id: revparse
+        run: |
+          echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Cache Docker layers
         uses: actions/cache@v3
@@ -147,6 +155,8 @@ jobs:
           labels: ${{ steps.docker_meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha
+          build-args: |
+            COMMIT_HASH=${{ env.COMMIT_HASH }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

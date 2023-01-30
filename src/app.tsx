@@ -50,3 +50,7 @@ swRegistration.register();
 console.log('Checkout the repo: https://github.com/haishanh/yacd');
 // eslint-disable-next-line
 console.log('Version:', __VERSION__);
+if (__COMMIT_HASH__) {
+  // eslint-disable-next-line
+  console.log('Commit hash:', __COMMIT_HASH__);
+}
