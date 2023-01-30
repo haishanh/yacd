@@ -14,13 +14,14 @@ export default defineConfig(async ({ mode }) => {
     } catch (e) { }
   }
   if (!hash) hash = '';
+  console.log('commit hash', hash);
 
   return {
     define: {
       __VERSION__: JSON.stringify(pkg.version),
       __COMMIT_HASH__: JSON.stringify(hash),
       'process.env.NODE_ENV': JSON.stringify(mode),
-      'process.env.PUBLIC_URL': JSON.stringify('./'),
+      'process.env.PUBLIC_URL': JSON.stringify(''),
     },
     base: './',
     resolve: {
