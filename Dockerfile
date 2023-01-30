@@ -1,3 +1,5 @@
+ARG COMMIT_SHA=""
+
 FROM --platform=$BUILDPLATFORM node:alpine AS builder
 WORKDIR /app
 
