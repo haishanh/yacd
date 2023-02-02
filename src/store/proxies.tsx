@@ -270,12 +270,13 @@ function requestDelayForProxyOnce(apiConfig: ClashAPIConfig, name: string) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const latencyTestUrl = getLatencyTestUrl(getState());
     const res = await proxiesAPI.requestDelayForProxy(apiConfig, name, latencyTestUrl);
-    let error = '';
+    
     if (res.ok === false) {
-      error = res.statusText;
+      var delay: any = res.statusText;
+    } else {
+      var { delay } = await res.json();
     }
-    const { delay } = await res.json();
-    const delayNext = { ...getDelay(getState()), [name]: { error, number: delay } };
+    const delayNext = { ...getDelay(getState()), [name]: { number: delay } };
 
     dispatch('requestDelayForProxyOnce', (s) => {
       s.proxies.delay = delayNext;
@@ -291,33 +292,19 @@ export function requestDelayForProxy(apiConfig: ClashAPIConfig, name: string) {
 
 export function requestDelayForProxies(apiConfig: ClashAPIConfig, names: string[]) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const proxies = getProxies(getState());
-    const latencyTestUrl = getLatencyTestUrl(getState());
 
-    const proxyDedupMap = new Map<string, boolean>();
-    const providerDedupMap = new Map<string, boolean>();
+    let delayClear = getDelay(getState())
 
-    const works = names.map((name) => {
-      const p = proxies[name];
-      if (!p.__provider) {
-        if (proxyDedupMap.get(name)) {
-          return undefined;
-        } else {
-          proxyDedupMap.set(name, true);
-          return proxiesAPI.requestDelayForProxy(apiConfig, name, latencyTestUrl);
-        }
-      } else if (p.__provider) {
-        // this one is from a proxy provider
-        if (providerDedupMap.get(p.__provider)) {
-          return undefined;
-        } else {
-          providerDedupMap.set(p.__provider, true);
-          return healthcheckProviderByNameInternal(apiConfig, p.__provider);
-        }
-      } else {
-        return undefined;
-      }
+    for (var name of names) {
+      delayClear[name] = { number: "- ms" }
+    }
+
+    dispatch('clearDelayBeforeTest', (s) => {
+      s.proxies.delay = delayClear;
     });
+
+    const works = names.map((name) => requestDelayForProxy(apiConfig, name)(dispatch))
+    
     await Promise.all(works);
     await dispatch(fetchProxies(apiConfig));
   };
