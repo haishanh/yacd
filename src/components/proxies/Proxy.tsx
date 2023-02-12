@@ -2,10 +2,10 @@ import { TooltipPopup, useTooltip } from '@reach/tooltip';
 import cx from 'clsx';
 import * as React from 'react';
 
+import { connect } from '$src/components/StateProvider';
+import { getDelay, getProxies, NonProxyTypes } from '$src/store/proxies';
 import { ProxyDelayItem, State } from '$src/store/types';
 
-import { getDelay, getProxies, NonProxyTypes } from '../../store/proxies';
-import { connect } from '../StateProvider';
 import s0 from './Proxy.module.scss';
 import { ProxyLatency } from './ProxyLatency';
 

@@ -1,7 +1,6 @@
 import * as React from 'react';
-
-import Button from '../Button';
-import { FlexCenter } from '../shared/Styled';
+import Button from 'src/components/Button';
+import { FlexCenter } from 'src/components/shared/Styled';
 
 const { useRef, useEffect } = React;
 
@@ -18,9 +17,9 @@ export function ClosePrevConns({ onClickPrimaryButton, onClickSecondaryButton }:
   }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.keyCode === 39) {
+    if (e.code === 'ArrowRight') {
       secondaryButtonRef.current.focus();
-    } else if (e.keyCode === 37) {
+    } else if (e.code === 'ArrowLeft') {
       primaryButtonRef.current.focus();
     }
   };

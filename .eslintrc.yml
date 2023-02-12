@@ -10,9 +10,9 @@ plugins:
 
 extends:
   - 'plugin:@typescript-eslint/recommended'
-  - prettier
   - react-app
   - 'plugin:jsx-a11y/recommended'
+  - prettier
 
 env:
   node: true

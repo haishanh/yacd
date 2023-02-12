@@ -1,16 +1,16 @@
 import { Tooltip } from '@reach/tooltip';
 import * as React from 'react';
 
+import Button from '$src/components/Button';
+import CollapsibleSectionHeader from '$src/components/CollapsibleSectionHeader';
+import { ZapAnimated } from '$src/components/shared/ZapAnimated';
+import { connect, useStoreActions } from '$src/components/StateProvider';
 import { useState2 } from '$src/hooks/basic';
+import { getCollapsibleIsOpen, getHideUnavailableProxies, getProxySortBy } from '$src/store/app';
+import { getProxies, switchProxy } from '$src/store/proxies';
 import { DelayMapping, DispatchFn, ProxiesMapping, State } from '$src/store/types';
 import { ClashAPIConfig } from '$src/types';
 
-import { getCollapsibleIsOpen, getHideUnavailableProxies, getProxySortBy } from '../../store/app';
-import { getProxies, switchProxy } from '../../store/proxies';
-import Button from '../Button';
-import CollapsibleSectionHeader from '../CollapsibleSectionHeader';
-import { ZapAnimated } from '../shared/ZapAnimated';
-import { connect, useStoreActions } from '../StateProvider';
 import { useFilteredAndSorted } from './hooks';
 import s0 from './ProxyGroup.module.scss';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';

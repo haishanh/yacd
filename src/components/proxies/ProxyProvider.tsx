@@ -16,9 +16,9 @@ import {
 import { getDelay, healthcheckProviderByName } from 'src/store/proxies';
 import { DelayMapping, State } from 'src/store/types';
 
+import { ZapAnimated } from '$src/components/shared/ZapAnimated';
 import { useState2 } from '$src/hooks/basic';
 
-import { ZapAnimated } from '../shared/ZapAnimated';
 import { useFilteredAndSorted } from './hooks';
 import { ProxyList, ProxyListSummaryView } from './ProxyList';
 import s from './ProxyProvider.module.scss';
