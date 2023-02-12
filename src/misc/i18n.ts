@@ -5,11 +5,7 @@ import { initReactI18next } from 'react-i18next';
 
 const LngBackend = {
   type: 'backend' as const,
-  read: (
-    lng: string,
-    _namespace: string,
-    callback: ReadCallback,
-  ) => {
+  read: (lng: string, _namespace: string, callback: ReadCallback) => {
     let p: PromiseLike<{ data: any }>;
     switch (lng) {
       case 'zh':
@@ -22,12 +18,15 @@ const LngBackend = {
         break;
     }
     if (p) {
-      p.then(d => callback(null, d.data), err => callback(err, null));
+      p.then(
+        (d) => callback(null, d.data),
+        (err) => callback(err, null)
+      );
     } else {
-      callback(new Error(`unable to load translation file for language ${lng}`), null)
+      callback(new Error(`unable to load translation file for language ${lng}`), null);
     }
-  }
-}
+  },
+};
 
 i18next
   .use(initReactI18next)

@@ -1,16 +1,32 @@
 import * as React from 'react';
 
+import { ProxyDelayItem } from '$src/store/types';
+
 import s0 from './ProxyLatency.module.scss';
 
 type ProxyLatencyProps = {
-  number?: number;
+  latency: ProxyDelayItem | undefined;
   color: string;
 };
 
-export function ProxyLatency({ number, color }: ProxyLatencyProps) {
+export function ProxyLatency({ latency, color }: ProxyLatencyProps) {
+  let text = ' ';
+  if (latency) {
+    switch (latency.kind) {
+      case 'Error':
+      case 'Testing':
+        text = '- ms';
+        break;
+      case 'Result':
+        text = (latency.number !== 0 ? latency.number : '-') + ' ms';
+        break;
+      default:
+        break;
+    }
+  }
   return (
     <span className={s0.proxyLatency} style={{ color }}>
-      {typeof number === 'number' && number !== 0 ? number + ' ms' : ' '}
+      {text}
     </span>
   );
 }

@@ -40,9 +40,11 @@ export type ProxyItem = {
   __provider?: string;
 };
 
-export type ProxyDelayItem = {
-  number?: number;
-};
+export type ProxyDelayItem =
+  | { kind: 'Result'; number: number }
+  | { kind: 'Testing' }
+  | { kind: 'Error'; message: string }
+  | { kind: 'None' };
 
 export type ProxiesMapping = Record<string, ProxyItem>;
 export type DelayMapping = Record<string, ProxyDelayItem>;

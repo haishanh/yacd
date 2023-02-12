@@ -2,7 +2,7 @@ import { TooltipPopup, useTooltip } from '@reach/tooltip';
 import cx from 'clsx';
 import * as React from 'react';
 
-import { State } from '$src/store/types';
+import { ProxyDelayItem, State } from '$src/store/types';
 
 import { getDelay, getProxies, NonProxyTypes } from '../../store/proxies';
 import { connect } from '../StateProvider';
@@ -22,7 +22,9 @@ const colorMap = {
   na: '#909399',
 };
 
-function getLabelColor({ number }: { number?: number } = {}) {
+function getLabelColor(latency: ProxyDelayItem) {
+  if (!latency || latency.kind !== 'Result') return colorMap.na;
+  const number = latency.number;
   if (number === 0) {
     return colorMap.na;
   } else if (number < 200) {
@@ -35,7 +37,7 @@ function getLabelColor({ number }: { number?: number } = {}) {
   return colorMap.na;
 }
 
-function getProxyDotStyle(latency: { number?: number }, proxyType: string) {
+function getProxyDotStyle(latency: ProxyDelayItem, proxyType: string) {
   if (NonProxyTypes.indexOf(proxyType) > -1) {
     return { border: '1px dotted #777' };
   }
@@ -47,7 +49,7 @@ type ProxyProps = {
   name: string;
   now?: boolean;
   proxy: any;
-  latency?: { number?: number };
+  latency?: ProxyDelayItem;
   isSelectable?: boolean;
   onClick?: (proxyName: string) => unknown;
 };
@@ -56,7 +58,7 @@ function ProxySmallImpl({ now, name, proxy, latency, isSelectable, onClick }: Pr
   const style = useMemo(() => getProxyDotStyle(latency, proxy.type), [latency, proxy]);
   const title = useMemo(() => {
     let ret = name;
-    if (latency && typeof latency.number === 'number') {
+    if (latency && latency.kind === 'Result' && typeof latency.number === 'number') {
       ret += ' ' + latency.number + ' ms';
     }
     return ret;
@@ -152,7 +154,7 @@ function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyPr
         <span className={s0.proxyType} style={{ opacity: now ? 0.6 : 0.2 }}>
           {formatProxyType(proxy.type)}
         </span>
-        <ProxyLatency number={latency?.number} color={color} />
+        <ProxyLatency latency={latency} color={color} />
       </div>
     </div>
   );
