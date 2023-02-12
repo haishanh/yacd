@@ -41,7 +41,7 @@ export type ProxyItem = {
 };
 
 export type ProxyDelayItem = {
-  number?: any;
+  number?: number;
 };
 
 export type ProxiesMapping = Record<string, ProxyItem>;
