@@ -55,6 +55,11 @@ export function removeClashAPIConfig(conf: ClashAPIConfig) {
     const idx = findClashAPIConfigIndex(getState, conf);
     dispatch('removeClashAPIConfig', (s) => {
       s.app.clashAPIConfigs.splice(idx, 1);
+      if (idx === s.app.selectedClashAPIConfigIndex) {
+        s.app.selectedClashAPIConfigIndex = 0;
+      } else if (idx < s.app.selectedClashAPIConfigIndex) {
+        s.app.selectedClashAPIConfigIndex -= 1;
+      }
     });
     // side effect
     saveState(getState().app);
