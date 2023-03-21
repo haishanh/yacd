@@ -7,6 +7,7 @@ import '@fontsource/inter/latin-800.css';
 import inter400 from '@fontsource/inter/files/inter-latin-400-normal.woff2';
 import inter800 from '@fontsource/inter/files/inter-latin-800-normal.woff2';
 import robotoMono400 from '@fontsource/roboto-mono/files/roboto-mono-latin-400-normal.woff2';
+import flagfont from 'country-flag-emoji-polyfill/TwemojiCountryFlags.woff2';
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import Modal from 'react-modal';
@@ -34,6 +35,7 @@ function init() {
   insertLinkElement(inter400);
   insertLinkElement(inter800);
   insertLinkElement(robotoMono400);
+  insertLinkElement(flagfont);
 }
 
 Modal.setAppElement(rootEl);
@@ -43,6 +45,16 @@ root.render(
     <Root />
   </React.StrictMode>
 );
+
+setTimeout(() => {
+  import('country-flag-emoji-polyfill')
+    .then((mod) => {
+      mod && mod.polyfillCountryFlagEmojis('Twemoji Country Flags', flagfont);
+    })
+    .catch(() => {
+      /* noop */
+    });
+}, 1);
 
 swRegistration.register();
 

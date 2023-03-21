@@ -37,6 +37,7 @@
     "chart.js": "4.2.1",
     "clsx": "^1.2.1",
     "core-js": "3.27.2",
+    "country-flag-emoji-polyfill": "0.1.4",
     "date-fns": "2.29.3",
     "framer-motion": "9.0.2",
     "history": "5.3.0",
@@ -102,5 +103,10 @@
     "typescript": "4.9.5",
     "vite": "4.1.1",
     "vite-plugin-pwa": "0.14.4"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "country-flag-emoji-polyfill@0.1.4": "patches/country-flag-emoji-polyfill@0.1.4.patch"
+    }
   }
 }

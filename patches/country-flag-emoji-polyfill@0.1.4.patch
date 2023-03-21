@@ -1,0 +1,22 @@
+diff --git a/package.json b/package.json
+index f0404bd2df0103b7c92aceec1eb502e0d3a43fa1..f8177258cabef73a24994fa9463ea3be4b34b4ac 100644
+--- a/package.json
++++ b/package.json
+@@ -8,12 +8,12 @@
+   "type": "module",
+   "source": "src/index.ts",
+   "exports": {
+-    "require": "./dist/index.cjs",
+-    "default": "./dist/index.modern.js"
++    ".": {
++      "import": "./dist/index.modern.js",
++      "require": "./dist/index.cjs"
++    },
++    "./TwemojiCountryFlags.woff2": "./dist/TwemojiCountryFlags.woff2"
+   },
+-  "main": "./dist/index.cjs",
+-  "module": "./dist/index.module.js",
+-  "unpkg": "./dist/index.umd.js",
+   "types": "./dist/index.d.ts",
+   "files": [
+     "dist"

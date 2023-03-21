@@ -1,5 +1,10 @@
 lockfileVersion: 5.4
 
+patchedDependencies:
+  country-flag-emoji-polyfill@0.1.4:
+    hash: qjkwikih52gz66dd5rqapmip3u
+    path: patches/country-flag-emoji-polyfill@0.1.4.patch
+
 specifiers:
   '@babel/runtime': 7.20.13
   '@fontsource/inter': 4.5.15
@@ -21,6 +26,7 @@ specifiers:
   chart.js: 4.2.1
   clsx: ^1.2.1
   core-js: 3.27.2
+  country-flag-emoji-polyfill: 0.1.4
   date-fns: 2.29.3
   eslint: 8.34.0
   eslint-config-airbnb-base: 15.0.0
@@ -84,6 +90,7 @@ dependencies:
   chart.js: 4.2.1
   clsx: 1.2.1
   core-js: 3.27.2
+  country-flag-emoji-polyfill: 0.1.4_qjkwikih52gz66dd5rqapmip3u
   date-fns: 2.29.3
   framer-motion: 9.0.2_biqbaboplfbrettd7655fr4n2y
   history: 5.3.0
@@ -4102,6 +4109,13 @@ packages:
       yaml: 1.10.2
     dev: true
 
+  /country-flag-emoji-polyfill/0.1.4_qjkwikih52gz66dd5rqapmip3u:
+    resolution: {integrity: sha512-e20azlb9yHb3mpL3lAlhkidmJgB5TELpA8oe0DPlyIfnqXhAGBmgLDpC+mm+Envh57n1xPrOfkJtXq2CrpvoGQ==}
+    dependencies:
+      is-emoji-supported: 0.0.5
+    dev: false
+    patched: true
+
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -5247,6 +5261,10 @@ packages:
     dependencies:
       has-tostringtag: 1.0.0
     dev: true
+
+  /is-emoji-supported/0.0.5:
+    resolution: {integrity: sha512-WOlXUhDDHxYqcSmFZis+xWhhqXiK2SU0iYiqmth5Ip0FHLZQAt9rKL5ahnilE8/86WH8tZ3bmNNNC+bTzamqlw==}
+    dev: false
 
   /is-extglob/2.1.1:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
