@@ -4,7 +4,8 @@ FROM --platform=$BUILDPLATFORM node:alpine AS builder
 WORKDIR /app
 
 RUN npm i -g pnpm
-COPY pnpm-lock.yaml package.json .
+COPY pnpm-lock.yaml package.json ./
+COPY ./patches/ ./patches/
 RUN pnpm i
 
 COPY . .
