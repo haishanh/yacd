@@ -2,7 +2,7 @@ import type { MutableRefObject } from 'react';
 import * as React from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 
-import { framerMotionResouce } from '../misc/motion';
+import { framerMotionResource } from '../misc/motion';
 
 const { memo, useState, useRef, useEffect } = React;
 
@@ -54,7 +54,7 @@ const variantsCollpapsibleChildContainer = {
 type CollapsibleProps = { children: React.ReactNode; isOpen?: boolean };
 
 const Collapsible = memo(({ children, isOpen }: CollapsibleProps) => {
-  const module = framerMotionResouce.read();
+  const module = framerMotionResource.read();
   const motion = module.motion;
   const previous = usePrevious(isOpen);
   const [refToMeature, { height }] = useMeasure();

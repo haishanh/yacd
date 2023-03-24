@@ -6,7 +6,7 @@ import Button from 'src/components/Button';
 import CollapsibleSectionHeader from 'src/components/CollapsibleSectionHeader';
 import { useUpdateProviderItem } from 'src/components/proxies/proxies.hooks';
 import { connect, useStoreActions } from 'src/components/StateProvider';
-import { framerMotionResouce } from 'src/misc/motion';
+import { framerMotionResource } from 'src/misc/motion';
 import {
   getClashAPIConfig,
   getCollapsibleIsOpen,
@@ -113,7 +113,7 @@ const arrow = {
   hover: { rotate: 360, transition: { duration: 0.3 } },
 };
 function Refresh() {
-  const module = framerMotionResouce.read();
+  const module = framerMotionResource.read();
   const motion = module.motion;
   return (
     <motion.div

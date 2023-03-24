@@ -23,7 +23,7 @@ function SvgYacd({
   eye = '#eee',
   mouth = '#eee',
 }: Props) {
-  const faceClasName = cx({ [s.path]: animate });
+  const faceClassName = cx({ [s.path]: animate });
   return (
     <svg width={width} height={height} viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
       <g fill="none" fillRule="evenodd">
@@ -34,7 +34,7 @@ function SvgYacd({
           strokeWidth="4"
           strokeLinecap="round"
           fill={c0}
-          className={faceClasName}
+          className={faceClassName}
         />
         <circle fill={eye} cx="216.5" cy="181.5" r="14.5" />
         <circle fill={eye} cx="104.5" cy="181.5" r="14.5" />

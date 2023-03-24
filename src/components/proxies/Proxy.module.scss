@@ -80,7 +80,7 @@
       height: var(--size-dot);
       background-color: #fff;
       // For non-primitive proxy type like "Selector", "LoadBalance", "DIRECT", etc. we are using a transparent
-      // background, and this selected indicator has a white background. In "light" them mode, the constrast
+      // background, and this selected indicator has a white background. In "light" them mode, the contrast
       // between the bg of the indicator and the "background" is too small. In that case we want to add a
       // border around this indicator so it's more distinguishable.
       border: 1px solid var(--color-proxy-dot-selected-ind-bo);

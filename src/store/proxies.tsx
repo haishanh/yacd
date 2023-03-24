@@ -196,7 +196,7 @@ async function switchProxyImpl(
     }
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.log(err, 'failed to swith proxy');
+    console.log(err, 'failed to switch proxy');
     throw err;
   }
 
