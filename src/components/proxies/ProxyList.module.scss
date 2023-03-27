@@ -3,6 +3,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
   margin-left: -3px;
+  @media screen and (max-width: 30em) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .listSummaryView {

@@ -15,7 +15,7 @@
     border: 1px solid var(--color-focus-blue);
   }
 
-  @media screen and (min-width: 30em) {
+  @media screen and (max-width: 30em) {
     border-radius: 10px;
     padding: 10px;
   }
@@ -41,7 +41,7 @@
   font-family: var(--font-mono);
   font-size: 0.6em;
   margin-right: 3px;
-  @media screen and (min-width: 30em) {
+  @media screen and (max-width: 30em) {
     font-size: 0.85em;
   }
 }
