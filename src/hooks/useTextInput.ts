@@ -4,7 +4,7 @@ import { RecoilState, useRecoilState } from 'recoil';
 
 const { useCallback, useState, useMemo } = React;
 
-export function useTextInut(
+export function useTextInput(
   x: RecoilState<string>
 ): [(e: React.ChangeEvent<HTMLInputElement>) => void, string] {
   const [, setTextGlobal] = useRecoilState(x);

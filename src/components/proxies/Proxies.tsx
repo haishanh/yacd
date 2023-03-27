@@ -9,7 +9,7 @@ import { ProxyPageFab } from 'src/components/proxies/ProxyPageFab';
 import { ProxyProviderList } from 'src/components/proxies/ProxyProviderList';
 import Settings from 'src/components/proxies/Settings';
 import BaseModal from 'src/components/shared/BaseModal';
-import { TextFilter } from 'src/components/shared/TextFitler';
+import { TextFilter } from '$src/components/shared/TextFilter';
 import { connect, useStoreActions } from 'src/components/StateProvider';
 import Equalizer from 'src/components/svg/Equalizer';
 import { getClashAPIConfig } from 'src/store/app';

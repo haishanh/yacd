@@ -1,3 +1,3 @@
 import { createResource } from './createResource';
 
-export const framerMotionResouce = createResource(() => import('framer-motion'));
+export const framerMotionResource = createResource(() => import('framer-motion'));

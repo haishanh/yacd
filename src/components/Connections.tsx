@@ -162,7 +162,7 @@ function Conn({ apiConfig }) {
         return [...closed, ...prev].slice(0, 101);
       });
       // if previous connections and current connections are both empty
-      // arrays, we wont update state to avaoid rerender
+      // arrays, we wont update state to avoid rerender
       if (x && (x.length !== 0 || prevConnsRef.current.length !== 0) && !isRefreshPaused) {
         prevConnsRef.current = x;
         setConns(x);

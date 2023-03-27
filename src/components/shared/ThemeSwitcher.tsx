@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Check } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'src/components/StateProvider';
-import { framerMotionResouce } from 'src/misc/motion';
+import { framerMotionResource } from 'src/misc/motion';
 import { getTheme, switchTheme } from 'src/store/app';
 import { State } from 'src/store/types';
 
@@ -62,7 +62,7 @@ function ThemeMenuItem(props: {
 }
 
 function MoonA() {
-  const module = framerMotionResouce.read();
+  const module = framerMotionResource.read();
   const motion = module.motion;
   return (
     <svg
@@ -87,7 +87,7 @@ function MoonA() {
 }
 
 function Sun() {
-  const module = framerMotionResouce.read();
+  const module = framerMotionResource.read();
   const motion = module.motion;
 
   return (
@@ -118,7 +118,7 @@ function Sun() {
 }
 
 function Auto() {
-  const module = framerMotionResouce.read();
+  const module = framerMotionResource.read();
   const motion = module.motion;
 
   return (
