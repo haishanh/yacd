@@ -15,9 +15,7 @@
     border: 1px solid var(--color-focus-blue);
   }
 
-  max-width: 200px;
-  @media screen and (min-width: 30em) {
-    min-width: 200px;
+  @media screen and (max-width: 30em) {
     border-radius: 10px;
     padding: 10px;
   }
@@ -43,7 +41,7 @@
   font-family: var(--font-mono);
   font-size: 0.6em;
   margin-right: 3px;
-  @media screen and (min-width: 30em) {
+  @media screen and (max-width: 30em) {
     font-size: 0.85em;
   }
 }
@@ -58,9 +56,7 @@
   width: 100%;
   margin-bottom: 5px;
   font-size: 0.85em;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .proxySmall {
