@@ -1,4 +1,5 @@
 export const data = {
+  All: 'All',
   Overview: 'Overview',
   Proxies: 'Proxies',
   Rules: 'Rules',
