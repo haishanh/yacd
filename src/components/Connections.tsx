@@ -155,8 +155,8 @@ function Conn({ apiConfig }) {
   const filteredConns = filterConns(conns, filterKeyword, filterSourceIpStr);
   const filteredClosedConns = filterConns(closedConns, filterKeyword, filterSourceIpStr);
 
-  const [connIpSet, setConnIpSet] = useState([]);
-  const [ClosedConnIpSet, setClosedConnIpSet] = useState([]);
+  const connIpSet = getConnIpList(conns);
+  const ClosedConnIpSet = getConnIpList(closedConns);
 
   const [isCloseAllModalOpen, setIsCloseAllModalOpen] = useState(false);
   const openCloseAllModal = useCallback(() => setIsCloseAllModalOpen(true), []);
@@ -193,10 +193,8 @@ function Conn({ apiConfig }) {
       } else {
         prevConnsRef.current = x;
       }
-      setConnIpSet(getConnIpList(conns));
-      setClosedConnIpSet(getConnIpList(closedConns));
     },
-    [isRefreshPaused, conns, closedConns, connCtx]
+    [isRefreshPaused, connCtx]
   );
 
   useEffect(() => {
