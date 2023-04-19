@@ -58,7 +58,7 @@ jobs:
           prerelease: false
       - name: Create Tar Ball
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
-        run: tar cJf yacd.tar.xz public
+        run: tar czf yacd.tar.gz public
       - name: Upload Release Asset
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
         id: upload-release-asset
@@ -67,8 +67,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./yacd.tar.xz
-          asset_name: yacd.tar.xz
+          asset_path: ./yacd.tar.gz
+          asset_name: yacd.tar.gz
           asset_content_type: application/x-gzip
 
       - name: Push to gh-pages
@@ -88,87 +88,3 @@ jobs:
           git status
           git commit -m "Push to gh-pages"
           git push -f https://$GITHUB_ACTOR:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:$BRANCH
-
-      - name: Send Notification
-        uses: haishanh/actions-telegram-notification@v1
-        if: ${{ always() }}
-        with:
-          notification-token: ${{ secrets.TG_NOTIFICATION_TOKEN }}
-          job-status: ${{ job.status }}
-
-  docker:
-    needs: install
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (startsWith(github.event.ref, 'refs/tags/') || startsWith(github.event.ref, 'refs/heads/v0.') || github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/test')
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set git commit sha
-        id: revparse
-        run: |
-          echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
-      - name: Docker meta
-        id: docker_meta
-        uses: docker/metadata-action@v4
-        with:
-          images: haishanh/yacd
-
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v1.2.0
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: latest
-
-      - name: Builder instance name
-        run: echo ${{ steps.buildx.outputs.name }}
-      - name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }},ghcr.io/${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha
-          build-args: |
-            COMMIT_HASH=${{ env.COMMIT_HASH }}
-
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
-
-      - name: Send Notification
-        uses: haishanh/actions-telegram-notification@v1
-        if: ${{ always() }}
-        with:
-          notification-token: ${{ secrets.TG_NOTIFICATION_TOKEN }}
-          job-status: ${{ job.status }}
