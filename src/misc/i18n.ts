@@ -7,16 +7,16 @@ const LngBackend = {
   type: 'backend' as const,
   read: (lng: string, _namespace: string, callback: ReadCallback) => {
     let p: PromiseLike<{ data: any }>;
-    switch (lng) {
-      case 'zh':
-      case 'zh-CN':
-        p = import('src/i18n/zh');
-        break;
-      case 'en':
-      default:
-        p = import('src/i18n/en');
-        break;
-    }
+	switch (lng) {
+	  case 'en':
+		p = import('src/i18n/en');
+		break;
+	  case 'zh':
+	  case 'zh-CN':
+	  default:
+		p = import('src/i18n/zh');
+		break;
+	}
     if (p) {
       p.then(
         (d) => callback(null, d.data),
