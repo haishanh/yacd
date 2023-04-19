@@ -41,7 +41,7 @@ export async function requestToSwitchProxy(
 export async function requestDelayForProxy(
   apiConfig: ClashAPIConfig,
   name: string,
-  latencyTestUrl = 'http://www.gstatic.com/generate_204'
+  latencyTestUrl = 'https://www.gstatic.com/generate_204'
 ) {
   const { url, init } = getURLAndInit(apiConfig);
   const qs = `timeout=5000&url=${encodeURIComponent(latencyTestUrl)}`;
