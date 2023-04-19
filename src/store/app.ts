@@ -211,14 +211,14 @@ const defaultState: StateApp = {
 
   latencyTestUrl: 'http://www.gstatic.com/generate_204',
   selectedChartStyleIndex: 0,
-  theme: 'dark',
+  theme: 'light',
 
   // type { [string]: boolean }
   collapsibleIsOpen: {},
   // how proxies are sorted in a group or provider
-  proxySortBy: 'Natural',
+  proxySortBy: 'LatencyAsc',
   hideUnavailableProxies: false,
-  autoCloseOldConns: false,
+  autoCloseOldConns: true,
   logStreamingPaused: false,
 };
 
