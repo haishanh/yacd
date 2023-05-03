@@ -12,13 +12,13 @@ import BaseModal from 'src/components/shared/BaseModal';
 import { connect, useStoreActions } from 'src/components/StateProvider';
 import Equalizer from 'src/components/svg/Equalizer';
 import { getClashAPIConfig } from 'src/store/app';
-import { proxyFilterText } from 'src/store/proxies';
 import {
   fetchProxies,
   getDelay,
   getProxyGroupNames,
   getProxyProviders,
   getShowModalClosePrevConns,
+  proxyFilterText,
 } from 'src/store/proxies';
 import type { State } from 'src/store/types';
 

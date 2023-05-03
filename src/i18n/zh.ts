@@ -39,4 +39,6 @@ export const data = {
   lang: '语言',
   update_all_rule_provider: '更新所有 rule provider',
   update_all_proxy_provider: '更新所有 proxy providers',
+  pleaseSelectSourceIP: '请选择要审查的源ip',
+  filterByIP: '从源IP筛选',
 };
