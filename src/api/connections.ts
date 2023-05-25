@@ -59,7 +59,24 @@ export function fetchData(apiConfig: ClashAPIConfig, listener: unknown): Unsubsc
   wsState = 1;
   const url = buildWebSocketURL(apiConfig, endpoint);
   const ws = new WebSocket(url);
+
+  let frozenState = false;
+  const onFrozen = () => { frozenState = true; ws.close(); },
+    onResume = () => { frozenState = false; fetchData(apiConfig, undefined); };
+  document.addEventListener('freeze', onFrozen, { capture: true, once: true });
+  document.addEventListener('resume', onResume, { capture: true, once: true });
+
   ws.addEventListener('error', () => (wsState = 3));
+  ws.addEventListener('close', function (_ev) {
+    wsState = 3;
+    if (!frozenState) {
+      // For unexpected close, remove listeners and retry
+      document.removeEventListener('freeze', onFrozen);
+      document.removeEventListener('resume', onResume);
+
+      fetchData(apiConfig, undefined);
+    }
+  });
   ws.addEventListener('message', (event) => appendData(event.data));
   if (listener) return subscribe(listener);
 }
