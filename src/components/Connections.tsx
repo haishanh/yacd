@@ -57,7 +57,7 @@ type FormattedConn = {
 };
 
 function hasSubstring(s: string, pat: string) {
-  return s.toLowerCase().includes(pat.toLowerCase());
+  return (s ?? '').toLowerCase().includes(pat.toLowerCase());
 }
 
 function filterConns(conns: FormattedConn[], keyword: string) {
