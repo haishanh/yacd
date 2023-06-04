@@ -81,12 +81,34 @@ function fetchData(apiConfig: ClashAPIConfig) {
   wsState = 1;
   const url = buildWebSocketURL(apiConfig, endpoint);
   const ws = new WebSocket(url);
+
+  let frozenState = false;
+  const onFrozen = () => { frozenState = true; ws.close(); },
+    onResume = () => {
+      frozenState = false;
+
+      // wipe outdated data
+      traffic.up.fill(undefined);
+      traffic.down.fill(undefined);
+      traffic.labels.fill(0);
+
+      fetchDataWithFetch(apiConfig);
+    };
+  document.addEventListener('freeze', onFrozen, { capture: true, once: true });
+  document.addEventListener('resume', onResume, { capture: true, once: true });
+
   ws.addEventListener('error', function (_ev) {
     wsState = 3;
   });
   ws.addEventListener('close', function (_ev) {
     wsState = 3;
-    fetchDataWithFetch(apiConfig);
+    if (!frozenState) {
+      // For unexpected close, remove listeners and re-fetch
+      document.removeEventListener('freeze', onFrozen);
+      document.removeEventListener('resume', onResume);
+
+      fetchDataWithFetch(apiConfig);
+    }
   });
   ws.addEventListener('message', function (event) {
     parseAndAppend(event.data);
