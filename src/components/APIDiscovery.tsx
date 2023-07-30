@@ -4,7 +4,9 @@ import { DOES_NOT_SUPPORT_FETCH, errors, YacdError } from 'src/misc/errors';
 import { getClashAPIConfig } from 'src/store/app';
 import { fetchConfigs } from 'src/store/configs';
 import { closeModal } from 'src/store/modals';
-import { State } from 'src/store/types';
+import { DispatchFn, State, StateModals } from 'src/store/types';
+
+import { ClashAPIConfig } from '$src/types';
 
 import APIConfig from './APIConfig';
 import s0 from './APIDiscovery.module.scss';
@@ -13,7 +15,11 @@ import { connect } from './StateProvider';
 
 const { useCallback, useEffect } = React;
 
-function APIDiscovery({ dispatch, apiConfig, modals }) {
+function APIDiscovery({ dispatch, apiConfig, modals }: {
+  dispatch: DispatchFn,
+  apiConfig: ClashAPIConfig,
+  modals: StateModals,
+}) {
   if (!window.fetch) {
     const { detail } = errors[DOES_NOT_SUPPORT_FETCH];
     const err = new YacdError(detail, DOES_NOT_SUPPORT_FETCH);

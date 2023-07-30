@@ -80,6 +80,8 @@ const Row = memo(({ index, style, data }: RowProps) => {
   );
 }, areEqual);
 
+Row.displayName = 'MemoRow';
+
 const mapState = (s: State) => ({
   apiConfig: getClashAPIConfig(s),
 });

@@ -73,4 +73,6 @@ const Collapsible = memo(({ children, isOpen }: CollapsibleProps) => {
   );
 });
 
+Collapsible.displayName = 'MemoCollapsible';
+
 export default Collapsible;

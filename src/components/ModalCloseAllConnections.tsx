@@ -32,7 +32,7 @@ export default function Comp({ isOpen, onRequestClose, primaryButtonOnTap }) {
       <p>Are you sure you want to close all connections?</p>
       <div className={s.btngrp}>
         <Button onClick={primaryButtonOnTap} ref={primaryButtonRef}>
-          I'm sure
+          I&#39;m sure
         </Button>
         {/* im lazy :) */}
         <div style={{ width: 20 }} />

@@ -1,4 +1,4 @@
-import produce, * as immer from 'immer';
+import * as immer from 'immer';
 import React from 'react';
 
 // in logs store we update logs in place
@@ -41,7 +41,7 @@ export default function Provider({ initialState, actions = {}, children }) {
     (actionId: string | ((a: any, b: any) => any), fn: (s: any) => void) => {
       if (typeof actionId === 'function') return actionId(dispatch, getState);
 
-      const stateNext = produce(getState(), fn);
+      const stateNext = immer.produce(getState(), fn);
       if (stateNext !== stateRef.current) {
         if (process.env.NODE_ENV === 'development') {
           // eslint-disable-next-line no-console

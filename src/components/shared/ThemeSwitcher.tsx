@@ -7,11 +7,14 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'src/components/StateProvider';
 import { framerMotionResource } from 'src/misc/motion';
 import { getTheme, switchTheme } from 'src/store/app';
-import { State } from 'src/store/types';
+import { DispatchFn, State } from 'src/store/types';
 
 import s from './ThemeSwitcher.module.scss';
 
-function ThemeSwitcherImpl({ theme, dispatch }) {
+function ThemeSwitcherImpl({ theme, dispatch }: {
+theme: string,
+dispatch: DispatchFn
+}) {
   const { t } = useTranslation();
 
   const themeIcon = React.useMemo(() => {

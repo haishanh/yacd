@@ -63,7 +63,11 @@ const mapState2 = (s: State) => ({
 const Config = connect(mapState2)(ConfigImpl);
 export default connect(mapState)(ConfigContainer);
 
-function ConfigContainer({ dispatch, configs, apiConfig }) {
+function ConfigContainer({ dispatch, configs, apiConfig }: {
+  dispatch: DispatchFn,
+  configs: ClashGeneralConfig,
+  apiConfig: ClashAPIConfig,
+}) {
   useEffect(() => {
     dispatch(fetchConfigs(apiConfig));
   }, [dispatch, apiConfig]);

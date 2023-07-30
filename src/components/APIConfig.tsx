@@ -2,7 +2,7 @@ import * as React from 'react';
 import { fetchConfigs } from 'src/api/configs';
 import { BackendList } from 'src/components/BackendList';
 import { addClashAPIConfig, getClashAPIConfig } from 'src/store/app';
-import { State } from 'src/store/types';
+import { DispatchFn, State } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
 
 import s0 from './APIConfig.module.scss';
@@ -21,7 +21,7 @@ const mapState = (s: State) => ({
   apiConfig: getClashAPIConfig(s),
 });
 
-function APIConfig({ dispatch }) {
+function APIConfig({ dispatch }: { dispatch: DispatchFn }) {
   const [baseURL, setBaseURL] = useState('');
   const [secret, setSecret] = useState('');
   const [metaLabel, setMetaLabel] = useState('');

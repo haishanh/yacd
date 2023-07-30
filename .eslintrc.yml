@@ -9,9 +9,11 @@ plugins:
   - jsx-a11y
 
 extends:
+  # - react-app
   - 'plugin:@typescript-eslint/recommended'
-  - react-app
   - 'plugin:jsx-a11y/recommended'
+  - 'plugin:react/recommended'
+  - 'plugin:react-hooks/recommended'
   - prettier
 
 env:
@@ -20,6 +22,7 @@ env:
 globals:
   __DEV__: true
 
+# more rules here https://github.com/facebook/create-react-app/blob/main/packages/eslint-config-react-app/index.js
 rules:
   '@typescript-eslint/no-empty-interface': 'off'
   '@typescript-eslint/interface-name-prefix': 'off'
@@ -43,6 +46,7 @@ rules:
     - warn
     - additionalHooks: useRecoilCallback
   simple-import-sort/imports: error
+  'react/prop-types': warn
 #   quotes: ["error", "single"]
 #   strict: ["error", "never"]
 #   no-console: "warn"

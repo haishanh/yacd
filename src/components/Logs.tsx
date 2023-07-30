@@ -58,6 +58,8 @@ const Row = memo(({ index, style, data }: ListChildComponentProps<LogLineProps>)
   );
 }, areEqual);
 
+Row.displayName = 'MemoRow';
+
 function Logs({ dispatch, logLevel, apiConfig, logs, logStreamingPaused }) {
   const actions = useStoreActions();
   const toggleIsRefreshPaused = useCallback(() => {
