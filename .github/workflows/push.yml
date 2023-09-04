@@ -16,7 +16,7 @@ jobs:
         node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && (startsWith(github.event.ref, 'refs/tags/') || startsWith(github.event.ref, 'refs/heads/v0.') || github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/test')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set git commit sha
         id: revparse
         run: |
