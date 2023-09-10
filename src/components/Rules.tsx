@@ -4,10 +4,11 @@ import { areEqual, VariableSizeList } from 'react-window';
 import { RuleProviderItem } from 'src/components/rules/RuleProviderItem';
 import { useRuleAndProvider } from 'src/components/rules/rules.hooks';
 import { RulesPageFab } from 'src/components/rules/RulesPageFab';
-import { TextFilter } from '$src/components/shared/TextFilter';
 import { ruleFilterText } from 'src/store/rules';
 import { State } from 'src/store/types';
 import { ClashAPIConfig, RuleType } from 'src/types';
+
+import { TextFilter } from '$src/components/shared/TextFilter';
 
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';

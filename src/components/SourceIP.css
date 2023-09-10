@@ -1,0 +1,6 @@
+.src-ips{
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 70vw;
+	overflow: hidden;
+}
