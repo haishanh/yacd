@@ -103,7 +103,7 @@ const positionProxyNameTooltip = (triggerRect: { left: number; top: number }) =>
   };
 };
 
-function ProxyNameTooltip({ children, label, 'aria-label': ariaLabel }) {
+function ProxyNameTooltip({ children, label, 'aria-label': ariaLabel }: { children: React.ReactElement; label: string; 'aria-label': string }) {
   const [trigger, tooltip] = useTooltip();
   return (
     <>

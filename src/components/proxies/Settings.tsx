@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'src/components/shared/Select';
 
+import { State, StateApp } from '$src/store/types';
+
 import { getAutoCloseOldConns, getHideUnavailableProxies, getProxySortBy } from '../../store/app';
 import { connect, useStoreActions } from '../StateProvider';
 import Switch from '../SwitchThemed';
@@ -17,20 +19,21 @@ const options = [
 
 const { useCallback } = React;
 
-function Settings({ appConfig }) {
+function Settings({ appConfig }: { appConfig: StateApp }) {
   const {
     app: { updateAppConfig },
   } = useStoreActions();
 
   const handleProxySortByOnChange = useCallback(
-    (e) => {
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
       updateAppConfig('proxySortBy', e.target.value);
     },
     [updateAppConfig]
   );
 
+
   const handleHideUnavailablesSwitchOnChange = useCallback(
-    (v) => {
+    (v: boolean) => {
       updateAppConfig('hideUnavailableProxies', v);
     },
     [updateAppConfig]
@@ -67,7 +70,7 @@ function Settings({ appConfig }) {
           <Switch
             name="autoCloseOldConns"
             checked={appConfig.autoCloseOldConns}
-            onChange={(v) => updateAppConfig('autoCloseOldConns', v)}
+            onChange={(v: boolean) => updateAppConfig('autoCloseOldConns', v)}
           />
         </div>
       </div>
@@ -75,7 +78,7 @@ function Settings({ appConfig }) {
   );
 }
 
-const mapState = (s) => {
+const mapState = (s: State) => {
   const proxySortBy = getProxySortBy(s);
   const hideUnavailableProxies = getHideUnavailableProxies(s);
   const autoCloseOldConns = getAutoCloseOldConns(s);

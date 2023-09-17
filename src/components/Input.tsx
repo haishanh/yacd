@@ -17,7 +17,7 @@ export default function Input(props: InputProps) {
   return <input className={s0.input} {...props} />;
 }
 
-export function SelfControlledInput({ value, ...restProps }) {
+export function SelfControlledInput({ value, ...restProps }: InputProps) {
   const [internalValue, setInternalValue] = useState(value);
   const refValue = useRef(value);
   useEffect(() => {

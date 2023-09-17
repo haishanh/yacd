@@ -7,6 +7,8 @@ const textDecoder = new TextDecoder('utf-8');
 
 const Size = 150;
 
+type Traffic = { up: number; down: number }
+
 const traffic = {
   labels: Array(Size).fill(0),
   up: Array(Size),
@@ -14,7 +16,7 @@ const traffic = {
 
   size: Size,
   subscribers: [],
-  appendData(o: { up: number; down: number }) {
+  appendData(o: Traffic) {
     this.up.shift();
     this.down.shift();
     this.labels.shift();
@@ -24,7 +26,7 @@ const traffic = {
     this.down.push(o.down);
     this.labels.push(l);
 
-    this.subscribers.forEach((f) => f(o));
+    this.subscribers.forEach((f: (x: Traffic) => void) => f(o));
   },
 
   subscribe(listener: (x: any) => void) {
@@ -97,10 +99,10 @@ function fetchData(apiConfig: ClashAPIConfig) {
   document.addEventListener('freeze', onFrozen, { capture: true, once: true });
   document.addEventListener('resume', onResume, { capture: true, once: true });
 
-  ws.addEventListener('error', function (_ev) {
+  ws.addEventListener('error', function(_ev) {
     wsState = 3;
   });
-  ws.addEventListener('close', function (_ev) {
+  ws.addEventListener('close', function(_ev) {
     wsState = 3;
     if (!frozenState) {
       // For unexpected close, remove listeners and re-fetch
@@ -110,7 +112,7 @@ function fetchData(apiConfig: ClashAPIConfig) {
       fetchDataWithFetch(apiConfig);
     }
   });
-  ws.addEventListener('message', function (event) {
+  ws.addEventListener('message', function(event) {
     parseAndAppend(event.data);
   });
   return traffic;

@@ -1,5 +1,7 @@
 // manage localStorage
 
+import { StateApp } from "$src/store/types";
+
 const StorageKey = 'yacd.haishan.me';
 
 function loadState() {
@@ -12,7 +14,7 @@ function loadState() {
   }
 }
 
-function saveState(state) {
+function saveState(state: StateApp) {
   try {
     const serialized = JSON.stringify(state);
     localStorage.setItem(StorageKey, serialized);

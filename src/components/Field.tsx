@@ -15,7 +15,7 @@ type Props = {
 };
 
 export default function Field({ id, label, value, onChange, ...props }: Props) {
-  const valueOnChange = useCallback((e) => onChange(e), [onChange]);
+  const valueOnChange = useCallback((e: any) => onChange(e), [onChange]);
   return (
     <div className={s.root}>
       <input id={id} value={value} onChange={valueOnChange} {...props} />

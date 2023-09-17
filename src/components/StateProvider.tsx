@@ -1,5 +1,7 @@
 import * as immer from 'immer';
-import React from 'react';
+import React, { ReactNode } from 'react';
+
+import { State } from '$src/store/types';
 
 // in logs store we update logs in place
 // outside of immer produce
@@ -28,7 +30,7 @@ export function useStoreActions() {
 }
 
 // boundActionCreators
-export default function Provider({ initialState, actions = {}, children }) {
+export default function Provider({ initialState, actions = {}, children }: { initialState: Partial<State>, actions: any, children: ReactNode }) {
   const stateRef = useRef(initialState);
   const [state, setState] = useState(initialState);
   const getState = useCallback(() => stateRef.current, []);
@@ -80,7 +82,7 @@ export function connect(mapStateToProps: any) {
 
 // steal from https://github.com/reduxjs/redux/blob/master/src/bindActionCreators.ts
 function bindAction(action: any, dispatch: any) {
-  return function (...args: any[]) {
+  return function(...args: any[]) {
     return dispatch(action.apply(this, args));
   };
 }

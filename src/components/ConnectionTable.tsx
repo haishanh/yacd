@@ -53,7 +53,7 @@ const tableState = {
   hiddenColumns: ['id'],
 };
 
-function Table({ data }) {
+function Table({ data }: { data: any }) {
   const connCtx = React.useContext(MutableConnRefCtx);
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -103,8 +103,8 @@ function Table({ data }) {
                           ? s.du
                           : false
                         : j >= 1 && j <= 4
-                        ? s.du
-                        : false
+                          ? s.du
+                          : false
                     )}
                   >
                     {renderCell(cell)}

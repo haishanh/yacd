@@ -9,7 +9,6 @@ import { ProxyPageFab } from 'src/components/proxies/ProxyPageFab';
 import { ProxyProviderList } from 'src/components/proxies/ProxyProviderList';
 import Settings from 'src/components/proxies/Settings';
 import BaseModal from 'src/components/shared/BaseModal';
-import { TextFilter } from '$src/components/shared/TextFilter';
 import { connect, useStoreActions } from 'src/components/StateProvider';
 import Equalizer from 'src/components/svg/Equalizer';
 import { getClashAPIConfig } from 'src/store/app';
@@ -21,7 +20,10 @@ import {
   getProxyProviders,
   getShowModalClosePrevConns,
 } from 'src/store/proxies';
-import type { State } from 'src/store/types';
+import type { DelayMapping, DispatchFn, FormattedProxyProvider, State } from 'src/store/types';
+
+import { TextFilter } from '$src/components/shared/TextFilter';
+import { ClashAPIConfig } from '$src/types';
 
 import s0 from './Proxies.module.scss';
 
@@ -34,6 +36,13 @@ function Proxies({
   proxyProviders,
   apiConfig,
   showModalClosePrevConns,
+}: {
+  dispatch: DispatchFn;
+  groupNames: string[];
+  delay: DelayMapping;
+  proxyProviders: FormattedProxyProvider[];
+  apiConfig: ClashAPIConfig;
+  showModalClosePrevConns: boolean;
 }) {
   const refFetchedTimestamp = useRef<{ startAt?: number; completeAt?: number }>({});
 

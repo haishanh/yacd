@@ -7,7 +7,7 @@ import s from './BaseModal.module.scss';
 
 const { useMemo } = React;
 
-export default function BaseModal({ isOpen, onRequestClose, children }) {
+export default function BaseModal({ isOpen, onRequestClose, children }: { isOpen: boolean; onRequestClose: (ev: any) => void; children: React.ReactNode }) {
   const className = useMemo(
     () => ({
       base: cx(modalStyle.content, s.cnt),

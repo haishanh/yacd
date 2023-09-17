@@ -19,7 +19,7 @@ const data1 = [23e3, 35e3, 46e3, 33e3, 90e3, 68e3, 23e3, 45e3];
 const data2 = [184e3, 183e3, 196e3, 182e3, 190e3, 186e3, 182e3, 189e3];
 const labels = data1;
 
-export default function TrafficChart({ id }) {
+export default function TrafficChart({ id }: { id: string }) {
   const ChartMod = chartJSResource.read();
 
   const data = useMemo(

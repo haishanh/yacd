@@ -6,7 +6,7 @@ import {
   // atom
   proxyFilterText,
 } from 'src/store/proxies';
-import { DelayMapping, ProxiesMapping, ProxyItem } from 'src/store/types';
+import { DelayMapping, ProxiesMapping, ProxyDelayItem, ProxyItem } from 'src/store/types';
 
 const { useMemo } = React;
 
@@ -16,7 +16,7 @@ function filterAvailableProxies(list: string[], delay: DelayMapping) {
     if (d === undefined) {
       return true;
     }
-    if (d.number === 0) {
+    if ('number' in d && d.number === 0) {
       return false;
     } else {
       return true;
@@ -27,12 +27,10 @@ function filterAvailableProxies(list: string[], delay: DelayMapping) {
 const getSortDelay = (
   d:
     | undefined
-    | {
-        number?: number;
-      },
+    | ProxyDelayItem,
   proxyInfo: ProxyItem
 ) => {
-  if (d && typeof d.number === 'number' && d.number > 0) {
+  if (d && 'number' in d && d.number > 0) {
     return d.number;
   }
 

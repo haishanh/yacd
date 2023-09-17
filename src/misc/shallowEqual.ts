@@ -1,6 +1,6 @@
 const hasOwn = Object.prototype.hasOwnProperty;
 
-function is(x, y) {
+function is(x: any, y: any) {
   if (x === y) {
     return x !== 0 || y !== 0 || 1 / x === 1 / y;
   } else {
@@ -9,7 +9,7 @@ function is(x, y) {
   }
 }
 
-export default function shallowEqual(objA, objB) {
+export default function shallowEqual(objA: unknown, objB: unknown) {
   if (is(objA, objB)) return true;
 
   if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {

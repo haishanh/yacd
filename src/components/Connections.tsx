@@ -7,6 +7,8 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ConnectionItem } from 'src/api/connections';
 import { State } from 'src/store/types';
 
+import { ClashAPIConfig } from '$src/types';
+
 import * as connAPI from '../api/connections';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig } from '../store/app';
@@ -64,18 +66,18 @@ function filterConns(conns: FormattedConn[], keyword: string) {
   return !keyword
     ? conns
     : conns.filter((conn) =>
-        [
-          conn.host,
-          conn.sourceIP,
-          conn.sourcePort,
-          conn.destinationIP,
-          conn.chains,
-          conn.rule,
-          conn.type,
-          conn.network,
-          conn.processPath,
-        ].some((field) => hasSubstring(field, keyword))
-      );
+      [
+        conn.host,
+        conn.sourceIP,
+        conn.sourcePort,
+        conn.destinationIP,
+        conn.chains,
+        conn.rule,
+        conn.type,
+        conn.network,
+        conn.processPath,
+      ].some((field) => hasSubstring(field, keyword))
+    );
 }
 
 function formatConnectionDataItem(
@@ -127,7 +129,7 @@ function connQty({ qty }) {
   return qty < 100 ? '' + qty : '99+';
 }
 
-function Conn({ apiConfig }) {
+function Conn({ apiConfig }: { apiConfig: ClashAPIConfig }) {
   const [refContainer, containerHeight] = useRemainingViewPortHeight();
   const [conns, setConns] = useState([]);
   const [closedConns, setClosedConns] = useState([]);

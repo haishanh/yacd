@@ -5,6 +5,8 @@ import { useUpdateRuleProviderItem } from 'src/components/rules/rules.hooks';
 import { SectionNameType } from 'src/components/shared/Basic';
 import { RotateIcon } from 'src/components/shared/RotateIcon';
 
+import { ClashAPIConfig } from '$src/types';
+
 import s from './RuleProviderItem.module.scss';
 
 export function RuleProviderItem({
@@ -15,6 +17,14 @@ export function RuleProviderItem({
   updatedAt,
   ruleCount,
   apiConfig,
+}: {
+  idx: number;
+  name: string;
+  vehicleType: string;
+  behavior: string;
+  updatedAt: string;
+  ruleCount: number;
+  apiConfig: ClashAPIConfig;
 }) {
   const [onClickRefreshButton, isRefreshing] = useUpdateRuleProviderItem(name, apiConfig);
   const timeAgo = formatDistance(new Date(updatedAt), new Date());

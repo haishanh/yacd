@@ -10,7 +10,12 @@ import { connect } from './StateProvider';
 // @ts-ignore
 const Switch = ReactSwitch.default ? ReactSwitch.default : ReactSwitch;
 
-function SwitchThemed({ checked = false, onChange, theme, name }) {
+function SwitchThemed({ checked = false, onChange, theme, name }: {
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  theme: string;
+  name: string;
+}) {
   const offColor = theme === 'dark' ? '#393939' : '#e9e9e9';
 
   return (

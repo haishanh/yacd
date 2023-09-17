@@ -12,7 +12,9 @@ import useRemainingViewPortHeight from 'src/hooks/useRemainingViewPortHeight';
 import { getClashAPIConfig, getLogStreamingPaused } from 'src/store/app';
 import { getLogLevel } from 'src/store/configs';
 import { appendLog, getLogsForDisplay } from 'src/store/logs';
-import { Log, State } from 'src/store/types';
+import { DispatchFn, Log, State } from 'src/store/types';
+
+import { ClashAPIConfig } from '$src/types';
 
 import s from './Logs.module.scss';
 import { Fab, position as fabPosition } from './shared/Fab';
@@ -27,9 +29,9 @@ const colors = {
   error: '#c11c1c',
 };
 
-type LogLineProps = Partial<Log>;
+// type LogLineProps = Partial<Log>;
 
-function LogLine({ time, even, payload, type }: LogLineProps) {
+function LogLine({ time, even, payload, type }: Log) {
   const className = cx({ even }, 'log');
   return (
     <div className={className}>
@@ -44,12 +46,12 @@ function LogLine({ time, even, payload, type }: LogLineProps) {
   );
 }
 
-function itemKey(index: number, data: LogLineProps[]) {
+function itemKey(index: number, data: Log[]) {
   const item = data[index];
   return item.id;
 }
 
-const Row = memo(({ index, style, data }: ListChildComponentProps<LogLineProps>) => {
+const Row = memo(({ index, style, data }: ListChildComponentProps<Log[]>) => {
   const r = data[index];
   return (
     <div style={style}>
@@ -60,7 +62,7 @@ const Row = memo(({ index, style, data }: ListChildComponentProps<LogLineProps>)
 
 Row.displayName = 'MemoRow';
 
-function Logs({ dispatch, logLevel, apiConfig, logs, logStreamingPaused }) {
+function Logs({ dispatch, logLevel, apiConfig, logs, logStreamingPaused }: { dispatch: DispatchFn; logLevel: string; apiConfig: ClashAPIConfig; logs: Log[]; logStreamingPaused: boolean }) {
   const actions = useStoreActions();
   const toggleIsRefreshPaused = useCallback(() => {
     logStreamingPaused ? reconnectLogs({ ...apiConfig, logLevel }) : stopLogs();
@@ -68,7 +70,7 @@ function Logs({ dispatch, logLevel, apiConfig, logs, logStreamingPaused }) {
     // ideally we should check the result of previous operation before updating this
     actions.app.updateAppConfig('logStreamingPaused', !logStreamingPaused);
   }, [apiConfig, logLevel, logStreamingPaused, actions.app]);
-  const appendLogInternal = useCallback((log) => dispatch(appendLog(log)), [dispatch]);
+  const appendLogInternal = useCallback((log: Log) => dispatch(appendLog(log)), [dispatch]);
   useEffect(() => {
     fetchLogs({ ...apiConfig, logLevel }, appendLogInternal);
   }, [apiConfig, logLevel, appendLogInternal]);
