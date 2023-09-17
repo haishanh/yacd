@@ -3,39 +3,46 @@
   grid-template-columns: repeat(var(--col-count, 11), minmax(max-content, auto));
 }
 
-.th {
-  padding: 8px 10px;
-  height: 50px;
-  background: var(--color-background);
-  position: sticky;
-  top: 0;
-  font-size: 0.8em;
-  text-align: center;
-  user-select: none;
+.pointer {
+  cursor: pointer;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  &:hover {
-    color: var(--color-text-highlight);
+.table {
+  border: none;
+  border-collapse: collapse;
+  thead tr {
+    position: sticky;
+    top: 0;
+    background: var(--color-background);
+  }
+  th {
+    padding: 8px 13px;
+    height: 50px;
+    font-weight: initial;
+    font-size: 0.8em;
+    text-align: left;
+    white-space: nowrap;
+  }
+  td {
+    border:none;
+    white-space: nowrap;
+    padding: 8px 13px;
+    font-size: 0.9em;
+    font-family: var(--font-normal);
+  }
+  & >tbody>tr:nth-of-type(odd)>* {
+    background: var(--color-row-odd);
   }
 }
 
-.td {
-  padding: 8px 13px;
-  font-size: 0.9em;
-
-  font-family: var(--font-normal);
-}
-
-.td.odd {
-  background: var(--color-row-odd);
-}
-
-/* download upload td cells */
-.du {
-  text-align: right;
+.thWrap {
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  &:hover {
+    color: var(--color-text-highlight);
+  }
 }
 
 .sortIconContainer {
