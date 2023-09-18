@@ -62,7 +62,7 @@ function ProxyGroupImpl({
       if (!isSelectable) return;
       dispatch(switchProxy(apiConfig, name, proxyName));
     },
-    [apiConfig, dispatch, name, isSelectable]
+    [apiConfig, dispatch, name, isSelectable],
   );
 
   const testingLatency = useState2(false);

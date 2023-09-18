@@ -146,6 +146,6 @@ function fetchLogsWithFetch(apiConfig: LogsAPIConfig, appendLog: AppendLogFn) {
 
       // eslint-disable-next-line no-console
       console.log('GET /logs error:', err.message);
-    }
+    },
   );
 }

@@ -17,7 +17,7 @@ Chart.register(
   CategoryScale,
   LinearScale,
   Filler,
-  Legend
+  Legend,
 );
 
 export { Chart };

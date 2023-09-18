@@ -1,6 +1,6 @@
 // manage localStorage
 
-import { StateApp } from "$src/store/types";
+import { StateApp } from '$src/store/types';
 
 const StorageKey = 'yacd.haishan.me';
 

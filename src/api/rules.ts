@@ -15,7 +15,7 @@ type RuleAPIItem = {
 function normalizeAPIResponse(json: { rules: Array<RuleAPIItem> }): Array<RuleItem> {
   invariant(
     json.rules && json.rules.length >= 0,
-    'there is no valid rules list in the rules API response'
+    'there is no valid rules list in the rules API response',
   );
 
   // attach an id

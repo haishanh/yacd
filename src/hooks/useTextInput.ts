@@ -5,7 +5,7 @@ import * as React from 'react';
 const { useCallback, useState, useMemo } = React;
 
 export function useTextInput(
-  x: PrimitiveAtom<string>
+  x: PrimitiveAtom<string>,
 ): [(e: React.ChangeEvent<HTMLInputElement>) => void, string] {
   const [, setTextGlobal] = useAtom(x);
   const [text, setText] = useState('');
@@ -15,7 +15,7 @@ export function useTextInput(
       setText(e.target.value);
       setTextDebounced(e.target.value);
     },
-    [setTextDebounced]
+    [setTextDebounced],
   );
   return [onChange, text];
 }

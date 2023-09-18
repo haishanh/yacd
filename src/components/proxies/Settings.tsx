@@ -28,15 +28,14 @@ function Settings({ appConfig }: { appConfig: StateApp }) {
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       updateAppConfig('proxySortBy', e.target.value);
     },
-    [updateAppConfig]
+    [updateAppConfig],
   );
-
 
   const handleHideUnavailablesSwitchOnChange = useCallback(
     (v: boolean) => {
       updateAppConfig('hideUnavailableProxies', v);
     },
-    [updateAppConfig]
+    [updateAppConfig],
   );
   const { t } = useTranslation();
   return (

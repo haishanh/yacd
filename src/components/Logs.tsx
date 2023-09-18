@@ -62,7 +62,19 @@ const Row = memo(({ index, style, data }: ListChildComponentProps<Log[]>) => {
 
 Row.displayName = 'MemoRow';
 
-function Logs({ dispatch, logLevel, apiConfig, logs, logStreamingPaused }: { dispatch: DispatchFn; logLevel: string; apiConfig: ClashAPIConfig; logs: Log[]; logStreamingPaused: boolean }) {
+function Logs({
+  dispatch,
+  logLevel,
+  apiConfig,
+  logs,
+  logStreamingPaused,
+}: {
+  dispatch: DispatchFn;
+  logLevel: string;
+  apiConfig: ClashAPIConfig;
+  logs: Log[];
+  logStreamingPaused: boolean;
+}) {
   const actions = useStoreActions();
   const toggleIsRefreshPaused = useCallback(() => {
     logStreamingPaused ? reconnectLogs({ ...apiConfig, logLevel }) : stopLogs();

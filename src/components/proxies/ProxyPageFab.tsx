@@ -34,7 +34,7 @@ function useTestLatencyAction({
     setIsTestingLatency(true);
     dispatch(requestDelayAll(apiConfig)).then(
       () => setIsTestingLatency(false),
-      () => setIsTestingLatency(false)
+      () => setIsTestingLatency(false),
     );
   }, [apiConfig, dispatch, isTestingLatency]);
   return [requestDelayAllFn, isTestingLatency];

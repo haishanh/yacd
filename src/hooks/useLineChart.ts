@@ -9,7 +9,7 @@ export default function useLineChart(
   elementId: string,
   data: ChartConfiguration['data'],
   subscription: any,
-  extraChartOptions = {}
+  extraChartOptions = {},
 ) {
   useEffect(() => {
     const ctx = (document.getElementById(elementId) as HTMLCanvasElement).getContext('2d');

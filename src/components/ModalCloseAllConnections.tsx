@@ -8,7 +8,15 @@ import s from './ModalCloseAllConnections.module.scss';
 
 const { useRef, useCallback, useMemo } = React;
 
-export default function Comp({ isOpen, onRequestClose, primaryButtonOnTap }: { isOpen: boolean; onRequestClose: (x: any) => void; primaryButtonOnTap: () => void }) {
+export default function Comp({
+  isOpen,
+  onRequestClose,
+  primaryButtonOnTap,
+}: {
+  isOpen: boolean;
+  onRequestClose: (x: any) => void;
+  primaryButtonOnTap: () => void;
+}) {
   const primaryButtonRef = useRef(null);
   const onAfterOpen = useCallback(() => {
     primaryButtonRef.current.focus();
@@ -19,7 +27,7 @@ export default function Comp({ isOpen, onRequestClose, primaryButtonOnTap }: { i
       afterOpen: s.afterOpen,
       beforeClose: '',
     }),
-    []
+    [],
   );
   return (
     <Modal

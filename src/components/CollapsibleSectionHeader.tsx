@@ -22,7 +22,7 @@ export default function Header({ name, type, toggle, isOpen, qty }: Props) {
         toggle();
       }
     },
-    [toggle]
+    [toggle],
   );
   return (
     <div

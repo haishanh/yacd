@@ -25,7 +25,13 @@ const mapState = (s: State) => ({
 
 export default connect(mapState)(TrafficChart);
 
-function TrafficChart({ apiConfig, selectedChartStyleIndex }: { apiConfig: ClashAPIConfig; selectedChartStyleIndex: number }) {
+function TrafficChart({
+  apiConfig,
+  selectedChartStyleIndex,
+}: {
+  apiConfig: ClashAPIConfig;
+  selectedChartStyleIndex: number;
+}) {
   const ChartMod = chartJSResource.read();
   const traffic = fetchData(apiConfig);
   const { t } = useTranslation();
@@ -47,7 +53,7 @@ function TrafficChart({ apiConfig, selectedChartStyleIndex }: { apiConfig: Clash
         },
       ],
     }),
-    [traffic, selectedChartStyleIndex, t]
+    [traffic, selectedChartStyleIndex, t],
   );
 
   useLineChart(ChartMod.Chart, 'trafficChart', data, traffic);

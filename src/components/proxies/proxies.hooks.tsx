@@ -16,7 +16,7 @@ export function useUpdateProviderItem({
 }) {
   return useCallback(
     () => dispatch(updateProviderByName(apiConfig, name)),
-    [apiConfig, dispatch, name]
+    [apiConfig, dispatch, name],
   );
 }
 

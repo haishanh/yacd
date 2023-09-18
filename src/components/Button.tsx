@@ -41,12 +41,12 @@ function Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
       if (isLoading) return;
       onClick && onClick(e);
     },
-    [isLoading, onClick]
+    [isLoading, onClick],
   );
   const btnClassName = cx(
     s0.btn,
     { [s0.minimal]: kind === 'minimal', [s0.circular]: kind === 'circular' },
-    className
+    className,
   );
   return (
     <button

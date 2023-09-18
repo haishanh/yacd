@@ -11,10 +11,7 @@ import { DispatchFn, State } from 'src/store/types';
 
 import s from './ThemeSwitcher.module.scss';
 
-function ThemeSwitcherImpl({ theme, dispatch }: {
-theme: string,
-dispatch: DispatchFn
-}) {
+function ThemeSwitcherImpl({ theme, dispatch }: { theme: string; dispatch: DispatchFn }) {
   const { t } = useTranslation();
 
   const themeIcon = React.useMemo(() => {

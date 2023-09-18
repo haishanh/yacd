@@ -34,13 +34,13 @@ function BackendListImpl({
     (conf: ClashAPIConfig) => {
       removeClashAPIConfig(conf);
     },
-    [removeClashAPIConfig]
+    [removeClashAPIConfig],
   );
   const onSelect = React.useCallback(
     (conf: ClashAPIConfig) => {
       selectClashAPIConfig(conf);
     },
-    [selectClashAPIConfig]
+    [selectClashAPIConfig],
   );
 
   return (

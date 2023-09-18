@@ -15,10 +15,14 @@ import { connect } from './StateProvider';
 
 const { useCallback, useEffect } = React;
 
-function APIDiscovery({ dispatch, apiConfig, modals }: {
-  dispatch: DispatchFn,
-  apiConfig: ClashAPIConfig,
-  modals: StateModals,
+function APIDiscovery({
+  dispatch,
+  apiConfig,
+  modals,
+}: {
+  dispatch: DispatchFn;
+  apiConfig: ClashAPIConfig;
+  modals: StateModals;
 }) {
   if (!window.fetch) {
     const { detail } = errors[DOES_NOT_SUPPORT_FETCH];

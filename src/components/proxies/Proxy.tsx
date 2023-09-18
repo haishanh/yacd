@@ -76,7 +76,7 @@ function ProxySmallImpl({ now, name, proxy, latency, isSelectable, onClick }: Pr
     (e: React.KeyboardEvent) => {
       if (e.key === 'Enter') doSelect();
     },
-    [doSelect]
+    [doSelect],
   );
 
   return (
@@ -103,7 +103,15 @@ const positionProxyNameTooltip = (triggerRect: { left: number; top: number }) =>
   };
 };
 
-function ProxyNameTooltip({ children, label, 'aria-label': ariaLabel }: { children: React.ReactElement; label: string; 'aria-label': string }) {
+function ProxyNameTooltip({
+  children,
+  label,
+  'aria-label': ariaLabel,
+}: {
+  children: React.ReactElement;
+  label: string;
+  'aria-label': string;
+}) {
   const [trigger, tooltip] = useTooltip();
   return (
     <>
@@ -127,7 +135,7 @@ function ProxyImpl({ now, name, proxy, latency, isSelectable, onClick }: ProxyPr
     (e: React.KeyboardEvent) => {
       if (e.key === 'Enter') doSelect();
     },
-    [doSelect]
+    [doSelect],
   );
   const className = useMemo(() => {
     return cx(s0.proxy, {

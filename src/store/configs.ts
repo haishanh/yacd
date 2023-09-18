@@ -55,7 +55,7 @@ function markHaveFetchedConfig() {
 
 export function updateConfigs(
   apiConfig: ClashAPIConfig,
-  partialConfg: Partial<ClashGeneralConfig>
+  partialConfg: Partial<ClashGeneralConfig>,
 ) {
   return async (dispatch: DispatchFn) => {
     configsAPI
@@ -71,7 +71,7 @@ export function updateConfigs(
           // eslint-disable-next-line no-console
           console.log('Error update configs', err);
           throw err;
-        }
+        },
       )
       .then(() => {
         dispatch(fetchConfigs(apiConfig));

@@ -20,7 +20,7 @@ const LngBackend = {
     if (p) {
       p.then(
         (d) => callback(null, d.data),
-        (err) => callback(err, null)
+        (err) => callback(err, null),
       );
     } else {
       callback(new Error(`unable to load translation file for language ${lng}`), null);

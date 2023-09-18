@@ -63,10 +63,14 @@ const mapState2 = (s: State) => ({
 const Config = connect(mapState2)(ConfigImpl);
 export default connect(mapState)(ConfigContainer);
 
-function ConfigContainer({ dispatch, configs, apiConfig }: {
-  dispatch: DispatchFn,
-  configs: ClashGeneralConfig,
-  apiConfig: ClashAPIConfig,
+function ConfigContainer({
+  dispatch,
+  configs,
+  apiConfig,
+}: {
+  dispatch: DispatchFn;
+  configs: ClashGeneralConfig;
+  apiConfig: ClashAPIConfig;
 }) {
   useEffect(() => {
     dispatch(fetchConfigs(apiConfig));
@@ -106,7 +110,7 @@ function ConfigImpl({
     (name: keyof ClashGeneralConfig, val: ClashGeneralConfig[keyof ClashGeneralConfig]) => {
       setConfigStateInternal({ ...configState, [name]: val });
     },
-    [configState]
+    [configState],
   );
 
   const handleSwitchOnChange = useCallback(
@@ -116,7 +120,7 @@ function ConfigImpl({
       setConfigState(name, value);
       dispatch(updateConfigs(apiConfig, { 'allow-lan': value }));
     },
-    [apiConfig, dispatch, setConfigState]
+    [apiConfig, dispatch, setConfigState],
   );
 
   const handleChangeValue = useCallback(
@@ -144,12 +148,12 @@ function ConfigImpl({
           return;
       }
     },
-    [apiConfig, dispatch, setConfigState]
+    [apiConfig, dispatch, setConfigState],
   );
 
   const handleInputOnChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (e) => handleChangeValue(e.target),
-    [handleChangeValue]
+    [handleChangeValue],
   );
 
   const { selectChartStyleIndex, updateAppConfig } = useStoreActions();
@@ -176,7 +180,7 @@ function ConfigImpl({
           throw new Error(`unknown input name ${name}`);
       }
     },
-    [apiConfig, dispatch, updateAppConfig]
+    [apiConfig, dispatch, updateAppConfig],
   );
 
   const mode = useMemo(() => {
@@ -201,7 +205,7 @@ function ConfigImpl({
                 onBlur={handleInputOnBlur}
               />
             </div>
-          ) : null
+          ) : null,
         )}
 
         <div>

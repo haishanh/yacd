@@ -24,12 +24,7 @@ function filterAvailableProxies(list: string[], delay: DelayMapping) {
   });
 }
 
-const getSortDelay = (
-  d:
-    | undefined
-    | ProxyDelayItem,
-  proxyInfo: ProxyItem
-) => {
+const getSortDelay = (d: undefined | ProxyDelayItem, proxyInfo: ProxyItem) => {
   if (d && 'number' in d && d.number > 0) {
     return d.number;
   }
@@ -93,7 +88,7 @@ function filterAvailableProxiesAndSort(
   hideUnavailableProxies: boolean,
   filterText: string,
   proxySortBy: string,
-  proxies?: ProxiesMapping
+  proxies?: ProxiesMapping,
 ) {
   // all is freezed
   let filtered = [...all];
@@ -112,7 +107,7 @@ export function useFilteredAndSorted(
   delay: DelayMapping,
   hideUnavailableProxies: boolean,
   proxySortBy: string,
-  proxies?: ProxiesMapping
+  proxies?: ProxiesMapping,
 ) {
   const [filterText] = useAtom(proxyFilterTextAtom);
   return useMemo(
@@ -123,8 +118,8 @@ export function useFilteredAndSorted(
         hideUnavailableProxies,
         filterText,
         proxySortBy,
-        proxies
+        proxies,
       ),
-    [all, delay, hideUnavailableProxies, filterText, proxySortBy, proxies]
+    [all, delay, hideUnavailableProxies, filterText, proxySortBy, proxies],
   );
 }

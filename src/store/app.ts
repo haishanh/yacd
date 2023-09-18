@@ -26,7 +26,7 @@ const saveStateDebounced = debounce(saveState, 600);
 
 function findClashAPIConfigIndex(
   getState: GetStateFn,
-  { baseURL, secret, metaLabel }: ClashAPIConfig
+  { baseURL, secret, metaLabel }: ClashAPIConfig,
 ) {
   const arr = getClashAPIConfigs(getState());
   for (let i = 0; i < arr.length; i++) {
@@ -115,7 +115,7 @@ function insertThemeColorMeta(color: string, media?: string) {
 
 function updateMetaThemeColor(theme: ThemeType) {
   const metas = Array.from(
-    document.querySelectorAll('meta[name=theme-color]')
+    document.querySelectorAll('meta[name=theme-color]'),
   ) as HTMLMetaElement[];
   let meta0: HTMLMetaElement;
   for (const m of metas) {

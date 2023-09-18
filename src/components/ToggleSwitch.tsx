@@ -21,7 +21,7 @@ function ToggleSwitch({ options, value, name, onChange }: Props) {
         return w;
       }
     },
-    [options]
+    [options],
   );
 
   const sliderStyle = useMemo(() => {

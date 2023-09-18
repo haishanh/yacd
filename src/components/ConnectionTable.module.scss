@@ -24,13 +24,13 @@
     white-space: nowrap;
   }
   td {
-    border:none;
+    border: none;
     white-space: nowrap;
     padding: 8px 13px;
     font-size: 0.9em;
     font-family: var(--font-normal);
   }
-  & >tbody>tr:nth-of-type(odd)>* {
+  & > tbody > tr:nth-of-type(odd) > * {
     background: var(--color-row-odd);
   }
 }

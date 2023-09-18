@@ -43,7 +43,7 @@ Modal.setAppElement(rootEl);
 root.render(
   <React.StrictMode>
     <Root />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 setTimeout(() => {

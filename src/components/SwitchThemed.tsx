@@ -10,7 +10,12 @@ import { connect } from './StateProvider';
 // @ts-ignore
 const Switch = ReactSwitch.default ? ReactSwitch.default : ReactSwitch;
 
-function SwitchThemed({ checked = false, onChange, theme, name }: {
+function SwitchThemed({
+  checked = false,
+  onChange,
+  theme,
+  name,
+}: {
   checked: boolean;
   onChange: (v: boolean) => void;
   theme: string;

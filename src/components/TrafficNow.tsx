@@ -55,7 +55,7 @@ function useSpeed(apiConfig: ClashAPIConfig) {
       setSpeed({
         upStr: prettyBytes(o.up) + '/s',
         downStr: prettyBytes(o.down) + '/s',
-      })
+      }),
     );
   }, [apiConfig]);
   return speed;
@@ -75,7 +75,7 @@ function useConnection(apiConfig: ClashAPIConfig) {
         connNumber: connections.length,
       });
     },
-    [setState]
+    [setState],
   );
   useEffect(() => {
     return connAPI.fetchData(apiConfig, read);

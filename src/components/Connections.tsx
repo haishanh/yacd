@@ -66,25 +66,25 @@ function filterConns(conns: FormattedConn[], keyword: string) {
   return !keyword
     ? conns
     : conns.filter((conn) =>
-      [
-        conn.host,
-        conn.sourceIP,
-        conn.sourcePort,
-        conn.destinationIP,
-        conn.chains,
-        conn.rule,
-        conn.type,
-        conn.network,
-        conn.processPath,
-      ].some((field) => hasSubstring(field, keyword))
-    );
+        [
+          conn.host,
+          conn.sourceIP,
+          conn.sourcePort,
+          conn.destinationIP,
+          conn.chains,
+          conn.rule,
+          conn.type,
+          conn.network,
+          conn.processPath,
+        ].some((field) => hasSubstring(field, keyword)),
+      );
 }
 
 function formatConnectionDataItem(
   i: ConnectionItem,
   prevKv: Record<string, { upload: number; download: number }>,
   now: number,
-  mutConnCtxRef: { hasProcessPath: boolean }
+  mutConnCtxRef: { hasProcessPath: boolean },
 ): FormattedConn {
   const { id, metadata, upload, download, start, chains, rule, rulePayload } = i;
   const { host, destinationPort, destinationIP, network, type, sourceIP, sourcePort } = metadata;
@@ -152,7 +152,7 @@ function Conn({ apiConfig }: { apiConfig: ClashAPIConfig }) {
       const prevConnsKv = arrayToIdKv(prevConnsRef.current);
       const now = Date.now();
       const x = connections.map((c: ConnectionItem) =>
-        formatConnectionDataItem(c, prevConnsKv, now, connCtx)
+        formatConnectionDataItem(c, prevConnsKv, now, connCtx),
       );
       const closed = [];
       for (const c of prevConnsRef.current) {
@@ -172,7 +172,7 @@ function Conn({ apiConfig }: { apiConfig: ClashAPIConfig }) {
         prevConnsRef.current = x;
       }
     },
-    [setConns, isRefreshPaused, connCtx]
+    [setConns, isRefreshPaused, connCtx],
   );
   useEffect(() => {
     return connAPI.fetchData(apiConfig, read);

@@ -8,7 +8,7 @@ type VersionData = {
 
 export async function fetchVersion(
   endpoint: string,
-  apiConfig: ClashAPIConfig
+  apiConfig: ClashAPIConfig,
 ): Promise<VersionData> {
   let json = {};
   try {

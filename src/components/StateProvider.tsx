@@ -30,7 +30,15 @@ export function useStoreActions() {
 }
 
 // boundActionCreators
-export default function Provider({ initialState, actions = {}, children }: { initialState: Partial<State>, actions: any, children: ReactNode }) {
+export default function Provider({
+  initialState,
+  actions = {},
+  children,
+}: {
+  initialState: Partial<State>;
+  actions: any;
+  children: ReactNode;
+}) {
   const stateRef = useRef(initialState);
   const [state, setState] = useState(initialState);
   const getState = useCallback(() => stateRef.current, []);
@@ -53,7 +61,7 @@ export default function Provider({ initialState, actions = {}, children }: { ini
         setState(stateNext);
       }
     },
-    [getState]
+    [getState],
   );
   const boundActions = useMemo(() => bindActions(actions, dispatch), [actions, dispatch]);
 
@@ -82,7 +90,7 @@ export function connect(mapStateToProps: any) {
 
 // steal from https://github.com/reduxjs/redux/blob/master/src/bindActionCreators.ts
 function bindAction(action: any, dispatch: any) {
-  return function(...args: any[]) {
+  return function (...args: any[]) {
     return dispatch(action.apply(this, args));
   };
 }

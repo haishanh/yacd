@@ -19,56 +19,57 @@ const fullColumns = [
   { header: 'Host', accessorKey: 'host' },
   { header: 'Process', accessorKey: 'process' },
   {
-    header: 'DL', accessorKey: 'download',
-    cell: (info: any) => prettyBytes(info.getValue())
+    header: 'DL',
+    accessorKey: 'download',
+    cell: (info: any) => prettyBytes(info.getValue()),
   },
   {
-    header: 'UL', accessorKey: 'upload',
-    cell: (info: any) => prettyBytes(info.getValue())
+    header: 'UL',
+    accessorKey: 'upload',
+    cell: (info: any) => prettyBytes(info.getValue()),
   },
   {
-    header: 'DL Speed', accessorKey: 'downloadSpeedCurr',
-    cell: (info: any) => prettyBytes(info.getValue()) + '/s'
+    header: 'DL Speed',
+    accessorKey: 'downloadSpeedCurr',
+    cell: (info: any) => prettyBytes(info.getValue()) + '/s',
   },
   {
-    header: 'UL Speed', accessorKey: 'uploadSpeedCurr',
-    cell: (info: any) => prettyBytes(info.getValue()) + '/s'
+    header: 'UL Speed',
+    accessorKey: 'uploadSpeedCurr',
+    cell: (info: any) => prettyBytes(info.getValue()) + '/s',
   },
   { header: 'Chains', accessorKey: 'chains' },
   { header: 'Rule', accessorKey: 'rule' },
   {
-    header: 'Time', accessorKey: 'start',
-    cell: (info: any) => formatDistance(info.getValue(), 0)
+    header: 'Time',
+    accessorKey: 'start',
+    cell: (info: any) => formatDistance(info.getValue(), 0),
   },
   { header: 'Source', accessorKey: 'source' },
   { header: 'Destination IP', accessorKey: 'destinationIP' },
   { header: 'Type', accessorKey: 'type' },
 ];
 
-const COLUMN_SORT = [
-  { id: 'id', desc: true }
-]
+const COLUMN_SORT = [{ id: 'id', desc: true }];
 
 const columns = fullColumns;
 const columnsWithoutProcess = fullColumns.filter((item) => item.accessorKey !== 'process');
 
 function Table({ data }: { data: any }) {
   const connCtx = React.useContext(MutableConnRefCtx);
-  const [sorting, setSorting] = React.useState<SortingState>(COLUMN_SORT)
-  const table = useReactTable(
-    {
-      columns: connCtx.hasProcessPath ? columns : columnsWithoutProcess,
-      data,
-      state: {
-        sorting,
-        columnVisibility: { id: false }
-      },
-      onSortingChange: setSorting,
-      getCoreRowModel: getCoreRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      // debugTable: true,
+  const [sorting, setSorting] = React.useState<SortingState>(COLUMN_SORT);
+  const table = useReactTable({
+    columns: connCtx.hasProcessPath ? columns : columnsWithoutProcess,
+    data,
+    state: {
+      sorting,
+      columnVisibility: { id: false },
     },
-  );
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    // debugTable: true,
+  });
   // className={s.tr}
   return (
     <table className={s.table}>
@@ -78,65 +79,62 @@ function Table({ data }: { data: any }) {
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <th key={header.id}
+                  <th
+                    key={header.id}
                     className={header.column.getCanSort() ? cx(s.th, s.pointer) : s.th}
-                    onClick={header.column.getToggleSortingHandler()}>
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
                     <span className={s.thWrap}>
-                      <span>
-                        {
-                          flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )
-                        }
-                      </span>
+                      <span>{flexRender(header.column.columnDef.header, header.getContext())}</span>
                       {header.column.getIsSorted() ? (
-                        <span className={header.column.getIsSorted() === 'desc' ? s.sortIconContainer : cx(s.rotate180, s.sortIconContainer)}>
+                        <span
+                          className={
+                            header.column.getIsSorted() === 'desc'
+                              ? s.sortIconContainer
+                              : cx(s.rotate180, s.sortIconContainer)
+                          }
+                        >
                           <ChevronDown size={16} />
                         </span>
                       ) : null}
                     </span>
                   </th>
-                )
+                );
               })}
-            </tr>)
+            </tr>
+          );
         })}
       </thead>
       <tbody>
         {table.getRowModel().rows.map((row) => {
           return (
             <tr key={row.id}>
-              {
-                row.getVisibleCells().map((cell) => {
-                  return (
-                    <td
-                      key={cell.id}
-                      className={cx(
-                        'xxxx'
-                        // s.td,
-                        // i % 2 === 0 ? s.odd : false,
-                        // connCtx.hasProcessPath
-                        //   ? j >= 2 && j <= 5
-                        //     ? s.du
-                        //     : false
-                        //   : j >= 1 && j <= 4
-                        //     ? s.du
-                        //     : false
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  );
-                })
-              }
+              {row.getVisibleCells().map((cell) => {
+                return (
+                  <td
+                    key={cell.id}
+                    className={cx(
+                      'xxxx',
+                      // s.td,
+                      // i % 2 === 0 ? s.odd : false,
+                      // connCtx.hasProcessPath
+                      //   ? j >= 2 && j <= 5
+                      //     ? s.du
+                      //     : false
+                      //   : j >= 1 && j <= 4
+                      //     ? s.du
+                      //     : false
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                );
+              })}
             </tr>
-          )
+          );
         })}
       </tbody>
-    </table >
+    </table>
   );
 }
 

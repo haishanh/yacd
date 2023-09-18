@@ -29,7 +29,7 @@ export function SelfControlledInput({ value, ...restProps }: InputProps) {
   }, [value]);
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setInternalValue(e.target.value),
-    [setInternalValue]
+    [setInternalValue],
   );
 
   return <input className={s0.input} value={internalValue} onChange={onChange} {...restProps} />;

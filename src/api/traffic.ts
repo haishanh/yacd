@@ -7,7 +7,7 @@ const textDecoder = new TextDecoder('utf-8');
 
 const Size = 150;
 
-type Traffic = { up: number; down: number }
+type Traffic = { up: number; down: number };
 
 const traffic = {
   labels: Array(Size).fill(0),
@@ -85,7 +85,10 @@ function fetchData(apiConfig: ClashAPIConfig) {
   const ws = new WebSocket(url);
 
   let frozenState = false;
-  const onFrozen = () => { frozenState = true; ws.close(); },
+  const onFrozen = () => {
+      frozenState = true;
+      ws.close();
+    },
     onResume = () => {
       frozenState = false;
 
@@ -99,10 +102,10 @@ function fetchData(apiConfig: ClashAPIConfig) {
   document.addEventListener('freeze', onFrozen, { capture: true, once: true });
   document.addEventListener('resume', onResume, { capture: true, once: true });
 
-  ws.addEventListener('error', function(_ev) {
+  ws.addEventListener('error', function (_ev) {
     wsState = 3;
   });
-  ws.addEventListener('close', function(_ev) {
+  ws.addEventListener('close', function (_ev) {
     wsState = 3;
     if (!frozenState) {
       // For unexpected close, remove listeners and re-fetch
@@ -112,7 +115,7 @@ function fetchData(apiConfig: ClashAPIConfig) {
       fetchDataWithFetch(apiConfig);
     }
   });
-  ws.addEventListener('message', function(event) {
+  ws.addEventListener('message', function (event) {
     parseAndAppend(event.data);
   });
   return traffic;
@@ -135,7 +138,7 @@ function fetchDataWithFetch(apiConfig: ClashAPIConfig) {
       // eslint-disable-next-line no-console
       console.log('fetch /traffic error', err);
       fetched = false;
-    }
+    },
   );
   return traffic;
 }
