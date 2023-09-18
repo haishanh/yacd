@@ -1,6 +1,5 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
-export const ruleFilterText = atom({
-  key: 'ruleFilterText',
-  default: '',
-});
+export const ruleFilterTextAtom = atom('');
+
+export type TextAtom = typeof ruleFilterTextAtom;

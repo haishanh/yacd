@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 import {
   DelayMapping,
   DispatchFn,
@@ -423,7 +423,4 @@ export const actions = {
   closePrevConnsAndTheModal,
 };
 
-export const proxyFilterText = atom({
-  key: 'proxyFilterText',
-  default: '',
-});
+export const proxyFilterTextAtom = atom('');

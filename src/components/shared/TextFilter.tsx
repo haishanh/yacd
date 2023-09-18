@@ -1,10 +1,11 @@
 import * as React from 'react';
-import type { RecoilState } from 'recoil';
 import { useTextInput } from 'src/hooks/useTextInput';
+
+import { TextAtom } from '$src/store/rules';
 
 import s from './TextFilter.module.scss';
 
-export function TextFilter(props: { textAtom: RecoilState<string>; placeholder?: string }) {
+export function TextFilter(props: { textAtom: TextAtom; placeholder?: string }) {
   const [onChange, text] = useTextInput(props.textAtom);
   return (
     <input

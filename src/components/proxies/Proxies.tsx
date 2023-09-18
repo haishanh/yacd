@@ -12,7 +12,7 @@ import BaseModal from 'src/components/shared/BaseModal';
 import { connect, useStoreActions } from 'src/components/StateProvider';
 import Equalizer from 'src/components/svg/Equalizer';
 import { getClashAPIConfig } from 'src/store/app';
-import { proxyFilterText } from 'src/store/proxies';
+import { proxyFilterTextAtom } from 'src/store/proxies';
 import {
   fetchProxies,
   getDelay,
@@ -89,7 +89,7 @@ function Proxies({
         <ContentHeader title={t('Proxies')} />
         <div className={s0.topBarRight}>
           <div className={s0.textFilterContainer}>
-            <TextFilter textAtom={proxyFilterText} />
+            <TextFilter textAtom={proxyFilterTextAtom} />
           </div>
           <Tooltip label={t('settings')}>
             <Button kind="minimal" onClick={() => setIsSettingsModalOpen(true)}>

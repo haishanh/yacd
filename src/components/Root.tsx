@@ -4,7 +4,6 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
 import { RouteObject } from 'react-router';
 import { HashRouter as Router, useRoutes } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
 import { About } from 'src/components/about/About';
 import Loading from 'src/components/Loading';
 import { Head } from 'src/components/shared/Head';
@@ -75,20 +74,18 @@ function App() {
 
 const Root = () => (
   <ErrorBoundary>
-    <RecoilRoot>
-      <StateProvider initialState={initialState} actions={actions}>
-        <QueryClientProvider client={queryClient}>
-          <Router>
-            <div className={s0.app}>
-              <Head />
-              <Suspense fallback={<Loading />}>
-                <App />
-              </Suspense>
-            </div>
-          </Router>
-        </QueryClientProvider>
-      </StateProvider>
-    </RecoilRoot>
+    <StateProvider initialState={initialState} actions={actions}>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <div className={s0.app}>
+            <Head />
+            <Suspense fallback={<Loading />}>
+              <App />
+            </Suspense>
+          </div>
+        </Router>
+      </QueryClientProvider>
+    </StateProvider>
   </ErrorBoundary>
 );
 
