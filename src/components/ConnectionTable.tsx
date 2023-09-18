@@ -68,9 +68,7 @@ function Table({ data }: { data: any }) {
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    // debugTable: true,
   });
-  // className={s.tr}
   return (
     <table className={s.table}>
       <thead>
@@ -111,21 +109,7 @@ function Table({ data }: { data: any }) {
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => {
                 return (
-                  <td
-                    key={cell.id}
-                    className={cx(
-                      'xxxx',
-                      // s.td,
-                      // i % 2 === 0 ? s.odd : false,
-                      // connCtx.hasProcessPath
-                      //   ? j >= 2 && j <= 5
-                      //     ? s.du
-                      //     : false
-                      //   : j >= 1 && j <= 4
-                      //     ? s.du
-                      //     : false
-                    )}
-                  >
+                  <td key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 );
