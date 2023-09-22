@@ -11,6 +11,7 @@ export default defineConfig(async ({ mode }) => {
   if (!hash) {
     try {
       hash = await gitHash();
+      hash = hash.trim();
     } catch (e) { }
   }
   if (!hash) hash = '';
