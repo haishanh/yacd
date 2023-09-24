@@ -227,23 +227,36 @@ const defaultState: StateApp = {
   logStreamingPaused: false,
 };
 
+const CONFIG_QUERY_PARAMS = ['hostname', 'port', 'secret', 'theme'];
+
 function parseConfigQueryString() {
   const { search } = window.location;
   const collector: Record<string, string> = {};
-  if (typeof search !== 'string' || search === '') return collector;
-  const qs = search.replace(/^\?/, '').split('&');
-  for (let i = 0; i < qs.length; i++) {
-    const [k, v] = qs[i].split('=');
-    collector[k] = encodeURIComponent(v);
+  const sp = new URLSearchParams(search);
+  let shouldUpdateAddressBar = false;
+  if (typeof search !== 'string' || search === '') {
+    return [collector, sp, shouldUpdateAddressBar] as const;
   }
-  return collector;
+  for (const key of CONFIG_QUERY_PARAMS) {
+    const v = sp.get(key);
+    if (v) {
+      shouldUpdateAddressBar = true;
+      collector[key] = v;
+      // sp can contain secret etc. and we better remove these
+      sp.delete(key);
+    }
+  }
+  return [collector, sp, shouldUpdateAddressBar] as const;
 }
 
 export function initialState() {
   let s = loadState();
   s = { ...defaultState, ...s };
-  const query = parseConfigQueryString();
-
+  const [query, sp, shouldUpdateAddressBar] = parseConfigQueryString();
+  if (shouldUpdateAddressBar && history?.replaceState) {
+    const target = location.pathname + location.hash + (sp.size > 0 ? `?${sp}` : '');
+    history.replaceState(null, '', target);
+  }
   const conf = s.clashAPIConfigs[s.selectedClashAPIConfigIndex];
   if (conf) {
     const url = new URL(conf.baseURL);

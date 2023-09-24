@@ -149,20 +149,23 @@ body {
   color-scheme: light;
 }
 
+@mixin blackDark {
+  --color-background: #000000;
+  --color-input-bg: #111111;
+  --color-background2: rgba(0, 0, 0, 0.3);
+  --color-bg-card: #1c1c1c;
+}
+
 :root[data-theme='dark'] {
   .pureBlackDark {
-    --color-background: #000000;
-    --color-input-bg: #111111;
-    --color-background2: rgba(0, 0, 0, 0.3);
+    @include blackDark;
   }
 }
 
 :root[data-theme='auto'] {
   @media (prefers-color-scheme: dark) {
     .pureBlackDark {
-      --color-background: #000000;
-      --color-input-bg: #111111;
-      --color-background2: rgba(0, 0, 0, 0.3);
+      @include blackDark;
     }
   }
 }
