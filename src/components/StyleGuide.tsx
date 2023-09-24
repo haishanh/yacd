@@ -3,6 +3,7 @@ import { Zap } from 'react-feather';
 import Loading from 'src/components/Loading';
 
 import Button from './Button';
+import { Toggle } from './form/Toggle';
 import Input from './Input';
 import { ZapAnimated } from './shared/ZapAnimated';
 import SwitchThemed from './SwitchThemed';
@@ -43,6 +44,12 @@ class StyleGuide extends PureComponent {
   render() {
     return (
       <div>
+        <Pane>
+          <Toggle id="toggle1" label="Toggle Me" />
+        </Pane>
+        <Pane>
+          <input />
+        </Pane>
         <Pane>
           <ZapAnimated />
         </Pane>

@@ -1,3 +1,4 @@
+import { atomWithStorage } from 'jotai/utils';
 import { DispatchFn, GetStateFn, State, StateApp } from 'src/store/types';
 
 import { ClashAPIConfig } from '$src/types';
@@ -6,6 +7,10 @@ import { loadState, saveState } from '../misc/storage';
 import { debounce, trimTrailingSlash } from '../misc/utils';
 import { fetchConfigs } from './configs';
 import { closeModal } from './modals';
+
+const STORAGE_KEY = {
+  darkModePureBlackToggle: 'yacd_darkModePureBlackToggle',
+};
 
 export const getClashAPIConfig = (s: State) => {
   const idx = s.app.selectedClashAPIConfigIndex;
@@ -267,3 +272,8 @@ export function initialState() {
   setTheme(s.theme);
   return s;
 }
+
+export const darkModePureBlackToggleAtom = atomWithStorage(
+  STORAGE_KEY.darkModePureBlackToggle,
+  false,
+);

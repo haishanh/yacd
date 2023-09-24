@@ -1,3 +1,4 @@
+import { useAtom } from 'jotai';
 import * as React from 'react';
 import { LogOut } from 'react-feather';
 import { useTranslation } from 'react-i18next';
@@ -6,12 +7,18 @@ import Select from 'src/components/shared/Select';
 import { ClashGeneralConfig, DispatchFn, State } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
 
-import { getClashAPIConfig, getLatencyTestUrl, getSelectedChartStyleIndex } from '../store/app';
+import {
+  darkModePureBlackToggleAtom,
+  getClashAPIConfig,
+  getLatencyTestUrl,
+  getSelectedChartStyleIndex,
+} from '../store/app';
 import { fetchConfigs, getConfigs, updateConfigs } from '../store/configs';
 import { openModal } from '../store/modals';
 import Button from './Button';
 import s0 from './Config.module.scss';
 import ContentHeader from './ContentHeader';
+import { Toggle } from './form/Toggle';
 import Input, { SelfControlledInput } from './Input';
 import { Selection2 } from './Selection';
 import { connect, useStoreActions } from './StateProvider';
@@ -188,6 +195,8 @@ function ConfigImpl({
     return typeof m === 'string' && m[0].toUpperCase() + m.slice(1);
   }, [configState.mode]);
 
+  const [pureBlack, setPureBlack] = useAtom(darkModePureBlackToggleAtom);
+
   const { t, i18n } = useTranslation();
 
   return (
@@ -272,7 +281,6 @@ function ConfigImpl({
             onChange={selectChartStyleIndex}
           />
         </div>
-
         <div>
           <div className={s0.label}>
             {t('current_backend')}
@@ -283,6 +291,14 @@ function ConfigImpl({
             start={<LogOut size={16} />}
             label={t('switch_backend')}
             onClick={openAPIConfigModal}
+          />
+        </div>
+        <div className={s0.item}>
+          <Toggle
+            label={t('dark_mode_pure_black_toggle_label')}
+            id="dark-mode-pure-black-toggle"
+            checked={pureBlack}
+            onChange={(e) => setPureBlack(e.target.checked)}
           />
         </div>
       </div>
