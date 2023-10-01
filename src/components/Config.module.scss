@@ -10,6 +10,9 @@
 
   .item {
     margin-top: 11px;
+    label {
+      padding-left: 12px;
+    }
   }
 }
 
@@ -19,12 +22,6 @@
   @media screen and (min-width: 30em) {
     padding: 10px 40px 15px;
   }
-}
-
-.wrapSwitch {
-  height: 40px;
-  display: flex;
-  align-items: center;
 }
 
 .sep {

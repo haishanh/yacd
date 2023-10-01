@@ -18,13 +18,11 @@ import { openModal } from '../store/modals';
 import Button from './Button';
 import s0 from './Config.module.scss';
 import ContentHeader from './ContentHeader';
-import { Toggle } from './form/Toggle';
+import { ToggleInput } from './form/Toggle';
 import Input, { SelfControlledInput } from './Input';
 import { Selection2 } from './Selection';
 import { connect, useStoreActions } from './StateProvider';
-import Switch from './SwitchThemed';
 import TrafficChartSample from './TrafficChartSample';
-// import ToggleSwitch from './ToggleSwitch';
 
 const { useEffect, useState, useCallback, useRef, useMemo } = React;
 
@@ -235,15 +233,13 @@ function ConfigImpl({
           />
         </div>
 
-        <div>
-          <div className={s0.label}>Allow LAN</div>
-          <div className={s0.wrapSwitch}>
-            <Switch
-              name="allow-lan"
-              checked={configState['allow-lan']}
-              onChange={handleSwitchOnChange}
-            />
-          </div>
+        <div className={s0.item}>
+          <ToggleInput
+            id="config-allow-lan"
+            checked={configState['allow-lan']}
+            onChange={handleSwitchOnChange}
+          />
+          <label htmlFor="config-allow-lan">Allow LAN</label>
         </div>
       </div>
 
@@ -294,12 +290,14 @@ function ConfigImpl({
           />
         </div>
         <div className={s0.item}>
-          <Toggle
-            label={t('dark_mode_pure_black_toggle_label')}
+          <ToggleInput
             id="dark-mode-pure-black-toggle"
             checked={pureBlack}
-            onChange={(e) => setPureBlack(e.target.checked)}
+            onChange={setPureBlack}
           />
+          <label htmlFor="dark-mode-pure-black-toggle">
+            {t('dark_mode_pure_black_toggle_label')}
+          </label>
         </div>
       </div>
     </div>

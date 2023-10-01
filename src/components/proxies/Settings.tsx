@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'src/components/shared/Select';
 
+import { ToggleInput } from '$src/components/form/Toggle';
 import { State, StateApp } from '$src/store/types';
 
 import { getAutoCloseOldConns, getHideUnavailableProxies, getProxySortBy } from '../../store/app';
 import { connect, useStoreActions } from '../StateProvider';
-import Switch from '../SwitchThemed';
 import s from './Settings.module.scss';
 
 const options = [
@@ -54,20 +54,20 @@ function Settings({ appConfig }: { appConfig: StateApp }) {
       </div>
       <hr />
       <div className={s.labeledInput}>
-        <span>{t('hide_unavail_proxies')}</span>
+        <label htmlFor="hideUnavailableProxies">{t('hide_unavail_proxies')}</label>
         <div>
-          <Switch
-            name="hideUnavailableProxies"
+          <ToggleInput
+            id="hideUnavailableProxies"
             checked={appConfig.hideUnavailableProxies}
             onChange={handleHideUnavailablesSwitchOnChange}
           />
         </div>
       </div>
       <div className={s.labeledInput}>
-        <span>{t('auto_close_conns')}</span>
+        <label htmlFor="autoCloseOldConns">{t('auto_close_conns')}</label>
         <div>
-          <Switch
-            name="autoCloseOldConns"
+          <ToggleInput
+            id="autoCloseOldConns"
             checked={appConfig.autoCloseOldConns}
             onChange={(v: boolean) => updateAppConfig('autoCloseOldConns', v)}
           />
