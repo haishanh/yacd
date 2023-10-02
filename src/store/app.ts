@@ -55,6 +55,7 @@ const CONFIG_QUERY_PARAMS = ['hostname', 'port', 'secret', 'theme'];
 export const selectedClashAPIConfigIndexAtom = atom<number>(initialState().selectedClashAPIConfigIndex);
 export const clashAPIConfigsAtom = atom<ClashAPIConfigWithAddedAt[]>(initialState().clashAPIConfigs);
 export const selectedChartStyleIndexAtom = atom(initialState().selectedChartStyleIndex);
+export const latencyTestUrlAtom = atom(initialState().latencyTestUrl);
 
 // hooks
 
@@ -65,7 +66,6 @@ export function useApiConfig() {
 }
 
 export const getTheme = (s: State) => s.app.theme;
-export const getLatencyTestUrl = (s: State) => s.app.latencyTestUrl;
 export const getCollapsibleIsOpen = (s: State) => s.app.collapsibleIsOpen;
 export const getProxySortBy = (s: State) => s.app.proxySortBy;
 export const getHideUnavailableProxies = (s: State) => s.app.hideUnavailableProxies;

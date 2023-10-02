@@ -1,3 +1,4 @@
+import { useAtom } from 'jotai';
 import * as React from 'react';
 import { Zap } from 'react-feather';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +8,8 @@ import { RotateIcon } from 'src/components/shared/RotateIcon';
 import { requestDelayAll } from 'src/store/proxies';
 import { DispatchFn, FormattedProxyProvider } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
+
+import { latencyTestUrlAtom } from '$src/store/app';
 
 const { useState, useCallback } = React;
 
@@ -28,15 +31,16 @@ function useTestLatencyAction({
   apiConfig: ClashAPIConfig;
 }): [() => unknown, boolean] {
   const [isTestingLatency, setIsTestingLatency] = useState(false);
+  const [latencyTestUrl] = useAtom(latencyTestUrlAtom);
   const requestDelayAllFn = useCallback(() => {
     if (isTestingLatency) return;
 
     setIsTestingLatency(true);
-    dispatch(requestDelayAll(apiConfig)).then(
+    dispatch(requestDelayAll(apiConfig, latencyTestUrl)).then(
       () => setIsTestingLatency(false),
       () => setIsTestingLatency(false),
     );
-  }, [apiConfig, dispatch, isTestingLatency]);
+  }, [apiConfig, dispatch, isTestingLatency, latencyTestUrl]);
   return [requestDelayAllFn, isTestingLatency];
 }
 

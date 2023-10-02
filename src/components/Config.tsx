@@ -10,7 +10,7 @@ import { saveStateTmp } from '$src/misc/storage';
 
 import {
   darkModePureBlackToggleAtom,
-  getLatencyTestUrl,
+  latencyTestUrlAtom,
   selectedChartStyleIndexAtom,
   useApiConfig,
 } from '../store/app';
@@ -59,11 +59,7 @@ const mapState = (s: State) => ({
   configs: getConfigs(s),
 });
 
-const mapState2 = (s: State) => ({
-  latencyTestUrl: getLatencyTestUrl(s),
-});
-
-const Config = connect(mapState2)(ConfigImpl);
+const Config = connect(mapState)(ConfigImpl);
 export default connect(mapState)(ConfigContainer);
 
 function ConfigContainer({
@@ -83,10 +79,10 @@ function ConfigContainer({
 type ConfigImplProps = {
   dispatch: DispatchFn;
   configs: ClashGeneralConfig;
-  latencyTestUrl: string;
 };
 
-function ConfigImpl({ dispatch, configs, latencyTestUrl }: ConfigImplProps) {
+function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
+  const [latencyTestUrl, setLatencyTestUrl] = useAtom(latencyTestUrlAtom);
   const [selectedChartStyleIndex, setSelectedChartStyleIndex] = useAtom(selectedChartStyleIndexAtom);
   const apiConfig = useApiConfig();
   const [configState, setConfigStateInternal] = useState(configs);
@@ -173,14 +169,14 @@ function ConfigImpl({ dispatch, configs, latencyTestUrl }: ConfigImplProps) {
           break;
         }
         case 'latencyTestUrl': {
-          updateAppConfig(name, value);
+          setLatencyTestUrl(value);
           break;
         }
         default:
           throw new Error(`unknown input name ${name}`);
       }
     },
-    [apiConfig, dispatch, updateAppConfig],
+    [apiConfig, dispatch, setLatencyTestUrl],
   );
 
   const mode = useMemo(() => {

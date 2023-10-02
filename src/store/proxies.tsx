@@ -16,7 +16,7 @@ import { ClashAPIConfig } from 'src/types';
 
 import * as connAPI from '../api/connections';
 import * as proxiesAPI from '../api/proxies';
-import { getAutoCloseOldConns, getLatencyTestUrl } from './app';
+import { getAutoCloseOldConns } from './app';
 
 export const initialState: StateProxies = {
   proxies: {},
@@ -266,13 +266,11 @@ export function switchProxy(apiConfig: ClashAPIConfig, groupName: string, itemNa
   };
 }
 
-function requestDelayForProxyOnce(apiConfig: ClashAPIConfig, name: string) {
+function requestDelayForProxyOnce(apiConfig: ClashAPIConfig, name: string, latencyTestUrl: string) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     dispatch('set latency state to testing in progress', (s) => {
       s.proxies.delay = { ...getDelay(getState()), [name]: { kind: 'Testing' } };
     });
-
-    const latencyTestUrl = getLatencyTestUrl(getState());
 
     try {
       const res = await proxiesAPI.requestDelayForProxy(apiConfig, name, latencyTestUrl);
@@ -300,13 +298,13 @@ function requestDelayForProxyOnce(apiConfig: ClashAPIConfig, name: string) {
   };
 }
 
-export function requestDelayForProxy(apiConfig: ClashAPIConfig, name: string) {
+export function requestDelayForProxy(apiConfig: ClashAPIConfig, name: string, latencyTestUrl: string) {
   return async (dispatch: DispatchFn) => {
-    await dispatch(requestDelayForProxyOnce(apiConfig, name));
+    await dispatch(requestDelayForProxyOnce(apiConfig, name, latencyTestUrl));
   };
 }
 
-export function requestDelayForProxies(apiConfig: ClashAPIConfig, names: string[]) {
+export function requestDelayForProxies(apiConfig: ClashAPIConfig, names: string[], latencyTestUrl: string) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const proxies = getProxies(getState());
 
@@ -320,7 +318,7 @@ export function requestDelayForProxies(apiConfig: ClashAPIConfig, names: string[
       if (!p.__provider) {
         if (!proxyDedupMap.get(name)) {
           proxyDedupMap.set(name, true);
-          dispatch(requestDelayForProxyOnce(apiConfig, name));
+          dispatch(requestDelayForProxyOnce(apiConfig, name, latencyTestUrl));
         }
       } else if (p.__provider) {
         if (!proxyDedupMap.get(name)) {
@@ -341,10 +339,9 @@ export function requestDelayForProxies(apiConfig: ClashAPIConfig, names: string[
   };
 }
 
-export function requestDelayAll(apiConfig: ClashAPIConfig) {
+export function requestDelayAll(apiConfig: ClashAPIConfig, latencyTestUrl: string) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const proxyNames = getDangleProxyNames(getState());
-    const latencyTestUrl = getLatencyTestUrl(getState());
     await Promise.all(
       proxyNames.map((p) => proxiesAPI.requestDelayForProxy(apiConfig, p, latencyTestUrl)),
     );
