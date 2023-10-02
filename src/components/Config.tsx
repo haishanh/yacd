@@ -5,12 +5,13 @@ import { useTranslation } from 'react-i18next';
 import * as logsApi from 'src/api/logs';
 import Select from 'src/components/shared/Select';
 import { ClashGeneralConfig, DispatchFn, State } from 'src/store/types';
-import { ClashAPIConfig } from 'src/types';
+
+import { saveStateTmp } from '$src/misc/storage';
 
 import {
   darkModePureBlackToggleAtom,
   getLatencyTestUrl,
-  getSelectedChartStyleIndex,
+  selectedChartStyleIndexAtom,
   useApiConfig,
 } from '../store/app';
 import { fetchConfigs, getConfigs, updateConfigs } from '../store/configs';
@@ -59,7 +60,6 @@ const mapState = (s: State) => ({
 });
 
 const mapState2 = (s: State) => ({
-  selectedChartStyleIndex: getSelectedChartStyleIndex(s),
   latencyTestUrl: getLatencyTestUrl(s),
 });
 
@@ -83,17 +83,11 @@ function ConfigContainer({
 type ConfigImplProps = {
   dispatch: DispatchFn;
   configs: ClashGeneralConfig;
-  selectedChartStyleIndex: number;
   latencyTestUrl: string;
-  apiConfig: ClashAPIConfig;
 };
 
-function ConfigImpl({
-  dispatch,
-  configs,
-  selectedChartStyleIndex,
-  latencyTestUrl,
-}: ConfigImplProps) {
+function ConfigImpl({ dispatch, configs, latencyTestUrl }: ConfigImplProps) {
+  const [selectedChartStyleIndex, setSelectedChartStyleIndex] = useAtom(selectedChartStyleIndexAtom);
   const apiConfig = useApiConfig();
   const [configState, setConfigStateInternal] = useState(configs);
   const refConfigs = useRef(configs);
@@ -158,7 +152,11 @@ function ConfigImpl({
     [handleChangeValue],
   );
 
-  const { selectChartStyleIndex, updateAppConfig } = useStoreActions();
+  const { updateAppConfig } = useStoreActions();
+  const selectChartStyleIndex = useCallback((idx: number) => {
+    setSelectedChartStyleIndex(idx);
+    saveStateTmp({ selectedChartStyleIndex: idx });
+  }, [setSelectedChartStyleIndex])
 
   const handleInputOnBlur = useCallback<React.FocusEventHandler<HTMLInputElement>>(
     (e) => {

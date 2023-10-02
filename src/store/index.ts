@@ -1,6 +1,5 @@
 import {
   initialState as app,
-  selectChartStyleIndex,
   updateAppConfig,
   updateCollapsibleIsOpen,
 } from './app';
@@ -18,7 +17,6 @@ export const initialState = {
 };
 
 export const actions = {
-  selectChartStyleIndex,
   updateAppConfig,
 
   app: {

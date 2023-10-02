@@ -54,6 +54,7 @@ const CONFIG_QUERY_PARAMS = ['hostname', 'port', 'secret', 'theme'];
 
 export const selectedClashAPIConfigIndexAtom = atom<number>(initialState().selectedClashAPIConfigIndex);
 export const clashAPIConfigsAtom = atom<ClashAPIConfigWithAddedAt[]>(initialState().clashAPIConfigs);
+export const selectedChartStyleIndexAtom = atom(initialState().selectedChartStyleIndex);
 
 // hooks
 
@@ -64,7 +65,6 @@ export function useApiConfig() {
 }
 
 export const getTheme = (s: State) => s.app.theme;
-export const getSelectedChartStyleIndex = (s: State) => s.app.selectedChartStyleIndex;
 export const getLatencyTestUrl = (s: State) => s.app.latencyTestUrl;
 export const getCollapsibleIsOpen = (s: State) => s.app.collapsibleIsOpen;
 export const getProxySortBy = (s: State) => s.app.proxySortBy;
@@ -156,16 +156,6 @@ export function switchTheme(nextTheme = 'auto') {
     setTheme(nextTheme as ThemeType);
     dispatch('storeSwitchTheme', (s) => {
       s.app.theme = nextTheme;
-    });
-    // side effect
-    saveState(getState().app);
-  };
-}
-
-export function selectChartStyleIndex(selectedChartStyleIndex: number | string) {
-  return (dispatch: DispatchFn, getState: GetStateFn) => {
-    dispatch('appSelectChartStyleIndex', (s) => {
-      s.app.selectedChartStyleIndex = Number(selectedChartStyleIndex);
     });
     // side effect
     saveState(getState().app);
