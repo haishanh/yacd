@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { ThemeSwitcher } from 'src/components/shared/ThemeSwitcher';
 import { DOES_NOT_SUPPORT_FETCH, errors, YacdError } from 'src/misc/errors';
-import { getClashAPIConfig } from 'src/store/app';
 import { fetchConfigs } from 'src/store/configs';
 import { closeModal } from 'src/store/modals';
 import { DispatchFn, State, StateModals } from 'src/store/types';
 
-import { ClashAPIConfig } from '$src/types';
+import { useApiConfig } from '$src/store/app';
 
 import APIConfig from './APIConfig';
 import s0 from './APIDiscovery.module.scss';
@@ -17,13 +16,12 @@ const { useCallback, useEffect } = React;
 
 function APIDiscovery({
   dispatch,
-  apiConfig,
   modals,
 }: {
   dispatch: DispatchFn;
-  apiConfig: ClashAPIConfig;
   modals: StateModals;
 }) {
+  const apiConfig = useApiConfig();
   if (!window.fetch) {
     const { detail } = errors[DOES_NOT_SUPPORT_FETCH];
     const err = new YacdError(detail, DOES_NOT_SUPPORT_FETCH);
@@ -59,7 +57,7 @@ function APIDiscovery({
 
 const mapState = (s: State) => ({
   modals: s.modals,
-  apiConfig: getClashAPIConfig(s),
+  // apiConfig: getClashAPIConfig(s),
 });
 
 export default connect(mapState)(APIDiscovery);

@@ -1,34 +1,71 @@
 import cx from 'clsx';
+import { useAtom } from 'jotai';
 import * as React from 'react';
 import { Eye, EyeOff, X as Close } from 'react-feather';
-import { useToggle } from 'src/hooks/basic';
-import { getClashAPIConfigs, getSelectedClashAPIConfigIndex } from 'src/store/app';
-import { ClashAPIConfig } from 'src/types';
 
-import { State } from '$src/store/types';
+import { useToggle } from '$src/hooks/basic';
+import { saveStateTmp } from '$src/misc/storage';
+import {
+  clashAPIConfigsAtom,
+  findClashAPIConfigIndexTmp,
+  selectedClashAPIConfigIndexAtom,
+} from '$src/store/app';
+import { ClashAPIConfig } from '$src/types';
 
 import s from './BackendList.module.scss';
-import { connect, useStoreActions } from './StateProvider';
 
-type Config = ClashAPIConfig & { addedAt: number };
+export function BackendList() {
+  const [apiConfigs, setApiConfigs] = useAtom(clashAPIConfigsAtom);
+  const [selectedClashAPIConfigIndex, setSelectedClashAPIConfigIndex] = useAtom(
+    selectedClashAPIConfigIndexAtom,
+  );
+  const removeClashAPIConfig = React.useCallback(
+    (conf: ClashAPIConfig) => {
+      const idx = findClashAPIConfigIndexTmp(apiConfigs, conf);
+      setApiConfigs(apiConfigs => {
+        apiConfigs.splice(idx, 1);
+        return [...apiConfigs];
+      });
+      if (idx === selectedClashAPIConfigIndex) {
+        setSelectedClashAPIConfigIndex(0);
+      } else if (idx < selectedClashAPIConfigIndex) {
+        setSelectedClashAPIConfigIndex(selectedClashAPIConfigIndex - 1);
+      }
+    },
+    [apiConfigs, selectedClashAPIConfigIndex, setApiConfigs, setSelectedClashAPIConfigIndex],
+  );
 
-const mapState = (s: State) => ({
-  apiConfigs: getClashAPIConfigs(s),
-  selectedClashAPIConfigIndex: getSelectedClashAPIConfigIndex(s),
-});
+  React.useEffect(() => {
+    saveStateTmp({
+      selectedClashAPIConfigIndex,
+      clashAPIConfigs: apiConfigs,
+    });
+  }, [apiConfigs, selectedClashAPIConfigIndex]);
 
-export const BackendList = connect(mapState)(BackendListImpl);
+  const selectClashAPIConfig = React.useCallback(
+    (conf: ClashAPIConfig) => {
+      const idx = findClashAPIConfigIndexTmp(apiConfigs, conf);
+      const curr = selectedClashAPIConfigIndex;
+      if (curr !== idx) {
+        setSelectedClashAPIConfigIndex(idx);
+      }
+      saveStateTmp({ selectedClashAPIConfigIndex });
 
-function BackendListImpl({
-  apiConfigs,
-  selectedClashAPIConfigIndex,
-}: {
-  apiConfigs: Config[];
-  selectedClashAPIConfigIndex: number;
-}) {
-  const {
-    app: { removeClashAPIConfig, selectClashAPIConfig },
-  } = useStoreActions();
+      // manual clean up is too complex
+      // we just reload the app
+      try {
+        window.location.reload();
+      } catch (err) {
+        // ignore
+      }
+
+    },
+    [apiConfigs, selectedClashAPIConfigIndex, setSelectedClashAPIConfigIndex],
+  );
+
+  // const {
+  //   app: { selectClashAPIConfig },
+  // } = useStoreActions();
 
   const onRemove = React.useCallback(
     (conf: ClashAPIConfig) => {
@@ -135,7 +172,6 @@ function Button({
   disabled,
 }: {
   children: React.ReactNode;
-
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => unknown;
   className: string;
   disabled?: boolean;

@@ -2,12 +2,11 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { State } from '$src/store/types';
-import { ClashAPIConfig } from '$src/types';
 
 import { fetchData } from '../api/traffic';
 import useLineChart from '../hooks/useLineChart';
 import { chartJSResource, chartStyles, commonDataSetProps } from '../misc/chart';
-import { getClashAPIConfig, getSelectedChartStyleIndex } from '../store/app';
+import { getSelectedChartStyleIndex, useApiConfig } from '../store/app';
 import { connect } from './StateProvider';
 
 const { useMemo } = React;
@@ -19,19 +18,13 @@ const chartWrapperStyle: React.CSSProperties = {
 };
 
 const mapState = (s: State) => ({
-  apiConfig: getClashAPIConfig(s),
   selectedChartStyleIndex: getSelectedChartStyleIndex(s),
 });
 
 export default connect(mapState)(TrafficChart);
 
-function TrafficChart({
-  apiConfig,
-  selectedChartStyleIndex,
-}: {
-  apiConfig: ClashAPIConfig;
-  selectedChartStyleIndex: number;
-}) {
+function TrafficChart({ selectedChartStyleIndex }: { selectedChartStyleIndex: number }) {
+  const apiConfig = useApiConfig();
   const ChartMod = chartJSResource.read();
   const traffic = fetchData(apiConfig);
   const { t } = useTranslation();

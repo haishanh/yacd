@@ -9,9 +9,9 @@ import { ClashAPIConfig } from 'src/types';
 
 import {
   darkModePureBlackToggleAtom,
-  getClashAPIConfig,
   getLatencyTestUrl,
   getSelectedChartStyleIndex,
+  useApiConfig,
 } from '../store/app';
 import { fetchConfigs, getConfigs, updateConfigs } from '../store/configs';
 import { openModal } from '../store/modals';
@@ -56,13 +56,11 @@ const modeOptions = [
 
 const mapState = (s: State) => ({
   configs: getConfigs(s),
-  apiConfig: getClashAPIConfig(s),
 });
 
 const mapState2 = (s: State) => ({
   selectedChartStyleIndex: getSelectedChartStyleIndex(s),
   latencyTestUrl: getLatencyTestUrl(s),
-  apiConfig: getClashAPIConfig(s),
 });
 
 const Config = connect(mapState2)(ConfigImpl);
@@ -71,12 +69,11 @@ export default connect(mapState)(ConfigContainer);
 function ConfigContainer({
   dispatch,
   configs,
-  apiConfig,
 }: {
   dispatch: DispatchFn;
   configs: ClashGeneralConfig;
-  apiConfig: ClashAPIConfig;
 }) {
+  const apiConfig = useApiConfig();
   useEffect(() => {
     dispatch(fetchConfigs(apiConfig));
   }, [dispatch, apiConfig]);
@@ -96,8 +93,8 @@ function ConfigImpl({
   configs,
   selectedChartStyleIndex,
   latencyTestUrl,
-  apiConfig,
 }: ConfigImplProps) {
+  const apiConfig = useApiConfig();
   const [configState, setConfigStateInternal] = useState(configs);
   const refConfigs = useRef(configs);
   useEffect(() => {

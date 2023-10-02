@@ -1,16 +1,11 @@
+import { useAtom } from 'jotai';
 import * as React from 'react';
-import { connect } from 'src/components/StateProvider';
-import { getClashAPIConfig, getClashAPIConfigs } from 'src/store/app';
 
-import { State } from '$src/store/types';
-import { ClashAPIConfig } from '$src/types';
+import { clashAPIConfigsAtom, useApiConfig } from '$src/store/app';
 
-const mapState = (s: State) => ({
-  apiConfig: getClashAPIConfig(s),
-  apiConfigs: getClashAPIConfigs(s),
-});
-
-function HeadImpl({ apiConfig, apiConfigs }: { apiConfig: ClashAPIConfig; apiConfigs: any[] }) {
+export function Head() {
+  const apiConfig = useApiConfig();
+  const [apiConfigs] = useAtom(clashAPIConfigsAtom);
   React.useEffect(() => {
     let title = 'yacd';
     if (apiConfigs.length > 1) {
@@ -25,5 +20,3 @@ function HeadImpl({ apiConfig, apiConfigs }: { apiConfig: ClashAPIConfig; apiCon
 
   return <></>;
 }
-
-export const Head = connect(mapState)(HeadImpl);

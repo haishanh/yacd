@@ -11,7 +11,6 @@ import Settings from 'src/components/proxies/Settings';
 import BaseModal from 'src/components/shared/BaseModal';
 import { connect, useStoreActions } from 'src/components/StateProvider';
 import Equalizer from 'src/components/svg/Equalizer';
-import { getClashAPIConfig } from 'src/store/app';
 import { proxyFilterTextAtom } from 'src/store/proxies';
 import {
   fetchProxies,
@@ -23,7 +22,7 @@ import {
 import type { DelayMapping, DispatchFn, FormattedProxyProvider, State } from 'src/store/types';
 
 import { TextFilter } from '$src/components/shared/TextFilter';
-import { ClashAPIConfig } from '$src/types';
+import { useApiConfig } from '$src/store/app';
 
 import s0 from './Proxies.module.scss';
 
@@ -34,16 +33,15 @@ function Proxies({
   groupNames,
   delay,
   proxyProviders,
-  apiConfig,
   showModalClosePrevConns,
 }: {
   dispatch: DispatchFn;
   groupNames: string[];
   delay: DelayMapping;
   proxyProviders: FormattedProxyProvider[];
-  apiConfig: ClashAPIConfig;
   showModalClosePrevConns: boolean;
 }) {
+  const apiConfig = useApiConfig();
   const refFetchedTimestamp = useRef<{ startAt?: number; completeAt?: number }>({});
 
   const fetchProxiesHooked = useCallback(() => {
@@ -126,7 +124,6 @@ function Proxies({
 }
 
 const mapState = (s: State) => ({
-  apiConfig: getClashAPIConfig(s),
   groupNames: getProxyGroupNames(s),
   proxyProviders: getProxyProviders(s),
   delay: getDelay(s),

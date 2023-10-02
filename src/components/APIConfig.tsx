@@ -1,14 +1,15 @@
+import { useAtom } from 'jotai';
 import * as React from 'react';
 import { fetchConfigs } from 'src/api/configs';
 import { BackendList } from 'src/components/BackendList';
-import { addClashAPIConfig, getClashAPIConfig } from 'src/store/app';
-import { DispatchFn, State } from 'src/store/types';
+import { clashAPIConfigsAtom, findClashAPIConfigIndexTmp } from 'src/store/app';
 import { ClashAPIConfig } from 'src/types';
+
+import { saveStateTmp } from '$src/misc/storage';
 
 import s0 from './APIConfig.module.scss';
 import Button from './Button';
 import Field from './Field';
-import { connect } from './StateProvider';
 import SvgYacd from './SvgYacd';
 
 const { useState, useRef, useCallback, useEffect } = React;
@@ -17,11 +18,7 @@ const Ok = 0;
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
-const mapState = (s: State) => ({
-  apiConfig: getClashAPIConfig(s),
-});
-
-function APIConfig({ dispatch }: { dispatch: DispatchFn }) {
+export default function APIConfig() {
   const [baseURL, setBaseURL] = useState('');
   const [secret, setSecret] = useState('');
   const [metaLabel, setMetaLabel] = useState('');
@@ -50,16 +47,23 @@ function APIConfig({ dispatch }: { dispatch: DispatchFn }) {
         throw new Error(`unknown input name ${name}`);
     }
   }, []);
-
+  const [apiConfigs, setApiConfigs] = useAtom(clashAPIConfigsAtom);
   const onConfirm = useCallback(() => {
     verify({ baseURL, secret }).then((ret) => {
       if (ret[0] !== Ok) {
         setErrMsg(ret[1]);
       } else {
-        dispatch(addClashAPIConfig({ baseURL, secret, metaLabel }));
+        const conf = { baseURL, secret, metaLabel };
+        const idx = findClashAPIConfigIndexTmp(apiConfigs, conf);
+        // already exists
+        if (idx) return;
+        setApiConfigs((apiConfigs) => {
+          return [...apiConfigs, { ...conf, addedAt: Date.now() }];
+        });
+        saveStateTmp({ clashAPIConfigs: apiConfigs });
       }
     });
-  }, [baseURL, secret, metaLabel, dispatch]);
+  }, [baseURL, secret, metaLabel, apiConfigs, setApiConfigs]);
 
   const handleContentOnKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -138,8 +142,6 @@ function APIConfig({ dispatch }: { dispatch: DispatchFn }) {
     </div>
   );
 }
-
-export default connect(mapState)(APIConfig);
 
 async function verify(apiConfig: ClashAPIConfig): Promise<[number, string?]> {
   try {

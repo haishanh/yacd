@@ -1,5 +1,12 @@
+import { atom, useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { DispatchFn, GetStateFn, State, StateApp } from 'src/store/types';
+import {
+  ClashAPIConfigWithAddedAt,
+  DispatchFn,
+  GetStateFn,
+  State,
+  StateApp,
+} from 'src/store/types';
 
 import { ClashAPIConfig } from '$src/types';
 
@@ -8,16 +15,54 @@ import { debounce, trimTrailingSlash } from '../misc/utils';
 import { fetchConfigs } from './configs';
 import { closeModal } from './modals';
 
+let iState: StateApp;
+
 const STORAGE_KEY = {
   darkModePureBlackToggle: 'yacd_darkModePureBlackToggle',
 };
 
-export const getClashAPIConfig = (s: State) => {
-  const idx = s.app.selectedClashAPIConfigIndex;
-  return s.app.clashAPIConfigs[idx];
+const rootEl = document.querySelector('html');
+type ThemeType = 'dark' | 'light' | 'auto';
+
+const defaultClashAPIConfig = {
+  baseURL: document.getElementById('app')?.getAttribute('data-base-url') ?? 'http://127.0.0.1:9090',
+  secret: '',
+  addedAt: 0,
 };
-export const getSelectedClashAPIConfigIndex = (s: State) => s.app.selectedClashAPIConfigIndex;
-export const getClashAPIConfigs = (s: State) => s.app.clashAPIConfigs;
+
+// type Theme = 'light' | 'dark';
+const defaultState: StateApp = {
+  selectedClashAPIConfigIndex: 0,
+  clashAPIConfigs: [defaultClashAPIConfig],
+
+  latencyTestUrl: 'http://www.gstatic.com/generate_204',
+  selectedChartStyleIndex: 0,
+  theme: 'dark',
+
+  // type { [string]: boolean }
+  collapsibleIsOpen: {},
+  // how proxies are sorted in a group or provider
+  proxySortBy: 'Natural',
+  hideUnavailableProxies: false,
+  autoCloseOldConns: false,
+  logStreamingPaused: false,
+};
+
+const CONFIG_QUERY_PARAMS = ['hostname', 'port', 'secret', 'theme'];
+
+// atoms
+
+export const selectedClashAPIConfigIndexAtom = atom<number>(initialState().selectedClashAPIConfigIndex);
+export const clashAPIConfigsAtom = atom<ClashAPIConfigWithAddedAt[]>(initialState().clashAPIConfigs);
+
+// hooks
+
+export function useApiConfig() {
+  const [apiConfigs] = useAtom(clashAPIConfigsAtom);
+  const [idx] = useAtom(selectedClashAPIConfigIndexAtom);
+  return apiConfigs[idx];
+}
+
 export const getTheme = (s: State) => s.app.theme;
 export const getSelectedChartStyleIndex = (s: State) => s.app.selectedChartStyleIndex;
 export const getLatencyTestUrl = (s: State) => s.app.latencyTestUrl;
@@ -29,68 +74,14 @@ export const getLogStreamingPaused = (s: State) => s.app.logStreamingPaused;
 
 const saveStateDebounced = debounce(saveState, 600);
 
-function findClashAPIConfigIndex(
-  getState: GetStateFn,
+export function findClashAPIConfigIndexTmp(
+  arr: ClashAPIConfigWithAddedAt[],
   { baseURL, secret, metaLabel }: ClashAPIConfig,
 ) {
-  const arr = getClashAPIConfigs(getState());
   for (let i = 0; i < arr.length; i++) {
     const x = arr[i];
     if (x.baseURL === baseURL && x.secret === secret && x.metaLabel === metaLabel) return i;
   }
-}
-
-export function addClashAPIConfig(conf: ClashAPIConfig) {
-  return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const idx = findClashAPIConfigIndex(getState, conf);
-    // already exists
-    if (idx) return;
-
-    const clashAPIConfig = { ...conf, addedAt: Date.now() };
-    dispatch('addClashAPIConfig', (s) => {
-      s.app.clashAPIConfigs.push(clashAPIConfig);
-    });
-    // side effect
-    saveState(getState().app);
-  };
-}
-
-export function removeClashAPIConfig(conf: ClashAPIConfig) {
-  return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const idx = findClashAPIConfigIndex(getState, conf);
-    dispatch('removeClashAPIConfig', (s) => {
-      s.app.clashAPIConfigs.splice(idx, 1);
-      if (idx === s.app.selectedClashAPIConfigIndex) {
-        s.app.selectedClashAPIConfigIndex = 0;
-      } else if (idx < s.app.selectedClashAPIConfigIndex) {
-        s.app.selectedClashAPIConfigIndex -= 1;
-      }
-    });
-    // side effect
-    saveState(getState().app);
-  };
-}
-
-export function selectClashAPIConfig(conf: ClashAPIConfig) {
-  return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const idx = findClashAPIConfigIndex(getState, conf);
-    const curr = getSelectedClashAPIConfigIndex(getState());
-    if (curr !== idx) {
-      dispatch('selectClashAPIConfig', (s) => {
-        s.app.selectedClashAPIConfigIndex = idx;
-      });
-    }
-    // side effect
-    saveState(getState().app);
-
-    // manual clean up is too complex
-    // we just reload the app
-    try {
-      window.location.reload();
-    } catch (err) {
-      // ignore
-    }
-  };
 }
 
 // unused
@@ -106,9 +97,6 @@ export function updateClashAPIConfig(conf: ClashAPIConfig) {
     dispatch(fetchConfigs(clashAPIConfig));
   };
 }
-
-const rootEl = document.querySelector('html');
-type ThemeType = 'dark' | 'light' | 'auto';
 
 function insertThemeColorMeta(color: string, media?: string) {
   const meta0 = document.createElement('meta');
@@ -204,31 +192,6 @@ export function updateCollapsibleIsOpen(prefix: string, name: string, v: boolean
   };
 }
 
-const defaultClashAPIConfig = {
-  baseURL: document.getElementById('app')?.getAttribute('data-base-url') ?? 'http://127.0.0.1:9090',
-  secret: '',
-  addedAt: 0,
-};
-// type Theme = 'light' | 'dark';
-const defaultState: StateApp = {
-  selectedClashAPIConfigIndex: 0,
-  clashAPIConfigs: [defaultClashAPIConfig],
-
-  latencyTestUrl: 'http://www.gstatic.com/generate_204',
-  selectedChartStyleIndex: 0,
-  theme: 'dark',
-
-  // type { [string]: boolean }
-  collapsibleIsOpen: {},
-  // how proxies are sorted in a group or provider
-  proxySortBy: 'Natural',
-  hideUnavailableProxies: false,
-  autoCloseOldConns: false,
-  logStreamingPaused: false,
-};
-
-const CONFIG_QUERY_PARAMS = ['hostname', 'port', 'secret', 'theme'];
-
 function parseConfigQueryString() {
   const { search } = window.location;
   const collector: Record<string, string> = {};
@@ -249,7 +212,9 @@ function parseConfigQueryString() {
   return [collector, sp, shouldUpdateAddressBar] as const;
 }
 
-export function initialState() {
+export function initialState(): StateApp {
+  if (iState) return iState;
+
   let s = loadState();
   s = { ...defaultState, ...s };
   const [query, sp, shouldUpdateAddressBar] = parseConfigQueryString();
@@ -283,6 +248,8 @@ export function initialState() {
   }
   // set initial theme
   setTheme(s.theme);
+
+  iState = s;
   return s;
 }
 

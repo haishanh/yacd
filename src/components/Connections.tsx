@@ -5,20 +5,17 @@ import { Pause, Play, X as IconClose } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ConnectionItem } from 'src/api/connections';
-import { State } from 'src/store/types';
 
-import { ClashAPIConfig } from '$src/types';
+import { useApiConfig } from '$src/store/app';
 
 import * as connAPI from '../api/connections';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
-import { getClashAPIConfig } from '../store/app';
 import s from './Connections.module.scss';
 import ConnectionTable from './ConnectionTable';
 import { MutableConnRefCtx } from './conns/ConnCtx';
 import ContentHeader from './ContentHeader';
 import ModalCloseAllConnections from './ModalCloseAllConnections';
 import { Action, Fab, position as fabPosition } from './shared/Fab';
-import { connect } from './StateProvider';
 import SvgYacd from './SvgYacd';
 
 const { useEffect, useState, useRef, useCallback } = React;
@@ -129,7 +126,8 @@ function connQty({ qty }) {
   return qty < 100 ? '' + qty : '99+';
 }
 
-function Conn({ apiConfig }: { apiConfig: ClashAPIConfig }) {
+export default function Conn() {
+  const apiConfig = useApiConfig();
   const [refContainer, containerHeight] = useRemainingViewPortHeight();
   const [conns, setConns] = useState([]);
   const [closedConns, setClosedConns] = useState([]);
@@ -245,9 +243,3 @@ function Conn({ apiConfig }: { apiConfig: ClashAPIConfig }) {
     </div>
   );
 }
-
-const mapState = (s: State) => ({
-  apiConfig: getClashAPIConfig(s),
-});
-
-export default connect(mapState)(Conn);

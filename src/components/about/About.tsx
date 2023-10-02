@@ -3,15 +3,9 @@ import * as React from 'react';
 import { GitHub } from 'react-feather';
 import { fetchVersion } from 'src/api/version';
 import ContentHeader from 'src/components/ContentHeader';
-import { connect } from 'src/components/StateProvider';
-import { getClashAPIConfig } from 'src/store/app';
-import { ClashAPIConfig } from 'src/types';
-
-import { State } from '$src/store/types';
+import { useApiConfig } from 'src/store/app';
 
 import s from './About.module.scss';
-
-type Props = { apiConfig: ClashAPIConfig };
 
 function Version({ name, link, version }: { name: string; link: string; version: string }) {
   return (
@@ -31,9 +25,10 @@ function Version({ name, link, version }: { name: string; link: string; version:
   );
 }
 
-function AboutImpl(props: Props) {
-  const { data: version } = useQuery(['/version', props.apiConfig], () =>
-    fetchVersion('/version', props.apiConfig),
+export function About() {
+  const apiConfig = useApiConfig();
+  const { data: version } = useQuery(['/version', apiConfig], () =>
+    fetchVersion('/version', apiConfig),
   );
   return (
     <>
@@ -45,9 +40,3 @@ function AboutImpl(props: Props) {
     </>
   );
 }
-
-const mapState = (s: State) => ({
-  apiConfig: getClashAPIConfig(s),
-});
-
-export const About = connect(mapState)(AboutImpl);

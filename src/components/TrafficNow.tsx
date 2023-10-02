@@ -1,24 +1,18 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { State } from '$src/store/types';
+import { useApiConfig } from '$src/store/app';
 import { ClashAPIConfig } from '$src/types';
 
 import * as connAPI from '../api/connections';
 import { fetchData } from '../api/traffic';
 import prettyBytes from '../misc/pretty-bytes';
-import { getClashAPIConfig } from '../store/app';
-import { connect } from './StateProvider';
 import s0 from './TrafficNow.module.scss';
 
 const { useState, useEffect, useCallback } = React;
 
-const mapState = (s: State) => ({
-  apiConfig: getClashAPIConfig(s),
-});
-export default connect(mapState)(TrafficNow);
-
-function TrafficNow({ apiConfig }: { apiConfig: ClashAPIConfig }) {
+export default function TrafficNow() {
+  const apiConfig = useApiConfig();
   const { t } = useTranslation();
   const { upStr, downStr } = useSpeed(apiConfig);
   const { upTotal, dlTotal, connNumber } = useConnection(apiConfig);

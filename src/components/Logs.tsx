@@ -9,12 +9,10 @@ import LogSearch from 'src/components/LogSearch';
 import { connect, useStoreActions } from 'src/components/StateProvider';
 import SvgYacd from 'src/components/SvgYacd';
 import useRemainingViewPortHeight from 'src/hooks/useRemainingViewPortHeight';
-import { getClashAPIConfig, getLogStreamingPaused } from 'src/store/app';
+import { getLogStreamingPaused, useApiConfig } from 'src/store/app';
 import { getLogLevel } from 'src/store/configs';
 import { appendLog, getLogsForDisplay } from 'src/store/logs';
 import { DispatchFn, Log, State } from 'src/store/types';
-
-import { ClashAPIConfig } from '$src/types';
 
 import s from './Logs.module.scss';
 import { Fab, position as fabPosition } from './shared/Fab';
@@ -65,16 +63,15 @@ Row.displayName = 'MemoRow';
 function Logs({
   dispatch,
   logLevel,
-  apiConfig,
   logs,
   logStreamingPaused,
 }: {
   dispatch: DispatchFn;
   logLevel: string;
-  apiConfig: ClashAPIConfig;
   logs: Log[];
   logStreamingPaused: boolean;
 }) {
+  const apiConfig = useApiConfig();
   const actions = useStoreActions();
   const toggleIsRefreshPaused = useCallback(() => {
     logStreamingPaused ? reconnectLogs({ ...apiConfig, logLevel }) : stopLogs();
@@ -133,7 +130,6 @@ function Logs({
 const mapState = (s: State) => ({
   logs: getLogsForDisplay(s),
   logLevel: getLogLevel(s),
-  apiConfig: getClashAPIConfig(s),
   logStreamingPaused: getLogStreamingPaused(s),
 });
 

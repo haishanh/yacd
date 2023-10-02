@@ -8,10 +8,10 @@ import { useUpdateProviderItem } from 'src/components/proxies/proxies.hooks';
 import { connect, useStoreActions } from 'src/components/StateProvider';
 import { framerMotionResource } from 'src/misc/motion';
 import {
-  getClashAPIConfig,
   getCollapsibleIsOpen,
   getHideUnavailableProxies,
   getProxySortBy,
+  useApiConfig,
 } from 'src/store/app';
 import { getDelay, healthcheckProviderByName } from 'src/store/proxies';
 import { DelayMapping, State } from 'src/store/types';
@@ -36,7 +36,6 @@ type Props = {
   updatedAt?: string;
   dispatch: (x: any) => Promise<any>;
   isOpen: boolean;
-  apiConfig: any;
 };
 
 function ProxyProviderImpl({
@@ -49,8 +48,8 @@ function ProxyProviderImpl({
   updatedAt,
   isOpen,
   dispatch,
-  apiConfig,
 }: Props) {
+  const apiConfig = useApiConfig();
   const proxies = useFilteredAndSorted(all, delay, hideUnavailableProxies, proxySortBy);
   const checkingHealth = useState2(false);
 
@@ -134,12 +133,8 @@ const mapState = (s: State, { proxies, name }) => {
   const hideUnavailableProxies = getHideUnavailableProxies(s);
   const delay = getDelay(s);
   const collapsibleIsOpen = getCollapsibleIsOpen(s);
-  const apiConfig = getClashAPIConfig(s);
-
   const proxySortBy = getProxySortBy(s);
-
   return {
-    apiConfig,
     proxies,
     delay,
     hideUnavailableProxies,

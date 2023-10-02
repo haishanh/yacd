@@ -1,8 +1,6 @@
 import {
   initialState as app,
-  removeClashAPIConfig,
   selectChartStyleIndex,
-  selectClashAPIConfig,
   updateAppConfig,
   updateCollapsibleIsOpen,
 } from './app';
@@ -26,8 +24,6 @@ export const actions = {
   app: {
     updateCollapsibleIsOpen,
     updateAppConfig,
-    removeClashAPIConfig,
-    selectClashAPIConfig,
   },
   proxies: proxiesActions,
 };
