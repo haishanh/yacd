@@ -16,7 +16,6 @@ import { ClashAPIConfig } from 'src/types';
 
 import * as connAPI from '../api/connections';
 import * as proxiesAPI from '../api/proxies';
-import { getAutoCloseOldConns } from './app';
 
 export const initialState: StateProxies = {
   proxies: {},
@@ -188,6 +187,7 @@ async function switchProxyImpl(
   apiConfig: ClashAPIConfig,
   groupName: string,
   itemName: string,
+  autoCloseOldConns: boolean,
 ) {
   try {
     const res = await proxiesAPI.requestToSwitchProxy(apiConfig, groupName, itemName);
@@ -201,7 +201,6 @@ async function switchProxyImpl(
   }
 
   dispatch(fetchProxies(apiConfig));
-  const autoCloseOldConns = getAutoCloseOldConns(getState());
   if (autoCloseOldConns) {
     // use fresh state
     const proxies = getProxies(getState());
@@ -251,10 +250,17 @@ function closePrevConnsAndTheModal(apiConfig: ClashAPIConfig) {
   };
 }
 
-export function switchProxy(apiConfig: ClashAPIConfig, groupName: string, itemName: string) {
+export function switchProxy(
+  apiConfig: ClashAPIConfig,
+  groupName: string,
+  itemName: string,
+  autoCloseOldConns: boolean,
+) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     // switch proxy asynchronously
-    switchProxyImpl(dispatch, getState, apiConfig, groupName, itemName).catch(noop);
+    switchProxyImpl(dispatch, getState, apiConfig, groupName, itemName, autoCloseOldConns).catch(
+      noop,
+    );
 
     // optimistic UI update
     dispatch('store/proxies#switchProxy', (s) => {
@@ -298,13 +304,21 @@ function requestDelayForProxyOnce(apiConfig: ClashAPIConfig, name: string, laten
   };
 }
 
-export function requestDelayForProxy(apiConfig: ClashAPIConfig, name: string, latencyTestUrl: string) {
+export function requestDelayForProxy(
+  apiConfig: ClashAPIConfig,
+  name: string,
+  latencyTestUrl: string,
+) {
   return async (dispatch: DispatchFn) => {
     await dispatch(requestDelayForProxyOnce(apiConfig, name, latencyTestUrl));
   };
 }
 
-export function requestDelayForProxies(apiConfig: ClashAPIConfig, names: string[], latencyTestUrl: string) {
+export function requestDelayForProxies(
+  apiConfig: ClashAPIConfig,
+  names: string[],
+  latencyTestUrl: string,
+) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
     const proxies = getProxies(getState());
 

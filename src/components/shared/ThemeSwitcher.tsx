@@ -1,17 +1,19 @@
 import { Menu, MenuButton, MenuItem, MenuList } from '@reach/menu-button';
 import { Tooltip } from '@reach/tooltip';
 import cx from 'clsx';
+import { useAtom } from 'jotai';
 import * as React from 'react';
 import { Check } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import { connect } from 'src/components/StateProvider';
-import { framerMotionResource } from 'src/misc/motion';
-import { getTheme, switchTheme } from 'src/store/app';
-import { DispatchFn, State } from 'src/store/types';
+
+import { framerMotionResource } from '$src/misc/motion';
+import { setTheme, themeAtom } from '$src/store/app';
+import { ThemeType } from '$src/store/types';
 
 import s from './ThemeSwitcher.module.scss';
 
-function ThemeSwitcherImpl({ theme, dispatch }: { theme: string; dispatch: DispatchFn }) {
+export function ThemeSwitcher() {
+  const [theme, setThemeAtom] = useAtom(themeAtom);
   const { t } = useTranslation();
 
   const themeIcon = React.useMemo(() => {
@@ -28,7 +30,10 @@ function ThemeSwitcherImpl({ theme, dispatch }: { theme: string; dispatch: Dispa
     }
   }, [theme]);
 
-  const onSelect = React.useCallback((v: string) => dispatch(switchTheme(v)), [dispatch]);
+  const onSelect = React.useCallback((v: ThemeType) => {
+    setThemeAtom(v);
+    setTheme(v);
+  }, [setThemeAtom]);
 
   return (
     <Menu>
@@ -149,6 +154,3 @@ function Auto() {
     </svg>
   );
 }
-
-const mapState = (s: State) => ({ theme: getTheme(s) });
-export const ThemeSwitcher = connect(mapState)(ThemeSwitcherImpl);

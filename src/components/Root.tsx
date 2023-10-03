@@ -11,7 +11,8 @@ import Loading from 'src/components/Loading';
 import { Head } from 'src/components/shared/Head';
 import { queryClient } from 'src/misc/query';
 
-import { darkModePureBlackToggleAtom } from '$src/store/app';
+import { AppConfigSideEffect } from '$src/components/fn/AppConfigSideEffect';
+import {  darkModePureBlackToggleAtom } from '$src/store/app';
 
 import { actions, initialState } from '../store';
 import APIConfig from './APIConfig';
@@ -87,6 +88,7 @@ const Root = () => (
     <StateProvider initialState={initialState} actions={actions}>
       <QueryClientProvider client={queryClient}>
         <Router>
+          <AppConfigSideEffect />
           <AppShell>
             <Head />
             <Suspense fallback={<Loading />}>

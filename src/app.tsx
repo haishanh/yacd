@@ -25,6 +25,7 @@ function insertLinkElement(href: string) {
   l.href = href;
   l.rel = 'preload';
   l.as = 'font';
+  l.type = 'font/woff2';
   l.crossOrigin = '';
 
   document.head.appendChild(l);

@@ -1,4 +1,5 @@
 import cx from 'clsx';
+import { useAtom } from 'jotai';
 import * as React from 'react';
 import { Pause, Play } from 'react-feather';
 import { useTranslation } from 'react-i18next';
@@ -6,10 +7,10 @@ import { areEqual, FixedSizeList as List, ListChildComponentProps } from 'react-
 import { fetchLogs, reconnect as reconnectLogs, stop as stopLogs } from 'src/api/logs';
 import ContentHeader from 'src/components/ContentHeader';
 import LogSearch from 'src/components/LogSearch';
-import { connect, useStoreActions } from 'src/components/StateProvider';
+import { connect } from 'src/components/StateProvider';
 import SvgYacd from 'src/components/SvgYacd';
 import useRemainingViewPortHeight from 'src/hooks/useRemainingViewPortHeight';
-import { getLogStreamingPaused, useApiConfig } from 'src/store/app';
+import { logStreamingPausedAtom, useApiConfig } from 'src/store/app';
 import { getLogLevel } from 'src/store/configs';
 import { appendLog, getLogsForDisplay } from 'src/store/logs';
 import { DispatchFn, Log, State } from 'src/store/types';
@@ -64,21 +65,19 @@ function Logs({
   dispatch,
   logLevel,
   logs,
-  logStreamingPaused,
 }: {
   dispatch: DispatchFn;
   logLevel: string;
   logs: Log[];
-  logStreamingPaused: boolean;
 }) {
+  const [logStreamingPaused, setLogStreamingPaused] = useAtom(logStreamingPausedAtom);
   const apiConfig = useApiConfig();
-  const actions = useStoreActions();
   const toggleIsRefreshPaused = useCallback(() => {
     logStreamingPaused ? reconnectLogs({ ...apiConfig, logLevel }) : stopLogs();
     // being lazy here
     // ideally we should check the result of previous operation before updating this
-    actions.app.updateAppConfig('logStreamingPaused', !logStreamingPaused);
-  }, [apiConfig, logLevel, logStreamingPaused, actions.app]);
+    setLogStreamingPaused(!logStreamingPaused);
+  }, [apiConfig, logLevel, logStreamingPaused, setLogStreamingPaused]);
   const appendLogInternal = useCallback((log: Log) => dispatch(appendLog(log)), [dispatch]);
   useEffect(() => {
     fetchLogs({ ...apiConfig, logLevel }, appendLogInternal);
@@ -130,7 +129,6 @@ function Logs({
 const mapState = (s: State) => ({
   logs: getLogsForDisplay(s),
   logLevel: getLogLevel(s),
-  logStreamingPaused: getLogStreamingPaused(s),
 });
 
 export default connect(mapState)(Logs);

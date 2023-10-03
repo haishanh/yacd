@@ -2,10 +2,8 @@ import { useAtom } from 'jotai';
 import * as React from 'react';
 import { fetchConfigs } from 'src/api/configs';
 import { BackendList } from 'src/components/BackendList';
-import { clashAPIConfigsAtom, findClashAPIConfigIndexTmp } from 'src/store/app';
+import { clashAPIConfigsAtom, findClashAPIConfigIndex } from 'src/store/app';
 import { ClashAPIConfig } from 'src/types';
-
-import { saveStateTmp } from '$src/misc/storage';
 
 import s0 from './APIConfig.module.scss';
 import Button from './Button';
@@ -54,13 +52,12 @@ export default function APIConfig() {
         setErrMsg(ret[1]);
       } else {
         const conf = { baseURL, secret, metaLabel };
-        const idx = findClashAPIConfigIndexTmp(apiConfigs, conf);
+        const idx = findClashAPIConfigIndex(apiConfigs, conf);
         // already exists
         if (idx) return;
         setApiConfigs((apiConfigs) => {
           return [...apiConfigs, { ...conf, addedAt: Date.now() }];
         });
-        saveStateTmp({ clashAPIConfigs: apiConfigs });
       }
     });
   }, [baseURL, secret, metaLabel, apiConfigs, setApiConfigs]);

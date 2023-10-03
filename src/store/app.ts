@@ -1,19 +1,10 @@
 import { atom, useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
-import { loadState, saveState } from '$src/misc/storage';
+import { loadState } from '$src/misc/storage';
 import { trimTrailingSlash } from '$src/misc/utils';
-import {
-  ClashAPIConfigWithAddedAt,
-  DispatchFn,
-  GetStateFn,
-  State,
-  StateApp,
-} from '$src/store/types';
+import { StateApp, ThemeType } from '$src/store/types';
 import { ClashAPIConfig } from '$src/types';
-
-import { fetchConfigs } from './configs';
-import { closeModal } from './modals';
 
 let iState: StateApp;
 
@@ -22,7 +13,6 @@ const STORAGE_KEY = {
 };
 
 const rootEl = document.querySelector('html');
-type ThemeType = 'dark' | 'light' | 'auto';
 
 const defaultClashAPIConfig = {
   baseURL: document.getElementById('app')?.getAttribute('data-base-url') ?? 'http://127.0.0.1:9090',
@@ -30,7 +20,6 @@ const defaultClashAPIConfig = {
   addedAt: 0,
 };
 
-// type Theme = 'light' | 'dark';
 const defaultState: StateApp = {
   selectedClashAPIConfigIndex: 0,
   clashAPIConfigs: [defaultClashAPIConfig],
@@ -52,11 +41,19 @@ const CONFIG_QUERY_PARAMS = ['hostname', 'port', 'secret', 'theme'];
 
 // atoms
 
-export const selectedClashAPIConfigIndexAtom = atom<number>(initialState().selectedClashAPIConfigIndex);
-export const clashAPIConfigsAtom = atom<ClashAPIConfigWithAddedAt[]>(initialState().clashAPIConfigs);
-export const selectedChartStyleIndexAtom = atom(initialState().selectedChartStyleIndex);
+export const selectedClashAPIConfigIndexAtom = atom(initialState().selectedClashAPIConfigIndex);
+export const clashAPIConfigsAtom = atom(initialState().clashAPIConfigs);
 export const latencyTestUrlAtom = atom(initialState().latencyTestUrl);
+export const selectedChartStyleIndexAtom = atom(initialState().selectedChartStyleIndex);
+export const themeAtom = atom(initialState().theme);
 export const collapsibleIsOpenAtom = atom(initialState().collapsibleIsOpen);
+export const proxySortByAtom = atom(initialState().proxySortBy);
+export const hideUnavailableProxiesAtom = atom(initialState().hideUnavailableProxies);
+export const autoCloseOldConnsAtom = atom(initialState().autoCloseOldConns);
+export const logStreamingPausedAtom = atom(initialState().logStreamingPaused);
+
+// prettier-ignore
+export const darkModePureBlackToggleAtom = atomWithStorage(STORAGE_KEY.darkModePureBlackToggle, false);
 
 // hooks
 
@@ -66,34 +63,17 @@ export function useApiConfig() {
   return apiConfigs[idx];
 }
 
-export const getTheme = (s: State) => s.app.theme;
-export const getProxySortBy = (s: State) => s.app.proxySortBy;
-export const getHideUnavailableProxies = (s: State) => s.app.hideUnavailableProxies;
-export const getAutoCloseOldConns = (s: State) => s.app.autoCloseOldConns;
-export const getLogStreamingPaused = (s: State) => s.app.logStreamingPaused;
-
-export function findClashAPIConfigIndexTmp(
-  arr: ClashAPIConfigWithAddedAt[],
-  { baseURL, secret, metaLabel }: ClashAPIConfig,
-) {
+export function findClashAPIConfigIndex(arr: ClashAPIConfig[], needle: ClashAPIConfig) {
   for (let i = 0; i < arr.length; i++) {
     const x = arr[i];
-    if (x.baseURL === baseURL && x.secret === secret && x.metaLabel === metaLabel) return i;
+    if (
+      x.baseURL === needle.baseURL &&
+      x.secret === needle.secret &&
+      x.metaLabel === needle.metaLabel
+    ) {
+      return i;
+    }
   }
-}
-
-// unused
-export function updateClashAPIConfig(conf: ClashAPIConfig) {
-  return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const clashAPIConfig = conf;
-    dispatch('appUpdateClashAPIConfig', (s) => {
-      s.app.clashAPIConfigs[0] = clashAPIConfig;
-    });
-    // side effect
-    saveState(getState().app);
-    dispatch(closeModal('apiConfig'));
-    dispatch(fetchConfigs(clashAPIConfig));
-  };
 }
 
 function insertThemeColorMeta(color: string, media?: string) {
@@ -135,7 +115,7 @@ function updateMetaThemeColor(theme: ThemeType) {
   }
 }
 
-function setTheme(theme: ThemeType = 'dark') {
+export function setTheme(theme: ThemeType = 'dark') {
   if (theme === 'auto') {
     rootEl.setAttribute('data-theme', 'auto');
   } else if (theme === 'dark') {
@@ -144,30 +124,6 @@ function setTheme(theme: ThemeType = 'dark') {
     rootEl.setAttribute('data-theme', 'light');
   }
   updateMetaThemeColor(theme);
-}
-
-export function switchTheme(nextTheme = 'auto') {
-  return (dispatch: DispatchFn, getState: GetStateFn) => {
-    const currentTheme = getTheme(getState());
-    if (currentTheme === nextTheme) return;
-    // side effect
-    setTheme(nextTheme as ThemeType);
-    dispatch('storeSwitchTheme', (s) => {
-      s.app.theme = nextTheme;
-    });
-    // side effect
-    saveState(getState().app);
-  };
-}
-
-export function updateAppConfig(name: string, value: unknown) {
-  return (dispatch: DispatchFn, getState: GetStateFn) => {
-    dispatch('appUpdateAppConfig', (s) => {
-      s.app[name] = value;
-    });
-    // side effect
-    saveState(getState().app);
-  };
 }
 
 function parseConfigQueryString() {
@@ -230,8 +186,3 @@ export function initialState(): StateApp {
   iState = s;
   return s;
 }
-
-export const darkModePureBlackToggleAtom = atomWithStorage(
-  STORAGE_KEY.darkModePureBlackToggle,
-  false,
-);

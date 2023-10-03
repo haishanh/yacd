@@ -6,8 +6,6 @@ import * as logsApi from 'src/api/logs';
 import Select from 'src/components/shared/Select';
 import { ClashGeneralConfig, DispatchFn, State } from 'src/store/types';
 
-import { saveStateTmp } from '$src/misc/storage';
-
 import {
   darkModePureBlackToggleAtom,
   latencyTestUrlAtom,
@@ -149,7 +147,6 @@ function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
   );
   const selectChartStyleIndex = useCallback((idx: number) => {
     setSelectedChartStyleIndex(idx);
-    saveStateTmp({ selectedChartStyleIndex: idx });
   }, [setSelectedChartStyleIndex])
 
   const handleInputOnBlur = useCallback<React.FocusEventHandler<HTMLInputElement>>(

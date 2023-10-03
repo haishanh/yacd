@@ -1,6 +1,5 @@
 import {
   initialState as app,
-  updateAppConfig,
 } from './app';
 import { initialState as configs } from './configs';
 import { initialState as logs } from './logs';
@@ -16,9 +15,5 @@ export const initialState = {
 };
 
 export const actions = {
-  updateAppConfig,
-  app: {
-    updateAppConfig,
-  },
   proxies: proxiesActions,
 };

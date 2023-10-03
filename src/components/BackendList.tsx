@@ -4,10 +4,9 @@ import * as React from 'react';
 import { Eye, EyeOff, X as Close } from 'react-feather';
 
 import { useToggle } from '$src/hooks/basic';
-import { saveStateTmp } from '$src/misc/storage';
 import {
   clashAPIConfigsAtom,
-  findClashAPIConfigIndexTmp,
+  findClashAPIConfigIndex,
   selectedClashAPIConfigIndexAtom,
 } from '$src/store/app';
 import { ClashAPIConfig } from '$src/types';
@@ -21,7 +20,7 @@ export function BackendList() {
   );
   const removeClashAPIConfig = React.useCallback(
     (conf: ClashAPIConfig) => {
-      const idx = findClashAPIConfigIndexTmp(apiConfigs, conf);
+      const idx = findClashAPIConfigIndex(apiConfigs, conf);
       setApiConfigs(apiConfigs => {
         apiConfigs.splice(idx, 1);
         return [...apiConfigs];
@@ -35,21 +34,13 @@ export function BackendList() {
     [apiConfigs, selectedClashAPIConfigIndex, setApiConfigs, setSelectedClashAPIConfigIndex],
   );
 
-  React.useEffect(() => {
-    saveStateTmp({
-      selectedClashAPIConfigIndex,
-      clashAPIConfigs: apiConfigs,
-    });
-  }, [apiConfigs, selectedClashAPIConfigIndex]);
-
   const selectClashAPIConfig = React.useCallback(
     (conf: ClashAPIConfig) => {
-      const idx = findClashAPIConfigIndexTmp(apiConfigs, conf);
+      const idx = findClashAPIConfigIndex(apiConfigs, conf);
       const curr = selectedClashAPIConfigIndex;
       if (curr !== idx) {
         setSelectedClashAPIConfigIndex(idx);
       }
-      saveStateTmp({ selectedClashAPIConfigIndex });
 
       // manual clean up is too complex
       // we just reload the app

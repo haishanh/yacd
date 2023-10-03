@@ -1,5 +1,6 @@
 import type { ClashAPIConfig } from 'src/types';
 
+export type ThemeType = 'dark' | 'light' | 'auto';
 export type ClashAPIConfigWithAddedAt = ClashAPIConfig & { addedAt?: number };
 export type StateApp = {
   selectedClashAPIConfigIndex: number;
@@ -7,7 +8,7 @@ export type StateApp = {
 
   latencyTestUrl: string;
   selectedChartStyleIndex: number;
-  theme: string;
+  theme: ThemeType;
 
   collapsibleIsOpen: Record<string, boolean>;
   proxySortBy: string;

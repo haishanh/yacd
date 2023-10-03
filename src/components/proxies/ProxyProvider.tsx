@@ -10,8 +10,8 @@ import { connect } from 'src/components/StateProvider';
 import { framerMotionResource } from 'src/misc/motion';
 import {
   collapsibleIsOpenAtom,
-  getHideUnavailableProxies,
-  getProxySortBy,
+  hideUnavailableProxiesAtom,
+  proxySortByAtom,
   useApiConfig,
 } from 'src/store/app';
 import { getDelay, healthcheckProviderByName } from 'src/store/proxies';
@@ -30,32 +30,21 @@ type Props = {
   name: string;
   proxies: string[];
   delay: DelayMapping;
-  hideUnavailableProxies: boolean;
-  proxySortBy: string;
   type: 'Proxy' | 'Rule';
   vehicleType: 'HTTP' | 'File' | 'Compatible';
   updatedAt?: string;
   dispatch: (x: any) => Promise<any>;
 };
 
-function ProxyProviderImpl({
-  name,
-  proxies: all,
-  delay,
-  hideUnavailableProxies,
-  proxySortBy,
-  vehicleType,
-  updatedAt,
-  dispatch,
-}: Props) {
+function ProxyProviderImpl({ name, proxies: all, delay, vehicleType, updatedAt, dispatch }: Props) {
   const [collapsibleIsOpen, setCollapsibleIsOpen] = useAtom(collapsibleIsOpenAtom);
   const isOpen = collapsibleIsOpen[`proxyProvider:${name}`];
+  const [proxySortBy] = useAtom(proxySortByAtom);
+  const [hideUnavailableProxies] = useAtom(hideUnavailableProxiesAtom);
   const apiConfig = useApiConfig();
   const proxies = useFilteredAndSorted(all, delay, hideUnavailableProxies, proxySortBy);
   const checkingHealth = useState2(false);
-
   const updateProvider = useUpdateProviderItem({ dispatch, apiConfig, name });
-
   const healthcheckProvider = useCallback(() => {
     if (checkingHealth.value) return;
     checkingHealth.set(true);
@@ -132,14 +121,10 @@ function Refresh() {
 }
 
 const mapState = (s: State, { proxies }) => {
-  const hideUnavailableProxies = getHideUnavailableProxies(s);
   const delay = getDelay(s);
-  const proxySortBy = getProxySortBy(s);
   return {
     proxies,
     delay,
-    hideUnavailableProxies,
-    proxySortBy,
   };
 };
 
