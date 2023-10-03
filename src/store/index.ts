@@ -1,7 +1,6 @@
 import {
   initialState as app,
   updateAppConfig,
-  updateCollapsibleIsOpen,
 } from './app';
 import { initialState as configs } from './configs';
 import { initialState as logs } from './logs';
@@ -18,9 +17,7 @@ export const initialState = {
 
 export const actions = {
   updateAppConfig,
-
   app: {
-    updateCollapsibleIsOpen,
     updateAppConfig,
   },
   proxies: proxiesActions,

@@ -22,7 +22,7 @@ import ContentHeader from './ContentHeader';
 import { ToggleInput } from './form/Toggle';
 import Input, { SelfControlledInput } from './Input';
 import { Selection2 } from './Selection';
-import { connect, useStoreActions } from './StateProvider';
+import { connect } from './StateProvider';
 import TrafficChartSample from './TrafficChartSample';
 
 const { useEffect, useState, useCallback, useRef, useMemo } = React;
@@ -147,8 +147,6 @@ function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
     (e) => handleChangeValue(e.target),
     [handleChangeValue],
   );
-
-  const { updateAppConfig } = useStoreActions();
   const selectChartStyleIndex = useCallback((idx: number) => {
     setSelectedChartStyleIndex(idx);
     saveStateTmp({ selectedChartStyleIndex: idx });

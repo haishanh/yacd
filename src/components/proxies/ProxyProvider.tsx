@@ -1,14 +1,15 @@
 import { Tooltip } from '@reach/tooltip';
 import { formatDistance } from 'date-fns';
+import { useAtom } from 'jotai';
 import * as React from 'react';
 import { RotateCw } from 'react-feather';
 import Button from 'src/components/Button';
 import CollapsibleSectionHeader from 'src/components/CollapsibleSectionHeader';
 import { useUpdateProviderItem } from 'src/components/proxies/proxies.hooks';
-import { connect, useStoreActions } from 'src/components/StateProvider';
+import { connect } from 'src/components/StateProvider';
 import { framerMotionResource } from 'src/misc/motion';
 import {
-  getCollapsibleIsOpen,
+  collapsibleIsOpenAtom,
   getHideUnavailableProxies,
   getProxySortBy,
   useApiConfig,
@@ -35,7 +36,6 @@ type Props = {
   vehicleType: 'HTTP' | 'File' | 'Compatible';
   updatedAt?: string;
   dispatch: (x: any) => Promise<any>;
-  isOpen: boolean;
 };
 
 function ProxyProviderImpl({
@@ -46,9 +46,10 @@ function ProxyProviderImpl({
   proxySortBy,
   vehicleType,
   updatedAt,
-  isOpen,
   dispatch,
 }: Props) {
+  const [collapsibleIsOpen, setCollapsibleIsOpen] = useAtom(collapsibleIsOpenAtom);
+  const isOpen = collapsibleIsOpen[`proxyProvider:${name}`];
   const apiConfig = useApiConfig();
   const proxies = useFilteredAndSorted(all, delay, hideUnavailableProxies, proxySortBy);
   const checkingHealth = useState2(false);
@@ -61,11 +62,12 @@ function ProxyProviderImpl({
     const stop = () => checkingHealth.set(false);
     dispatch(healthcheckProviderByName(apiConfig, name)).then(stop, stop);
   }, [apiConfig, dispatch, name, checkingHealth]);
-
-  const {
-    app: { updateCollapsibleIsOpen },
-  } = useStoreActions();
-
+  const updateCollapsibleIsOpen = useCallback(
+    (prefix: string, name: string, v: boolean) => {
+      setCollapsibleIsOpen((s) => ({ ...s, [`${prefix}:${name}`]: v }));
+    },
+    [setCollapsibleIsOpen],
+  );
   const toggle = useCallback(() => {
     updateCollapsibleIsOpen('proxyProvider', name, !isOpen);
   }, [isOpen, updateCollapsibleIsOpen, name]);
@@ -129,17 +131,15 @@ function Refresh() {
   );
 }
 
-const mapState = (s: State, { proxies, name }) => {
+const mapState = (s: State, { proxies }) => {
   const hideUnavailableProxies = getHideUnavailableProxies(s);
   const delay = getDelay(s);
-  const collapsibleIsOpen = getCollapsibleIsOpen(s);
   const proxySortBy = getProxySortBy(s);
   return {
     proxies,
     delay,
     hideUnavailableProxies,
     proxySortBy,
-    isOpen: collapsibleIsOpen[`proxyProvider:${name}`],
   };
 };
 

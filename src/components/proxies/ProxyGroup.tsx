@@ -1,4 +1,5 @@
 import { Tooltip } from '@reach/tooltip';
+import { useAtom } from 'jotai';
 import * as React from 'react';
 
 import Button from '$src/components/Button';
@@ -6,7 +7,7 @@ import CollapsibleSectionHeader from '$src/components/CollapsibleSectionHeader';
 import { ZapAnimated } from '$src/components/shared/ZapAnimated';
 import { connect, useStoreActions } from '$src/components/StateProvider';
 import { useState2 } from '$src/hooks/basic';
-import { getCollapsibleIsOpen, getHideUnavailableProxies, getProxySortBy } from '$src/store/app';
+import { collapsibleIsOpenAtom, getHideUnavailableProxies, getProxySortBy } from '$src/store/app';
 import { getProxies, switchProxy } from '$src/store/proxies';
 import { DelayMapping, DispatchFn, ProxiesMapping, State } from '$src/store/types';
 import { ClashAPIConfig } from '$src/types';
@@ -26,7 +27,6 @@ type ProxyGroupImplProps = {
   proxies: ProxiesMapping;
   type: string;
   now: string;
-  isOpen: boolean;
   apiConfig: ClashAPIConfig;
   dispatch: DispatchFn;
 };
@@ -40,19 +40,22 @@ function ProxyGroupImpl({
   proxies,
   type,
   now,
-  isOpen,
   apiConfig,
   dispatch,
 }: ProxyGroupImplProps) {
+  const [collapsibleIsOpen, setCollapsibleIsOpen] = useAtom(collapsibleIsOpenAtom);
+  const isOpen = collapsibleIsOpen[`proxyGroup:${name}`];
   const all = useFilteredAndSorted(allItems, delay, hideUnavailableProxies, proxySortBy, proxies);
-
   const isSelectable = useMemo(() => type === 'Selector', [type]);
-
   const {
-    app: { updateCollapsibleIsOpen },
     proxies: { requestDelayForProxies },
   } = useStoreActions();
-
+  const updateCollapsibleIsOpen = useCallback(
+    (prefix: string, name: string, v: boolean) => {
+      setCollapsibleIsOpen((s) => ({ ...s, [`${prefix}:${name}`]: v }));
+    },
+    [setCollapsibleIsOpen],
+  );
   const toggle = useCallback(() => {
     updateCollapsibleIsOpen('proxyGroup', name, !isOpen);
   }, [isOpen, updateCollapsibleIsOpen, name]);
@@ -105,10 +108,8 @@ function ProxyGroupImpl({
 
 export const ProxyGroup = connect((s: State, { name, delay }) => {
   const proxies = getProxies(s);
-  const collapsibleIsOpen = getCollapsibleIsOpen(s);
   const proxySortBy = getProxySortBy(s);
   const hideUnavailableProxies = getHideUnavailableProxies(s);
-
   const group = proxies[name];
   const { all, type, now } = group;
   return {
@@ -119,6 +120,5 @@ export const ProxyGroup = connect((s: State, { name, delay }) => {
     proxies,
     type,
     now,
-    isOpen: collapsibleIsOpen[`proxyGroup:${name}`],
   };
 })(ProxyGroupImpl);

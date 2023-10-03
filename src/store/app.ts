@@ -1,17 +1,17 @@
 import { atom, useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
+
+import { loadState, saveState } from '$src/misc/storage';
+import { trimTrailingSlash } from '$src/misc/utils';
 import {
   ClashAPIConfigWithAddedAt,
   DispatchFn,
   GetStateFn,
   State,
   StateApp,
-} from 'src/store/types';
-
+} from '$src/store/types';
 import { ClashAPIConfig } from '$src/types';
 
-import { loadState, saveState } from '../misc/storage';
-import { debounce, trimTrailingSlash } from '../misc/utils';
 import { fetchConfigs } from './configs';
 import { closeModal } from './modals';
 
@@ -56,6 +56,7 @@ export const selectedClashAPIConfigIndexAtom = atom<number>(initialState().selec
 export const clashAPIConfigsAtom = atom<ClashAPIConfigWithAddedAt[]>(initialState().clashAPIConfigs);
 export const selectedChartStyleIndexAtom = atom(initialState().selectedChartStyleIndex);
 export const latencyTestUrlAtom = atom(initialState().latencyTestUrl);
+export const collapsibleIsOpenAtom = atom(initialState().collapsibleIsOpen);
 
 // hooks
 
@@ -66,13 +67,10 @@ export function useApiConfig() {
 }
 
 export const getTheme = (s: State) => s.app.theme;
-export const getCollapsibleIsOpen = (s: State) => s.app.collapsibleIsOpen;
 export const getProxySortBy = (s: State) => s.app.proxySortBy;
 export const getHideUnavailableProxies = (s: State) => s.app.hideUnavailableProxies;
 export const getAutoCloseOldConns = (s: State) => s.app.autoCloseOldConns;
 export const getLogStreamingPaused = (s: State) => s.app.logStreamingPaused;
-
-const saveStateDebounced = debounce(saveState, 600);
 
 export function findClashAPIConfigIndexTmp(
   arr: ClashAPIConfigWithAddedAt[],
@@ -169,16 +167,6 @@ export function updateAppConfig(name: string, value: unknown) {
     });
     // side effect
     saveState(getState().app);
-  };
-}
-
-export function updateCollapsibleIsOpen(prefix: string, name: string, v: boolean) {
-  return (dispatch: DispatchFn, getState: GetStateFn) => {
-    dispatch('updateCollapsibleIsOpen', (s: State) => {
-      s.app.collapsibleIsOpen[`${prefix}:${name}`] = v;
-    });
-    // side effect
-    saveStateDebounced(getState().app);
   };
 }
 
