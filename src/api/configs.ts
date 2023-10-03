@@ -4,6 +4,25 @@ import { ClashAPIConfig } from 'src/types';
 
 const endpoint = '/configs';
 
+export async function fetchConfigs2(ctx: { queryKey: readonly [string, ClashAPIConfig] }) {
+  const endpoint = ctx.queryKey[0];
+  const apiConfig = ctx.queryKey[1];
+  const { url, init } = getURLAndInit(apiConfig);
+  const res = await fetch(url + endpoint, init);
+  if (!res.ok) {
+    throw new Error('TODO');
+  }
+  return await res.json();
+}
+
+export function updateConfigs(apiConfig: ClashAPIConfig) {
+  return async (o: Partial<ClashGeneralConfig>) => {
+    const { url, init } = getURLAndInit(apiConfig);
+    const body = JSON.stringify(configsPatchWorkaround(o));
+    return await fetch(url + endpoint, { ...init, body, method: 'PATCH' });
+  };
+}
+
 export async function fetchConfigs(apiConfig: ClashAPIConfig) {
   const { url, init } = getURLAndInit(apiConfig);
   return await fetch(url + endpoint, init);
@@ -20,10 +39,4 @@ function configsPatchWorkaround(o: ClashConfigPartial) {
     o['socket-port'] = o['socks-port'];
   }
   return o;
-}
-
-export async function updateConfigs(apiConfig: ClashAPIConfig, o: ClashConfigPartial) {
-  const { url, init } = getURLAndInit(apiConfig);
-  const body = JSON.stringify(configsPatchWorkaround(o));
-  return await fetch(url + endpoint, { ...init, body, method: 'PATCH' });
 }

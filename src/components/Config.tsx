@@ -1,26 +1,28 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import * as React from 'react';
 import { LogOut } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import * as logsApi from 'src/api/logs';
-import Select from 'src/components/shared/Select';
-import { ClashGeneralConfig, DispatchFn, State } from 'src/store/types';
+import { redirect } from 'react-router';
 
+import { updateConfigs } from '$src/api/configs';
+import * as logsApi from '$src/api/logs';
+import Select from '$src/components/shared/Select';
 import {
   darkModePureBlackToggleAtom,
   latencyTestUrlAtom,
   selectedChartStyleIndexAtom,
   useApiConfig,
-} from '../store/app';
-import { fetchConfigs, getConfigs, updateConfigs } from '../store/configs';
-import { openModal } from '../store/modals';
+} from '$src/store/app';
+import { useClashConfig } from '$src/store/configs';
+import { ClashGeneralConfig } from '$src/store/types';
+
 import Button from './Button';
 import s0 from './Config.module.scss';
 import ContentHeader from './ContentHeader';
 import { ToggleInput } from './form/Toggle';
 import Input, { SelfControlledInput } from './Input';
 import { Selection2 } from './Selection';
-import { connect } from './StateProvider';
 import TrafficChartSample from './TrafficChartSample';
 
 const { useEffect, useState, useCallback, useRef, useMemo } = React;
@@ -53,35 +55,20 @@ const modeOptions = [
   ['Direct', 'Direct'],
 ];
 
-const mapState = (s: State) => ({
-  configs: getConfigs(s),
-});
-
-const Config = connect(mapState)(ConfigImpl);
-export default connect(mapState)(ConfigContainer);
-
-function ConfigContainer({
-  dispatch,
-  configs,
-}: {
-  dispatch: DispatchFn;
-  configs: ClashGeneralConfig;
-}) {
-  const apiConfig = useApiConfig();
-  useEffect(() => {
-    dispatch(fetchConfigs(apiConfig));
-  }, [dispatch, apiConfig]);
-  return <Config configs={configs} />;
+export default function ConfigContainer() {
+  const { data } = useClashConfig();
+  return <Config configs={data} />;
 }
 
 type ConfigImplProps = {
-  dispatch: DispatchFn;
   configs: ClashGeneralConfig;
 };
 
-function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
+function Config({ configs }: ConfigImplProps) {
   const [latencyTestUrl, setLatencyTestUrl] = useAtom(latencyTestUrlAtom);
-  const [selectedChartStyleIndex, setSelectedChartStyleIndex] = useAtom(selectedChartStyleIndexAtom);
+  const [selectedChartStyleIndex, setSelectedChartStyleIndex] = useAtom(
+    selectedChartStyleIndexAtom,
+  );
   const apiConfig = useApiConfig();
   const [configState, setConfigStateInternal] = useState(configs);
   const refConfigs = useRef(configs);
@@ -93,8 +80,9 @@ function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
   }, [configs]);
 
   const openAPIConfigModal = useCallback(() => {
-    dispatch(openModal('apiConfig'));
-  }, [dispatch]);
+    redirect('/backend');
+    // dispatch(openModal('apiConfig'));
+  }, []);
 
   const setConfigState = useCallback(
     (name: keyof ClashGeneralConfig, val: ClashGeneralConfig[keyof ClashGeneralConfig]) => {
@@ -103,14 +91,22 @@ function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
     [configState],
   );
 
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: updateConfigs(apiConfig),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/configs'] });
+    },
+  });
+
   const handleSwitchOnChange = useCallback(
     (checked: boolean) => {
       const name = 'allow-lan';
       const value = checked;
       setConfigState(name, value);
-      dispatch(updateConfigs(apiConfig, { 'allow-lan': value }));
+      mutation.mutate({ 'allow-lan': value });
     },
-    [apiConfig, dispatch, setConfigState],
+    [mutation, setConfigState],
   );
 
   const handleChangeValue = useCallback(
@@ -119,7 +115,7 @@ function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
         case 'mode':
         case 'log-level':
           setConfigState(name, value);
-          dispatch(updateConfigs(apiConfig, { [name]: value }));
+          mutation.mutate({ [name]: value });
           if (name === 'log-level') {
             logsApi.reconnect({ ...apiConfig, logLevel: value });
           }
@@ -138,16 +134,19 @@ function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
           return;
       }
     },
-    [apiConfig, dispatch, setConfigState],
+    [apiConfig, mutation, setConfigState],
   );
 
   const handleInputOnChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (e) => handleChangeValue(e.target),
     [handleChangeValue],
   );
-  const selectChartStyleIndex = useCallback((idx: number) => {
-    setSelectedChartStyleIndex(idx);
-  }, [setSelectedChartStyleIndex])
+  const selectChartStyleIndex = useCallback(
+    (idx: number) => {
+      setSelectedChartStyleIndex(idx);
+    },
+    [setSelectedChartStyleIndex],
+  );
 
   const handleInputOnBlur = useCallback<React.FocusEventHandler<HTMLInputElement>>(
     (e) => {
@@ -160,7 +159,7 @@ function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
         case 'redir-port': {
           const num = parseInt(value, 10);
           if (num < 0 || num > 65535) return;
-          dispatch(updateConfigs(apiConfig, { [name]: num }));
+          mutation.mutate({ [name]: num });
           break;
         }
         case 'latencyTestUrl': {
@@ -171,7 +170,7 @@ function ConfigImpl({ dispatch, configs }: ConfigImplProps) {
           throw new Error(`unknown input name ${name}`);
       }
     },
-    [apiConfig, dispatch, setLatencyTestUrl],
+    [mutation, setLatencyTestUrl],
   );
 
   const mode = useMemo(() => {

@@ -30,10 +30,13 @@ export function ThemeSwitcher() {
     }
   }, [theme]);
 
-  const onSelect = React.useCallback((v: ThemeType) => {
-    setThemeAtom(v);
-    setTheme(v);
-  }, [setThemeAtom]);
+  const onSelect = React.useCallback(
+    (v: ThemeType) => {
+      setThemeAtom(v);
+      setTheme(v);
+    },
+    [setThemeAtom],
+  );
 
   return (
     <Menu>

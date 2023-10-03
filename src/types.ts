@@ -4,6 +4,7 @@ export type ClashAPIConfig = {
 
   // metadata
   metaLabel?: string;
+  addedAt?: number;
 };
 
 export type LogsAPIConfig = ClashAPIConfig & { logLevel: string };

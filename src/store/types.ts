@@ -1,10 +1,10 @@
 import type { ClashAPIConfig } from 'src/types';
 
 export type ThemeType = 'dark' | 'light' | 'auto';
-export type ClashAPIConfigWithAddedAt = ClashAPIConfig & { addedAt?: number };
+
 export type StateApp = {
   selectedClashAPIConfigIndex: number;
-  clashAPIConfigs: ClashAPIConfigWithAddedAt[];
+  clashAPIConfigs: ClashAPIConfig[];
 
   latencyTestUrl: string;
   selectedChartStyleIndex: number;
@@ -24,6 +24,12 @@ export type ClashGeneralConfig = {
   'allow-lan': boolean;
   mode: string;
   'log-level': string;
+  // new
+  authentication?: unknown[];
+  'bind-address'?: string;
+  ipv6?: boolean;
+  'mixed-port'?: number;
+  'tproxy-port'?: number;
 };
 
 ///// store.proxies
@@ -91,13 +97,6 @@ export type StateLogs = {
   tail: number;
 };
 
-///// store.configs
-
-export type StateConfigs = {
-  configs: ClashGeneralConfig;
-  haveFetchedConfig: boolean;
-};
-
 ///// store.modals
 
 export type StateModals = {
@@ -107,8 +106,6 @@ export type StateModals = {
 //////
 
 export type State = {
-  app: StateApp;
-  configs: StateConfigs;
   proxies: StateProxies;
   logs: StateLogs;
   modals: StateModals;

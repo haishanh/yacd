@@ -11,9 +11,10 @@ import { connect } from 'src/components/StateProvider';
 import SvgYacd from 'src/components/SvgYacd';
 import useRemainingViewPortHeight from 'src/hooks/useRemainingViewPortHeight';
 import { logStreamingPausedAtom, useApiConfig } from 'src/store/app';
-import { getLogLevel } from 'src/store/configs';
 import { appendLog, getLogsForDisplay } from 'src/store/logs';
 import { DispatchFn, Log, State } from 'src/store/types';
+
+import { useClashConfig } from '$src/store/configs';
 
 import s from './Logs.module.scss';
 import { Fab, position as fabPosition } from './shared/Fab';
@@ -27,8 +28,6 @@ const colors = {
   warning: '#b99105',
   error: '#c11c1c',
 };
-
-// type LogLineProps = Partial<Log>;
 
 function LogLine({ time, even, payload, type }: Log) {
   const className = cx({ even }, 'log');
@@ -61,15 +60,9 @@ const Row = memo(({ index, style, data }: ListChildComponentProps<Log[]>) => {
 
 Row.displayName = 'MemoRow';
 
-function Logs({
-  dispatch,
-  logLevel,
-  logs,
-}: {
-  dispatch: DispatchFn;
-  logLevel: string;
-  logs: Log[];
-}) {
+function Logs({ dispatch, logs }: { dispatch: DispatchFn; logs: Log[] }) {
+  const { data } = useClashConfig();
+  const logLevel = data['log-level'];
   const [logStreamingPaused, setLogStreamingPaused] = useAtom(logStreamingPausedAtom);
   const apiConfig = useApiConfig();
   const toggleIsRefreshPaused = useCallback(() => {
@@ -128,7 +121,6 @@ function Logs({
 
 const mapState = (s: State) => ({
   logs: getLogsForDisplay(s),
-  logLevel: getLogLevel(s),
 });
 
 export default connect(mapState)(Logs);

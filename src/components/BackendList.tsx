@@ -21,7 +21,7 @@ export function BackendList() {
   const removeClashAPIConfig = React.useCallback(
     (conf: ClashAPIConfig) => {
       const idx = findClashAPIConfigIndex(apiConfigs, conf);
-      setApiConfigs(apiConfigs => {
+      setApiConfigs((apiConfigs) => {
         apiConfigs.splice(idx, 1);
         return [...apiConfigs];
       });
@@ -49,7 +49,6 @@ export function BackendList() {
       } catch (err) {
         // ignore
       }
-
     },
     [apiConfigs, selectedClashAPIConfigIndex, setSelectedClashAPIConfigIndex],
   );

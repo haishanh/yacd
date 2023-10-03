@@ -48,7 +48,7 @@ export function AppConfigSideEffect() {
       selectedChartStyleIndex,
       selectedClashAPIConfigIndex,
       theme,
-    }
+    };
     save();
   }, [
     autoCloseOldConns,

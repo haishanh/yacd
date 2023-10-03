@@ -79,6 +79,7 @@ function pump(reader: ReadableStreamDefaultReader) {
 // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
 let wsState: number;
 function fetchData(apiConfig: ClashAPIConfig) {
+  // TODO if apiConfig changed, should we reset?
   if (fetched || wsState === 1) return traffic;
   wsState = 1;
   const url = buildWebSocketURL(apiConfig, endpoint);
