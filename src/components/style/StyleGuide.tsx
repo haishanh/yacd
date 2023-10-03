@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react';
 import { Zap } from 'react-feather';
 import Loading from 'src/components/Loading';
 
-import Button from './Button';
-import { ToggleInput } from './form/Toggle';
-import Input from './Input';
-import { ZapAnimated } from './shared/ZapAnimated';
-import ToggleSwitch from './ToggleSwitch';
+import Button from '$src/components/Button';
+import { ToggleInput } from '$src/components/form/Toggle';
+import Input from '$src/components/Input';
+import { ZapAnimated } from '$src/components/shared/ZapAnimated';
+import ToggleSwitch from '$src/components/ToggleSwitch';
+
+import { ThemeSwitcher } from '../shared/ThemeSwitcher';
 
 const noop = () => {
   /* empty */
@@ -26,10 +28,13 @@ const Pane = ({ children, style }: { children: React.ReactNode; style?: React.CS
   <div style={{ ...paneStyle, ...style }}>{children}</div>
 );
 
-class StyleGuide extends PureComponent {
+export default class StyleGuide extends PureComponent {
   render() {
     return (
       <div>
+        <Pane>
+          <ThemeSwitcher />
+        </Pane>
         <Pane>
           <ToggleInput id="t0" />
           <label htmlFor="t0" style={{ paddingLeft: 12 }}>
@@ -61,5 +66,3 @@ class StyleGuide extends PureComponent {
     );
   }
 }
-
-export default StyleGuide;

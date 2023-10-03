@@ -2,8 +2,13 @@ import cx from 'clsx';
 import { useAtom } from 'jotai';
 import * as React from 'react';
 import { Eye, EyeOff, X as Close } from 'react-feather';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
+import { req } from '$src/api/fetch';
 import { useToggle } from '$src/hooks/basic';
+import { getURLAndInit } from '$src/misc/request-helper';
+import { noop } from '$src/misc/utils';
 import {
   clashAPIConfigsAtom,
   findClashAPIConfigIndex,
@@ -13,11 +18,11 @@ import { ClashAPIConfig } from '$src/types';
 
 import s from './BackendList.module.scss';
 
+const PASS_THRU_ERROR = {};
+
 export function BackendList() {
   const [apiConfigs, setApiConfigs] = useAtom(clashAPIConfigsAtom);
-  const [selectedClashAPIConfigIndex, setSelectedClashAPIConfigIndex] = useAtom(
-    selectedClashAPIConfigIndexAtom,
-  );
+  const [currIdx, setCurrIdx] = useAtom(selectedClashAPIConfigIndexAtom);
   const removeClashAPIConfig = React.useCallback(
     (conf: ClashAPIConfig) => {
       const idx = findClashAPIConfigIndex(apiConfigs, conf);
@@ -25,49 +30,61 @@ export function BackendList() {
         apiConfigs.splice(idx, 1);
         return [...apiConfigs];
       });
-      if (idx === selectedClashAPIConfigIndex) {
-        setSelectedClashAPIConfigIndex(0);
-      } else if (idx < selectedClashAPIConfigIndex) {
-        setSelectedClashAPIConfigIndex(selectedClashAPIConfigIndex - 1);
+      if (idx === currIdx) {
+        setCurrIdx(0);
+      } else if (idx < currIdx) {
+        setCurrIdx(currIdx - 1);
       }
     },
-    [apiConfigs, selectedClashAPIConfigIndex, setApiConfigs, setSelectedClashAPIConfigIndex],
+    [apiConfigs, currIdx, setApiConfigs, setCurrIdx],
   );
 
-  const selectClashAPIConfig = React.useCallback(
-    (conf: ClashAPIConfig) => {
-      const idx = findClashAPIConfigIndex(apiConfigs, conf);
-      const curr = selectedClashAPIConfigIndex;
-      if (curr !== idx) {
-        setSelectedClashAPIConfigIndex(idx);
-      }
+  const navigate = useNavigate();
 
-      // manual clean up is too complex
-      // we just reload the app
-      try {
-        window.location.reload();
-      } catch (err) {
-        // ignore
-      }
-    },
-    [apiConfigs, selectedClashAPIConfigIndex, setSelectedClashAPIConfigIndex],
-  );
-
-  // const {
-  //   app: { selectClashAPIConfig },
-  // } = useStoreActions();
-
-  const onRemove = React.useCallback(
-    (conf: ClashAPIConfig) => {
-      removeClashAPIConfig(conf);
-    },
-    [removeClashAPIConfig],
-  );
   const onSelect = React.useCallback(
-    (conf: ClashAPIConfig) => {
-      selectClashAPIConfig(conf);
+    async (conf: ClashAPIConfig) => {
+      const idx = findClashAPIConfigIndex(apiConfigs, conf);
+      const { url, init } = getURLAndInit(apiConfigs[idx]);
+      await req(url, init)
+        .then(
+          (res) => res.json(),
+          (err) => {
+            console.log(err);
+            toast.error('Failed to connect');
+            throw PASS_THRU_ERROR;
+          },
+        )
+        .then(
+          (data) => {
+            if (typeof data['hello'] !== 'string') {
+              console.log('Response:', data);
+              toast.error('Unexpected response');
+              throw PASS_THRU_ERROR;
+            }
+          },
+          (err) => {
+            if (err === PASS_THRU_ERROR) throw PASS_THRU_ERROR;
+            console.log(err);
+            toast.error('Unexpected response');
+            throw PASS_THRU_ERROR;
+          },
+        )
+        .then(() => {
+          if (currIdx === idx) {
+            navigate('/', { replace: true });
+          } else {
+            setCurrIdx(idx);
+            // manual clean up is too complex
+            // we just reload the app
+            try {
+              window.location.href = '/';
+            } catch (err) {
+              // ignore
+            }
+          }
+        }, noop);
     },
-    [selectClashAPIConfig],
+    [apiConfigs, currIdx, setCurrIdx, navigate],
   );
 
   return (
@@ -76,13 +93,13 @@ export function BackendList() {
         {apiConfigs.map((item, idx) => {
           return (
             <li
-              className={cx(s.li, { [s.isSelected]: idx === selectedClashAPIConfigIndex })}
+              className={cx(s.li, { [s.isSelected]: idx === currIdx })}
               key={item.baseURL + item.secret + item.metaLabel}
             >
               <Item
-                disableRemove={idx === selectedClashAPIConfigIndex}
+                disableRemove={idx === currIdx}
                 conf={item}
-                onRemove={onRemove}
+                onRemove={removeClashAPIConfig}
                 onSelect={onSelect}
               />
             </li>
@@ -113,9 +130,13 @@ function Item({
 
   return (
     <>
-      <Button disabled={disableRemove} onClick={() => onRemove(conf)} className={s.close}>
-        <Close size={20} />
-      </Button>
+      {disableRemove ? (
+        <span />
+      ) : (
+        <Button disabled={disableRemove} onClick={() => onRemove(conf)} className={s.close}>
+          <Close size={20} />
+        </Button>
+      )}
 
       <div className={s.right}>
         {conf.metaLabel ? (

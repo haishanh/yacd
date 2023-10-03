@@ -5,8 +5,8 @@ import { Info } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { FcAreaChart, FcDocument, FcGlobe, FcLink, FcRuler, FcSettings } from 'react-icons/fc';
 import { Link, useLocation } from 'react-router-dom';
-import { ThemeSwitcher } from 'src/components/shared/ThemeSwitcher';
 
+import { ThemeSwitcher } from './shared/ThemeSwitcher';
 import s from './SideBar.module.scss';
 
 const icons = {

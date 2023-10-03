@@ -6,6 +6,7 @@ import { useAtom } from 'jotai';
 import * as React from 'react';
 import { RouteObject } from 'react-router';
 import { HashRouter as Router, useRoutes } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import { About } from 'src/components/about/About';
 import Loading from 'src/components/Loading';
 import { Head } from 'src/components/shared/Head';
@@ -15,8 +16,7 @@ import { AppConfigSideEffect } from '$src/components/fn/AppConfigSideEffect';
 import { darkModePureBlackToggleAtom } from '$src/store/app';
 
 import { actions, initialState } from '../store';
-import APIConfig from './APIConfig';
-import APIDiscovery from './APIDiscovery';
+import { Backend } from './backend/Backend';
 import { MutableConnRefCtx } from './conns/ConnCtx';
 import ErrorBoundary from './ErrorBoundary';
 import Home from './Home';
@@ -24,7 +24,6 @@ import Loading2 from './Loading2';
 import s0 from './Root.module.scss';
 import SideBar from './SideBar';
 import StateProvider from './StateProvider';
-import StyleGuide from './StyleGuide';
 
 const { lazy, Suspense } = React;
 
@@ -33,6 +32,7 @@ const Config = lazy(() => import('./Config'));
 const Logs = lazy(() => import('./Logs'));
 const Proxies = lazy(() => import('./proxies/Proxies'));
 const Rules = lazy(() => import('./Rules'));
+const StyleGuide = lazy(() => import('$src/components/style/StyleGuide'))
 
 const routes = [
   { path: '/', element: <Home /> },
@@ -59,7 +59,6 @@ function RouteInnerApp() {
 function SideBarApp() {
   return (
     <>
-      <APIDiscovery />
       <SideBar />
       <div className={s0.content}>
         <Suspense fallback={<Loading2 />}>
@@ -72,7 +71,7 @@ function SideBarApp() {
 
 function App() {
   return useRoutes([
-    { path: '/backend', element: <APIConfig /> },
+    { path: '/backend', element: <Backend /> },
     { path: '*', element: <SideBarApp /> },
   ]);
 }
@@ -80,7 +79,12 @@ function App() {
 function AppShell({ children }: { children: React.ReactNode }) {
   const [pureBlackDark] = useAtom(darkModePureBlackToggleAtom);
   const clazz = cx(s0.app, { pureBlackDark });
-  return <div className={clazz}>{children}</div>;
+  return (
+    <>
+      <Toaster richColors />
+      <div className={clazz}>{children}</div>
+    </>
+  );
 }
 
 const Root = () => (

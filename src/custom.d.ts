@@ -1,5 +1,6 @@
 /// <reference types="react/experimental" />
 /// <reference types="react-dom/experimental" />
+/// <reference types="vite/client" />
 
 // for css modules
 declare module '*.module.css' {

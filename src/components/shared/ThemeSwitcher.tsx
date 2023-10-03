@@ -1,4 +1,4 @@
-import { Menu, MenuButton, MenuItem, MenuList } from '@reach/menu-button';
+import * as Menubar from '@radix-ui/react-menubar';
 import { Tooltip } from '@reach/tooltip';
 import cx from 'clsx';
 import { useAtom } from 'jotai';
@@ -12,24 +12,29 @@ import { ThemeType } from '$src/store/types';
 
 import s from './ThemeSwitcher.module.scss';
 
+const ALL = [
+  { v: 'auto', l: 'Auto' },
+  { v: 'dark', l: 'Dark' },
+  { v: 'light', l: 'Light' },
+];
+
+function ThemeIcon({ theme }: { theme: ThemeType }) {
+  switch (theme) {
+    case 'dark':
+      return <MoonA />;
+    case 'auto':
+      return <Auto />;
+    case 'light':
+      return <Sun />;
+    default:
+      console.assert(false, 'Unknown theme');
+      return <MoonA />;
+  }
+}
+
 export function ThemeSwitcher() {
-  const [theme, setThemeAtom] = useAtom(themeAtom);
   const { t } = useTranslation();
-
-  const themeIcon = React.useMemo(() => {
-    switch (theme) {
-      case 'dark':
-        return <MoonA />;
-      case 'auto':
-        return <Auto />;
-      case 'light':
-        return <Sun />;
-      default:
-        console.assert(false, 'Unknown theme');
-        return <MoonA />;
-    }
-  }, [theme]);
-
+  const [theme, setThemeAtom] = useAtom(themeAtom);
   const onSelect = React.useCallback(
     (v: ThemeType) => {
       setThemeAtom(v);
@@ -39,16 +44,28 @@ export function ThemeSwitcher() {
   );
 
   return (
-    <Menu>
-      <Tooltip label={t('switch_theme')} aria-label={'switch theme'}>
-        <MenuButton>{themeIcon}</MenuButton>
-      </Tooltip>
-      <MenuList>
-        <ThemeMenuItem value="auto" label="Auto" active={theme === 'auto'} onSelect={onSelect} />
-        <ThemeMenuItem value="dark" label="Dark" active={theme === 'dark'} onSelect={onSelect} />
-        <ThemeMenuItem value="light" label="Light" active={theme === 'light'} onSelect={onSelect} />
-      </MenuList>
-    </Menu>
+    <Menubar.Root>
+      <Menubar.Menu>
+        <Tooltip label={t('switch_theme')} aria-label={'switch theme'}>
+          <Menubar.Trigger className={s.MenubarTrigger}>
+            <ThemeIcon theme={theme} />
+          </Menubar.Trigger>
+        </Tooltip>
+        <Menubar.Portal>
+          <Menubar.Content className={s.MenubarContent}>
+            {ALL.map((it) => (
+              <ThemeMenuItem
+                key={it.v}
+                value={it.v}
+                label={it.l}
+                active={theme === it.v}
+                onSelect={onSelect}
+              />
+            ))}
+          </Menubar.Content>
+        </Menubar.Portal>
+      </Menubar.Menu>
+    </Menubar.Root>
   );
 }
 
@@ -60,12 +77,12 @@ function ThemeMenuItem(props: {
 }) {
   const cls = cx(s.checkWrapper, { [s.active]: props.active });
   return (
-    <MenuItem onSelect={() => props.onSelect(props.value)}>
+    <Menubar.Item className={s.MenubarItem} onSelect={() => props.onSelect(props.value)}>
       <span className={cls}>
         <Check size={14} />
       </span>
       <span>{props.label}</span>
-    </MenuItem>
+    </Menubar.Item>
   );
 }
 

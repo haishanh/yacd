@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import * as React from 'react';
 import { LogOut } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import { redirect } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 import { updateConfigs } from '$src/api/configs';
 import * as logsApi from '$src/api/logs';
@@ -65,6 +65,7 @@ type ConfigImplProps = {
 };
 
 function Config({ configs }: ConfigImplProps) {
+  const navigate = useNavigate();
   const [latencyTestUrl, setLatencyTestUrl] = useAtom(latencyTestUrlAtom);
   const [selectedChartStyleIndex, setSelectedChartStyleIndex] = useAtom(
     selectedChartStyleIndexAtom,
@@ -78,12 +79,6 @@ function Config({ configs }: ConfigImplProps) {
     }
     refConfigs.current = configs;
   }, [configs]);
-
-  const openAPIConfigModal = useCallback(() => {
-    redirect('/backend');
-    // dispatch(openModal('apiConfig'));
-  }, []);
-
   const setConfigState = useCallback(
     (name: keyof ClashGeneralConfig, val: ClashGeneralConfig[keyof ClashGeneralConfig]) => {
       setConfigStateInternal({ ...configState, [name]: val });
@@ -140,12 +135,6 @@ function Config({ configs }: ConfigImplProps) {
   const handleInputOnChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (e) => handleChangeValue(e.target),
     [handleChangeValue],
-  );
-  const selectChartStyleIndex = useCallback(
-    (idx: number) => {
-      setSelectedChartStyleIndex(idx);
-    },
-    [setSelectedChartStyleIndex],
   );
 
   const handleInputOnBlur = useCallback<React.FocusEventHandler<HTMLInputElement>>(
@@ -259,7 +248,7 @@ function Config({ configs }: ConfigImplProps) {
             OptionComponent={TrafficChartSample}
             optionPropsList={propsList}
             selectedIndex={selectedChartStyleIndex}
-            onChange={selectChartStyleIndex}
+            onChange={(v: string) => setSelectedChartStyleIndex(parseInt(v, 10))}
           />
         </div>
         <div>
@@ -271,7 +260,7 @@ function Config({ configs }: ConfigImplProps) {
           <Button
             start={<LogOut size={16} />}
             label={t('switch_backend')}
-            onClick={openAPIConfigModal}
+            onClick={() => navigate('/backend')}
           />
         </div>
         <div className={s0.item}>

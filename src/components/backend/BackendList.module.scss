@@ -19,6 +19,10 @@
   column-gap: 10px;
   border: 1px solid var(--bg-near-transparent);
 
+  &.isSelected {
+    border-color: #387cec;
+  }
+
   .right {
     display: grid;
     column-gap: 10px;

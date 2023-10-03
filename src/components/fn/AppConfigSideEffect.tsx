@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 
 import { saveState } from '$src/misc/storage';
-import { debounce } from '$src/misc/utils';
+import { throttle } from '$src/misc/utils';
 import {
   autoCloseOldConnsAtom,
   clashAPIConfigsAtom,
@@ -23,7 +23,7 @@ function save0() {
   if (stateRef) saveState(stateRef);
 }
 
-const save = debounce(save0, 500);
+const save = throttle(save0, 500);
 
 export function AppConfigSideEffect() {
   const [selectedClashAPIConfigIndex] = useAtom(selectedClashAPIConfigIndexAtom);

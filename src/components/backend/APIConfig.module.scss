@@ -11,9 +11,10 @@
   align-items: center;
 
   .icon {
-    --stroke: #f3f3f3;
+    --stroke: var(--color-text-secondary);
+
     color: #20497e;
-    opacity: 0.7;
+    opacity: 0.4;
     transition: opacity 400ms;
     &:hover {
       opacity: 1;

@@ -1,4 +1,4 @@
-[data-reach-menu-button] {
+.MenubarTrigger {
   --sz: 40px;
 
   width: var(--sz);
@@ -9,6 +9,7 @@
   justify-content: center;
 
   -webkit-appearance: none;
+  appearance: none;
   outline: none;
   user-select: none;
   cursor: pointer;
@@ -26,7 +27,7 @@
   }
 }
 
-[data-reach-menu-list] {
+.MenubarContent {
   background: var(--bg-tooltip);
   color: var(--color-text);
   border: 1px solid #555;
@@ -34,15 +35,16 @@
   border-radius: 8px;
 }
 
-[data-reach-menu-item] {
+.MenubarItem {
   padding: 5px 16px 5px 6px;
   border-radius: 7px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  outline: none;
 }
 
-[data-reach-menu-item][data-selected] {
+.MenubarItem[data-highlighted] {
   background: var(--color-focus-blue);
   color: #f7f7f7;
 }

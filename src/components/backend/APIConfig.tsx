@@ -1,14 +1,15 @@
 import { useAtom } from 'jotai';
 import * as React from 'react';
 import { fetchConfigs } from 'src/api/configs';
-import { BackendList } from 'src/components/BackendList';
 import { clashAPIConfigsAtom, findClashAPIConfigIndex } from 'src/store/app';
 import { ClashAPIConfig } from 'src/types';
 
+import Field from '$src/components//Field';
+import { BackendList } from '$src/components/backend/BackendList';
+import Button from '$src/components/Button';
+import SvgYacd from '$src/components/SvgYacd';
+
 import s0 from './APIConfig.module.scss';
-import Button from './Button';
-import Field from './Field';
-import SvgYacd from './SvgYacd';
 
 const { useState, useRef, useCallback, useEffect } = React;
 const Ok = 0;
@@ -23,7 +24,6 @@ export default function APIConfig() {
   const [errMsg, setErrMsg] = useState('');
 
   const userTouchedFlagRef = useRef(false);
-  const contentEl = useRef(null);
 
   const handleInputOnChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>((e) => {
     userTouchedFlagRef.current = true;
@@ -62,20 +62,10 @@ export default function APIConfig() {
     });
   }, [baseURL, secret, metaLabel, apiConfigs, setApiConfigs]);
 
-  const handleContentOnKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (
-        e.target instanceof Element &&
-        (!e.target.tagName || e.target.tagName.toUpperCase() !== 'INPUT')
-      ) {
-        return;
-      }
-      if (e.key !== 'Enter') return;
-
-      onConfirm();
-    },
-    [onConfirm],
-  );
+  const onSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    onConfirm();
+  }, [onConfirm])
 
   const detectApiServer = async () => {
     // if there is already a clash API server at `/`, just use it as default value
@@ -91,49 +81,58 @@ export default function APIConfig() {
   }, []);
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div className={s0.root} ref={contentEl} onKeyDown={handleContentOnKeyDown}>
+    <div className={s0.root}>
       <div className={s0.header}>
         <div className={s0.icon}>
-          <SvgYacd width={160} height={160} stroke="var(--stroke)" />
-        </div>
-      </div>
-      <div className={s0.body}>
-        <div className={s0.hostnamePort}>
-          <Field
-            id="baseURL"
-            name="baseURL"
-            label="API Base URL"
-            type="text"
-            placeholder="http://127.0.0.1:9090"
-            value={baseURL}
-            onChange={handleInputOnChange}
-          />
-          <Field
-            id="secret"
-            name="secret"
-            label="Secret(optional)"
-            value={secret}
-            type="text"
-            onChange={handleInputOnChange}
-          />
-        </div>
-        {errMsg ? <div className={s0.error}>{errMsg}</div> : null}
-        <div className={s0.label}>
-          <Field
-            id="metaLabel"
-            name="metaLabel"
-            label="Label(optional)"
-            type="text"
-            placeholder=""
-            value={metaLabel}
-            onChange={handleInputOnChange}
+          <SvgYacd
+            width={140}
+            height={140}
+            c0="transparent"
+            eye="transparent"
+            shapeStroke="var(--stroke)"
+            mouth="var(--stroke)"
+            eyeStroke="var(--stroke)"
           />
         </div>
       </div>
-      <div className={s0.footer}>
-        <Button label="Add" onClick={onConfirm} />
-      </div>
+      <form onSubmit={onSubmit}>
+        <div className={s0.body}>
+          <div className={s0.hostnamePort}>
+            <Field
+              id="baseURL"
+              name="baseURL"
+              label="API Base URL"
+              type="text"
+              placeholder="http://127.0.0.1:9090"
+              value={baseURL}
+              onChange={handleInputOnChange}
+            />
+            <Field
+              id="secret"
+              name="secret"
+              label="Secret(optional)"
+              value={secret}
+              type="text"
+              onChange={handleInputOnChange}
+            />
+          </div>
+          {errMsg ? <div className={s0.error}>{errMsg}</div> : null}
+          <div className={s0.label}>
+            <Field
+              id="metaLabel"
+              name="metaLabel"
+              label="Label(optional)"
+              type="text"
+              placeholder=""
+              value={metaLabel}
+              onChange={handleInputOnChange}
+            />
+          </div>
+        </div>
+        <div className={s0.footer}>
+          <Button label="Add" onClick={onConfirm} />
+        </div>
+      </form>
       <div style={{ height: 20 }} />
       <BackendList />
     </div>
