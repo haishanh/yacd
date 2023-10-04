@@ -1,30 +1,23 @@
 const MOCK_HANDLERS = [
   {
     key: 'GET/',
-    enabled: false,
+    enabled: true,
     handler: (_u: string, _i: RequestInit) => {
       // throw new Error();
-      return deserializeError();
-      // return json({ hello: 'clash' });
+      // return deserializeError();
+      return json({ hello: 'clash' });
     },
   },
   {
     key: 'GET/configs',
-    enabled: false,
-    handler: (_u: string, _i: RequestInit) =>
-      json({
-        port: 0,
-        'socks-port': 7891,
-        'redir-port': 0,
-        'tproxy-port': 0,
-        'mixed-port': 7890,
-        'allow-lan': true,
-        'bind-address': '*',
-        mode: 'rule',
-        'log-level': 'info',
-        authentication: [],
-        ipv6: false,
-      }),
+    enabled: true,
+    handler: (_u: string, _i: RequestInit) => json(makeConfig()),
+  },
+  {
+    key: 'GET/notfound',
+    handler: (_u: string, _i: RequestInit) => {
+      return deserializeError();
+    },
   },
 ];
 
@@ -67,4 +60,20 @@ async function deserializeError() {
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function makeConfig() {
+  return {
+    port: 0,
+    'socks-port': 7891,
+    'redir-port': 0,
+    'tproxy-port': 0,
+    'mixed-port': 7890,
+    'allow-lan': true,
+    'bind-address': '*',
+    mode: 'rule',
+    'log-level': 'info',
+    authentication: [],
+    ipv6: false,
+  };
 }

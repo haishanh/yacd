@@ -1,23 +1,20 @@
 import { useAtom } from 'jotai';
 import * as React from 'react';
-import { fetchConfigs } from 'src/api/configs';
-import { clashAPIConfigsAtom, findClashAPIConfigIndex } from 'src/store/app';
-import { ClashAPIConfig } from 'src/types';
 
+import { fetchConfigs } from '$src/api/configs';
 import Field from '$src/components//Field';
-import { BackendList } from '$src/components/backend/BackendList';
 import Button from '$src/components/Button';
 import SvgYacd from '$src/components/SvgYacd';
+import { noop } from '$src/misc/utils';
+import { clashAPIConfigsAtom, findClashAPIConfigIndex } from '$src/store/app';
+import { ClashAPIConfig } from '$src/types';
 
-import s0 from './APIConfig.module.scss';
+import s0 from './BackendForm.module.scss';
 
 const { useState, useRef, useCallback, useEffect } = React;
 const Ok = 0;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const noop = () => {};
-
-export default function APIConfig() {
+export function BackendForm() {
   const [baseURL, setBaseURL] = useState('');
   const [secret, setSecret] = useState('');
   const [metaLabel, setMetaLabel] = useState('');
@@ -46,26 +43,25 @@ export default function APIConfig() {
     }
   }, []);
   const [apiConfigs, setApiConfigs] = useAtom(clashAPIConfigsAtom);
-  const onConfirm = useCallback(() => {
-    verify({ baseURL, secret }).then((ret) => {
-      if (ret[0] !== Ok) {
-        setErrMsg(ret[1]);
-      } else {
-        const conf = { baseURL, secret, metaLabel };
-        const idx = findClashAPIConfigIndex(apiConfigs, conf);
-        // already exists
-        if (idx) return;
-        setApiConfigs((apiConfigs) => {
-          return [...apiConfigs, { ...conf, addedAt: Date.now() }];
-        });
-      }
-    });
-  }, [baseURL, secret, metaLabel, apiConfigs, setApiConfigs]);
-
-  const onSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    onConfirm();
-  }, [onConfirm])
+  const onSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      verify({ baseURL, secret }).then((ret) => {
+        if (ret[0] !== Ok) {
+          setErrMsg(ret[1]);
+        } else {
+          const conf = { baseURL, secret, metaLabel };
+          const idx = findClashAPIConfigIndex(apiConfigs, conf);
+          // already exists
+          if (idx) return;
+          setApiConfigs((apiConfigs) => {
+            return [...apiConfigs, { ...conf, addedAt: Date.now() }];
+          });
+        }
+      });
+    },
+    [apiConfigs, baseURL, metaLabel, secret, setApiConfigs],
+  );
 
   const detectApiServer = async () => {
     // if there is already a clash API server at `/`, just use it as default value
@@ -81,7 +77,7 @@ export default function APIConfig() {
   }, []);
 
   return (
-    <div className={s0.root}>
+    <div>
       <div className={s0.header}>
         <div className={s0.icon}>
           <SvgYacd
@@ -130,11 +126,9 @@ export default function APIConfig() {
           </div>
         </div>
         <div className={s0.footer}>
-          <Button label="Add" onClick={onConfirm} />
+          <Button label="Add" />
         </div>
       </form>
-      <div style={{ height: 20 }} />
-      <BackendList />
     </div>
   );
 }

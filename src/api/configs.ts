@@ -1,6 +1,7 @@
 import { getURLAndInit } from 'src/misc/request-helper';
 import { ClashGeneralConfig } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
+import { req } from './fetch';
 
 const endpoint = '/configs';
 
@@ -25,7 +26,7 @@ export function updateConfigs(apiConfig: ClashAPIConfig) {
 
 export async function fetchConfigs(apiConfig: ClashAPIConfig) {
   const { url, init } = getURLAndInit(apiConfig);
-  return await fetch(url + endpoint, init);
+  return await req(url + endpoint, init);
 }
 
 // TODO support PUT /configs

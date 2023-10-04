@@ -21,8 +21,10 @@ import s from './BackendList.module.scss';
 const PASS_THRU_ERROR = {};
 
 export function BackendList() {
+  const navigate = useNavigate();
   const [apiConfigs, setApiConfigs] = useAtom(clashAPIConfigsAtom);
   const [currIdx, setCurrIdx] = useAtom(selectedClashAPIConfigIndexAtom);
+
   const removeClashAPIConfig = React.useCallback(
     (conf: ClashAPIConfig) => {
       const idx = findClashAPIConfigIndex(apiConfigs, conf);
@@ -38,8 +40,6 @@ export function BackendList() {
     },
     [apiConfigs, currIdx, setApiConfigs, setCurrIdx],
   );
-
-  const navigate = useNavigate();
 
   const onSelect = React.useCallback(
     async (conf: ClashAPIConfig) => {

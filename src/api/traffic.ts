@@ -78,7 +78,7 @@ function pump(reader: ReadableStreamDefaultReader) {
 // similar to ws readyState but not the same
 // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
 let wsState: number;
-function fetchData(apiConfig: ClashAPIConfig) {
+export function fetchData(apiConfig: ClashAPIConfig) {
   // TODO if apiConfig changed, should we reset?
   if (fetched || wsState === 1) return traffic;
   wsState = 1;
@@ -87,19 +87,19 @@ function fetchData(apiConfig: ClashAPIConfig) {
 
   let frozenState = false;
   const onFrozen = () => {
-      frozenState = true;
-      ws.close();
-    },
-    onResume = () => {
-      frozenState = false;
+    frozenState = true;
+    ws.close();
+  };
+  const onResume = () => {
+    frozenState = false;
 
-      // wipe outdated data
-      traffic.up.fill(undefined);
-      traffic.down.fill(undefined);
-      traffic.labels.fill(0);
+    // wipe outdated data
+    traffic.up.fill(undefined);
+    traffic.down.fill(undefined);
+    traffic.labels.fill(0);
 
-      fetchDataWithFetch(apiConfig);
-    };
+    fetchDataWithFetch(apiConfig);
+  };
   document.addEventListener('freeze', onFrozen, { capture: true, once: true });
   document.addEventListener('resume', onResume, { capture: true, once: true });
 
@@ -143,5 +143,3 @@ function fetchDataWithFetch(apiConfig: ClashAPIConfig) {
   );
   return traffic;
 }
-
-export { fetchData };
