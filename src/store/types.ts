@@ -97,18 +97,11 @@ export type StateLogs = {
   tail: number;
 };
 
-///// store.modals
-
-export type StateModals = {
-  apiConfig: boolean;
-};
-
 //////
 
 export type State = {
   proxies: StateProxies;
   logs: StateLogs;
-  modals: StateModals;
 };
 
 export type GetStateFn = () => State;
