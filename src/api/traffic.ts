@@ -1,13 +1,14 @@
 import { ClashAPIConfig } from '$src/types';
 
-import { buildWebSocketURL, getURLAndInit } from '../misc/request-helper';
+import { buildWebSocketURL } from '../misc/request-helper';
 
 const endpoint = '/traffic';
-const textDecoder = new TextDecoder('utf-8');
 
 const Size = 150;
 
 type Traffic = { up: number; down: number };
+
+let ws: WebSocket;
 
 const traffic = {
   labels: Array(Size).fill(0),
@@ -38,108 +39,42 @@ const traffic = {
   },
 };
 
-let fetched = false;
-let decoded = '';
-
 function parseAndAppend(x: string) {
   traffic.appendData(JSON.parse(x));
 }
 
-function pump(reader: ReadableStreamDefaultReader) {
-  return reader.read().then(({ done, value }) => {
-    const str = textDecoder.decode(value, { stream: !done });
-    decoded += str;
-
-    const splits = decoded.split('\n');
-
-    const lastSplit = splits[splits.length - 1];
-
-    for (let i = 0; i < splits.length - 1; i++) {
-      parseAndAppend(splits[i]);
-    }
-
-    if (done) {
-      parseAndAppend(lastSplit);
-      decoded = '';
-
-      // eslint-disable-next-line no-console
-      console.log('GET /traffic streaming done');
-      fetched = false;
-      return;
-    } else {
-      decoded = lastSplit;
-    }
-    return pump(reader);
-  });
-}
-
-// 1 OPEN
-// other value CLOSED
-// similar to ws readyState but not the same
-// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
-let wsState: number;
 export function fetchData(apiConfig: ClashAPIConfig) {
   // TODO if apiConfig changed, should we reset?
-  if (fetched || wsState === 1) return traffic;
-  wsState = 1;
+  if (ws && ws.readyState <= WebSocket.OPEN) return traffic;
+
   const url = buildWebSocketURL(apiConfig, endpoint);
-  const ws = new WebSocket(url);
+  ws = new WebSocket(url);
 
-  let frozenState = false;
   const onFrozen = () => {
-    frozenState = true;
-    ws.close();
+    if (ws.readyState <= WebSocket.OPEN) ws.close()
   };
+
   const onResume = () => {
-    frozenState = false;
+    if (ws.readyState <= WebSocket.OPEN) return;
+    document.removeEventListener('freeze', onFrozen);
+    document.removeEventListener('resume', onResume);
 
-    // wipe outdated data
-    traffic.up.fill(undefined);
+    traffic.up.fill(0);
     traffic.down.fill(undefined);
-    traffic.labels.fill(0);
-
-    fetchDataWithFetch(apiConfig);
+    traffic.labels.fill(undefined);
+    fetchData(apiConfig);
   };
+
   document.addEventListener('freeze', onFrozen, { capture: true, once: true });
   document.addEventListener('resume', onResume, { capture: true, once: true });
 
-  ws.addEventListener('error', function (_ev) {
-    wsState = 3;
+  ws.addEventListener('error', function(_ev) {
+    console.log('error', _ev);
+    //
   });
-  ws.addEventListener('close', function (_ev) {
-    wsState = 3;
-    if (!frozenState) {
-      // For unexpected close, remove listeners and re-fetch
-      document.removeEventListener('freeze', onFrozen);
-      document.removeEventListener('resume', onResume);
-
-      fetchDataWithFetch(apiConfig);
-    }
-  });
-  ws.addEventListener('message', function (event) {
+  // ws.addEventListener('close', (_ev) => {});
+  ws.addEventListener('message', function(event) {
     parseAndAppend(event.data);
   });
-  return traffic;
-}
-
-function fetchDataWithFetch(apiConfig: ClashAPIConfig) {
-  if (fetched) return traffic;
-  fetched = true;
-  const { url, init } = getURLAndInit(apiConfig);
-  fetch(url + endpoint, init).then(
-    (response) => {
-      if (response.ok) {
-        const reader = response.body.getReader();
-        pump(reader);
-      } else {
-        fetched = false;
-      }
-    },
-    (err) => {
-      // eslint-disable-next-line no-console
-      console.log('fetch /traffic error', err);
-      fetched = false;
-    },
-  );
   return traffic;
 }

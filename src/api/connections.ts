@@ -4,8 +4,9 @@ import { buildWebSocketURL, getURLAndInit } from '../misc/request-helper';
 
 const endpoint = '/connections';
 
-const fetched = false;
 const subscribers = [];
+
+let ws: WebSocket;
 
 // see also https://github.com/Dreamacro/clash/blob/dev/constant/metadata.go#L41
 type UUID = string;
@@ -51,44 +52,35 @@ function appendData(s: string) {
 
 type UnsubscribeFn = () => void;
 
-let wsState: number;
-export function fetchData(apiConfig: ClashAPIConfig, listener: unknown): UnsubscribeFn | void {
-  if (fetched || wsState === 1) {
+export function fetchData(apiConfig: ClashAPIConfig, listener?: unknown): UnsubscribeFn | void {
+  if (ws && ws.readyState <= WebSocket.OPEN) {
     if (listener) return subscribe(listener);
-  }
-  wsState = 1;
-  const url = buildWebSocketURL(apiConfig, endpoint);
-  const ws = new WebSocket(url);
+    return;
+  };
 
-  let frozenState = false;
+  const url = buildWebSocketURL(apiConfig, endpoint);
+  ws = new WebSocket(url);
+
   const onFrozen = () => {
-      frozenState = true;
-      ws.close();
-    },
-    onResume = () => {
-      frozenState = false;
-      fetchData(apiConfig, undefined);
-    };
+    if (ws.readyState <= WebSocket.OPEN) ws.close()
+  };
+  const onResume = () => {
+    if (ws.readyState <= WebSocket.OPEN) return;
+    document.removeEventListener('freeze', onFrozen);
+    document.removeEventListener('resume', onResume);
+    fetchData(apiConfig);
+  };
+
   document.addEventListener('freeze', onFrozen, { capture: true, once: true });
   document.addEventListener('resume', onResume, { capture: true, once: true });
 
-  ws.addEventListener('error', () => (wsState = 3));
-  ws.addEventListener('close', function (_ev) {
-    wsState = 3;
-    if (!frozenState) {
-      // For unexpected close, remove listeners and retry
-      document.removeEventListener('freeze', onFrozen);
-      document.removeEventListener('resume', onResume);
-
-      fetchData(apiConfig, undefined);
-    }
-  });
   ws.addEventListener('message', (event) => appendData(event.data));
   if (listener) return subscribe(listener);
 }
 
 function subscribe(listener: unknown): UnsubscribeFn {
-  subscribers.push(listener);
+  const x = subscribers.indexOf(listener);
+  if (x < 0) subscribers.push(listener);
   return function unsubscribe() {
     const idx = subscribers.indexOf(listener);
     subscribers.splice(idx, 1);

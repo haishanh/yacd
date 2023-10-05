@@ -77,7 +77,7 @@ function filterConns(conns: FormattedConn[], keyword: string) {
       );
 }
 
-function formatConnectionDataItem(
+function fmtConnItem(
   i: ConnectionItem,
   prevKv: Record<string, { upload: number; download: number }>,
   now: number,
@@ -89,10 +89,8 @@ function formatConnectionDataItem(
   if (mutConnCtxRef.hasProcessPath === false && typeof processPath !== 'undefined') {
     mutConnCtxRef.hasProcessPath = true;
   }
-
   // host could be an empty string if it's direct IP connection
-  let host2 = host;
-  if (host2 === '') host2 = destinationIP;
+  const host2 = host || destinationIP || '';
   const prev = prevKv[id];
   const ret = {
     id,
@@ -146,15 +144,13 @@ export default function Conn() {
   const prevConnsRef = useRef(conns);
   const connCtx = React.useContext(MutableConnRefCtx);
   const read = useCallback(
-    ({ connections }) => {
+    ({ connections }: { connections: ConnectionItem[] }) => {
       const prevConnsKv = arrayToIdKv(prevConnsRef.current);
       const now = Date.now();
-      const x = connections.map((c: ConnectionItem) =>
-        formatConnectionDataItem(c, prevConnsKv, now, connCtx),
-      );
+      const x = connections.map((c) => fmtConnItem(c, prevConnsKv, now, connCtx));
       const closed = [];
       for (const c of prevConnsRef.current) {
-        const idx = x.findIndex((conn: ConnectionItem) => conn.id === c.id);
+        const idx = x.findIndex((conn) => conn.id === c.id);
         if (idx < 0) closed.push(c);
       }
       setClosedConns((prev) => {
