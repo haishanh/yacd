@@ -1,19 +1,17 @@
 import { getURLAndInit } from 'src/misc/request-helper';
 import { ClashGeneralConfig } from 'src/store/types';
 import { ClashAPIConfig } from 'src/types';
-import { req } from './fetch';
+
+import { handleFetchError, query, QueryCtx, req } from './fetch';
 
 const endpoint = '/configs';
 
-export async function fetchConfigs2(ctx: { queryKey: readonly [string, ClashAPIConfig] }) {
-  const endpoint = ctx.queryKey[0];
-  const apiConfig = ctx.queryKey[1];
-  const { url, init } = getURLAndInit(apiConfig);
-  const res = await fetch(url + endpoint, init);
-  if (!res.ok) {
+export async function fetchConfigs2(ctx: QueryCtx) {
+  const json = await query(ctx);
+  if (!json) {
     throw new Error('TODO');
   }
-  return await res.json();
+  return json;
 }
 
 export function updateConfigs(apiConfig: ClashAPIConfig) {
@@ -26,7 +24,11 @@ export function updateConfigs(apiConfig: ClashAPIConfig) {
 
 export async function fetchConfigs(apiConfig: ClashAPIConfig) {
   const { url, init } = getURLAndInit(apiConfig);
-  return await req(url + endpoint, init);
+  try {
+    return await req(url + endpoint, init);
+  } catch (err) {
+    handleFetchError(err, { endpoint, apiConfig });
+  }
 }
 
 // TODO support PUT /configs

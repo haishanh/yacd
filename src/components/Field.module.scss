@@ -15,7 +15,7 @@
     font-size: inherit;
     height: 40px;
     outline: none;
-    padding: 0 4px;
+    padding: 0;
     width: 100%;
     &:focus {
       border-color: var(--color-focus-blue);
@@ -24,20 +24,20 @@
 
   label {
     position: absolute;
-    left: 5px;
+    left: 0;
     bottom: 22px;
     transition: transform 150ms ease-in-out;
     transform-origin: 0 0;
     font-size: 0.9em;
     &.floatAbove {
-      transform: scale(0.75) translateY(-25px);
+      transform: scale(0.9) translateY(-25px);
     }
   }
 
   input {
     &:focus + label {
       color: var(--color-focus-blue);
-      transform: scale(0.75) translateY(-25px);
+      transform: scale(0.9) translateY(-25px);
     }
   }
 }

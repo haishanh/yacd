@@ -2,7 +2,7 @@ import { Tooltip } from '@reach/tooltip';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'src/components/Button';
-import ContentHeader from 'src/components/ContentHeader';
+import { ContentHeader } from 'src/components/ContentHeader';
 import { ClosePrevConns } from 'src/components/proxies/ClosePrevConns';
 import { ProxyGroup } from 'src/components/proxies/ProxyGroup';
 import { ProxyPageFab } from 'src/components/proxies/ProxyPageFab';

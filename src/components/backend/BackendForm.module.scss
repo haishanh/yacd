@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 15px;
 
   .icon {
     --stroke: var(--color-text-secondary);
@@ -37,6 +38,7 @@
   height: 20px;
   font-size: 0.8em;
   color: #ff8b8b;
+  margin-bottom: 5px;
 }
 
 .footer {

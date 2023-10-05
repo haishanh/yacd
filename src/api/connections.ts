@@ -56,13 +56,13 @@ export function fetchData(apiConfig: ClashAPIConfig, listener?: unknown): Unsubs
   if (ws && ws.readyState <= WebSocket.OPEN) {
     if (listener) return subscribe(listener);
     return;
-  };
+  }
 
   const url = buildWebSocketURL(apiConfig, endpoint);
   ws = new WebSocket(url);
 
   const onFrozen = () => {
-    if (ws.readyState <= WebSocket.OPEN) ws.close()
+    if (ws.readyState <= WebSocket.OPEN) ws.close();
   };
   const onResume = () => {
     if (ws.readyState <= WebSocket.OPEN) return;

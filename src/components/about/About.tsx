@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import * as React from 'react';
-import { GitHub } from 'react-feather';
 import { fetchVersion } from 'src/api/version';
-import ContentHeader from 'src/components/ContentHeader';
+import { ContentHeader } from 'src/components/ContentHeader';
 import { useApiConfig } from 'src/store/app';
 
+import { GitHubIcon } from '../icon/GitHubIcon';
 import s from './About.module.scss';
 
 function Version({ name, link, version }: { name: string; link: string; version: string }) {
@@ -17,7 +17,7 @@ function Version({ name, link, version }: { name: string; link: string; version:
       </p>
       <p>
         <a className={s.link} href={link} target="_blank" rel="noopener noreferrer">
-          <GitHub size={20} />
+          <GitHubIcon size={20} />
           <span>Source</span>
         </a>
       </p>
@@ -27,9 +27,7 @@ function Version({ name, link, version }: { name: string; link: string; version:
 
 export function About() {
   const apiConfig = useApiConfig();
-  const { data: version } = useQuery(['/version', apiConfig], () =>
-    fetchVersion('/version', apiConfig),
-  );
+  const { data: version } = useQuery(['/version', apiConfig], fetchVersion);
   return (
     <>
       <ContentHeader title="About" />

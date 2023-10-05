@@ -42,36 +42,12 @@ interface SideBarRowProps {
 }
 
 const pages = [
-  {
-    to: '/',
-    iconId: 'activity',
-    labelText: 'Overview',
-  },
-  {
-    to: '/proxies',
-    iconId: 'globe',
-    labelText: 'Proxies',
-  },
-  {
-    to: '/rules',
-    iconId: 'command',
-    labelText: 'Rules',
-  },
-  {
-    to: '/connections',
-    iconId: 'link',
-    labelText: 'Conns',
-  },
-  {
-    to: '/configs',
-    iconId: 'settings',
-    labelText: 'Config',
-  },
-  {
-    to: '/logs',
-    iconId: 'file',
-    labelText: 'Logs',
-  },
+  { to: '/', iconId: 'activity', labelText: 'Overview' },
+  { to: '/proxies', iconId: 'globe', labelText: 'Proxies' },
+  { to: '/rules', iconId: 'command', labelText: 'Rules' },
+  { to: '/connections', iconId: 'link', labelText: 'Conns' },
+  { to: '/configs', iconId: 'settings', labelText: 'Config' },
+  { to: '/logs', iconId: 'file', labelText: 'Logs' },
 ];
 
 export default function SideBar() {

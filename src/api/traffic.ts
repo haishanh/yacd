@@ -51,7 +51,7 @@ export function fetchData(apiConfig: ClashAPIConfig) {
   ws = new WebSocket(url);
 
   const onFrozen = () => {
-    if (ws.readyState <= WebSocket.OPEN) ws.close()
+    if (ws.readyState <= WebSocket.OPEN) ws.close();
   };
 
   const onResume = () => {
@@ -68,12 +68,12 @@ export function fetchData(apiConfig: ClashAPIConfig) {
   document.addEventListener('freeze', onFrozen, { capture: true, once: true });
   document.addEventListener('resume', onResume, { capture: true, once: true });
 
-  ws.addEventListener('error', function(_ev) {
+  ws.addEventListener('error', function (_ev) {
     console.log('error', _ev);
     //
   });
   // ws.addEventListener('close', (_ev) => {});
-  ws.addEventListener('message', function(event) {
+  ws.addEventListener('message', function (event) {
     parseAndAppend(event.data);
   });
   return traffic;

@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { req } from '$src/api/fetch';
 import { useToggle } from '$src/hooks/basic';
 import { getURLAndInit } from '$src/misc/request-helper';
-import { noop } from '$src/misc/utils';
+import { sleep } from '$src/misc/utils';
 import {
   clashAPIConfigsAtom,
   findClashAPIConfigIndex,
@@ -17,8 +17,6 @@ import {
 import { ClashAPIConfig } from '$src/types';
 
 import s from './BackendList.module.scss';
-
-const PASS_THRU_ERROR = {};
 
 export function BackendList() {
   const navigate = useNavigate();
@@ -45,44 +43,40 @@ export function BackendList() {
     async (conf: ClashAPIConfig) => {
       const idx = findClashAPIConfigIndex(apiConfigs, conf);
       const { url, init } = getURLAndInit(apiConfigs[idx]);
-      await req(url, init)
-        .then(
-          (res) => res.json(),
-          (err) => {
-            console.log(err);
-            toast.error('Failed to connect');
-            throw PASS_THRU_ERROR;
-          },
-        )
-        .then(
-          (data) => {
-            if (typeof data['hello'] !== 'string') {
-              console.log('Response:', data);
-              toast.error('Unexpected response');
-              throw PASS_THRU_ERROR;
-            }
-          },
-          (err) => {
-            if (err === PASS_THRU_ERROR) throw PASS_THRU_ERROR;
-            console.log(err);
-            toast.error('Unexpected response');
-            throw PASS_THRU_ERROR;
-          },
-        )
-        .then(() => {
-          if (currIdx === idx) {
-            navigate('/', { replace: true });
-          } else {
-            setCurrIdx(idx);
-            // manual clean up is too complex
-            // we just reload the app
-            try {
-              window.location.href = '/';
-            } catch (err) {
-              // ignore
-            }
-          }
-        }, noop);
+      let res: Response;
+      try {
+        res = await req(url, init);
+      } catch (err) {
+        console.log(err);
+        toast.error('Failed to connect');
+        return;
+      }
+      let data: { hello: unknown };
+      try {
+        data = await res.json();
+      } catch (err) {
+        console.log(err);
+        toast.error('Unexpected response');
+        return;
+      }
+      if (typeof data['hello'] !== 'string') {
+        console.log('Response:', data);
+        toast.error('Unexpected response');
+        return;
+      }
+      if (currIdx === idx) {
+        navigate('/', { replace: true });
+      } else {
+        setCurrIdx(idx);
+        await sleep(32);
+        // manual clean up is too complex
+        // we just reload the app
+        try {
+          window.location.href = '/';
+        } catch (err) {
+          // ignore
+        }
+      }
     },
     [apiConfigs, currIdx, setCurrIdx, navigate],
   );

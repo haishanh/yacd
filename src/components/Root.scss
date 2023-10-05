@@ -1,6 +1,6 @@
-.relative {
-  position: relative;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .border-left,
 .border-top,
@@ -212,12 +212,15 @@ body {
   border-radius: 4px;
 }
 
-.fixed {
-  position: fixed;
-}
-.left-0 {
-  left: 0;
-}
-.bottom-0 {
-  bottom: 0;
-}
+// .relative {
+//   position: relative;
+// }
+// .fixed {
+//   position: fixed;
+// }
+// .left-0 {
+//   left: 0;
+// }
+// .bottom-0 {
+//   bottom: 0;
+// }

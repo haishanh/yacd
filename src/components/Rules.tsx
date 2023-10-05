@@ -11,7 +11,7 @@ import { ruleFilterTextAtom } from '$src/store/rules';
 import { ClashAPIConfig, RuleType } from '$src/types';
 
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
-import ContentHeader from './ContentHeader';
+import { ContentHeader } from './ContentHeader';
 import Rule from './Rule';
 import s from './Rules.module.scss';
 

@@ -6,32 +6,16 @@
   right: 0;
   overflow: hidden;
 
-  padding: 20px;
+  padding: 15px;
   background: var(--color-background);
   color: var(--color-text);
   text-align: center;
 }
 
 .yacd {
-  color: #2a477a;
-  opacity: 0.6;
+  color: #20497e;
+  opacity: 0.4;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
-}
-
-.link {
-  display: inline-flex;
-  align-items: center;
-
-  color: var(--color-text-secondary);
-  &:hover,
-  &:active {
-    color: #387cec;
-  }
-
-  svg {
-    margin-right: 5px;
-  }
 }

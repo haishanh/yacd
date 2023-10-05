@@ -2,6 +2,7 @@
   "name": "yacd",
   "version": "0.3.8",
   "description": "Yet another Clash dashboard",
+  "type": "module",
   "prettier": {
     "printWidth": 100,
     "singleQuote": true
@@ -12,7 +13,7 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "pretty": "prettier --write 'src/**/*.{js,scss,ts,tsx,md}'",
+    "pretty": "prettier --log-level warn --write 'src/**/*.{js,scss,ts,tsx,md}'",
     "fmt": "pnpm lint && pnpm pretty"
   },
   "browserslist": [
@@ -44,11 +45,13 @@
     "i18next-browser-languagedetector": "7.1.0",
     "immer": "10.0.2",
     "invariant": "^2.2.4",
+    "is-network-error": "1.0.0",
     "jotai": "^2.4.3",
     "lodash-es": "^4.17.21",
     "modern-normalize": "2.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-error-boundary": "4.0.11",
     "react-feather": "^2.0.10",
     "react-i18next": "13.2.2",
     "react-icons": "4.11.0",
@@ -89,12 +92,14 @@
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-unused-imports": "3.0.0",
     "postcss": "8.4.31",
     "postcss-import": "15.1.0",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "3.0.3",
     "resize-observer-polyfill": "^1.5.1",
     "sass": "1.68.0",
+    "tailwindcss": "3.3.3",
     "typescript": "5.2.2",
     "vite": "4.4.9",
     "vite-plugin-pwa": "0.16.5"

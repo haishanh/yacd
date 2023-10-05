@@ -55,17 +55,12 @@ export function useInvalidateQueries() {
 }
 
 export function useRuleProviderQuery(apiConfig: ClashAPIConfig) {
-  return useQuery(['/providers/rules', apiConfig], () =>
-    fetchRuleProviders('/providers/rules', apiConfig),
-  );
+  return useQuery(['/providers/rules', apiConfig], fetchRuleProviders);
 }
 
 export function useRuleAndProvider(apiConfig: ClashAPIConfig) {
-  const { data: rules, isFetching } = useQuery(['/rules', apiConfig], () =>
-    fetchRules('/rules', apiConfig),
-  );
+  const { data: rules, isFetching } = useQuery(['/rules', apiConfig], fetchRules);
   const { data: provider } = useRuleProviderQuery(apiConfig);
-
   const [filterText] = useAtom(ruleFilterTextAtom);
   if (filterText === '') {
     return { rules, provider, isFetching };

@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ContentHeader from './ContentHeader';
+import { ContentHeader } from './ContentHeader';
 import s0 from './Home.module.scss';
 import Loading from './Loading';
 import TrafficChart from './TrafficChart';

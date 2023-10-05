@@ -1,9 +1,39 @@
+import { SimplifiedResponse } from '$src/api/fetch';
+import { ClashAPIConfig } from '$src/types';
+
 export const DOES_NOT_SUPPORT_FETCH = 0;
 
 export class YacdError extends Error {
   constructor(
     public message: string,
     public code?: string | number,
+  ) {
+    super(message);
+  }
+}
+
+export class YacdFetchNetworkError extends Error {
+  constructor(
+    public message: string,
+    public ctx: { endpoint: string; apiConfig: ClashAPIConfig },
+  ) {
+    super(message);
+  }
+}
+
+export class YacdBackendUnauthorizedError extends Error {
+  constructor(
+    public message: string,
+    public ctx: { endpoint: string; apiConfig: ClashAPIConfig },
+  ) {
+    super(message);
+  }
+}
+
+export class YacdBackendGeneralError extends Error {
+  constructor(
+    public message: string,
+    public ctx: { endpoint: string; apiConfig: ClashAPIConfig; response: SimplifiedResponse },
   ) {
     super(message);
   }

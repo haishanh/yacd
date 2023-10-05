@@ -19,7 +19,7 @@ import { ClashGeneralConfig } from '$src/store/types';
 
 import Button from './Button';
 import s0 from './Config.module.scss';
-import ContentHeader from './ContentHeader';
+import { ContentHeader } from './ContentHeader';
 import { ToggleInput } from './form/Toggle';
 import Input, { SelfControlledInput } from './Input';
 import { Selection2 } from './Selection';

@@ -1,6 +1,8 @@
 import { getURLAndInit } from 'src/misc/request-helper';
 import { ClashAPIConfig } from 'src/types';
 
+import { query, QueryCtx } from './fetch';
+
 export type RuleProvider = RuleProviderAPIItem & { idx: number };
 
 export type RuleProviderAPIItem = {
@@ -31,20 +33,8 @@ function normalizeAPIResponse(data: RuleProviderAPIData) {
   return { byName, names };
 }
 
-export async function fetchRuleProviders(endpoint: string, apiConfig: ClashAPIConfig) {
-  const { url, init } = getURLAndInit(apiConfig);
-
-  let data = { providers: {} };
-  try {
-    const res = await fetch(url + endpoint, init);
-    if (res.ok) {
-      data = await res.json();
-    }
-  } catch (err) {
-    // log and ignore
-    // eslint-disable-next-line no-console
-    console.log('failed to GET /providers/rules', err);
-  }
+export async function fetchRuleProviders(ctx: QueryCtx) {
+  const data = (await query(ctx)) || { providers: {} };
   return normalizeAPIResponse(data);
 }
 

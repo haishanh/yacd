@@ -1,0 +1,14 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+
+  color: var(--color-text-secondary);
+  &:hover,
+  &:active {
+    color: #387cec;
+  }
+
+  svg {
+    margin-right: 5px;
+  }
+}

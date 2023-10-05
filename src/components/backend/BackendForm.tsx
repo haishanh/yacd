@@ -5,13 +5,12 @@ import { fetchConfigs } from '$src/api/configs';
 import Field from '$src/components//Field';
 import Button from '$src/components/Button';
 import SvgYacd from '$src/components/SvgYacd';
-import { noop } from '$src/misc/utils';
 import { clashAPIConfigsAtom, findClashAPIConfigIndex } from '$src/store/app';
 import { ClashAPIConfig } from '$src/types';
 
 import s0 from './BackendForm.module.scss';
 
-const { useState, useRef, useCallback, useEffect } = React;
+const { useState, useRef, useCallback } = React;
 const Ok = 0;
 
 export function BackendForm() {
@@ -62,19 +61,6 @@ export function BackendForm() {
     },
     [apiConfigs, baseURL, metaLabel, secret, setApiConfigs],
   );
-
-  const detectApiServer = async () => {
-    // if there is already a clash API server at `/`, just use it as default value
-    const res = await fetch('/');
-    res.json().then((data) => {
-      if (data['hello'] === 'clash') {
-        setBaseURL(window.location.origin);
-      }
-    }, noop);
-  };
-  useEffect(() => {
-    detectApiServer();
-  }, []);
 
   return (
     <div>

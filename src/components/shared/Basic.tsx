@@ -14,3 +14,7 @@ export function SectionNameType({ name, type }: { name: string; type: string }) 
 export function LoadingDot() {
   return <span className={s.loadingDot} />;
 }
+
+export function Sep(props: { height?: number }) {
+  return <div style={{ height: props.height || 20 }} />;
+}

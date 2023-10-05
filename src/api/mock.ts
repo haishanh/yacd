@@ -10,8 +10,11 @@ const MOCK_HANDLERS = [
   },
   {
     key: 'GET/configs',
-    enabled: true,
-    handler: (_u: string, _i: RequestInit) => json(makeConfig()),
+    enabled: false,
+    handler: (_u: string, _i: RequestInit) => {
+      return apiError('{"name": "hello"}');
+      // return json(makeConfig());
+    },
   },
   {
     key: 'GET/notfound',
@@ -41,6 +44,22 @@ async function json<T = any>(data: T) {
   return {
     ok: true,
     json: async () => {
+      await sleep(16);
+      return data;
+    },
+  };
+}
+
+async function apiError<T>(data: T) {
+  await sleep(1);
+  const headers = new Headers();
+  headers.append('x-test-1', 'test-1');
+  headers.append('x-test-2', 'test-3');
+  return {
+    ok: false,
+    status: 400,
+    headers,
+    text: async () => {
       await sleep(16);
       return data;
     },

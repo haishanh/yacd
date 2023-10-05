@@ -13,7 +13,7 @@ import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
 import s from './Connections.module.scss';
 import ConnectionTable from './ConnectionTable';
 import { MutableConnRefCtx } from './conns/ConnCtx';
-import ContentHeader from './ContentHeader';
+import { ContentHeader } from './ContentHeader';
 import ModalCloseAllConnections from './ModalCloseAllConnections';
 import { Action, Fab, position as fabPosition } from './shared/Fab';
 import SvgYacd from './SvgYacd';

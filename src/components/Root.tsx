@@ -4,6 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import cx from 'clsx';
 import { useAtom } from 'jotai';
 import * as React from 'react';
+import { ErrorBoundary, ErrorBoundaryProps } from 'react-error-boundary';
 import { RouteObject } from 'react-router';
 import { HashRouter as Router, useRoutes } from 'react-router-dom';
 import { Toaster } from 'sonner';
@@ -13,12 +14,14 @@ import { Head } from 'src/components/shared/Head';
 import { queryClient } from 'src/misc/query';
 
 import { AppConfigSideEffect } from '$src/components/fn/AppConfigSideEffect';
+import { ENDPOINT } from '$src/misc/constants';
 import { darkModePureBlackToggleAtom } from '$src/store/app';
 
 import { actions, initialState } from '../store';
 import { Backend } from './backend/Backend';
 import { MutableConnRefCtx } from './conns/ConnCtx';
-import ErrorBoundary from './ErrorBoundary';
+import { ErrorFallback } from './error/ErrorFallback';
+import { BackendBeacon } from './fn/BackendBeacon';
 import Home from './Home';
 import Loading2 from './Loading2';
 import s0 from './Root.module.scss';
@@ -32,7 +35,7 @@ const Config = lazy(() => import('./Config'));
 const Logs = lazy(() => import('./Logs'));
 const Proxies = lazy(() => import('./proxies/Proxies'));
 const Rules = lazy(() => import('./Rules'));
-const StyleGuide = lazy(() => import('$src/components/style/StyleGuide'))
+const StyleGuide = lazy(() => import('$src/components/style/StyleGuide'));
 
 const routes = [
   { path: '/', element: <Home /> },
@@ -58,14 +61,15 @@ function RouteInnerApp() {
 
 function SideBarApp() {
   return (
-    <>
+    <div className={s0.app}>
+      <BackendBeacon />
       <SideBar />
       <div className={s0.content}>
         <Suspense fallback={<Loading2 />}>
           <RouteInnerApp />
         </Suspense>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -78,7 +82,7 @@ function App() {
 
 function AppShell({ children }: { children: React.ReactNode }) {
   const [pureBlackDark] = useAtom(darkModePureBlackToggleAtom);
-  const clazz = cx(s0.app, { pureBlackDark });
+  const clazz = cx({ pureBlackDark });
   return (
     <>
       <Toaster richColors />
@@ -87,22 +91,26 @@ function AppShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+const onErrorReset: ErrorBoundaryProps['onReset'] = (_details) => {
+  queryClient.invalidateQueries([ENDPOINT.config]);
+};
+
 const Root = () => (
-  <ErrorBoundary>
+  <Router>
     <StateProvider initialState={initialState} actions={actions}>
       <QueryClientProvider client={queryClient}>
-        <Router>
-          <AppConfigSideEffect />
-          <AppShell>
+        <AppConfigSideEffect />
+        <AppShell>
+          <ErrorBoundary FallbackComponent={ErrorFallback} onReset={onErrorReset}>
             <Head />
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading height="100vh" />}>
               <App />
             </Suspense>
-          </AppShell>
-        </Router>
+          </ErrorBoundary>
+        </AppShell>
       </QueryClientProvider>
     </StateProvider>
-  </ErrorBoundary>
+  </Router>
 );
 
 export default Root;

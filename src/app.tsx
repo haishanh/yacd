@@ -1,4 +1,4 @@
-import 'modern-normalize/modern-normalize.css';
+// import 'modern-normalize/modern-normalize.css';
 import './misc/i18n';
 import '@fontsource/roboto-mono/latin-400.css';
 import '@fontsource/inter/latin-400.css';

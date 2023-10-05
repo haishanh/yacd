@@ -4,8 +4,13 @@ parserOptions:
   project: tsconfig.json
   sourceType: module
 
+settings:
+  react:
+    version: detect
+
 plugins:
   - simple-import-sort
+  - unused-imports
   - jsx-a11y
 
 extends:
@@ -30,8 +35,14 @@ rules:
   '@typescript-eslint/no-explicit-any': 'off'
   '@typescript-eslint/camelcase': 'off'
   'no-use-before-define': 'off'
-  '@typescript-eslint/no-unused-vars':
-    - 'error'
+  # '@typescript-eslint/no-unused-vars':
+  #   - 'error'
+  #   - argsIgnorePattern: '^_'
+  ## disable '@typescript-eslint/no-unused-vars' and use 'unused-imports' plugin/rules instead
+  '@typescript-eslint/no-unused-vars': 'off'
+  'unused-imports/no-unused-imports': 'error'
+  'unused-imports/no-unused-vars':
+    - 'warn'
     - argsIgnorePattern: '^_'
   '@typescript-eslint/no-use-before-define':
     - error
