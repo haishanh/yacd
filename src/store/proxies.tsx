@@ -56,7 +56,7 @@ function mapLatency(names: string[], getProxy: (name: string) => { history: Late
   for (const name of names) {
     const p = getProxy(name) || { history: [] };
     const history = p.history;
-    const h = history[history.length - 1];
+    const h = history?.at?.(-1);
     if (h && typeof h.delay === 'number') {
       result[name] = { kind: 'Result', number: h.delay };
     }
