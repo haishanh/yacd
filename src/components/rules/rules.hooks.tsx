@@ -17,16 +17,17 @@ export function useUpdateRuleProviderItem(
   apiConfig: ClashAPIConfig,
 ): [(ev: React.MouseEvent<HTMLButtonElement>) => unknown, boolean] {
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(refreshRuleProviderByName, {
+  const { mutate, isPending } = useMutation({
+    mutationFn: refreshRuleProviderByName,
     onSuccess: () => {
-      queryClient.invalidateQueries(['/providers/rules']);
+      queryClient.invalidateQueries({ queryKey: ['/providers/rules'] });
     },
   });
   const onClickRefreshButton = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
     mutate({ name, apiConfig });
   };
-  return [onClickRefreshButton, isLoading];
+  return [onClickRefreshButton, isPending];
 }
 
 export function useUpdateAllRuleProviderItems(
@@ -34,32 +35,36 @@ export function useUpdateAllRuleProviderItems(
 ): [(ev: React.MouseEvent<HTMLButtonElement>) => unknown, boolean] {
   const queryClient = useQueryClient();
   const { data: provider } = useRuleProviderQuery(apiConfig);
-  const { mutate, isLoading } = useMutation(updateRuleProviders, {
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateRuleProviders,
     onSuccess: () => {
-      queryClient.invalidateQueries(['/providers/rules']);
+      queryClient.invalidateQueries({ queryKey: ['/providers/rules'] });
     },
   });
   const onClickRefreshButton = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
     mutate({ names: provider.names, apiConfig });
   };
-  return [onClickRefreshButton, isLoading];
+  return [onClickRefreshButton, isPending];
 }
 
 export function useInvalidateQueries() {
   const queryClient = useQueryClient();
   return useCallback(() => {
-    queryClient.invalidateQueries(['/rules']);
-    queryClient.invalidateQueries(['/providers/rules']);
+    queryClient.invalidateQueries({ queryKey: ['/rules'] });
+    queryClient.invalidateQueries({ queryKey: ['/providers/rules'] });
   }, [queryClient]);
 }
 
 export function useRuleProviderQuery(apiConfig: ClashAPIConfig) {
-  return useQuery(['/providers/rules', apiConfig], fetchRuleProviders);
+  return useQuery({ queryKey: ['/providers/rules', apiConfig], queryFn: fetchRuleProviders });
 }
 
 export function useRuleAndProvider(apiConfig: ClashAPIConfig) {
-  const { data: rules, isFetching } = useQuery(['/rules', apiConfig], fetchRules);
+  const { data: rules, isFetching } = useQuery({
+    queryKey: ['/rules', apiConfig],
+    queryFn: fetchRules,
+  });
   const { data: provider } = useRuleProviderQuery(apiConfig);
   const [filterText] = useAtom(ruleFilterTextAtom);
   if (filterText === '') {

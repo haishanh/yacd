@@ -92,7 +92,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
 }
 
 const onErrorReset: ErrorBoundaryProps['onReset'] = (_details) => {
-  queryClient.invalidateQueries([ENDPOINT.config]);
+  queryClient.invalidateQueries({ queryKey: [ENDPOINT.config] });
 };
 
 const Root = () => (

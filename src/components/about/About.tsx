@@ -27,7 +27,7 @@ function Version({ name, link, version }: { name: string; link: string; version:
 
 export function About() {
   const apiConfig = useApiConfig();
-  const { data: version } = useQuery(['/version', apiConfig], fetchVersion);
+  const { data: version } = useQuery({ queryKey: ['/version', apiConfig], queryFn: fetchVersion });
   return (
     <>
       <ContentHeader title="About" />

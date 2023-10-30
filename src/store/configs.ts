@@ -6,5 +6,8 @@ import { useApiConfig } from '$src/store/app';
 
 export function useClashConfig() {
   const apiConfig = useApiConfig();
-  return useQuery([ENDPOINT.config, apiConfig], fetchConfigs2);
+  return useQuery({
+    queryKey: [ENDPOINT.config, apiConfig],
+    queryFn: fetchConfigs2,
+  });
 }
