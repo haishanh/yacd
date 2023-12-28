@@ -12,6 +12,10 @@ const LngBackend = {
       case 'zh-CN':
         p = import('src/i18n/zh');
         break;
+      case 'vi':
+      case 'vi-VN':
+        p = import('src/i18n/vi');
+        break; 
       case 'en':
       default:
         p = import('src/i18n/en');

@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Dashboard code
+      uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2
+      with:
+        version: latest
+    - name: Setup Nodejs
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.18.0'
+        cache: pnpm
+    - name: Install package and build
+      run: |
+        pnpm install --frozen-lockfile
+        pnpm build
+    - name: Deploy
+      uses: crazy-max/ghaction-github-pages@v3
+      with:
+        target_branch: gh-pages
+        build_dir: ./dist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
