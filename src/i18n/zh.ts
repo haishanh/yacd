@@ -1,4 +1,5 @@
 export const data = {
+  All: '所有',
   Overview: '概览',
   Proxies: '代理',
   Rules: '规则',
@@ -39,4 +40,6 @@ export const data = {
   update_all_rule_provider: '更新所有 rule provider',
   update_all_proxy_provider: '更新所有 proxy providers',
   dark_mode_pure_black_toggle_label: '在黑色主题下使用纯黑背景',
+  pleaseSelectSourceIP: '请选择要审查的源ip',
+  filterByIP: '从源IP筛选',
 };

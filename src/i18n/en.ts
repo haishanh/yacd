@@ -1,4 +1,5 @@
 export const data = {
+  All: 'All',
   Overview: 'Overview',
   Proxies: 'Proxies',
   Rules: 'Rules',
@@ -39,4 +40,6 @@ export const data = {
   update_all_rule_provider: 'Update all rule providers',
   update_all_proxy_provider: 'Update all proxy providers',
   dark_mode_pure_black_toggle_label: 'Use pure black in dark mode',
+  pleaseSelectSourceIP: 'please select a source ip to sensor',
+  filterByIP: 'Filter By IP',
 };
