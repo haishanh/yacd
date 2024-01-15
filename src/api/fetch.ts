@@ -44,6 +44,10 @@ export function handleFetchError(err: unknown, ctx: FetchCtx) {
 
 async function validateFetchResponse(res: Response, ctx: FetchCtx) {
   if (res.status === 401) throw new YacdBackendUnauthorizedError('', ctx);
+  if (res.status === 404) {
+    console.warn(`Server returns 404: ${ctx.endpoint}`);
+    return res;
+  }
   if (!res.ok)
     throw new YacdBackendGeneralError('', {
       ...ctx,

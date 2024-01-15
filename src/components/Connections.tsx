@@ -4,18 +4,22 @@ import React from 'react';
 import { Pause, Play, X as IconClose } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { List } from 'reselect/es/types';
 import { ConnectionItem } from 'src/api/connections';
+import BaseModal from 'src/components/shared/BaseModal';
 
 import { useApiConfig } from '$src/store/app';
 
 import * as connAPI from '../api/connections';
 import useRemainingViewPortHeight from '../hooks/useRemainingViewPortHeight';
+import Button from './Button';
 import s from './Connections.module.scss';
 import ConnectionTable from './ConnectionTable';
 import { MutableConnRefCtx } from './conns/ConnCtx';
 import { ContentHeader } from './ContentHeader';
 import ModalCloseAllConnections from './ModalCloseAllConnections';
 import { Action, Fab, position as fabPosition } from './shared/Fab';
+import SourceIP from './SourceIP';
 import SvgYacd from './SvgYacd';
 
 const { useEffect, useState, useRef, useCallback } = React;
@@ -58,23 +62,38 @@ type FormattedConn = {
 function hasSubstring(s: string, pat: string) {
   return (s ?? '').toLowerCase().includes(pat.toLowerCase());
 }
+function filterConnIps(conns: FormattedConn[], ipStr: string) {
+  return conns.filter((each) => each.sourceIP === ipStr);
+}
 
-function filterConns(conns: FormattedConn[], keyword: string) {
-  return !keyword
-    ? conns
-    : conns.filter((conn) =>
-        [
-          conn.host,
-          conn.sourceIP,
-          conn.sourcePort,
-          conn.destinationIP,
-          conn.chains,
-          conn.rule,
-          conn.type,
-          conn.network,
-          conn.processPath,
-        ].some((field) => hasSubstring(field, keyword)),
-      );
+function getConnIpList(conns: FormattedConn[]): List<string> {
+  return Array.from(new Set(conns.map((x) => x.sourceIP))).sort();
+}
+
+function filterConns(conns: FormattedConn[], keyword: string, sourceIp: string) {
+  let result = conns;
+  if (keyword !== '') {
+    result = conns.filter((conn) =>
+      [
+        conn.host,
+        conn.sourceIP,
+        conn.sourcePort,
+        conn.destinationIP,
+        conn.chains,
+        conn.rule,
+        conn.type,
+        conn.network,
+        conn.processPath,
+      ].some((field) => {
+        return hasSubstring(field, keyword);
+      }),
+    );
+  }
+  if (sourceIp !== '') {
+    result = filterConnIps(result, sourceIp);
+  }
+  // result.forEach((e) => console.log(e.sourceIP));
+  return result;
 }
 
 function fmtConnItem(
@@ -127,12 +146,28 @@ function connQty({ qty }) {
 export default function Conn() {
   const apiConfig = useApiConfig();
   const [refContainer, containerHeight] = useRemainingViewPortHeight();
+
+  const [isExtraModalOpen, setIsExtraModalOpen] = useState(false);
+
   const [conns, setConns] = useState([]);
   const [closedConns, setClosedConns] = useState([]);
+
   const [filterKeyword, setFilterKeyword] = useState('');
-  const filteredConns = filterConns(conns, filterKeyword);
-  const filteredClosedConns = filterConns(closedConns, filterKeyword);
+  const [filterSourceIpStr, setFilterSourceIpStr] = useState('');
+
+  const filteredConns = filterConns(conns, filterKeyword, filterSourceIpStr);
+  const filteredClosedConns = filterConns(closedConns, filterKeyword, filterSourceIpStr);
+
+  const connIpSet = getConnIpList(conns);
+
   const [isCloseAllModalOpen, setIsCloseAllModalOpen] = useState(false);
+  const openExtraModal = useCallback(() => {
+    setIsExtraModalOpen(true);
+  }, []);
+  const closeExtraModal = useCallback(() => {
+    setIsExtraModalOpen(false);
+  }, []);
+
   const openCloseAllModal = useCallback(() => setIsCloseAllModalOpen(true), []);
   const closeCloseAllModal = useCallback(() => setIsCloseAllModalOpen(false), []);
   const [isRefreshPaused, setIsRefreshPaused] = useState(false);
@@ -176,7 +211,12 @@ export default function Conn() {
 
   return (
     <div>
-      <ContentHeader title={t('Connections')} />
+      <ContentHeader title={`${t('Connections')} : ${filterSourceIpStr}`} />
+      <BaseModal isOpen={isExtraModalOpen} onRequestClose={closeExtraModal}>
+        <span>{t('pleaseSelectSourceIP')}</span>
+        <hr />
+        <SourceIP connIPset={connIpSet} setFilterIpStr={setFilterSourceIpStr} />
+      </BaseModal>
       <Tabs>
         <div
           style={{
@@ -195,15 +235,18 @@ export default function Conn() {
               <span className={s.connQty}>{connQty({ qty: filteredClosedConns.length })}</span>
             </Tab>
           </TabList>
-          <div className={s.inputWrapper}>
+          <div className={s.filterWrapper}>
             <input
               type="text"
               name="filter"
               autoComplete="off"
               className={s.input}
-              placeholder="Filter"
+              placeholder="Filter By Keyword"
               onChange={(e) => setFilterKeyword(e.target.value)}
             />
+            <Button className={s.button} onClick={openExtraModal}>
+              {t('filterByIP')}
+            </Button>
           </div>
         </div>
         <div ref={refContainer} style={{ padding: 30, paddingBottom, paddingTop: 0 }}>
@@ -214,7 +257,8 @@ export default function Conn() {
             }}
           >
             <TabPanel>
-              <>{renderTableOrPlaceholder(filteredConns)}</>
+              {/* <SourceIP connIPset={connIpSet} setFilterIpStr={setFilterSourceIpStr} /> */}
+              {renderTableOrPlaceholder(filteredConns)}
               <Fab
                 icon={isRefreshPaused ? <Play size={16} /> : <Pause size={16} />}
                 mainButtonStyles={isRefreshPaused ? { background: '#e74c3c' } : {}}
@@ -227,7 +271,10 @@ export default function Conn() {
                 </Action>
               </Fab>
             </TabPanel>
-            <TabPanel>{renderTableOrPlaceholder(filteredClosedConns)}</TabPanel>
+            <TabPanel>
+              {/* <SourceIP connIPset={ClosedConnIpSet} setFilterIpStr={setFilterSourceIpStr} /> */}
+              {renderTableOrPlaceholder(filteredClosedConns)}
+            </TabPanel>
           </div>
         </div>
         <ModalCloseAllConnections
